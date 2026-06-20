@@ -9,7 +9,8 @@ import FeedbackPanel from "./components/FeedbackPanel";
 import FormatChecker from "./components/FormatChecker";
 import ActionVerbPanel from "./components/ActionVerbPanel";
 import HistoryPanel from "./components/HistoryPanel";
-import { getHistory, uploadAndAnalyze } from "./utils/api";
+import AIVerdict, { type AIEvaluation } from "./components/AIVerdict";
+import { getHistory, uploadAndAnalyze, runAIEvaluation } from "./utils/api";
 
 export type View = "upload" | "results" | "history" | "compare";
 export type Theme = "dark" | "light";
@@ -48,6 +49,10 @@ export default function App() {
   const [isRescanning, setIsRescanning] = useState(false);
   const [rescanError, setRescanError] = useState("");
 
+  const [aiEvaluation, setAiEvaluation] = useState<AIEvaluation | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
     localStorage.setItem("ats-theme", theme);
@@ -63,6 +68,8 @@ export default function App() {
     setCurrentResult(result);
     setCurrentFile(file);
     setCurrentJD(jd);
+    setAiEvaluation(null);
+    setAiError(null);
     setActiveView("results");
     refreshHistory();
   };
@@ -76,6 +83,8 @@ export default function App() {
       const result = await uploadAndAnalyze(currentFile, jdToUse, () => {});
       setCurrentResult(result);
       if (newJD) setCurrentJD(newJD);
+      setAiEvaluation(null);
+      setAiError(null);
       refreshHistory();
     } catch (e: any) {
       setRescanError(e.message || "Rescan failed");
@@ -84,9 +93,32 @@ export default function App() {
     }
   }, [currentFile, currentJD]);
 
+  const handleRunAI = useCallback(async () => {
+    if (!currentResult) return;
+    const resumeText = currentResult.resume_preview;
+    const jdText = currentResult.jd_preview;
+    if (!resumeText || !jdText) {
+      setAiError("Resume or job description text is missing from the scan result.");
+      return;
+    }
+    setAiLoading(true);
+    setAiError(null);
+    try {
+      const evaluation = await runAIEvaluation(resumeText, jdText);
+      if (evaluation.error) throw new Error(evaluation.error);
+      setAiEvaluation(evaluation as AIEvaluation);
+    } catch (e: any) {
+      setAiError(e.message || "AI evaluation failed");
+    } finally {
+      setAiLoading(false);
+    }
+  }, [currentResult]);
+
   const handleViewHistoryItem = (result: AnalysisResult) => {
     setCurrentResult(result);
     setCurrentJD(result.jd_preview || "");
+    setAiEvaluation(null);
+    setAiError(null);
     setActiveView("results");
   };
 
@@ -100,6 +132,8 @@ export default function App() {
     setCurrentFile(null);
     setCurrentJD("");
     setCurrentResult(null);
+    setAiEvaluation(null);
+    setAiError(null);
   };
 
   return (
@@ -119,13 +153,19 @@ export default function App() {
 
       {activeView === "results" && currentResult && (
         <div className="flex flex-col lg:flex-row gap-6 items-start">
-          <aside className="w-full lg:w-72 lg:sticky lg:top-20 shrink-0">
+          <aside className="w-full lg:w-72 lg:sticky lg:top-20 shrink-0 space-y-5">
             <SidebarScore
               result={currentResult}
               onNewScan={handleNewScan}
               onRescan={() => handleRescan()}
               isRescanning={isRescanning}
               rescanError={rescanError}
+            />
+            <AIVerdict
+              evaluation={aiEvaluation}
+              isLoading={aiLoading}
+              error={aiError}
+              onRun={handleRunAI}
             />
           </aside>
           <div className="flex-1 min-w-0 space-y-5">

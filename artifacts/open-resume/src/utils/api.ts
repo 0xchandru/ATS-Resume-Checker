@@ -65,3 +65,12 @@ export async function checkHealth() {
   const res = await apiFetch("/healthz");
   return res.json();
 }
+
+export async function runAIEvaluation(resumeText: string, jdText: string) {
+  const res = await apiFetch("/evaluate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ resume_text: resumeText, jd_text: jdText }),
+  });
+  return res.json();
+}
