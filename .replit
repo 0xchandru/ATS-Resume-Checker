@@ -27,6 +27,10 @@ externalPort = 8080
 localPort = 18897
 externalPort = 80
 
+[[ports]]
+localPort = 25874
+externalPort = 3000
+
 [nix]
 channel = "stable-25_05"
 packages = ["freetype", "glibcLocales", "gumbo", "harfbuzz", "jbig2dec", "libjpeg_turbo", "libxcrypt", "mupdf", "openjpeg", "rapidfuzz-cpp", "swig", "taskflow", "xcbuild"]
