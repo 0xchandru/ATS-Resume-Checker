@@ -1,0 +1,715 @@
+=== ADVANCED ATS RESUME CHECKER — BUILD SPECIFICATION ===
+Target: Better than Jobscan, SkillSyncer, LinkedIn Resume, Indeed, and Naukri.
+Product: Upload a resume (PDF/DOCX) + paste a job description → get an ATS score,
+missing keyword report, formatting diagnosis, section analysis, and recruiter-grade
+improvement suggestions — powered by ESCO + O*NET knowledge bases under the hood.
+
+=== CRITICAL RULES — NON-NEGOTIABLE ===
+
+1.  NEVER use placeholder code. Every function must contain real, working logic.
+2.  NEVER write "# TODO", "# implement later", "# add logic here".
+3.  NEVER skip any file listed in the file structure below.
+4.  NEVER return partial code with "..." or "rest remains the same".
+5.  Knowledge base JSON files are PRE-BUILT. Load them. Never regenerate.
+6.  ETL scripts have already run. Never re-run them at startup.
+7.  Every API endpoint returns real computed JSON. No mock data.
+8.  Every frontend component is wired to real API responses.
+9.  Handle all errors: try/except in Python, try/catch in JS, user-friendly UI messages.
+10. App must start successfully when the user clicks Run on Replit.
+11. Use en_core_web_sm only — Replit RAM constraint.
+12. Load sentence-transformers all-MiniLM-L6-v2 lazily on first semantic request only.
+13. Load all knowledge base files into SQLite at first startup; skip if already done.
+14. All NLP model instances use module-level singleton (load once, reuse forever).
+
+=== KNOWLEDGE BASE — INTELLIGENCE LAYER ===
+
+Path (relative to ats-platform/): ../open-source-tools/datasets/knowledge-base/
+Load ALL files below into SQLite via backend/kb_loader.py at first startup.
+
+FILE → SQLITE TABLE → PURPOSE
+
+skills/skills_flat_lookup.json         → kb_skills            Canonical skill catalog: name, category, domain
+skills/skills_master.json              → kb_skills            Merge additional canonical entries
+skills/skills_aliases.json             → kb_skill_aliases     Alias → canonical ("ML"→"Machine Learning")
+skills/esco_aliases.json               → kb_skill_aliases     ESCO variant forms — merge with above
+skills/esco_skills.json                → kb_skills            ESCO skill entries — merge, source="esco"
+skills/onet_skills.json                → kb_skills            O*NET skill entries — merge, source="onet"
+skills/onet_software_skills.json       → kb_skills            O*NET software skills — merge, source="onet"
+skills/skills_by_category.json         → (metadata)           Populate category field in kb_skills
+skills/cyber_security_skills_ranked.json → kb_cyber_skills    Ranked cybersecurity skills with precision
+skills/cyber_security_high_precision.json → kb_cyber_skills   Merge: high-confidence cyber skills
+skills/cyber_security_skills.json      → kb_cyber_skills      Merge: additional cyber skills
+certifications/certifications_lookup.json → kb_certifications Cert canonical names and issuer
+certifications/certifications_regex.json  → kb_cert_patterns  Regex patterns for cert detection
+certifications/cybersecurity_certifications.json → kb_certifications Merge: cyber certs
+job-titles/job_titles_by_level.json    → kb_job_titles        Title → seniority level
+job-titles/job_titles_lookup.json      → kb_job_titles        Merge: fast lookup entries
+job-titles/job_titles_master.json      → kb_job_titles        Merge: master title list
+job-titles/onet_job_titles.json        → kb_job_titles        O*NET canonical title + SOC code
+job-titles/onet_occupations.json       → kb_onet_occupations  SOC code → typical_skills JSON
+action-verbs/action_verbs_by_category.json → kb_action_verbs  Verb → category + strength
+action-verbs/action_verbs_flat_lookup.json → kb_action_verbs  Merge: fast lookup entries
+action-verbs/action_verbs_master.json  → kb_action_verbs      Merge: master verb list
+companies/companies_master.json        → kb_companies         Company → industry + tier
+companies/companies_aliases.json       → kb_company_aliases   Alias → canonical company
+companies/companies_lookup.json        → kb_companies         Merge: lookup entries
+universities/universities_master.json  → kb_universities      University → country
+universities/universities_lookup.json  → kb_universities      Merge: lookup entries
+job-descriptions/jd_keyword_frequency.json → kb_jd_frequency  Keyword → empirical JD frequency
+../section-detection/section-dataset.json  → kb_section_patterns Section header patterns + confidence
+
+SQLite table schemas:
+
+kb_skills:          id, canonical_name TEXT, normalized TEXT, category TEXT, domain TEXT, source TEXT
+kb_skill_aliases:   id, alias TEXT UNIQUE, alias_normalized TEXT, canonical_name TEXT, confidence REAL DEFAULT 1.0
+kb_cyber_skills:    id, skill_name TEXT, rank INTEGER, precision_level TEXT, domain TEXT
+kb_certifications:  id, canonical_name TEXT, issuer TEXT, domain TEXT
+kb_cert_patterns:   id, canonical_name TEXT, regex_pattern TEXT
+kb_job_titles:      id, canonical_title TEXT, normalized TEXT, seniority_level TEXT, onet_soc_code TEXT
+kb_onet_occupations: soc_code TEXT PRIMARY KEY, title TEXT, typical_skills JSON, domain TEXT
+kb_action_verbs:    verb TEXT PRIMARY KEY, category TEXT, strength INTEGER (1=weak/2=medium/3=strong)
+kb_companies:       id, canonical_name TEXT, normalized TEXT, industry TEXT, tier TEXT
+kb_company_aliases: alias TEXT PRIMARY KEY, alias_normalized TEXT, canonical_name TEXT
+kb_universities:    id, canonical_name TEXT, normalized TEXT, country TEXT
+kb_jd_frequency:    keyword TEXT, keyword_normalized TEXT, role_category TEXT, frequency REAL, PRIMARY KEY(keyword,role_category)
+kb_section_patterns: id, section_name TEXT, pattern TEXT, confidence REAL
+kb_meta:            key TEXT PRIMARY KEY, value TEXT  — stores kb_initialized='true' after first load
+
+kb_loader.py rules:
+  1. Check kb_meta: if kb_initialized='true', return immediately (idempotent).
+  2. Open each JSON file; handle missing files with log warning + continue.
+  3. Batch insert via SQLAlchemy core (not ORM) for speed.
+  4. After all tables loaded: insert kb_meta(key='kb_initialized', value='true').
+  5. Log record count per table.
+  6. Called from: @app.on_event("startup") in main.py.
+
+normalize() helper used everywhere:
+  lowercase → strip punctuation except hyphens/dots in version numbers → collapse whitespace
+
+=== 5-LAYER ATS MATCHING PIPELINE ===
+
+Every keyword match traverses these layers in order. Stop at first match.
+
+Layer 0 — ALIAS RESOLUTION  (confidence=1.0, match_layer="alias")
+  Bulk SQL: SELECT canonical_name FROM kb_skill_aliases WHERE alias_normalized IN (batch)
+  Resolves: "ML"→"Machine Learning", "k8s"→"Kubernetes", "JS"→"JavaScript"
+  Must run BEFORE any fuzzy/semantic matching.
+
+Layer 1 — EXACT MATCH  (confidence=1.0, match_layer="exact")
+  Compare normalize(resume_term) == normalize(jd_term)
+  Bulk comparison — not a loop.
+
+Layer 2 — KB LOOKUP  (confidence=0.98, match_layer="kb_lookup")
+  Bulk SQL: SELECT canonical_name FROM kb_skills WHERE normalized IN (batch)
+
+Layer 3 — FUZZY MATCH  (match_layer="fuzzy", confidence=score/100)
+  rapidfuzz.process.cdist() — batch, not a loop.
+  Algorithm: token_set_ratio. Threshold: 82.
+  Apply only to terms that failed layers 0–2.
+
+Layer 4 — SEMANTIC MATCH  (match_layer="semantic", confidence=cosine_score)
+  sentence-transformers all-MiniLM-L6-v2, lazy-loaded singleton.
+  Encode all unmatched terms in a single batch call.
+  Cosine similarity threshold: 0.72.
+  Apply only to terms that failed layers 0–3.
+
+Each matched keyword in API response includes:
+  keyword, normalized_form, match_layer, matched_form, kb_source,
+  category, domain, jd_frequency, jd_importance, jd_occurrence_count
+
+=== ATS SCORING ENGINE ===
+
+Weights (empirical — from kb_jd_frequency data, not hardcoded per-skill):
+  keyword_match:        0.35
+  semantic_relevance:   0.25
+  section_completeness: 0.15
+  format_compliance:    0.15
+  impact_quantification: 0.10
+
+keyword_match sub-scoring:
+  Each matched keyword: contribution = jd_frequency * match_confidence * layer_multiplier
+  Layer multipliers: alias=1.0, exact=1.0, kb_lookup=0.98, fuzzy=0.85, semantic=0.75
+  Missing keyword penalty: proportional to its jd_frequency score
+
+semantic_relevance:
+  TF-IDF + cosine similarity between full resume text and full JD text (sklearn)
+  Also use spaCy doc.similarity() as secondary signal; average both.
+
+section_completeness:
+  Count detected sections vs EXPECTED_SECTIONS list
+  Score = (detected_count / expected_count) * 100
+
+format_compliance:
+  Start at 100. Deduct: critical=-20, warning=-8, info=-2 per issue found.
+  Floor at 0.
+
+impact_quantification:
+  Parse experience section bullet points (lines starting with action verb or dash/bullet char)
+  quantified_bullet = contains [0-9]+[%$xX]? or dollar sign or ratio or "X users/clients/etc"
+  score = (quantified_count / total_bullets) * 100
+  Additional penalty: weak verbs from kb_action_verbs strength=1 reduce this score
+
+Grade mapping:
+  95–100: A+  |  90–94: A  |  85–89: B+  |  75–84: B
+  65–74: C+   |  50–64: C  |  35–49: D   |   0–34: F
+
+=== ATS CAREER SIGNALS MODULE ===
+(Surfaces as "Career Level Match" and "Role Gap Analysis" in the UI — not "occupational intelligence")
+
+Seniority detection (both JD and resume):
+  JD: extract title → query kb_job_titles → seniority_level; extract r'\b(\d+)\+?\s*(?:years?|yrs?)\b'
+  Resume: all job titles held via spaCy NER + pattern → query kb_job_titles; majority vote
+  Output: jd_seniority, resume_seniority, seniority_match bool, gap_explanation string
+
+Role taxonomy matching (O*NET occupation matching):
+  Match JD keywords against kb_onet_occupations.typical_skills — highest overlap = matched occupation
+  Skills in typical_skills but absent from resume = "occupation-expected missing skills"
+  These rank HIGHER priority than regular JD-missing skills in feedback
+
+Company & university recognition:
+  spaCy ORG entities from resume → normalize → query kb_company_aliases → kb_companies
+  spaCy ORG/edu section text → normalize → query kb_universities
+  Return: recognized companies with tier, recognized universities with country
+
+JD Quality Score (unique feature — no competitor has this):
+  Query kb_jd_frequency WHERE role_category = detected AND frequency > 0.85
+  Find high-frequency keywords absent from the submitted JD
+  jd_normality_score = 100 * (present_high_freq / total_high_freq)
+  If jd_normality_score < 70: alert user that this JD is atypical — consider adding standard keywords anyway
+
+=== CYBERSECURITY VERTICAL ===
+
+Auto-activate if: overlap(JD keywords, kb_cyber_skills high-precision) > 15%
+
+When active, add cybersecurity_analysis block:
+  detected_certs: use kb_cert_patterns regex patterns (not NER) against resume text
+  missing_critical_certs: kb_certifications entries typical for role, absent from resume
+  ranked_skills_found: kb_cyber_skills matches sorted by rank
+  ranked_skills_missing: top-ranked cyber skills absent from resume
+  security_score: 0–100 from (ranked skill coverage * 0.6) + (cert coverage * 0.4)
+
+=== ACTION VERB QUALITY ANALYSIS ===
+
+For each line in experience section:
+  Extract first token → normalize → query kb_action_verbs
+  Categorize: leadership / technical / analytical / communication / generic
+  Strength: 1=weak (worked, helped, assisted), 2=medium (managed, developed), 3=strong (architected, spearheaded)
+
+Output:
+  verb_profile: {leadership:N, technical:N, analytical:N, communication:N, generic:N}
+  weak_verbs_found: [{verb, context_sentence, strength}]
+  strong_verb_ratio: float
+  seniority_verb_alignment: bool (senior role → expects leadership verbs)
+  suggestions: ["Replace 'worked' with 'engineered', 'implemented', or 'built'"]
+
+=== SECTION DETECTION ===
+
+Three-method cascade (all three run; highest-confidence result wins per section):
+  Method 1: regex against kb_section_patterns for each line
+  Method 2: pdfplumber char data — font size jump ≥ 2pt on a line = likely header (PDF only)
+  Method 3: spaCy sentence boundary + capitalization heuristic (fallback)
+
+Expected sections (in order): contact_info, summary, experience, education, skills,
+  projects, certifications, awards, languages, volunteer, publications
+
+Ordering score: compare detected sequence to ideal. For candidates with < 2 years
+  experience: education-first order is acceptable. Detect experience year span to decide.
+
+Flags: section word_count < 30 = "sparse"; word_count > 600 = "too long"
+  Missing summary, experience, or skills = critical flag in feedback
+
+=== FORMATTING ANALYSIS ===
+
+PDF (pdfplumber primary, PyMuPDF fallback):
+  Fonts: pdfplumber char-level → unique (fontname, size) pairs
+    >3 distinct fonts: severity=warning | 1–2: severity=pass
+  Columns: cluster text block x-positions; ≥2 non-overlapping clusters = multi-column
+    Multi-column: severity=critical (ATS cannot parse columns reliably)
+  Tables: pdfplumber.find_tables() → any table: severity=critical
+  Images: PyMuPDF page.get_images() → any image: severity=warning
+  Header/footer: text in top 8% or bottom 8% of page height: severity=info
+  Special chars: Unicode outside ASCII 32–126: severity=warning, list the chars
+
+DOCX (python-docx):
+  Tables: doc.tables → any table: severity=critical
+  Text boxes: XML scan for txbxContent: severity=critical
+  Header/footer: doc.sections[0].header.paragraphs: severity=info
+  Images: doc.inline_shapes: severity=warning
+  Style count: unique style names used
+
+=== FEEDBACK ENGINE ===
+
+Generate priority-sorted suggestion cards: critical → important → nice_to_have
+
+Critical triggers:
+  - seniority_match=false AND level gap ≥ 2
+  - jd_importance="critical" keyword missing from resume
+  - Any format severity=critical
+  - overall_score < 50
+
+Important triggers:
+  - impact_quantification score < 50
+  - Missing "summary" or "experience" section
+  - jd_importance="high" keyword missing
+  - strong_verb_ratio < 0.6
+  - occupation-expected missing skills (O*NET sourced)
+
+Nice-to-have triggers:
+  - Individual weak verbs
+  - Keyword density warnings (count > KEYWORD_DENSITY_THRESHOLD)
+  - Missing optional sections
+
+Bullet rewrite suggestions (NO external LLM — use templates only):
+  Find 3 lowest-impact bullets: weakest verb + no numeric metric
+  Template: "[Strong verb] [what you did] by [how much], resulting in [outcome metric]"
+  Example output:
+    original:  "Worked on improving system performance"
+    suggested: "Reduced API latency by 40% by implementing Redis caching, improving p95 from 800ms to 480ms"
+
+=== FILE STRUCTURE — GENERATE EVERY FILE, NO EXCEPTIONS ===
+
+/ATS-Resume-Parser/ats-platform/
+├── .replit
+├── replit.nix
+├── start.sh
+├── backend/
+│   ├── main.py              FastAPI app, CORS, all routers mounted, startup kb_loader call
+│   ├── requirements.txt
+│   ├── config.py            All constants — paths, weights, thresholds, grade map
+│   ├── models.py            SQLAlchemy ORM models + all Pydantic response schemas
+│   ├── database.py          SQLite engine, session factory, Base, get_db()
+│   ├── kb_loader.py         Load all KB JSON files → SQLite at first startup
+│   ├── engine/
+│   │   ├── __init__.py
+│   │   ├── parser.py        PDF (pdfplumber primary + PyMuPDF fallback) + DOCX parsing
+│   │   ├── extractor.py     KB-first keyword extraction; YAKE + spaCy fallback
+│   │   ├── matcher.py       5-layer pipeline (alias→exact→kb→fuzzy→semantic)
+│   │   ├── scorer.py        Weighted ATS scoring with JD-frequency calibration
+│   │   ├── section_detector.py  Pattern + font-analysis + spaCy section detection
+│   │   ├── format_checker.py    PDF + DOCX formatting analysis
+│   │   ├── career_analyzer.py   Seniority, O*NET occupation match, company/uni recognition, JD quality
+│   │   ├── feedback_engine.py   Priority-ranked suggestion generation with bullet templates
+│   │   └── embeddings.py        sentence-transformers singleton + spaCy singleton
+│   └── routers/
+│       ├── __init__.py
+│       ├── upload.py        POST /api/upload
+│       ├── analyze.py       POST /api/analyze/{scan_id}
+│       ├── history.py       GET /api/history, GET /api/history/{scan_id}
+│       ├── compare.py       GET /api/compare/{id1}/{id2}
+│       └── export.py        GET /api/export/{scan_id}
+├── uploads/                 UUID-named uploaded resume files
+├── data/                    SQLite DB: ats_platform.db
+└── frontend/
+    ├── index.html
+    ├── package.json
+    ├── vite.config.js       proxy /api → http://localhost:8000
+    ├── tailwind.config.js
+    ├── postcss.config.js
+    └── src/
+        ├── main.jsx
+        ├── App.jsx          Global state (useState), view routing, result passing
+        ├── index.css        Tailwind directives + print media CSS
+        ├── components/
+        │   ├── Layout.jsx          Sidebar nav + header + main content area
+        │   ├── UploadPanel.jsx     Drag-drop + JD textarea + Analyze button
+        │   ├── ScoreDashboard.jsx  Animated SVG score ring + letter grade + 5 sub-score bars
+        │   ├── KeywordAnalysis.jsx Matched vs missing, layer badges, density warnings
+        │   ├── CareerIntelligence.jsx  Seniority mismatch, O*NET role gap, JD quality score
+        │   ├── FormatChecker.jsx   Severity-grouped format issues
+        │   ├── SectionAnalysis.jsx Detected/missing checklist, ordering score, length bars
+        │   ├── ActionVerbPanel.jsx Verb category breakdown + weak verb list + suggestions
+        │   ├── FeedbackPanel.jsx   Priority-sorted suggestion cards with before/after
+        │   ├── SkillPrediction.jsx O*NET co-occurrence predicted skills with evidence
+        │   ├── CybersecurityPanel.jsx  Conditional — renders only when cyber vertical active
+        │   ├── HistoryPanel.jsx    Last 10 scans table + Recharts score trend line chart
+        │   └── ExportReport.jsx    Print-optimized full report + window.print()
+        └── utils/
+            ├── api.js              axios instance + all endpoint functions
+            └── formatters.js       score→grade, confidence→%, severity→color
+
+=== config.py CONSTANTS ===
+
+KB_BASE_PATH = os.path.join(os.path.dirname(__file__), "../../open-source-tools/datasets/knowledge-base")
+SECTION_DATASET_PATH = os.path.join(os.path.dirname(__file__), "../../open-source-tools/section-detection/section-dataset.json")
+DB_PATH = os.path.join(os.path.dirname(__file__), "../data/ats_platform.db")
+UPLOADS_PATH = os.path.join(os.path.dirname(__file__), "../uploads")
+FUZZY_THRESHOLD = 82
+SEMANTIC_THRESHOLD = 0.72
+MAX_FILE_SIZE_MB = 10
+SUPPORTED_EXTENSIONS = [".pdf", ".docx"]
+MAX_HISTORY = 10
+SENIORITY_LEVELS = ["intern", "junior", "mid", "senior", "lead", "principal", "director", "vp", "c_suite"]
+EXPECTED_SECTIONS = ["contact_info", "summary", "experience", "education", "skills", "projects", "certifications"]
+KEYWORD_DENSITY_THRESHOLD = 8
+SCORING_WEIGHTS = {"keyword_match":0.35,"semantic_relevance":0.25,"section_completeness":0.15,"format_compliance":0.15,"impact_quantification":0.10}
+GRADE_THRESHOLDS = [(95,"A+"),(90,"A"),(85,"B+"),(75,"B"),(65,"C+"),(50,"C"),(35,"D"),(0,"F")]
+CYBER_DETECTION_THRESHOLD = 0.15
+
+=== FULL API SPECIFICATION ===
+
+POST /api/upload
+  Body: multipart/form-data { file: PDF|DOCX, job_description: string }
+  Validate: extension in [.pdf,.docx], size < 10MB, JD length > 50 chars
+  Save: uploads/{uuid}_{original_filename}
+  Create: ScanRecord in DB with status="uploaded"
+  Return: { scan_id, filename, file_type, file_size_mb, jd_length, status:"uploaded" }
+
+POST /api/analyze/{scan_id}
+  Pipeline order (strict):
+    1. parser.parse_resume(file_path)
+    2. extractor.extract_jd_keywords(jd_text)
+    3. extractor.extract_resume_keywords(resume_text)
+    4. matcher.match_all_layers(resume_kws, jd_kws, resume_text, jd_text)
+    5. section_detector.detect_sections(resume_text, metadata)
+    6. format_checker.check_formatting(file_path, metadata)
+    7. career_analyzer.analyze_career_signals(resume_text, jd_text, match_result)
+    8. scorer.calculate_score(match_result, sections, formatting, career, resume_text, jd_text)
+    9. feedback_engine.generate_feedback(all_above_results)
+    10. Store ScanResult in DB; update ScanRecord status="complete"
+  Return: Full analysis JSON (schema below)
+
+Full analysis response schema (every field required — no nulls except cybersecurity_analysis):
+{
+  "scan_id": "uuid",
+  "filename": "resume.pdf",
+  "file_type": "pdf",
+  "timestamp": "ISO8601",
+  "processing_time_seconds": 4.2,
+  "overall_score": 73,
+  "letter_grade": "B",
+  "sub_scores": {
+    "keyword_match":         { "score":68, "weight":0.35, "weighted_contribution":23.8, "details":"34 of 50 JD keywords matched", "match_breakdown":{"alias":8,"exact":12,"kb_lookup":4,"fuzzy":6,"semantic":4} },
+    "semantic_relevance":    { "score":81, "weight":0.25, "weighted_contribution":20.25, "cosine_similarity":0.76, "details":"Strong semantic alignment" },
+    "section_completeness":  { "score":75, "weight":0.15, "weighted_contribution":11.25, "detected_count":5, "expected_count":7, "details":"Missing: certifications, projects" },
+    "format_compliance":     { "score":88, "weight":0.15, "weighted_contribution":13.2, "details":"2 warnings, no critical issues" },
+    "impact_quantification": { "score":42, "weight":0.10, "weighted_contribution":4.2, "quantified_bullets":3, "total_experience_bullets":12, "details":"25% bullets contain metrics" }
+  },
+  "keywords": {
+    "matched": [
+      { "keyword":"machine learning", "normalized_form":"Machine Learning", "match_layer":"alias", "matched_form":"ML", "kb_source":"esco", "category":"hard_skill", "domain":"data_science", "jd_frequency":0.87, "jd_importance":"critical", "jd_occurrence_count":6 }
+    ],
+    "missing": [
+      { "keyword":"kubernetes", "normalized_form":"Kubernetes", "category":"tool", "domain":"devops", "jd_frequency":0.71, "jd_importance":"high", "jd_occurrence_count":4, "source_flags":["jd_keyword","onet_expected"], "suggestion":"Add to skills section if you have container orchestration experience" }
+    ],
+    "density_warnings": [
+      { "keyword":"Python", "count_in_resume":11, "threshold":8, "warning":"Appears 11 times — may trigger keyword stuffing detection" }
+    ],
+    "total_jd_keywords":50, "matched_count":34, "match_rate":0.68
+  },
+  "career_intelligence": {
+    "jd_seniority":"senior", "jd_seniority_confidence":0.85,
+    "resume_seniority":"mid", "resume_seniority_confidence":0.78,
+    "seniority_match":false,
+    "seniority_gap_explanation":"JD signals senior level (5+ years). Resume signals mid level. Emphasize scope, team size, and strategic impact.",
+    "onet_matched_occupation": {
+      "soc_code":"15-2051", "title":"Data Scientists", "match_confidence":0.81,
+      "occupation_expected_missing_skills":["apache airflow","mlflow","docker"],
+      "explanation":"These skills co-occur in 70%+ of Data Scientist roles per O*NET"
+    },
+    "recognized_companies": [{"found_in_resume":"Google","canonical":"Alphabet Inc.","industry":"Technology","tier":"tier1"}],
+    "recognized_universities": [{"found_in_resume":"IIT Bombay","canonical":"Indian Institute of Technology Bombay","country":"IN"}],
+    "jd_normality_analysis": {
+      "jd_normality_score":74, "role_category_detected":"data_science",
+      "atypical_missing_from_jd":["sql","statistics"],
+      "note":"This JD omits SQL and statistics — present in 88%+ of similar JDs. Consider adding them anyway."
+    }
+  },
+  "action_verbs": {
+    "profile":{"leadership":2,"technical":8,"analytical":3,"communication":1,"generic":4},
+    "weak_verbs":[{"verb":"worked","context":"Worked on improving system performance","strength":1}],
+    "strong_verb_ratio":0.72,
+    "seniority_verb_alignment":false,
+    "alignment_note":"Senior role expects leadership verbs. Current profile is 89% execution-level.",
+    "suggestions":["Replace 'worked on' with 'engineered', 'implemented', or 'optimized'"]
+  },
+  "sections": {
+    "detected":[
+      {"name":"experience","position":1,"word_count":412,"confidence":0.97,"method":"pattern"},
+      {"name":"education","position":2,"word_count":87,"confidence":0.95,"method":"pattern"},
+      {"name":"skills","position":3,"word_count":43,"confidence":0.91,"method":"pattern"}
+    ],
+    "missing":["summary","certifications","projects"],
+    "ordering_score":82,
+    "ordering_feedback":"Experience before Education — correct. Missing Summary reduces ATS context.",
+    "length_warnings":["Skills section (43 words) is sparse. Add specific tool names and frameworks."]
+  },
+  "formatting": {
+    "issues":[
+      {"type":"multiple_fonts","severity":"warning","message":"3 fonts detected. Reduce to 1–2 for ATS compatibility."},
+      {"type":"header_footer_content","severity":"info","message":"Contact info in document header. Some ATS skip headers. Duplicate it in the document body."},
+      {"type":"no_tables","severity":"pass","message":"No tables detected. ATS can parse all content."},
+      {"type":"single_column","severity":"pass","message":"Single-column layout confirmed. Optimal for ATS."},
+      {"type":"no_images","severity":"pass","message":"No embedded images found."}
+    ],
+    "page_count":2, "word_count":634, "font_count":3,
+    "fonts_used":["Calibri","Arial","Times New Roman"],
+    "has_tables":false, "has_images":false, "has_columns":false,
+    "has_header_footer":true, "has_special_characters":false, "file_type":"pdf"
+  },
+  "skill_prediction": {
+    "source":"onet_cooccurrence",
+    "occupation_matched":"Data Scientists (SOC: 15-2051)",
+    "predictions":[
+      {"skill":"Docker","confidence":0.82,"reason":"Co-occurs with Python + ML in 82% of O*NET-matched profiles"},
+      {"skill":"Apache Spark","confidence":0.74,"reason":"Typical in data science roles with this skill profile"}
+    ]
+  },
+  "cybersecurity_analysis": null,
+  "feedback":[
+    {"priority":"critical","category":"seniority_mismatch","message":"Seniority gap detected. This role is senior; your resume signals mid. Lead with scope, team size, and strategic impact.","action":"Add metrics: team size managed, project budget, users impacted"},
+    {"priority":"critical","category":"missing_occupation_skill","message":"'Kubernetes' expected in 71% of similar roles and appears 4× in this JD. Add to skills if applicable.","section":"skills","keyword":"kubernetes"},
+    {"priority":"important","category":"low_quantification","message":"Only 3 of 12 experience bullets contain metrics. ATS and recruiters weight impact heavily.","original":"Worked on improving system performance","suggested":"Reduced API latency by 40% by implementing Redis caching across 3 microservices, improving p95 from 800ms to 480ms"},
+    {"priority":"important","category":"missing_summary","message":"No Summary section detected. A 3-line targeted summary with role keywords improves ATS score and recruiter first impression.","section":"summary"},
+    {"priority":"nice_to_have","category":"verb_strength","message":"Replace weak verb 'worked'","original":"Worked on data pipeline development","suggested":"Engineered / Architected / Built data pipeline infrastructure"}
+  ],
+  "resume_preview":"First 600 chars of extracted resume text...",
+  "jd_preview":"First 300 chars of job description..."
+}
+
+GET /api/history
+  Return: [{ scan_id, filename, overall_score, letter_grade, timestamp, jd_preview_50_chars }]
+  Order: timestamp DESC, limit 10
+
+GET /api/history/{scan_id}
+  Return: Full analysis JSON from ScanResult table
+
+GET /api/compare/{scan_id_1}/{scan_id_2}
+  Return: {
+    scan_1: { scan_id, filename, timestamp, overall_score, letter_grade, sub_scores },
+    scan_2: { ...same... },
+    delta: { overall_score:+8, keyword_match:+12, section_completeness:+5, format_compliance:0, semantic_relevance:-3, impact_quantification:+15 },
+    improved_areas: ["keyword_match","impact_quantification"],
+    regressed_areas: ["semantic_relevance"],
+    summary: "Score improved by 8 points. Strongest gain: impact_quantification (+15)."
+  }
+
+GET /api/export/{scan_id}
+  Return: Full analysis JSON
+  Headers: Content-Type: application/json
+           Content-Disposition: attachment; filename="ats_report_{scan_id}.json"
+
+GET /api/health
+  Return: { status:"ok", version:"2.0.0", kb_initialized:bool, kb_tables_loaded:int,
+            spacy_model:"en_core_web_sm", sentence_transformer_loaded:bool,
+            db_path:str, uptime_seconds:int }
+
+=== ENGINE IMPLEMENTATION RULES ===
+
+engine/parser.py:
+  PDF: pdfplumber primary — text per page, char-level data (x, y, fontname, size), tables
+       PyMuPDF fallback — also extract page.get_images() list
+  DOCX: python-docx — paragraphs + heading styles + table cells + inline_shapes + header/footer
+  Return: { raw_text, pages[], page_count, file_type, metadata:{ fonts_used, font_count,
+            has_tables, has_images, has_header_footer, table_data, char_data } }
+
+engine/extractor.py — extract_keywords(text, top_n=50):
+  1. spaCy tokenize → noun_chunks + named entities
+  2. Bulk SQL: kb_skills WHERE normalized IN (all normalized tokens)
+  3. Bulk SQL: kb_skill_aliases WHERE alias_normalized IN (all normalized tokens)
+  4. YAKE(text, top_n) → candidate phrases
+  5. KeyBERT(text, top_n) — use "en" model, not sentence-transformers
+  6. Merge + deduplicate via alias resolution
+  7. Attach: category from kb_skills, jd_frequency from kb_jd_frequency
+  8. Return structured list with source attribution per keyword
+
+engine/matcher.py:
+  All 5 layers as specified.
+  normalize(): lowercase, strip punctuation (keep hyphens + dots in version strings), collapse whitespace.
+  Bulk alias lookup: single SQL IN query for all terms.
+  Bulk exact lookup: single SQL IN query.
+  Fuzzy: rapidfuzz.process.cdist() — not a loop.
+  Semantic: single batch encode call for all unmatched terms.
+  Track per-layer match counts for sub_scores.match_breakdown.
+
+engine/career_analyzer.py:
+  detect_seniority(text, context):
+    spaCy NER ORG+PERSON heuristic + kb_job_titles regex patterns → extract titles
+    Query kb_job_titles for each → seniority_level; majority vote
+    JD only: also extract r'\b(\d+)\+?\s*(?:years?|yrs?)\b'
+    Return { inferred_level, confidence, signals_found, years_mentioned }
+  match_onet_occupation(keywords):
+    For each occupation: score = overlap(keywords, typical_skills) / len(typical_skills)
+    Return top 3 with scores
+  analyze_jd_normality(jd_keywords, role_category):
+    Query kb_jd_frequency WHERE role_category=? AND frequency>0.85
+    Identify absent high-frequency keywords
+    normality_score = 100 * (present / total)
+
+engine/feedback_engine.py:
+  No external LLM calls. Template-based bullet rewrites only.
+  Priority sort: critical → important → nice_to_have.
+  Trigger conditions exactly as specified in FEEDBACK ENGINE section above.
+  Bullet rewrite: find 3 lowest-impact bullets (strength=1 verb + no numeric pattern)
+  Apply template: "[Strong verb] [what] by [metric], resulting in [outcome]"
+
+=== FRONTEND DESIGN SYSTEM ===
+
+Colors (Tailwind utility classes only — no custom CSS except print styles):
+  bg-slate-50 (main bg) | bg-white (cards)
+  blue-600 (primary) | emerald-500 (success) | amber-500 (warning) | red-500 (critical)
+  slate-900 (text primary) | slate-500 (text secondary) | slate-200 (borders)
+  Cards: bg-white shadow-sm rounded-xl border border-slate-200
+
+UploadPanel.jsx:
+  react-dropzone drag-drop zone (dashed border, hover→blue-100 bg)
+  File validation: extension + size check with inline error before upload
+  JD textarea: 4 rows min, character counter, example placeholder text
+  Analyze button: disabled when (no file OR jd.length<50 OR isAnalyzing)
+  On submit: POST /api/upload → POST /api/analyze/{scan_id}
+  Progress text states: "Uploading..." → "Parsing resume..." → "Running analysis..." → "Complete"
+  On success: call onAnalysisComplete(result) prop
+
+ScoreDashboard.jsx:
+  SVG animated score ring: r=80, cx=96, cy=96, circumference=502.65
+    Animate stroke-dashoffset from 502.65 to 502.65*(1-score/100) on mount
+    Color: emerald-500 ≥75 | amber-500 50–74 | red-500 <50
+  Letter grade centered in ring: 48px font-weight-700
+  5 sub-score horizontal bars: animated width on mount, label + % + weighted contribution
+  Tooltip per bar (Tailwind group hover): explains what each sub-score measures
+  "Improvement potential": "+{100-score} points possible" below ring
+
+KeywordAnalysis.jsx:
+  Two-column desktop / stacked mobile
+  Matched column: keyword chip, match_layer badge, category badge, jd_importance dot
+    Badge colors: alias=purple | exact=blue | kb_lookup=cyan | fuzzy=amber | semantic=orange
+    Importance dot: critical=red | high=amber | medium=gray
+  Missing column: sorted by jd_importance DESC then jd_frequency DESC
+    Each: keyword, category, JD occurrence count, suggestion tooltip
+  Density warnings: amber warning cards at bottom of matched column
+  Summary line: "X matched (Y exact / Z semantic) · N missing"
+
+CareerIntelligence.jsx (renders when career_intelligence not null):
+  Seniority: two pills "JD: Senior" vs "Resume: Mid" with colored mismatch indicator
+  O*NET occupation match: card with SOC code, title, confidence bar, expected-missing skills
+  Recognized companies: tags with tier badge (tier1=gold, tier2=silver, startup=teal)
+  JD quality: small 60px score ring with explanation; if <70: amber warning panel
+
+CybersecurityPanel.jsx (renders only when cybersecurity_analysis not null):
+  Security score mini card
+  Ranked skills table: rank, skill name, precision_level, present/missing status
+  Certs found vs missing: two-column
+  Domain-specific suggestions appear before general suggestions in FeedbackPanel
+
+HistoryPanel.jsx:
+  Table: Date | Filename | Score (color-coded) | Grade | View | Compare checkbox
+  Recharts LineChart: x=scan date, y=overall_score 0–100
+    ReferenceLines: 75 (emerald) and 50 (amber)
+    Custom tooltip: score + grade on hover
+  "Compare Selected (2)" button appears when exactly 2 rows checked
+
+App.jsx state:
+  currentResult: full analysis object | null
+  history: ScanRecord[]
+  activeView: "upload" | "results" | "history" | "compare"
+  compareResult: comparison object | null
+  On upload complete → set currentResult + switch to "results"
+  On history View → fetch /api/history/{scan_id} + switch to "results"
+
+=== INFRA FILES ===
+
+start.sh:
+#!/bin/bash
+set -e
+echo "================================="
+echo "  ATS Resume Checker — Starting"
+echo "================================="
+mkdir -p uploads data
+echo "[1/4] Installing Python dependencies..."
+pip install -r backend/requirements.txt --quiet --no-warn-script-location
+echo "[2/4] Downloading spaCy model (en_core_web_sm)..."
+python -m spacy download en_core_web_sm --quiet 2>/dev/null || true
+echo "[3/4] Installing frontend dependencies..."
+cd frontend && npm install --silent 2>/dev/null && cd ..
+echo "[4/4] Starting backend + frontend..."
+echo "  API:      http://localhost:8000"
+echo "  App:      http://localhost:5173"
+echo "  API docs: http://localhost:8000/docs"
+echo "================================="
+cd backend && python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload &
+BACKEND_PID=$!
+sleep 4
+cd frontend && npm run dev -- --host 0.0.0.0 --port 5173
+trap "kill $BACKEND_PID 2>/dev/null" EXIT
+
+requirements.txt:
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+python-multipart==0.0.9
+pdfplumber==0.11.0
+python-docx==1.1.2
+PyMuPDF==1.24.5
+spacy==3.7.5
+sentence-transformers==2.7.0
+keybert==0.8.4
+yake==0.4.8
+rapidfuzz==3.9.3
+sqlalchemy==2.0.30
+pydantic==2.7.3
+numpy==1.26.4
+pandas==2.2.2
+aiofiles==23.2.1
+
+.replit:
+run = "bash start.sh"
+entrypoint = "start.sh"
+[nix]
+channel = "stable-23_11"
+[[ports]]
+localPort = 5173
+externalPort = 80
+[[ports]]
+localPort = 8000
+externalPort = 3000
+
+replit.nix:
+{ pkgs }: {
+  deps = [ pkgs.python311 pkgs.python311Packages.pip pkgs.nodejs_20 pkgs.nodePackages.npm ];
+}
+
+package.json (frontend):
+{
+  "name": "ats-resume-checker",
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": { "dev": "vite", "build": "vite build", "preview": "vite preview" },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "lucide-react": "^0.383.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-dropzone": "^14.2.3",
+    "react-router-dom": "^6.23.1",
+    "recharts": "^2.12.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "vite": "^5.3.1"
+  }
+}
+
+vite.config.js:
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+export default defineConfig({
+  plugins: [react()],
+  server: { proxy: { '/api': { target: 'http://localhost:8000', changeOrigin: true } } }
+})
+
+=== FINAL MANDATE ===
+
+You are building an ATS Resume Checker — the most accurate, most transparent, and most
+actionable resume scanner available. Jobscan charges $50/month for keyword matching.
+This system goes further: 5-layer matching backed by ESCO/O*NET knowledge bases,
+seniority detection, occupation-aware skill gap analysis, JD quality scoring,
+action verb strength analysis, and recruiter-grade before/after improvement suggestions.
+
+Rules, non-negotiable:
+- Generate every file in the structure above. Not one may be skipped.
+- No placeholder, TODO, stub, or unimplemented function anywhere.
+- The knowledge base loads at startup from pre-built JSON files. This is the core advantage.
+- Every API endpoint returns the exact JSON schema documented above with real computed values.
+- Every frontend component renders real API data. No hardcoded mock data.
+- The app must serve a working UI within 60 seconds of clicking Run.
