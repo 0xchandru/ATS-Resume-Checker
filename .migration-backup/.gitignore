@@ -1,53 +1,57 @@
-# Python virtual environment
-.venv/
+# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# compiled output
+dist
+tmp
+out-tsc
+*.tsbuildinfo
+.expo
+.expo-shared
 
-# Distribution / packaging
-.Python
-build/
-dist/
-*.egg-info/
-.eggs/
+# dependencies
+node_modules
 
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 
-# Logs and local env
-*.log
-.env
-.env.*
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
-# IDE/editor settings
-.vscode/
-.idea/
-*.swp
-*.swo
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
 
-# Dataset raw or archive folders (generated or external)
-open-source-tools/datasets/ARCHIVE/
-open-source-tools/datasets/raw/
-open-source-tools/datasets/ARCHIVE_md5.txt
-open-source-tools/datasets/raw_md5.txt
-
-# Unwanted tool repos
-open-source-tools/unwanted/
-
-open-source-tools/datasets/ARCHIVE_md5.txt
-open-source-tools/datasets/IMPLEMENTATION_PLAN.md
-open-source-tools/datasets/md5_duplicates_report.json
-open-source-tools/datasets/scripts
-
-# MacOS
+# System Files
 .DS_Store
+Thumbs.db
 
-# Python coverage
-htmlcov/
-.coverage
-.coverage.*
-.pytest_cache/
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
 
-*unwanted*
+# Replit
+.cache/
+.local/
+
+# Backend runtime — never commit user uploads or database files
+backend/uploads/*
+backend/data/*.db
+backend/data/*.db-wal
+backend/data/*.db-shm
+!backend/uploads/.gitkeep
+!backend/data/.gitkeep

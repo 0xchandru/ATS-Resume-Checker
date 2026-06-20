@@ -1,6 +1,6 @@
-# [Project name]
+# ATS Resume Checker
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A full-stack ATS resume analyzer that scores resumes against job descriptions using 5-layer AI keyword matching (ESCO + O*NET), with a premium dark-themed web app and mobile companion.
 
 ## Run & Operate
 

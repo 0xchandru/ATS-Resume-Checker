@@ -1,6 +1,40 @@
-modules = ["go-1.21", "bash", "nodejs-20", "web"]
+modules = ["go-1.21", "nodejs-20", "bash", "python-3.11"]
+
+[deployment]
+router = "application"
+deploymentTarget = "autoscale"
+
+[deployment.postBuild]
+args = ["pnpm", "store", "prune"]
+env = { "CI" = "true" }
+
+[workflows]
+runButton = "Project"
+
 [agent]
+stack = "PNPM_WORKSPACE"
 expertMode = true
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 20000
+
+[[ports]]
+localPort = 8080
+externalPort = 8080
+
+[[ports]]
+localPort = 8081
+externalPort = 8081
+
+[[ports]]
+localPort = 18897
+externalPort = 80
+
+[[ports]]
+localPort = 25874
+externalPort = 3000
 
 [nix]
 channel = "stable-25_05"
+packages = ["freetype", "glibcLocales", "gumbo", "harfbuzz", "jbig2dec", "libjpeg_turbo", "libxcrypt", "mupdf", "openjpeg", "rapidfuzz-cpp", "swig", "taskflow", "xcbuild"]
