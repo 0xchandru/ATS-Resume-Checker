@@ -18,6 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useColors } from "@/hooks/useColors";
 import { uploadAndAnalyze } from "@/utils/api";
 import { useAnalysis } from "@/context/AnalysisContext";
+import { scheduleScanCompleteNotification } from "@/utils/notifications";
 
 const EXAMPLE_JD = `We are looking for a Software Engineer with 3+ years of experience in TypeScript, React, and Node.js. 
 Responsibilities include building scalable APIs, writing unit tests, and collaborating in an Agile environment. 
@@ -83,6 +84,16 @@ export default function ScanScreen() {
         (s) => setStage(s)
       );
       setCurrentResult(result);
+
+      // Fire local notification — useful when user backgrounds the app during analysis
+      await scheduleScanCompleteNotification(
+        result.overall_score,
+        result.letter_grade,
+        result.scan_id,
+        result.filename ?? file.name
+      );
+
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.push(`/results?id=${result.scan_id}`);
     } catch (e: any) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
