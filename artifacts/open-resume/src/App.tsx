@@ -1,20 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Layout from "./components/Layout";
 import UploadPanel from "./components/UploadPanel";
-import ScoreDashboard from "./components/ScoreDashboard";
+import SidebarScore from "./components/SidebarScore";
+import TextHighlighter from "./components/TextHighlighter";
 import KeywordAnalysis from "./components/KeywordAnalysis";
-import CareerIntelligence from "./components/CareerIntelligence";
-import FormatChecker from "./components/FormatChecker";
-import SectionAnalysis from "./components/SectionAnalysis";
-import ActionVerbPanel from "./components/ActionVerbPanel";
+import SectionDetailReport from "./components/SectionDetailReport";
 import FeedbackPanel from "./components/FeedbackPanel";
-import SkillPrediction from "./components/SkillPrediction";
-import CybersecurityPanel from "./components/CybersecurityPanel";
+import FormatChecker from "./components/FormatChecker";
+import ActionVerbPanel from "./components/ActionVerbPanel";
 import HistoryPanel from "./components/HistoryPanel";
-import ExportReport from "./components/ExportReport";
-import { getHistory } from "./utils/api";
+import { getHistory, uploadAndAnalyze } from "./utils/api";
 
 export type View = "upload" | "results" | "history" | "compare";
+export type Theme = "dark" | "light";
 
 export interface AnalysisResult {
   scan_id: string;
@@ -39,31 +37,56 @@ export interface AnalysisResult {
 
 export default function App() {
   const [currentResult, setCurrentResult] = useState<AnalysisResult | null>(null);
+  const [currentFile, setCurrentFile] = useState<File | null>(null);
+  const [currentJD, setCurrentJD] = useState<string>("");
   const [history, setHistory] = useState<any[]>([]);
   const [activeView, setActiveView] = useState<View>("upload");
   const [compareResult, setCompareResult] = useState<any | null>(null);
+  const [theme, setTheme] = useState<Theme>(() =>
+    (localStorage.getItem("ats-theme") as Theme) || "dark"
+  );
+  const [isRescanning, setIsRescanning] = useState(false);
+  const [rescanError, setRescanError] = useState("");
 
   useEffect(() => {
-    refreshHistory();
-  }, []);
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("ats-theme", theme);
+  }, [theme]);
+
+  useEffect(() => { refreshHistory(); }, []);
 
   const refreshHistory = async () => {
-    try {
-      const h = await getHistory();
-      setHistory(h);
-    } catch {
-      // history unavailable on first load
-    }
+    try { setHistory(await getHistory()); } catch { }
   };
 
-  const handleAnalysisComplete = (result: AnalysisResult) => {
+  const handleAnalysisComplete = (result: AnalysisResult, file: File, jd: string) => {
     setCurrentResult(result);
+    setCurrentFile(file);
+    setCurrentJD(jd);
     setActiveView("results");
     refreshHistory();
   };
 
+  const handleRescan = useCallback(async (newJD?: string) => {
+    if (!currentFile) return;
+    const jdToUse = newJD ?? currentJD;
+    setIsRescanning(true);
+    setRescanError("");
+    try {
+      const result = await uploadAndAnalyze(currentFile, jdToUse, () => {});
+      setCurrentResult(result);
+      if (newJD) setCurrentJD(newJD);
+      refreshHistory();
+    } catch (e: any) {
+      setRescanError(e.message || "Rescan failed");
+    } finally {
+      setIsRescanning(false);
+    }
+  }, [currentFile, currentJD]);
+
   const handleViewHistoryItem = (result: AnalysisResult) => {
     setCurrentResult(result);
+    setCurrentJD(result.jd_preview || "");
     setActiveView("results");
   };
 
@@ -72,36 +95,64 @@ export default function App() {
     setActiveView("compare");
   };
 
+  const handleNewScan = () => {
+    setActiveView("upload");
+    setCurrentFile(null);
+    setCurrentJD("");
+    setCurrentResult(null);
+  };
+
   return (
-    <Layout activeView={activeView} onViewChange={setActiveView} hasResult={!!currentResult}>
+    <Layout
+      activeView={activeView}
+      onViewChange={setActiveView}
+      hasResult={!!currentResult}
+      theme={theme}
+      onToggleTheme={() => setTheme(t => t === "dark" ? "light" : "dark")}
+    >
       {activeView === "upload" && (
-        <UploadPanel onAnalysisComplete={handleAnalysisComplete} />
+        <UploadPanel
+          onAnalysisComplete={handleAnalysisComplete}
+          initialJD={currentJD}
+        />
       )}
 
       {activeView === "results" && currentResult && (
-        <div className="space-y-6">
-          <ScoreDashboard result={currentResult} />
-          <FeedbackPanel feedback={currentResult.feedback} />
-          <KeywordAnalysis keywords={currentResult.keywords} />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <SectionAnalysis sections={currentResult.sections} />
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
+          <aside className="w-full lg:w-72 lg:sticky lg:top-20 shrink-0">
+            <SidebarScore
+              result={currentResult}
+              onNewScan={handleNewScan}
+              onRescan={() => handleRescan()}
+              isRescanning={isRescanning}
+              rescanError={rescanError}
+            />
+          </aside>
+          <div className="flex-1 min-w-0 space-y-5">
+            <TextHighlighter
+              result={currentResult}
+              currentJD={currentJD}
+              onRescanWithNewJD={handleRescan}
+              isRescanning={isRescanning}
+            />
+            <KeywordAnalysis keywords={currentResult.keywords} />
+            <SectionDetailReport
+              sections={currentResult.sections}
+              keywords={currentResult.keywords}
+              feedback={currentResult.feedback}
+            />
+            <FeedbackPanel feedback={currentResult.feedback} />
             <FormatChecker formatting={currentResult.formatting} />
+            <ActionVerbPanel actionVerbs={currentResult.action_verbs} />
           </div>
-          <ActionVerbPanel actionVerbs={currentResult.action_verbs} />
-          <CareerIntelligence career={currentResult.career_intelligence} />
-          <SkillPrediction prediction={currentResult.skill_prediction} />
-          {currentResult.cybersecurity_analysis && (
-            <CybersecurityPanel cyber={currentResult.cybersecurity_analysis} />
-          )}
-          <ExportReport result={currentResult} />
         </div>
       )}
 
       {activeView === "results" && !currentResult && (
-        <div className="flex flex-col items-center justify-center h-96 text-slate-500">
+        <div className="flex flex-col items-center justify-center h-96 text-muted-foreground gap-4">
           <p className="text-lg">No analysis result yet.</p>
           <button
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="px-5 py-2.5 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-opacity"
             onClick={() => setActiveView("upload")}
           >
             Upload a Resume
@@ -118,34 +169,38 @@ export default function App() {
       )}
 
       {activeView === "compare" && compareResult && (
-        <div className="space-y-6">
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">Resume Comparison</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              {[compareResult.scan_1, compareResult.scan_2].map((scan: any, i: number) => (
-                <div key={i} className="border border-slate-200 rounded-lg p-4">
-                  <p className="text-sm text-slate-500">{i === 0 ? "Version 1" : "Version 2"}</p>
-                  <p className="font-semibold text-slate-900 truncate">{scan.filename}</p>
-                  <p className="text-3xl font-bold mt-2" style={{ color: scan.overall_score >= 75 ? "#10b981" : scan.overall_score >= 50 ? "#f59e0b" : "#ef4444" }}>
-                    {scan.overall_score}
-                  </p>
-                  <p className="text-slate-500 text-sm">{scan.letter_grade} grade</p>
-                </div>
-              ))}
-            </div>
-            <div className="bg-slate-50 rounded-lg p-4">
-              <p className="font-semibold text-slate-700 mb-3">Score Changes</p>
-              {Object.entries(compareResult.delta || {}).map(([key, val]: [string, any]) => (
-                <div key={key} className="flex justify-between items-center py-1">
-                  <span className="text-sm text-slate-600">{key.replace(/_/g, " ")}</span>
-                  <span className={`text-sm font-semibold ${val > 0 ? "text-emerald-600" : val < 0 ? "text-red-600" : "text-slate-500"}`}>
-                    {val > 0 ? "+" : ""}{val}
-                  </span>
-                </div>
-              ))}
-            </div>
-            <p className="mt-4 text-slate-700 font-medium">{compareResult.summary}</p>
+        <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
+          <h2 className="text-xl font-bold text-foreground mb-5">Resume Comparison</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+            {[compareResult.scan_1, compareResult.scan_2].map((scan: any, i: number) => (
+              <div key={i} className="border border-border rounded-xl p-5 bg-muted/30">
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1">
+                  Version {i + 1}
+                </p>
+                <p className="font-semibold text-foreground truncate">{scan.filename}</p>
+                <p className="text-4xl font-bold mt-2" style={{ color: scan.overall_score >= 75 ? "#10b981" : scan.overall_score >= 50 ? "#f59e0b" : "#ef4444" }}>
+                  {scan.overall_score}
+                </p>
+                <p className="text-muted-foreground text-sm">{scan.letter_grade} grade</p>
+              </div>
+            ))}
           </div>
+          <div className="bg-muted/40 rounded-xl p-4 space-y-2">
+            <p className="font-semibold text-foreground text-sm mb-3">Score Changes</p>
+            {Object.entries(compareResult.delta || {}).map(([key, val]: [string, any]) => (
+              <div key={key} className="flex justify-between items-center py-1 border-b border-border last:border-0">
+                <span className="text-sm text-muted-foreground capitalize">{key.replace(/_/g, " ")}</span>
+                <span className={`text-sm font-bold ${val > 0 ? "text-emerald-500" : val < 0 ? "text-red-500" : "text-muted-foreground"}`}>
+                  {val > 0 ? "+" : ""}{typeof val === "number" ? val.toFixed(1) : val}
+                </span>
+              </div>
+            ))}
+          </div>
+          {compareResult.summary && (
+            <p className="mt-4 text-foreground text-sm leading-relaxed bg-primary/10 border border-primary/20 rounded-xl p-3">
+              {compareResult.summary}
+            </p>
+          )}
         </div>
       )}
     </Layout>
