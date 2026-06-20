@@ -1,0 +1,106 @@
+You are a senior product engineer, ML/NLP engineer, ATS parsing specialist, and full-stack architect.
+
+Your task is to deeply analyze my ATS-Resume-Checker platform, its datasets, scoring logic, parsing pipeline, keyword extraction, semantic matching, UI, and login/auth flow, then redesign and improve the whole system so it becomes more accurate, more useful, and more trustworthy than Jobscan and SkillSyncer.
+
+I am building this ATS-Resume-Checker to evaluate how my resume performs on job platform ATS systems such as LinkedIn, Naukri, Indeed, Foundit, and other similar job portals, so make it precisely aligned with those ATS behaviors and, if possible, make it better than them.
+
+You must be brutally honest. Do not flatter the product. Do not assume the current implementation is correct. Do not preserve broken logic just because it already exists. Find the real problems first, then propose world-class fixes.
+
+Context:
+I compared the same resume + job description across three systems:
+1) Jobscan
+2) SkillSyncer
+3) My ATS-Resume-Checker
+
+Observed results:
+- Jobscan showed a very high score and seemed overly optimistic.
+- SkillSyncer gave a lower score and exposed more missing skills.
+- My platform gave the most realistic signal, but it has a critical bug in keyword extraction and scoring.
+
+Critical problems already identified in my platform:
+- The keyword extractor is pulling stopwords and filler words from the JD and marking them as critical missing keywords.
+- Words like: we, that, This, who, What, part, they, these, participate, Regular, end are being treated as important ATS keywords.
+- This is destroying credibility and inflating “critical issues.”
+- Stopword filtering in extractor.py must be fixed.
+- My platform did correctly detect:
+  - multi-column resume layout
+  - 9 fonts in the PDF
+  - special characters from LaTeX PDF formatting
+  - header/footer content
+  - semantic match that seems like a real signal
+
+Resume/JD-related truths already observed:
+- The resume is strong for a fresher in SOC.
+- The SOC home lab, Splunk, Wazuh, Zeek, Sysmon, Shuffle SOAR, and Jira ticketing are directly relevant.
+- TryHackMe Top 1% is a real differentiator.
+- ThreatLens querying 5 threat intel APIs in parallel with under 2 seconds response is strong evidence.
+- The summary is targeted and specific.
+- Missing or weak areas include:
+  - CompTIA Security+ (highly preferred in the JD)
+  - IBM QRadar
+  - explicit IDS/IPS mention
+  - ITIL conceptual mention
+  - financial-services / regulated-industry context
+- The real honest match for this application is probably around 58–65%, not a fake inflated score.
+- The resume format is a major issue because it is LaTeX with a two-column layout.
+- Enterprise ATS systems such as Workday, Taleo, iCIMS, SuccessFactors, and Greenhouse can misread multi-column resumes.
+- My platform should prioritize parseability and layout detection, not just keyword matching.
+
+What I want you to do:
+1) Audit the entire ATS-Resume-Checker platform end to end.
+2) Inspect the datasets and tell me if they are sufficient, biased, noisy, incomplete, or structurally weak.
+3) Improve the scoring algorithms so they are realistic, defensible, and hard to game.
+4) Fix the stopword / filler-word bug in keyword extraction.
+5) Improve keyword normalization, alias handling, synonym mapping, and role-relevance weighting.
+6) Distinguish must-have skills, preferred skills, contextual mentions, and irrelevant filler words.
+7) Improve ATS format detection, especially for:
+   - multi-column PDFs
+   - header/footer content
+   - font explosion
+   - special characters
+   - reading order issues
+   - missing experience extraction
+8) Improve the credibility of the final score so it better reflects real ATS behavior.
+9) Improve the login flow, usability, dashboard design, result explanation, and overall UI.
+10) Make the platform more useful and more accurate than Jobscan and SkillSyncer.
+
+Important comparison targets:
+Use these three results as part of your analysis:
+- Jobscan: high score, but likely inflated and overly optimistic
+- SkillSyncer: lower score, but closer to reality
+- My platform: best signal so far, but currently broken by stopword keyword extraction and needs a stronger scoring model
+
+What I need from you:
+- A complete audit of the current architecture
+- A list of all major problems, ranked by severity
+- A list of what is already good and should be kept
+- A redesign plan for algorithms and product UX
+- Specific fixes for the dataset structure if the dataset is weak
+- A proposed scoring methodology that is honest and robust
+- A proposed UI/UX structure for results pages that is clear and recruiter-relevant
+- A plan to make the platform better than Jobscan and SkillSyncer in practical usefulness, not just in score number
+- A development roadmap with priorities: critical fixes first, then accuracy, then UI polish, then advanced features
+
+Constraints:
+- Do not over-engineer for the sake of complexity.
+- Do not reward keyword stuffing.
+- Do not treat stopwords or filler words as critical keywords.
+- Do not produce fake precision.
+- Do not hide uncertainty.
+- Be specific and technical.
+- Be honest about what cannot be improved without better data or manual input.
+
+If anything is needed from me manually, stop and ask for it clearly before proceeding. Tell me exactly what files, examples, datasets, labels, screenshots, logs, or code sections you need from me.
+
+Output format:
+1) Executive verdict
+2) Critical problems
+3) What is already working
+4) Algorithm redesign
+5) Dataset audit
+6) UI/login improvements
+7) ATS accuracy improvements
+8) Priority roadmap
+9) Questions for me before implementation
+
+Be direct. Be practical. Be ruthless about weak logic. Build the best possible solution.

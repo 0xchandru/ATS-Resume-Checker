@@ -2,8 +2,35 @@ import os
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 
-KB_BASE_PATH = os.path.join(_HERE, "..", ".migration-backup", "open-source-tools", "datasets", "knowledge-base")
-SECTION_DATASET_PATH = os.path.join(_HERE, "..", ".migration-backup", "open-source-tools", "tools", "section-detection", "section-dataset.json")
+def _find_kb_base() -> str:
+    """
+    Locate the knowledge-base dataset directory.
+    Checks stable locations in order, falls back to .migration-backup only as last resort.
+    """
+    candidates = [
+        os.path.join(_HERE, "data", "kb"),
+        os.path.join(_HERE, "..", "data", "knowledge-base"),
+        os.path.join(_HERE, "..", "open-source-tools", "datasets", "knowledge-base"),
+        os.path.join(_HERE, "..", ".migration-backup", "open-source-tools", "datasets", "knowledge-base"),
+    ]
+    for path in candidates:
+        if os.path.isdir(path):
+            return path
+    return candidates[0]
+
+def _find_section_dataset() -> str:
+    candidates = [
+        os.path.join(_HERE, "data", "section-dataset.json"),
+        os.path.join(_HERE, "..", "open-source-tools", "tools", "section-detection", "section-dataset.json"),
+        os.path.join(_HERE, "..", ".migration-backup", "open-source-tools", "tools", "section-detection", "section-dataset.json"),
+    ]
+    for path in candidates:
+        if os.path.isfile(path):
+            return path
+    return candidates[0]
+
+KB_BASE_PATH = _find_kb_base()
+SECTION_DATASET_PATH = _find_section_dataset()
 DB_PATH = os.path.join(_HERE, "data", "ats_platform.db")
 UPLOADS_PATH = os.path.join(_HERE, "uploads")
 
@@ -15,7 +42,8 @@ MAX_HISTORY = 10
 
 SENIORITY_LEVELS = ["intern", "junior", "mid", "senior", "lead", "principal", "director", "vp", "c_suite"]
 
-EXPECTED_SECTIONS = ["contact_info", "summary", "experience", "education", "skills", "projects", "certifications"]
+EXPECTED_SECTIONS = ["contact_info", "summary", "experience", "education", "skills", "projects"]
+OPTIONAL_SECTIONS = ["certifications", "publications", "awards", "volunteer", "languages"]
 
 KEYWORD_DENSITY_THRESHOLD = 8
 
@@ -28,8 +56,8 @@ SCORING_WEIGHTS = {
 }
 
 GRADE_THRESHOLDS = [
-    (95, "A+"), (90, "A"), (85, "B+"), (75, "B"),
-    (65, "C+"), (50, "C"), (35, "D"), (0, "F"),
+    (90, "A+"), (82, "A"), (74, "B+"), (65, "B"),
+    (55, "C+"), (44, "C"), (33, "D"), (0, "F"),
 ]
 
 CYBER_DETECTION_THRESHOLD = 0.15

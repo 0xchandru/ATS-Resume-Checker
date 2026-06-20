@@ -5,6 +5,42 @@ from config import SCORING_WEIGHTS, GRADE_THRESHOLDS, LAYER_MULTIPLIERS
 
 logger = logging.getLogger(__name__)
 
+_QUANT_RE = re.compile(
+    r"""
+    \d+\s*[%$x]                      # 30%, $5k, 3x
+    | \$[\d,]+                         # $50,000
+    | \d+\s*(?:users?|clients?|customers?  # 5 users
+              |teams?|million|billion|k\b   # 50k
+              |vms?|servers?|hosts?         # 15 VMs
+              |endpoints?|nodes?            # 10 endpoints
+              |apis?|tools?|systems?        # 5 APIs
+              |tickets?|alerts?|logs?       # 200 alerts
+              |minutes?|seconds?|hours?     # <2 seconds
+              |requests?|queries?           # 1000 requests
+              |incidents?|cases?|events?    # 50 incidents
+              |rules?|signatures?           # 100 rules
+              )
+    | [\d\.]+\s*x\b                    # 2.5x improvement
+    | top\s+\d+\s*%                    # Top 1%
+    | top\s+\d+\b                      # Top 100
+    | #\s*\d+\b                        # #1 ranking
+    | <\s*\d+\s*(?:s|ms|min|sec)       # <2s, <500ms
+    | \d+\+\s*(?:years?|months?)       # 3+ years
+    | \d{1,3}(?:,\d{3})+              # 1,000,000
+    """,
+    re.IGNORECASE | re.VERBOSE,
+)
+
+_BULLET_RE = re.compile(r"^[\s]*[-•·▪▸►*➤→]\s+.+")
+_VERB_RE = re.compile(
+    r"^[\s]*[A-Z][a-zA-Z]+(?:ed|ing|d)\b"   # past/present tense
+    r"|^[\s]*(?:Built|Deployed|Designed|Developed|Created|Led|Managed|Reduced|"
+    r"Improved|Automated|Implemented|Configured|Monitored|Investigated|"
+    r"Analyzed|Detected|Responded|Tuned|Integrated|Migrated|Optimized|"
+    r"Established|Delivered|Maintained|Supported|Enabled|Generated|Achieved)\b",
+    re.IGNORECASE,
+)
+
 
 def calculate_score(
     match_result: Dict,
@@ -20,6 +56,8 @@ def calculate_score(
     fmt_score = _format_score(formatting)
     impact_score = _impact_score(sections, resume_text)
 
+    fmt_penalty = _format_penalty(formatting)
+
     weighted = (
         kw_score * SCORING_WEIGHTS["keyword_match"]
         + sem_score["score"] * SCORING_WEIGHTS["semantic_relevance"]
@@ -27,6 +65,9 @@ def calculate_score(
         + fmt_score["score"] * SCORING_WEIGHTS["format_compliance"]
         + impact_score["score"] * SCORING_WEIGHTS["impact_quantification"]
     )
+
+    weighted = max(0.0, weighted - fmt_penalty)
+
     overall = round(min(100, max(0, weighted)), 1)
     grade = _get_grade(overall)
 
@@ -61,6 +102,7 @@ def calculate_score(
                 "weight": SCORING_WEIGHTS["format_compliance"],
                 "weighted_contribution": round(fmt_score["score"] * SCORING_WEIGHTS["format_compliance"], 2),
                 "details": fmt_score["details"],
+                "format_penalty_applied": round(fmt_penalty, 1),
             },
             "impact_quantification": {
                 "score": round(impact_score["score"], 1),
@@ -77,13 +119,12 @@ def calculate_score(
 def _keyword_score(match_result: Dict) -> float:
     matched = match_result.get("matched", [])
     missing = match_result.get("missing", [])
-    total = match_result.get("total_jd_keywords", 1) or 1
 
     total_contribution = 0.0
     max_contribution = 0.0
 
     for kw in matched:
-        freq = kw.get("jd_frequency", 0.5) or 0.5
+        freq = kw.get("jd_frequency", 0.3) or 0.3
         confidence = kw.get("match_confidence", 1.0)
         layer = kw.get("match_layer", "exact")
         multiplier = LAYER_MULTIPLIERS.get(layer, 0.8)
@@ -92,7 +133,7 @@ def _keyword_score(match_result: Dict) -> float:
         max_contribution += freq
 
     for kw in missing:
-        freq = kw.get("jd_frequency", 0.5) or 0.5
+        freq = kw.get("jd_frequency", 0.3) or 0.3
         max_contribution += freq
 
     if max_contribution == 0:
@@ -101,14 +142,22 @@ def _keyword_score(match_result: Dict) -> float:
 
 
 def _semantic_score(resume_text: str, jd_text: str) -> Dict:
-    score = 0.0
-    cosine = 0.0
-    details = "Semantic similarity computed"
+    """
+    Calibrated semantic scoring.
+    Raw cosine in domain-matched documents runs 0.5–0.85 naturally.
+    We use a piecewise linear scale so that:
+      cosine >= 0.85 -> 90-100 (very strong)
+      cosine 0.65–0.84 -> 60-89 (solid alignment)
+      cosine 0.45–0.64 -> 35-59 (moderate)
+      cosine < 0.45 -> 0-34 (weak/off-topic)
+    This replaces the inflating cosine * 120 formula.
+    """
+    tfidf_cosine = 0.0
+    spacy_cosine = 0.0
 
     try:
         from sklearn.feature_extraction.text import TfidfVectorizer
         from sklearn.metrics.pairwise import cosine_similarity
-        import numpy as np
 
         vectorizer = TfidfVectorizer(stop_words="english", max_features=5000)
         docs = [resume_text[:50000], jd_text[:20000]]
@@ -116,7 +165,6 @@ def _semantic_score(resume_text: str, jd_text: str) -> Dict:
         tfidf_cosine = float(cosine_similarity(tfidf[0:1], tfidf[1:2])[0][0])
     except Exception as e:
         logger.debug("TF-IDF failed: %s", e)
-        tfidf_cosine = 0.0
 
     try:
         from engine.embeddings import get_spacy
@@ -132,14 +180,24 @@ def _semantic_score(resume_text: str, jd_text: str) -> Dict:
         spacy_cosine = tfidf_cosine
 
     cosine = (tfidf_cosine + spacy_cosine) / 2
-    score = min(100.0, cosine * 120)
 
-    if cosine >= 0.8:
-        details = "Very strong semantic alignment"
-    elif cosine >= 0.6:
-        details = "Strong semantic alignment"
-    elif cosine >= 0.4:
-        details = "Moderate semantic alignment"
+    if cosine >= 0.85:
+        score = 90 + (cosine - 0.85) / 0.15 * 10
+    elif cosine >= 0.65:
+        score = 60 + (cosine - 0.65) / 0.20 * 30
+    elif cosine >= 0.45:
+        score = 35 + (cosine - 0.45) / 0.20 * 25
+    else:
+        score = max(0.0, cosine / 0.45 * 35)
+
+    score = min(100.0, score)
+
+    if cosine >= 0.85:
+        details = "Very strong semantic alignment — resume language closely mirrors JD"
+    elif cosine >= 0.65:
+        details = "Strong semantic alignment — good content coverage"
+    elif cosine >= 0.45:
+        details = "Moderate semantic alignment — some content gaps relative to JD"
     else:
         details = "Weak semantic alignment — resume content diverges significantly from job description"
 
@@ -147,19 +205,29 @@ def _semantic_score(resume_text: str, jd_text: str) -> Dict:
 
 
 def _section_score(sections: Dict) -> Dict:
-    from config import EXPECTED_SECTIONS
+    from config import EXPECTED_SECTIONS, OPTIONAL_SECTIONS
     detected = sections.get("detected", [])
     detected_names = {s["name"] for s in detected}
-    expected_count = len(EXPECTED_SECTIONS)
-    detected_count = sum(1 for s in EXPECTED_SECTIONS if s in detected_names)
-    missing_sections = [s for s in EXPECTED_SECTIONS if s not in detected_names]
-    score = (detected_count / expected_count) * 100
 
-    details = f"Missing: {', '.join(missing_sections)}" if missing_sections else "All expected sections detected"
+    required_sections = [s for s in EXPECTED_SECTIONS if s not in OPTIONAL_SECTIONS]
+    required_count = len(required_sections)
+    detected_required = sum(1 for s in required_sections if s in detected_names)
+    missing_required = [s for s in required_sections if s not in detected_names]
+
+    optional_bonus = sum(
+        0.5 for s in OPTIONAL_SECTIONS if s in detected_names
+    )
+    optional_bonus = min(1, optional_bonus)
+
+    total_weight = required_count + 1
+    score_raw = (detected_required + optional_bonus) / total_weight * 100
+    score = min(100.0, score_raw)
+
+    details = f"Missing: {', '.join(missing_required)}" if missing_required else "All core sections detected"
     return {
         "score": score,
-        "detected_count": detected_count,
-        "expected_count": expected_count,
+        "detected_count": detected_required,
+        "expected_count": required_count,
         "details": details,
     }
 
@@ -179,8 +247,36 @@ def _format_score(formatting: Dict) -> Dict:
 
     critical_count = sum(1 for i in issues if i.get("severity") == "critical")
     warning_count = sum(1 for i in issues if i.get("severity") == "warning")
-    details = f"{critical_count} critical, {warning_count} warning issues" if (critical_count or warning_count) else "No formatting issues detected"
+    details = (
+        f"{critical_count} critical, {warning_count} warning issues"
+        if (critical_count or warning_count)
+        else "No formatting issues detected"
+    )
     return {"score": score, "details": details}
+
+
+def _format_penalty(formatting: Dict) -> float:
+    """
+    Apply a cross-component penalty when format issues are severe.
+    Multi-column + special chars from LaTeX = extracted text may be scrambled.
+    This penalty reduces the overall score to reflect unreliable keyword matching.
+    """
+    issues = formatting.get("issues", [])
+    issue_types = {i.get("type") for i in issues}
+    severity_map = {i.get("type"): i.get("severity") for i in issues}
+
+    penalty = 0.0
+
+    if "multi_column_layout" in issue_types:
+        penalty += 5.0
+
+    if "multi_column_layout" in issue_types and "special_characters" in issue_types:
+        penalty += 3.0
+
+    if "tables_detected" in issue_types or "tables_or_textboxes" in issue_types:
+        penalty += 3.0
+
+    return penalty
 
 
 def _impact_score(sections: Dict, resume_text: str) -> Dict:
@@ -194,22 +290,22 @@ def _impact_score(sections: Dict, resume_text: str) -> Dict:
 
     lines = experience_text.split("\n")
     bullets = []
-    bullet_re = re.compile(r"^[\s]*[-•·▪▸►*]\s+.+")
-    verb_start_re = re.compile(r"^[\s]*[A-Z][a-z]+ed\s|^[\s]*[A-Z][a-z]+ed,|^[\s]*[A-Z][a-z]+ing\s")
 
     for line in lines:
-        line = line.strip()
-        if bullet_re.match(line) or (len(line) > 20 and verb_start_re.match(line)):
-            bullets.append(line)
+        stripped = line.strip()
+        if not stripped or len(stripped) < 15:
+            continue
+        if _BULLET_RE.match(stripped) or _VERB_RE.match(stripped):
+            bullets.append(stripped)
 
-    if not bullets:
+    if len(bullets) < 3:
         for line in lines:
-            line = line.strip()
-            if len(line) > 30:
-                bullets.append(line)
+            stripped = line.strip()
+            if len(stripped) > 30:
+                bullets.append(stripped)
+        bullets = list(dict.fromkeys(bullets))
 
-    quant_re = re.compile(r"\d+[%$x]|\$[\d,]+|\d+\s*(users?|clients?|customers?|teams?|million|billion|k\b)|[\d\.]+x\b", re.IGNORECASE)
-    quantified = [b for b in bullets if quant_re.search(b)]
+    quantified = [b for b in bullets if _QUANT_RE.search(b)]
 
     total = max(len(bullets), 1)
     q_count = len(quantified)
