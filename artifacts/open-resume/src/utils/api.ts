@@ -1,12 +1,17 @@
-import axios from "axios";
-
 const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") || "";
 const API_BASE = `${BASE}/api`;
 
-const api = axios.create({
-  baseURL: API_BASE,
-  timeout: 120000,
-});
+async function apiFetch(path: string, options?: RequestInit) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    ...options,
+    signal: options?.signal ?? AbortSignal.timeout(120_000),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => res.statusText);
+    throw new Error(`API ${res.status}: ${text}`);
+  }
+  return res;
+}
 
 export async function uploadAndAnalyze(
   file: File,
@@ -18,36 +23,35 @@ export async function uploadAndAnalyze(
   form.append("file", file);
   form.append("job_description", jobDescription);
 
-  const uploadRes = await api.post("/upload", form, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-  const { scan_id } = uploadRes.data;
+  const uploadRes = await apiFetch("/upload", { method: "POST", body: form });
+  const { scan_id } = await uploadRes.json();
 
   onProgress?.("Running ATS analysis...");
-  const analysisRes = await api.post(`/analyze/${scan_id}`);
+  const analysisRes = await apiFetch(`/analyze/${scan_id}`, { method: "POST" });
 
   onProgress?.("Complete");
-  return analysisRes.data;
+  return analysisRes.json();
 }
 
 export async function getHistory() {
-  const res = await api.get("/history");
-  return res.data;
+  const res = await apiFetch("/history");
+  return res.json();
 }
 
 export async function getHistoryItem(scanId: string) {
-  const res = await api.get(`/history/${scanId}`);
-  return res.data;
+  const res = await apiFetch(`/history/${scanId}`);
+  return res.json();
 }
 
 export async function compareScans(id1: string, id2: string) {
-  const res = await api.get(`/compare/${id1}/${id2}`);
-  return res.data;
+  const res = await apiFetch(`/compare/${id1}/${id2}`);
+  return res.json();
 }
 
 export async function exportReport(scanId: string) {
-  const res = await api.get(`/export/${scanId}`, { responseType: "blob" });
-  const url = URL.createObjectURL(res.data);
+  const res = await apiFetch(`/export/${scanId}`);
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   a.download = `ats_report_${scanId}.json`;
@@ -58,8 +62,6 @@ export async function exportReport(scanId: string) {
 }
 
 export async function checkHealth() {
-  const res = await api.get("/health");
-  return res.data;
+  const res = await apiFetch("/healthz");
+  return res.json();
 }
-
-export default api;
