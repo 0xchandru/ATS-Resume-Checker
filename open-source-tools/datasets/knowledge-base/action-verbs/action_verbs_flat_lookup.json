@@ -1,0 +1,31 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "description": "Flat lowercase list for O(1) set membership checks",
+    "etl_script": "01_extract_action_verbs.py",
+    "generated_at": "2026-06-20T09:11:34.815826Z",
+    "record_count": 20
+  },
+  "data": [
+    "accelerated",
+    "achieved",
+    "attained",
+    "increased",
+    "initiated",
+    "innovated",
+    "introduced",
+    "invented",
+    "launched",
+    "mastered",
+    "originated",
+    "overhauled",
+    "pioneered",
+    "purchased",
+    "recorded",
+    "reduced",
+    "retrieved",
+    "screened",
+    "specified",
+    "systematized"
+  ]
+}

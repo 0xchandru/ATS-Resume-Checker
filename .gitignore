@@ -1,0 +1,53 @@
+# Python virtual environment
+.venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and local env
+*.log
+.env
+.env.*
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dataset raw or archive folders (generated or external)
+open-source-tools/datasets/ARCHIVE/
+open-source-tools/datasets/raw/
+open-source-tools/datasets/ARCHIVE_md5.txt
+open-source-tools/datasets/raw_md5.txt
+
+# Unwanted tool repos
+open-source-tools/unwanted/
+
+open-source-tools/datasets/ARCHIVE_md5.txt
+open-source-tools/datasets/IMPLEMENTATION_PLAN.md
+open-source-tools/datasets/md5_duplicates_report.json
+open-source-tools/datasets/scripts
+
+# MacOS
+.DS_Store
+
+# Python coverage
+htmlcov/
+.coverage
+.coverage.*
+.pytest_cache/
+
+*unwanted*

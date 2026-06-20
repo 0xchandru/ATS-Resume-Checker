@@ -1,0 +1,61 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "source": "Derived from action_verbs_master.json",
+    "etl_script": "01_extract_action_verbs.py",
+    "description": "Action verbs grouped by functional category",
+    "category_count": 4,
+    "generated_at": "2026-06-20T09:11:34.815666Z",
+    "record_count": 4
+  },
+  "data": {
+    "achievement_improvement": {
+      "category": "achievement_improvement",
+      "display_name": "Achievement Improvement",
+      "count": 6,
+      "verbs": [
+        "Accelerated",
+        "Achieved",
+        "Attained",
+        "Increased",
+        "Innovated",
+        "Reduced"
+      ]
+    },
+    "leadership_management": {
+      "category": "leadership_management",
+      "display_name": "Leadership Management",
+      "count": 3,
+      "verbs": [
+        "Initiated",
+        "Launched",
+        "Pioneered"
+      ]
+    },
+    "general": {
+      "category": "general",
+      "display_name": "General",
+      "count": 10,
+      "verbs": [
+        "Introduced",
+        "Mastered",
+        "Originated",
+        "Overhauled",
+        "Purchased",
+        "Recorded",
+        "Retrieved",
+        "Screened",
+        "Specified",
+        "Systematized"
+      ]
+    },
+    "creative_design": {
+      "category": "creative_design",
+      "display_name": "Creative Design",
+      "count": 1,
+      "verbs": [
+        "Invented"
+      ]
+    }
+  }
+}

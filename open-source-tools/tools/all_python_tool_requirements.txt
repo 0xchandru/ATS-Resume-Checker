@@ -1,0 +1,342 @@
+################################################################################
+# Tool: KeyBERT
+################################################################################
+## pyproject.toml dependencies
+numpy>=1.18.5
+rich>=10.4.0
+scikit-learn>=0.22.2
+sentence-transformers>=0.3.8
+[dev]
+keybert[docs,test]
+[docs]
+mkdocs-material>=4.6.3
+mkdocs>=1.1
+mkdocstrings>=0.8.0
+[flair]
+flair>=0.7
+torch>=1.4.0
+transformers>=3.5.1
+[gensim]
+gensim>=3.6.0
+[spacy]
+spacy>=3.0.1
+[test]
+pre-commit>=2.2.0
+pytest-cov>=2.6.1
+pytest>=5.4.3
+[tgi]
+huggingface-hub>=0.23.3
+pydantic>=2.7.4
+[use]
+tensorflow
+tensorflow_hub
+tensorflow_text
+
+################################################################################
+# Tool: RapidFuzz-main
+################################################################################
+## pyproject.toml dependencies
+[all]
+numpy
+
+################################################################################
+# Tool: pdfplumber-stable
+################################################################################
+## requirements.txt
+pdfminer.six==20260107
+Pillow>=12.2.0
+pypdfium2>=5.9.0
+
+## requirements-dev.txt
+black==26.5.1
+flake8==7.3.0
+isort==8.0.1
+jupyterlab>=4.5.8
+mypy==2.1.0
+nbexec==0.2.0
+pandas-stubs==2.3.3.260113
+pandas==2.3.3
+py==1.11.0
+pytest-cov==6.3.0
+pytest-xdist==3.8.0
+pytest==9.1.0
+setuptools>=82.0.1
+types-Pillow==10.2.0.20240822
+
+################################################################################
+# Tool: pydantic-main
+################################################################################
+## pyproject.toml dependencies
+typing-extensions>=4.15.0
+annotated-types>=0.6.0
+pydantic-core==2.47.0
+typing-inspection>=0.4.2
+[email]
+email-validator>=2.0.0
+[timezone]
+tzdata; platform_system == "Windows"
+
+################################################################################
+# Tool: pyresparser-reference
+################################################################################
+## requirements.txt
+attrs==19.1.0
+blis==0.2.4
+certifi==2019.6.16
+chardet==3.0.4
+cymem==2.0.2
+docx2txt==0.7
+idna==2.8
+jsonschema==3.0.1
+murmurhash==1.0.2
+nltk==3.4.5
+numpy==1.16.4
+pandas==0.24.2
+pdfminer.six==20181108
+plac==0.9.6
+preshed==2.0.1
+pycryptodome==3.8.2
+pyrsistent==0.15.2
+python-dateutil==2.8.0
+pytz==2019.1
+requests==2.22.0
+six==1.12.0
+sortedcontainers==2.1.0
+spacy==2.1.4
+srsly==0.0.7
+textract==1.6.1
+thinc==7.0.4
+tqdm==4.32.2
+urllib3==1.25.3
+wasabi==0.2.2
+
+################################################################################
+# Tool: python-docx-master
+################################################################################
+## requirements.txt
+lxml>=3.1.0
+typing-extensions
+
+## requirements-dev.txt
+-r requirements-test.txt
+build
+ruff
+setuptools>=61.0.0
+tox
+twine
+types-lxml
+
+## requirements-test.txt
+-r requirements.txt
+behave>=1.2.3
+pyparsing>=2.0.1
+pytest>=2.5
+pytest-coverage
+pytest-xdist
+ruff
+
+## requirements-docs.txt
+Sphinx==1.8.6
+Jinja2==2.11.3
+MarkupSafe==0.23
+alabaster<0.7.14
+-e .
+
+## pyproject.toml dependencies
+lxml>=3.1.0
+typing_extensions>=4.9.0
+
+################################################################################
+# Tool: sentence-transformers-main
+################################################################################
+## pyproject.toml dependencies
+transformers>=4.41.0,<6.0.0
+huggingface-hub>=0.23.0
+torch>=1.11.0
+numpy>=1.20.0
+scikit-learn>=0.22.0
+scipy>=1.0.0
+typing_extensions>=4.5.0
+tqdm>=4.0.0
+[image]
+transformers[vision]
+[audio]
+transformers[audio]
+[video]
+transformers[video]
+[train]
+datasets>=2.0.0
+accelerate>=0.20.3
+[onnx]
+optimum-onnx[onnxruntime]
+[onnx-gpu]
+optimum-onnx[onnxruntime-gpu]
+[openvino]
+optimum-intel[openvino]
+[dev]
+datasets>=2.0.0
+accelerate>=0.20.3
+pre-commit
+pytest
+pytest-cov
+pytest-env
+pytest-subtests
+pytest-xdist
+peft
+transformers[vision,audio,video]
+
+################################################################################
+# Tool: spaCy-master
+################################################################################
+## requirements.txt
+# Our libraries
+spacy-legacy>=3.0.11,<3.1.0
+spacy-loggers>=1.0.0,<2.0.0
+cymem>=2.0.2,<2.1.0
+preshed>=3.0.2,<3.1.0
+thinc>=8.3.12,<8.4.0
+ml_datasets>=0.2.1,<0.3.0
+murmurhash>=0.28.0,<1.1.0
+wasabi>=0.9.1,<1.2.0
+srsly>=2.5.3,<3.0.0
+catalogue>=2.0.6,<2.1.0
+typer>=0.3.0,<1.0.0
+weasel>=1.0.0,<2.0.0
+# Third party dependencies
+numpy>=2.0.0,<3.0.0
+requests>=2.13.0,<3.0.0
+tqdm>=4.38.0,<5.0.0
+pydantic>=2.0.0,<3.0.0
+jinja2
+# Official Python utilities
+setuptools
+packaging>=20.0
+# Development dependencies
+pre-commit>=2.13.0
+cython>=3.0,<4.0
+pytest>=5.2.0,!=7.1.0
+pytest-timeout>=1.3.0,<2.0.0
+mock>=2.0.0,<3.0.0
+hypothesis>=3.27.0,<7.0.0
+mypy>=1.5.0,<1.6.0; platform_machine != "aarch64" and python_version >= "3.8"
+types-mock>=0.1.1
+types-setuptools>=57.0.0
+types-requests
+types-setuptools>=57.0.0
+ruff>=0.9.0
+cython-lint>=0.15.0
+confection>=1.1.0,<2.0.0
+
+## pyproject.toml dependencies
+# no dependencies found in pyproject.toml
+
+################################################################################
+# Tool: sqlalchemy-main
+################################################################################
+## pyproject.toml dependencies
+typing-extensions >= 4.6.0
+[asyncio]
+greenlet>=1
+[mypy]
+mypy >= 2
+types-greenlet >= 2
+[mssql]
+pyodbc
+[mssql-pymssql]
+pymssql
+[mssql-pyodbc]
+pyodbc
+[mssql-python]
+mssql-python>=1.9.0
+[mysql]
+mysqlclient>=1.4.0
+[mysql-connector]
+mysql-connector-python
+[mariadb-connector]
+mariadb>=1.0.1,!=1.1.2,!=1.1.5,!=1.1.10
+[oracle]
+oracledb>=1.0.1
+[oracle-cxoracle]
+cx_oracle>=8
+[oracle-oracledb]
+oracledb>=1.0.1
+[postgresql]
+psycopg>=3.0.7,!=3.1.15
+[postgresql-pg8000]
+pg8000>=1.29.3
+[postgresql-asyncpg]
+sqlalchemy[asyncio]
+asyncpg
+[postgresql-psycopg2binary]
+psycopg2-binary
+[postgresql-psycopg2cffi]
+psycopg2cffi
+[postgresql-psycopg]
+psycopg>=3.0.7,!=3.1.15
+[postgresql-psycopgbinary]
+psycopg[binary]>=3.0.7,!=3.1.15
+[pymysql]
+pymysql
+[cymysql]
+cymysql
+[aiomysql]
+sqlalchemy[asyncio]
+aiomysql
+[aioodbc]
+sqlalchemy[asyncio]
+aioodbc
+[asyncmy]
+sqlalchemy[asyncio]
+asyncmy>=0.2.3,!=0.2.4,!=0.2.6
+[aiosqlite]
+sqlalchemy[asyncio]
+aiosqlite
+[sqlcipher]
+sqlcipher3_binary
+[mssql_pymssql]
+sqlalchemy[mssql-pymssql]
+[mssql_pyodbc]
+sqlalchemy[mssql-pyodbc]
+[mysql_connector]
+sqlalchemy[mysql-connector]
+[mariadb_connector]
+sqlalchemy[mariadb-connector]
+[oracle_oracledb]
+sqlalchemy[oracle-oracledb]
+[postgresql_pg8000]
+sqlalchemy[postgresql-pg8000]
+[postgresql_asyncpg]
+sqlalchemy[postgresql-asyncpg]
+[postgresql_psycopg2binary]
+sqlalchemy[postgresql-psycopg2binary]
+[postgresql_psycopg2cffi]
+sqlalchemy[postgresql-psycopg2cffi]
+[postgresql_psycopg]
+sqlalchemy[postgresql-psycopg]
+[postgresql_psycopgbinary]
+sqlalchemy[postgresql-psycopgbinary]
+
+################################################################################
+# Tool: yake-master
+################################################################################
+## pyproject.toml dependencies
+tabulate
+segtok
+networkx
+numpy>=1.24.0
+click>=6.0
+jellyfish
+[dev]
+pytest>=7.0.0
+pytest-cov>=4.0.0
+black>=22.0.0
+ruff>=0.1.0
+flake8>=6.0.0
+pylint>=3.3.0
+[benchmark]
+pytest-benchmark>=4.0.0
+memory-profiler>=0.60.0
+matplotlib>=3.5.0
+[lemmatization]
+spacy>=3.8.0
+nltk>=3.8.0

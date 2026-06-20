@@ -1,0 +1,5090 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "description": "Job title list from O*NET",
+    "generated_at": "2026-06-20T09:16:03.422945Z",
+    "record_count": 1016
+  },
+  "data": [
+    {
+      "id": "job_chief_executives",
+      "title": "Chief Executives",
+      "source": "ONET"
+    },
+    {
+      "id": "job_chief_sustainability_officers",
+      "title": "Chief Sustainability Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_general_and_operations_managers",
+      "title": "General and Operations Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_legislators",
+      "title": "Legislators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_advertising_and_promotions_managers",
+      "title": "Advertising and Promotions Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_marketing_managers",
+      "title": "Marketing Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sales_managers",
+      "title": "Sales Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_public_relations_managers",
+      "title": "Public Relations Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fundraising_managers",
+      "title": "Fundraising Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_administrative_services_managers",
+      "title": "Administrative Services Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_facilities_managers",
+      "title": "Facilities Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_security_managers",
+      "title": "Security Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_and_information_systems_managers",
+      "title": "Computer and Information Systems Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_financial_managers",
+      "title": "Financial Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_treasurers_and_controllers",
+      "title": "Treasurers and Controllers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_investment_fund_managers",
+      "title": "Investment Fund Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_industrial_production_managers",
+      "title": "Industrial Production Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_quality_control_systems_managers",
+      "title": "Quality Control Systems Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_geothermal_production_managers",
+      "title": "Geothermal Production Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_biofuels_production_managers",
+      "title": "Biofuels Production Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_biomass_power_plant_managers",
+      "title": "Biomass Power Plant Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_hydroelectric_production_managers",
+      "title": "Hydroelectric Production Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_purchasing_managers",
+      "title": "Purchasing Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_transportation_storage_and_distribution_managers",
+      "title": "Transportation, Storage, and Distribution Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_supply_chain_managers",
+      "title": "Supply Chain Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_compensation_and_benefits_managers",
+      "title": "Compensation and Benefits Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_human_resources_managers",
+      "title": "Human Resources Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_training_and_development_managers",
+      "title": "Training and Development Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_farmers_ranchers_and_other_agricultural_managers",
+      "title": "Farmers, Ranchers, and Other Agricultural Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_construction_managers",
+      "title": "Construction Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_education_and_childcare_administrators_preschool_and_daycare",
+      "title": "Education and Childcare Administrators, Preschool and Daycare",
+      "source": "ONET"
+    },
+    {
+      "id": "job_education_administrators_kindergarten_through_secondary",
+      "title": "Education Administrators, Kindergarten through Secondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_education_administrators_postsecondary",
+      "title": "Education Administrators, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_education_administrators_all_other",
+      "title": "Education Administrators, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_architectural_and_engineering_managers",
+      "title": "Architectural and Engineering Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_biofuelsbiodiesel_technology_and_product_development_managers",
+      "title": "Biofuels/Biodiesel Technology and Product Development Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_food_service_managers",
+      "title": "Food Service Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_gambling_managers",
+      "title": "Gambling Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_entertainment_and_recreation_managers_except_gambling",
+      "title": "Entertainment and Recreation Managers, Except Gambling",
+      "source": "ONET"
+    },
+    {
+      "id": "job_lodging_managers",
+      "title": "Lodging Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_and_health_services_managers",
+      "title": "Medical and Health Services Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_natural_sciences_managers",
+      "title": "Natural Sciences Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_clinical_research_coordinators",
+      "title": "Clinical Research Coordinators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_water_resource_specialists",
+      "title": "Water Resource Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_postmasters_and_mail_superintendents",
+      "title": "Postmasters and Mail Superintendents",
+      "source": "ONET"
+    },
+    {
+      "id": "job_property_real_estate_and_community_association_managers",
+      "title": "Property, Real Estate, and Community Association Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_social_and_community_service_managers",
+      "title": "Social and Community Service Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_emergency_management_directors",
+      "title": "Emergency Management Directors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_funeral_home_managers",
+      "title": "Funeral Home Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_personal_service_managers_all_other",
+      "title": "Personal Service Managers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fitness_and_wellness_coordinators",
+      "title": "Fitness and Wellness Coordinators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_spa_managers",
+      "title": "Spa Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_managers_all_other",
+      "title": "Managers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_regulatory_affairs_managers",
+      "title": "Regulatory Affairs Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_compliance_managers",
+      "title": "Compliance Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_loss_prevention_managers",
+      "title": "Loss Prevention Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_wind_energy_operations_managers",
+      "title": "Wind Energy Operations Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_wind_energy_development_managers",
+      "title": "Wind Energy Development Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_brownfield_redevelopment_specialists_and_site_managers",
+      "title": "Brownfield Redevelopment Specialists and Site Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_agents_and_business_managers_of_artists_performers_and_athletes",
+      "title": "Agents and Business Managers of Artists, Performers, and Athletes",
+      "source": "ONET"
+    },
+    {
+      "id": "job_buyers_and_purchasing_agents_farm_products",
+      "title": "Buyers and Purchasing Agents, Farm Products",
+      "source": "ONET"
+    },
+    {
+      "id": "job_wholesale_and_retail_buyers_except_farm_products",
+      "title": "Wholesale and Retail Buyers, Except Farm Products",
+      "source": "ONET"
+    },
+    {
+      "id": "job_purchasing_agents_except_wholesale_retail_and_farm_products",
+      "title": "Purchasing Agents, Except Wholesale, Retail, and Farm Products",
+      "source": "ONET"
+    },
+    {
+      "id": "job_claims_adjusters_examiners_and_investigators",
+      "title": "Claims Adjusters, Examiners, and Investigators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_insurance_appraisers_auto_damage",
+      "title": "Insurance Appraisers, Auto Damage",
+      "source": "ONET"
+    },
+    {
+      "id": "job_compliance_officers",
+      "title": "Compliance Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_environmental_compliance_inspectors",
+      "title": "Environmental Compliance Inspectors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_equal_opportunity_representatives_and_officers",
+      "title": "Equal Opportunity Representatives and Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_government_property_inspectors_and_investigators",
+      "title": "Government Property Inspectors and Investigators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_coroners",
+      "title": "Coroners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_regulatory_affairs_specialists",
+      "title": "Regulatory Affairs Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_customs_brokers",
+      "title": "Customs Brokers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cost_estimators",
+      "title": "Cost Estimators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_human_resources_specialists",
+      "title": "Human Resources Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_farm_labor_contractors",
+      "title": "Farm Labor Contractors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_labor_relations_specialists",
+      "title": "Labor Relations Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_logisticians",
+      "title": "Logisticians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_logistics_engineers",
+      "title": "Logistics Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_logistics_analysts",
+      "title": "Logistics Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_project_management_specialists",
+      "title": "Project Management Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_management_analysts",
+      "title": "Management Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_meeting_convention_and_event_planners",
+      "title": "Meeting, Convention, and Event Planners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fundraisers",
+      "title": "Fundraisers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_compensation_benefits_and_job_analysis_specialists",
+      "title": "Compensation, Benefits, and Job Analysis Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_training_and_development_specialists",
+      "title": "Training and Development Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_market_research_analysts_and_marketing_specialists",
+      "title": "Market Research Analysts and Marketing Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_search_marketing_strategists",
+      "title": "Search Marketing Strategists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_business_operations_specialists_all_other",
+      "title": "Business Operations Specialists, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_business_continuity_planners",
+      "title": "Business Continuity Planners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sustainability_specialists",
+      "title": "Sustainability Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_online_merchants",
+      "title": "Online Merchants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_security_management_specialists",
+      "title": "Security Management Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_accountants_and_auditors",
+      "title": "Accountants and Auditors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_appraisers_of_personal_and_business_property",
+      "title": "Appraisers of Personal and Business Property",
+      "source": "ONET"
+    },
+    {
+      "id": "job_appraisers_and_assessors_of_real_estate",
+      "title": "Appraisers and Assessors of Real Estate",
+      "source": "ONET"
+    },
+    {
+      "id": "job_budget_analysts",
+      "title": "Budget Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_credit_analysts",
+      "title": "Credit Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_financial_and_investment_analysts",
+      "title": "Financial and Investment Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_personal_financial_advisors",
+      "title": "Personal Financial Advisors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_insurance_underwriters",
+      "title": "Insurance Underwriters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_financial_risk_specialists",
+      "title": "Financial Risk Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_financial_examiners",
+      "title": "Financial Examiners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_credit_counselors",
+      "title": "Credit Counselors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_loan_officers",
+      "title": "Loan Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tax_examiners_and_collectors_and_revenue_agents",
+      "title": "Tax Examiners and Collectors, and Revenue Agents",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tax_preparers",
+      "title": "Tax Preparers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_financial_specialists_all_other",
+      "title": "Financial Specialists, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_financial_quantitative_analysts",
+      "title": "Financial Quantitative Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fraud_examiners_investigators_and_analysts",
+      "title": "Fraud Examiners, Investigators and Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_systems_analysts",
+      "title": "Computer Systems Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_health_informatics_specialists",
+      "title": "Health Informatics Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_information_security_analysts",
+      "title": "Information Security Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_and_information_research_scientists",
+      "title": "Computer and Information Research Scientists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_network_support_specialists",
+      "title": "Computer Network Support Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_user_support_specialists",
+      "title": "Computer User Support Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_network_architects",
+      "title": "Computer Network Architects",
+      "source": "ONET"
+    },
+    {
+      "id": "job_telecommunications_engineering_specialists",
+      "title": "Telecommunications Engineering Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_database_administrators",
+      "title": "Database Administrators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_database_architects",
+      "title": "Database Architects",
+      "source": "ONET"
+    },
+    {
+      "id": "job_data_warehousing_specialists",
+      "title": "Data Warehousing Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_network_and_computer_systems_administrators",
+      "title": "Network and Computer Systems Administrators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_programmers",
+      "title": "Computer Programmers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_software_developers",
+      "title": "Software Developers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_software_quality_assurance_analysts_and_testers",
+      "title": "Software Quality Assurance Analysts and Testers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_web_developers",
+      "title": "Web Developers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_web_and_digital_interface_designers",
+      "title": "Web and Digital Interface Designers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_video_game_designers",
+      "title": "Video Game Designers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_occupations_all_other",
+      "title": "Computer Occupations, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_web_administrators",
+      "title": "Web Administrators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_geographic_information_systems_technologists_and_technicians",
+      "title": "Geographic Information Systems Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_document_management_specialists",
+      "title": "Document Management Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_penetration_testers",
+      "title": "Penetration Testers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_information_security_engineers",
+      "title": "Information Security Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_digital_forensics_analysts",
+      "title": "Digital Forensics Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_blockchain_engineers",
+      "title": "Blockchain Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_systems_engineersarchitects",
+      "title": "Computer Systems Engineers/Architects",
+      "source": "ONET"
+    },
+    {
+      "id": "job_information_technology_project_managers",
+      "title": "Information Technology Project Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_actuaries",
+      "title": "Actuaries",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mathematicians",
+      "title": "Mathematicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_operations_research_analysts",
+      "title": "Operations Research Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_statisticians",
+      "title": "Statisticians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_biostatisticians",
+      "title": "Biostatisticians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_data_scientists",
+      "title": "Data Scientists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_business_intelligence_analysts",
+      "title": "Business Intelligence Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_clinical_data_managers",
+      "title": "Clinical Data Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mathematical_science_occupations_all_other",
+      "title": "Mathematical Science Occupations, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bioinformatics_technicians",
+      "title": "Bioinformatics Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_architects_except_landscape_and_naval",
+      "title": "Architects, Except Landscape and Naval",
+      "source": "ONET"
+    },
+    {
+      "id": "job_landscape_architects",
+      "title": "Landscape Architects",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cartographers_and_photogrammetrists",
+      "title": "Cartographers and Photogrammetrists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_surveyors",
+      "title": "Surveyors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_geodetic_surveyors",
+      "title": "Geodetic Surveyors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_aerospace_engineers",
+      "title": "Aerospace Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_agricultural_engineers",
+      "title": "Agricultural Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bioengineers_and_biomedical_engineers",
+      "title": "Bioengineers and Biomedical Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_chemical_engineers",
+      "title": "Chemical Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_civil_engineers",
+      "title": "Civil Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_transportation_engineers",
+      "title": "Transportation Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_waterwastewater_engineers",
+      "title": "Water/Wastewater Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_hardware_engineers",
+      "title": "Computer Hardware Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electrical_engineers",
+      "title": "Electrical Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electronics_engineers_except_computer",
+      "title": "Electronics Engineers, Except Computer",
+      "source": "ONET"
+    },
+    {
+      "id": "job_radio_frequency_identification_device_specialists",
+      "title": "Radio Frequency Identification Device Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_environmental_engineers",
+      "title": "Environmental Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_health_and_safety_engineers_except_mining_safety_engineers_and_inspectors",
+      "title": "Health and Safety Engineers, Except Mining Safety Engineers and Inspectors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fireprevention_and_protection_engineers",
+      "title": "Fire-Prevention and Protection Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_industrial_engineers",
+      "title": "Industrial Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_human_factors_engineers_and_ergonomists",
+      "title": "Human Factors Engineers and Ergonomists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_validation_engineers",
+      "title": "Validation Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_manufacturing_engineers",
+      "title": "Manufacturing Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_marine_engineers_and_naval_architects",
+      "title": "Marine Engineers and Naval Architects",
+      "source": "ONET"
+    },
+    {
+      "id": "job_materials_engineers",
+      "title": "Materials Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mechanical_engineers",
+      "title": "Mechanical Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fuel_cell_engineers",
+      "title": "Fuel Cell Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_automotive_engineers",
+      "title": "Automotive Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mining_and_geological_engineers_including_mining_safety_engineers",
+      "title": "Mining and Geological Engineers, Including Mining Safety Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nuclear_engineers",
+      "title": "Nuclear Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_petroleum_engineers",
+      "title": "Petroleum Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_engineers_all_other",
+      "title": "Engineers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_energy_engineers_except_wind_and_solar",
+      "title": "Energy Engineers, Except Wind and Solar",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mechatronics_engineers",
+      "title": "Mechatronics Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_microsystems_engineers",
+      "title": "Microsystems Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_photonics_engineers",
+      "title": "Photonics Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_robotics_engineers",
+      "title": "Robotics Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nanosystems_engineers",
+      "title": "Nanosystems Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_wind_energy_engineers",
+      "title": "Wind Energy Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_solar_energy_systems_engineers",
+      "title": "Solar Energy Systems Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_architectural_and_civil_drafters",
+      "title": "Architectural and Civil Drafters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electrical_and_electronics_drafters",
+      "title": "Electrical and Electronics Drafters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mechanical_drafters",
+      "title": "Mechanical Drafters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_drafters_all_other",
+      "title": "Drafters, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_aerospace_engineering_and_operations_technologists_and_technicians",
+      "title": "Aerospace Engineering and Operations Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_civil_engineering_technologists_and_technicians",
+      "title": "Civil Engineering Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electrical_and_electronic_engineering_technologists_and_technicians",
+      "title": "Electrical and Electronic Engineering Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electromechanical_and_mechatronics_technologists_and_technicians",
+      "title": "Electro-Mechanical and Mechatronics Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_robotics_technicians",
+      "title": "Robotics Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_environmental_engineering_technologists_and_technicians",
+      "title": "Environmental Engineering Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_industrial_engineering_technologists_and_technicians",
+      "title": "Industrial Engineering Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nanotechnology_engineering_technologists_and_technicians",
+      "title": "Nanotechnology Engineering Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mechanical_engineering_technologists_and_technicians",
+      "title": "Mechanical Engineering Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_automotive_engineering_technicians",
+      "title": "Automotive Engineering Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_calibration_technologists_and_technicians",
+      "title": "Calibration Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_engineering_technologists_and_technicians_except_drafters_all_other",
+      "title": "Engineering Technologists and Technicians, Except Drafters, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nondestructive_testing_specialists",
+      "title": "Non-Destructive Testing Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_photonics_technicians",
+      "title": "Photonics Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_surveying_and_mapping_technicians",
+      "title": "Surveying and Mapping Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_animal_scientists",
+      "title": "Animal Scientists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_food_scientists_and_technologists",
+      "title": "Food Scientists and Technologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_soil_and_plant_scientists",
+      "title": "Soil and Plant Scientists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_biochemists_and_biophysicists",
+      "title": "Biochemists and Biophysicists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_microbiologists",
+      "title": "Microbiologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_zoologists_and_wildlife_biologists",
+      "title": "Zoologists and Wildlife Biologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_biological_scientists_all_other",
+      "title": "Biological Scientists, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bioinformatics_scientists",
+      "title": "Bioinformatics Scientists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_molecular_and_cellular_biologists",
+      "title": "Molecular and Cellular Biologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_geneticists",
+      "title": "Geneticists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_biologists",
+      "title": "Biologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_conservation_scientists",
+      "title": "Conservation Scientists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_range_managers",
+      "title": "Range Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_park_naturalists",
+      "title": "Park Naturalists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_foresters",
+      "title": "Foresters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_epidemiologists",
+      "title": "Epidemiologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_scientists_except_epidemiologists",
+      "title": "Medical Scientists, Except Epidemiologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_life_scientists_all_other",
+      "title": "Life Scientists, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_astronomers",
+      "title": "Astronomers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_physicists",
+      "title": "Physicists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_atmospheric_and_space_scientists",
+      "title": "Atmospheric and Space Scientists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_chemists",
+      "title": "Chemists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_materials_scientists",
+      "title": "Materials Scientists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_environmental_scientists_and_specialists_including_health",
+      "title": "Environmental Scientists and Specialists, Including Health",
+      "source": "ONET"
+    },
+    {
+      "id": "job_climate_change_policy_analysts",
+      "title": "Climate Change Policy Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_environmental_restoration_planners",
+      "title": "Environmental Restoration Planners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_industrial_ecologists",
+      "title": "Industrial Ecologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_geoscientists_except_hydrologists_and_geographers",
+      "title": "Geoscientists, Except Hydrologists and Geographers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_hydrologists",
+      "title": "Hydrologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_physical_scientists_all_other",
+      "title": "Physical Scientists, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_remote_sensing_scientists_and_technologists",
+      "title": "Remote Sensing Scientists and Technologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_economists",
+      "title": "Economists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_environmental_economists",
+      "title": "Environmental Economists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_survey_researchers",
+      "title": "Survey Researchers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_industrialorganizational_psychologists",
+      "title": "Industrial-Organizational Psychologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_clinical_and_counseling_psychologists",
+      "title": "Clinical and Counseling Psychologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_school_psychologists",
+      "title": "School Psychologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_psychologists_all_other",
+      "title": "Psychologists, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_neuropsychologists",
+      "title": "Neuropsychologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_clinical_neuropsychologists",
+      "title": "Clinical Neuropsychologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sociologists",
+      "title": "Sociologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_urban_and_regional_planners",
+      "title": "Urban and Regional Planners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_anthropologists_and_archeologists",
+      "title": "Anthropologists and Archeologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_geographers",
+      "title": "Geographers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_historians",
+      "title": "Historians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_political_scientists",
+      "title": "Political Scientists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_social_scientists_and_related_workers_all_other",
+      "title": "Social Scientists and Related Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_transportation_planners",
+      "title": "Transportation Planners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_agricultural_technicians",
+      "title": "Agricultural Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_precision_agriculture_technicians",
+      "title": "Precision Agriculture Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_food_science_technicians",
+      "title": "Food Science Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_biological_technicians",
+      "title": "Biological Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_chemical_technicians",
+      "title": "Chemical Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_environmental_science_and_protection_technicians_including_health",
+      "title": "Environmental Science and Protection Technicians, Including Health",
+      "source": "ONET"
+    },
+    {
+      "id": "job_geological_technicians_except_hydrologic_technicians",
+      "title": "Geological Technicians, Except Hydrologic Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_hydrologic_technicians",
+      "title": "Hydrologic Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nuclear_technicians",
+      "title": "Nuclear Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nuclear_monitoring_technicians",
+      "title": "Nuclear Monitoring Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_social_science_research_assistants",
+      "title": "Social Science Research Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_forest_and_conservation_technicians",
+      "title": "Forest and Conservation Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_forensic_science_technicians",
+      "title": "Forensic Science Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_life_physical_and_social_science_technicians_all_other",
+      "title": "Life, Physical, and Social Science Technicians, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_quality_control_analysts",
+      "title": "Quality Control Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_remote_sensing_technicians",
+      "title": "Remote Sensing Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_occupational_health_and_safety_specialists",
+      "title": "Occupational Health and Safety Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_occupational_health_and_safety_technicians",
+      "title": "Occupational Health and Safety Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_substance_abuse_and_behavioral_disorder_counselors",
+      "title": "Substance Abuse and Behavioral Disorder Counselors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_educational_guidance_and_career_counselors_and_advisors",
+      "title": "Educational, Guidance, and Career Counselors and Advisors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_marriage_and_family_therapists",
+      "title": "Marriage and Family Therapists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mental_health_counselors",
+      "title": "Mental Health Counselors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_rehabilitation_counselors",
+      "title": "Rehabilitation Counselors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_counselors_all_other",
+      "title": "Counselors, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_child_family_and_school_social_workers",
+      "title": "Child, Family, and School Social Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_healthcare_social_workers",
+      "title": "Healthcare Social Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mental_health_and_substance_abuse_social_workers",
+      "title": "Mental Health and Substance Abuse Social Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_social_workers_all_other",
+      "title": "Social Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_health_education_specialists",
+      "title": "Health Education Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_probation_officers_and_correctional_treatment_specialists",
+      "title": "Probation Officers and Correctional Treatment Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_social_and_human_service_assistants",
+      "title": "Social and Human Service Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_community_health_workers",
+      "title": "Community Health Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_community_and_social_service_specialists_all_other",
+      "title": "Community and Social Service Specialists, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_clergy",
+      "title": "Clergy",
+      "source": "ONET"
+    },
+    {
+      "id": "job_directors_religious_activities_and_education",
+      "title": "Directors, Religious Activities and Education",
+      "source": "ONET"
+    },
+    {
+      "id": "job_religious_workers_all_other",
+      "title": "Religious Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_lawyers",
+      "title": "Lawyers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_judicial_law_clerks",
+      "title": "Judicial Law Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_administrative_law_judges_adjudicators_and_hearing_officers",
+      "title": "Administrative Law Judges, Adjudicators, and Hearing Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_arbitrators_mediators_and_conciliators",
+      "title": "Arbitrators, Mediators, and Conciliators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_judges_magistrate_judges_and_magistrates",
+      "title": "Judges, Magistrate Judges, and Magistrates",
+      "source": "ONET"
+    },
+    {
+      "id": "job_paralegals_and_legal_assistants",
+      "title": "Paralegals and Legal Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_title_examiners_abstractors_and_searchers",
+      "title": "Title Examiners, Abstractors, and Searchers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_legal_support_workers_all_other",
+      "title": "Legal Support Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_business_teachers_postsecondary",
+      "title": "Business Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_science_teachers_postsecondary",
+      "title": "Computer Science Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mathematical_science_teachers_postsecondary",
+      "title": "Mathematical Science Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_architecture_teachers_postsecondary",
+      "title": "Architecture Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_engineering_teachers_postsecondary",
+      "title": "Engineering Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_agricultural_sciences_teachers_postsecondary",
+      "title": "Agricultural Sciences Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_biological_science_teachers_postsecondary",
+      "title": "Biological Science Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_forestry_and_conservation_science_teachers_postsecondary",
+      "title": "Forestry and Conservation Science Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_atmospheric_earth_marine_and_space_sciences_teachers_postsecondary",
+      "title": "Atmospheric, Earth, Marine, and Space Sciences Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_chemistry_teachers_postsecondary",
+      "title": "Chemistry Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_environmental_science_teachers_postsecondary",
+      "title": "Environmental Science Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_physics_teachers_postsecondary",
+      "title": "Physics Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_anthropology_and_archeology_teachers_postsecondary",
+      "title": "Anthropology and Archeology Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_area_ethnic_and_cultural_studies_teachers_postsecondary",
+      "title": "Area, Ethnic, and Cultural Studies Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_economics_teachers_postsecondary",
+      "title": "Economics Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_geography_teachers_postsecondary",
+      "title": "Geography Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_political_science_teachers_postsecondary",
+      "title": "Political Science Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_psychology_teachers_postsecondary",
+      "title": "Psychology Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sociology_teachers_postsecondary",
+      "title": "Sociology Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_social_sciences_teachers_postsecondary_all_other",
+      "title": "Social Sciences Teachers, Postsecondary, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_health_specialties_teachers_postsecondary",
+      "title": "Health Specialties Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nursing_instructors_and_teachers_postsecondary",
+      "title": "Nursing Instructors and Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_education_teachers_postsecondary",
+      "title": "Education Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_library_science_teachers_postsecondary",
+      "title": "Library Science Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_criminal_justice_and_law_enforcement_teachers_postsecondary",
+      "title": "Criminal Justice and Law Enforcement Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_law_teachers_postsecondary",
+      "title": "Law Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_social_work_teachers_postsecondary",
+      "title": "Social Work Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_art_drama_and_music_teachers_postsecondary",
+      "title": "Art, Drama, and Music Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_communications_teachers_postsecondary",
+      "title": "Communications Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_english_language_and_literature_teachers_postsecondary",
+      "title": "English Language and Literature Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_foreign_language_and_literature_teachers_postsecondary",
+      "title": "Foreign Language and Literature Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_history_teachers_postsecondary",
+      "title": "History Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_philosophy_and_religion_teachers_postsecondary",
+      "title": "Philosophy and Religion Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_family_and_consumer_sciences_teachers_postsecondary",
+      "title": "Family and Consumer Sciences Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_recreation_and_fitness_studies_teachers_postsecondary",
+      "title": "Recreation and Fitness Studies Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_careertechnical_education_teachers_postsecondary",
+      "title": "Career/Technical Education Teachers, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_postsecondary_teachers_all_other",
+      "title": "Postsecondary Teachers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_preschool_teachers_except_special_education",
+      "title": "Preschool Teachers, Except Special Education",
+      "source": "ONET"
+    },
+    {
+      "id": "job_kindergarten_teachers_except_special_education",
+      "title": "Kindergarten Teachers, Except Special Education",
+      "source": "ONET"
+    },
+    {
+      "id": "job_elementary_school_teachers_except_special_education",
+      "title": "Elementary School Teachers, Except Special Education",
+      "source": "ONET"
+    },
+    {
+      "id": "job_middle_school_teachers_except_special_and_careertechnical_education",
+      "title": "Middle School Teachers, Except Special and Career/Technical Education",
+      "source": "ONET"
+    },
+    {
+      "id": "job_careertechnical_education_teachers_middle_school",
+      "title": "Career/Technical Education Teachers, Middle School",
+      "source": "ONET"
+    },
+    {
+      "id": "job_secondary_school_teachers_except_special_and_careertechnical_education",
+      "title": "Secondary School Teachers, Except Special and Career/Technical Education",
+      "source": "ONET"
+    },
+    {
+      "id": "job_careertechnical_education_teachers_secondary_school",
+      "title": "Career/Technical Education Teachers, Secondary School",
+      "source": "ONET"
+    },
+    {
+      "id": "job_special_education_teachers_preschool",
+      "title": "Special Education Teachers, Preschool",
+      "source": "ONET"
+    },
+    {
+      "id": "job_special_education_teachers_kindergarten",
+      "title": "Special Education Teachers, Kindergarten",
+      "source": "ONET"
+    },
+    {
+      "id": "job_special_education_teachers_elementary_school",
+      "title": "Special Education Teachers, Elementary School",
+      "source": "ONET"
+    },
+    {
+      "id": "job_special_education_teachers_middle_school",
+      "title": "Special Education Teachers, Middle School",
+      "source": "ONET"
+    },
+    {
+      "id": "job_special_education_teachers_secondary_school",
+      "title": "Special Education Teachers, Secondary School",
+      "source": "ONET"
+    },
+    {
+      "id": "job_special_education_teachers_all_other",
+      "title": "Special Education Teachers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_adapted_physical_education_specialists",
+      "title": "Adapted Physical Education Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_adult_basic_education_adult_secondary_education_and_english_as_a_second_language_instructors",
+      "title": "Adult Basic Education, Adult Secondary Education, and English as a Second Language Instructors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_selfenrichment_teachers",
+      "title": "Self-Enrichment Teachers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_substitute_teachers_shortterm",
+      "title": "Substitute Teachers, Short-Term",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tutors",
+      "title": "Tutors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_teachers_and_instructors_all_other",
+      "title": "Teachers and Instructors, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_archivists",
+      "title": "Archivists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_curators",
+      "title": "Curators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_museum_technicians_and_conservators",
+      "title": "Museum Technicians and Conservators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_librarians_and_media_collections_specialists",
+      "title": "Librarians and Media Collections Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_library_technicians",
+      "title": "Library Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_farm_and_home_management_educators",
+      "title": "Farm and Home Management Educators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_instructional_coordinators",
+      "title": "Instructional Coordinators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_teaching_assistants_preschool_elementary_middle_and_secondary_school_except_special_education",
+      "title": "Teaching Assistants, Preschool, Elementary, Middle, and Secondary School, Except Special Education",
+      "source": "ONET"
+    },
+    {
+      "id": "job_teaching_assistants_special_education",
+      "title": "Teaching Assistants, Special Education",
+      "source": "ONET"
+    },
+    {
+      "id": "job_teaching_assistants_postsecondary",
+      "title": "Teaching Assistants, Postsecondary",
+      "source": "ONET"
+    },
+    {
+      "id": "job_teaching_assistants_all_other",
+      "title": "Teaching Assistants, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_educational_instruction_and_library_workers_all_other",
+      "title": "Educational Instruction and Library Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_art_directors",
+      "title": "Art Directors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_craft_artists",
+      "title": "Craft Artists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fine_artists_including_painters_sculptors_and_illustrators",
+      "title": "Fine Artists, Including Painters, Sculptors, and Illustrators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_special_effects_artists_and_animators",
+      "title": "Special Effects Artists and Animators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_artists_and_related_workers_all_other",
+      "title": "Artists and Related Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_commercial_and_industrial_designers",
+      "title": "Commercial and Industrial Designers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fashion_designers",
+      "title": "Fashion Designers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_floral_designers",
+      "title": "Floral Designers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_graphic_designers",
+      "title": "Graphic Designers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_interior_designers",
+      "title": "Interior Designers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_merchandise_displayers_and_window_trimmers",
+      "title": "Merchandise Displayers and Window Trimmers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_set_and_exhibit_designers",
+      "title": "Set and Exhibit Designers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_designers_all_other",
+      "title": "Designers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_actors",
+      "title": "Actors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_producers_and_directors",
+      "title": "Producers and Directors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_media_programming_directors",
+      "title": "Media Programming Directors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_talent_directors",
+      "title": "Talent Directors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_media_technical_directorsmanagers",
+      "title": "Media Technical Directors/Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_athletes_and_sports_competitors",
+      "title": "Athletes and Sports Competitors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_coaches_and_scouts",
+      "title": "Coaches and Scouts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_umpires_referees_and_other_sports_officials",
+      "title": "Umpires, Referees, and Other Sports Officials",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dancers",
+      "title": "Dancers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_choreographers",
+      "title": "Choreographers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_music_directors_and_composers",
+      "title": "Music Directors and Composers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_musicians_and_singers",
+      "title": "Musicians and Singers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_disc_jockeys_except_radio",
+      "title": "Disc Jockeys, Except Radio",
+      "source": "ONET"
+    },
+    {
+      "id": "job_entertainers_and_performers_sports_and_related_workers_all_other",
+      "title": "Entertainers and Performers, Sports and Related Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_broadcast_announcers_and_radio_disc_jockeys",
+      "title": "Broadcast Announcers and Radio Disc Jockeys",
+      "source": "ONET"
+    },
+    {
+      "id": "job_news_analysts_reporters_and_journalists",
+      "title": "News Analysts, Reporters, and Journalists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_public_relations_specialists",
+      "title": "Public Relations Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_editors",
+      "title": "Editors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_technical_writers",
+      "title": "Technical Writers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_writers_and_authors",
+      "title": "Writers and Authors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_poets_lyricists_and_creative_writers",
+      "title": "Poets, Lyricists and Creative Writers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_interpreters_and_translators",
+      "title": "Interpreters and Translators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_court_reporters_and_simultaneous_captioners",
+      "title": "Court Reporters and Simultaneous Captioners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_media_and_communication_workers_all_other",
+      "title": "Media and Communication Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_audio_and_video_technicians",
+      "title": "Audio and Video Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_broadcast_technicians",
+      "title": "Broadcast Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sound_engineering_technicians",
+      "title": "Sound Engineering Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_lighting_technicians",
+      "title": "Lighting Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_photographers",
+      "title": "Photographers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_camera_operators_television_video_and_film",
+      "title": "Camera Operators, Television, Video, and Film",
+      "source": "ONET"
+    },
+    {
+      "id": "job_film_and_video_editors",
+      "title": "Film and Video Editors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_media_and_communication_equipment_workers_all_other",
+      "title": "Media and Communication Equipment Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_chiropractors",
+      "title": "Chiropractors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dentists_general",
+      "title": "Dentists, General",
+      "source": "ONET"
+    },
+    {
+      "id": "job_oral_and_maxillofacial_surgeons",
+      "title": "Oral and Maxillofacial Surgeons",
+      "source": "ONET"
+    },
+    {
+      "id": "job_orthodontists",
+      "title": "Orthodontists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_prosthodontists",
+      "title": "Prosthodontists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dentists_all_other_specialists",
+      "title": "Dentists, All Other Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dietitians_and_nutritionists",
+      "title": "Dietitians and Nutritionists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_optometrists",
+      "title": "Optometrists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pharmacists",
+      "title": "Pharmacists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_physician_assistants",
+      "title": "Physician Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_anesthesiologist_assistants",
+      "title": "Anesthesiologist Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_podiatrists",
+      "title": "Podiatrists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_occupational_therapists",
+      "title": "Occupational Therapists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_low_vision_therapists_orientation_and_mobility_specialists_and_vision_rehabilitation_therapists",
+      "title": "Low Vision Therapists, Orientation and Mobility Specialists, and Vision Rehabilitation Therapists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_physical_therapists",
+      "title": "Physical Therapists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_radiation_therapists",
+      "title": "Radiation Therapists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_recreational_therapists",
+      "title": "Recreational Therapists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_respiratory_therapists",
+      "title": "Respiratory Therapists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_speechlanguage_pathologists",
+      "title": "Speech-Language Pathologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_exercise_physiologists",
+      "title": "Exercise Physiologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_therapists_all_other",
+      "title": "Therapists, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_art_therapists",
+      "title": "Art Therapists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_music_therapists",
+      "title": "Music Therapists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_veterinarians",
+      "title": "Veterinarians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_registered_nurses",
+      "title": "Registered Nurses",
+      "source": "ONET"
+    },
+    {
+      "id": "job_acute_care_nurses",
+      "title": "Acute Care Nurses",
+      "source": "ONET"
+    },
+    {
+      "id": "job_advanced_practice_psychiatric_nurses",
+      "title": "Advanced Practice Psychiatric Nurses",
+      "source": "ONET"
+    },
+    {
+      "id": "job_critical_care_nurses",
+      "title": "Critical Care Nurses",
+      "source": "ONET"
+    },
+    {
+      "id": "job_clinical_nurse_specialists",
+      "title": "Clinical Nurse Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nurse_anesthetists",
+      "title": "Nurse Anesthetists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nurse_midwives",
+      "title": "Nurse Midwives",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nurse_practitioners",
+      "title": "Nurse Practitioners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_audiologists",
+      "title": "Audiologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_anesthesiologists",
+      "title": "Anesthesiologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cardiologists",
+      "title": "Cardiologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dermatologists",
+      "title": "Dermatologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_emergency_medicine_physicians",
+      "title": "Emergency Medicine Physicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_family_medicine_physicians",
+      "title": "Family Medicine Physicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_general_internal_medicine_physicians",
+      "title": "General Internal Medicine Physicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_neurologists",
+      "title": "Neurologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_obstetricians_and_gynecologists",
+      "title": "Obstetricians and Gynecologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pediatricians_general",
+      "title": "Pediatricians, General",
+      "source": "ONET"
+    },
+    {
+      "id": "job_physicians_pathologists",
+      "title": "Physicians, Pathologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_psychiatrists",
+      "title": "Psychiatrists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_radiologists",
+      "title": "Radiologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_physicians_all_other",
+      "title": "Physicians, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_allergists_and_immunologists",
+      "title": "Allergists and Immunologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_hospitalists",
+      "title": "Hospitalists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_urologists",
+      "title": "Urologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_physical_medicine_and_rehabilitation_physicians",
+      "title": "Physical Medicine and Rehabilitation Physicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_preventive_medicine_physicians",
+      "title": "Preventive Medicine Physicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sports_medicine_physicians",
+      "title": "Sports Medicine Physicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_ophthalmologists_except_pediatric",
+      "title": "Ophthalmologists, Except Pediatric",
+      "source": "ONET"
+    },
+    {
+      "id": "job_orthopedic_surgeons_except_pediatric",
+      "title": "Orthopedic Surgeons, Except Pediatric",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pediatric_surgeons",
+      "title": "Pediatric Surgeons",
+      "source": "ONET"
+    },
+    {
+      "id": "job_surgeons_all_other",
+      "title": "Surgeons, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_acupuncturists",
+      "title": "Acupuncturists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dental_hygienists",
+      "title": "Dental Hygienists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_healthcare_diagnosing_or_treating_practitioners_all_other",
+      "title": "Healthcare Diagnosing or Treating Practitioners, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_naturopathic_physicians",
+      "title": "Naturopathic Physicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_orthoptists",
+      "title": "Orthoptists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_and_clinical_laboratory_technologists",
+      "title": "Medical and Clinical Laboratory Technologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cytogenetic_technologists",
+      "title": "Cytogenetic Technologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cytotechnologists",
+      "title": "Cytotechnologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_histotechnologists",
+      "title": "Histotechnologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_and_clinical_laboratory_technicians",
+      "title": "Medical and Clinical Laboratory Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_histology_technicians",
+      "title": "Histology Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cardiovascular_technologists_and_technicians",
+      "title": "Cardiovascular Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_diagnostic_medical_sonographers",
+      "title": "Diagnostic Medical Sonographers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nuclear_medicine_technologists",
+      "title": "Nuclear Medicine Technologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_radiologic_technologists_and_technicians",
+      "title": "Radiologic Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_magnetic_resonance_imaging_technologists",
+      "title": "Magnetic Resonance Imaging Technologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_dosimetrists",
+      "title": "Medical Dosimetrists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_emergency_medical_technicians",
+      "title": "Emergency Medical Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_paramedics",
+      "title": "Paramedics",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dietetic_technicians",
+      "title": "Dietetic Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pharmacy_technicians",
+      "title": "Pharmacy Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_psychiatric_technicians",
+      "title": "Psychiatric Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_surgical_technologists",
+      "title": "Surgical Technologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_veterinary_technologists_and_technicians",
+      "title": "Veterinary Technologists and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_ophthalmic_medical_technicians",
+      "title": "Ophthalmic Medical Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_licensed_practical_and_licensed_vocational_nurses",
+      "title": "Licensed Practical and Licensed Vocational Nurses",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_records_specialists",
+      "title": "Medical Records Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_opticians_dispensing",
+      "title": "Opticians, Dispensing",
+      "source": "ONET"
+    },
+    {
+      "id": "job_orthotists_and_prosthetists",
+      "title": "Orthotists and Prosthetists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_hearing_aid_specialists",
+      "title": "Hearing Aid Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_health_technologists_and_technicians_all_other",
+      "title": "Health Technologists and Technicians, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_neurodiagnostic_technologists",
+      "title": "Neurodiagnostic Technologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_ophthalmic_medical_technologists",
+      "title": "Ophthalmic Medical Technologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_patient_representatives",
+      "title": "Patient Representatives",
+      "source": "ONET"
+    },
+    {
+      "id": "job_health_information_technologists_and_medical_registrars",
+      "title": "Health Information Technologists and Medical Registrars",
+      "source": "ONET"
+    },
+    {
+      "id": "job_athletic_trainers",
+      "title": "Athletic Trainers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_genetic_counselors",
+      "title": "Genetic Counselors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_surgical_assistants",
+      "title": "Surgical Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_healthcare_practitioners_and_technical_workers_all_other",
+      "title": "Healthcare Practitioners and Technical Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_midwives",
+      "title": "Midwives",
+      "source": "ONET"
+    },
+    {
+      "id": "job_home_health_aides",
+      "title": "Home Health Aides",
+      "source": "ONET"
+    },
+    {
+      "id": "job_personal_care_aides",
+      "title": "Personal Care Aides",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nursing_assistants",
+      "title": "Nursing Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_orderlies",
+      "title": "Orderlies",
+      "source": "ONET"
+    },
+    {
+      "id": "job_psychiatric_aides",
+      "title": "Psychiatric Aides",
+      "source": "ONET"
+    },
+    {
+      "id": "job_occupational_therapy_assistants",
+      "title": "Occupational Therapy Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_occupational_therapy_aides",
+      "title": "Occupational Therapy Aides",
+      "source": "ONET"
+    },
+    {
+      "id": "job_physical_therapist_assistants",
+      "title": "Physical Therapist Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_physical_therapist_aides",
+      "title": "Physical Therapist Aides",
+      "source": "ONET"
+    },
+    {
+      "id": "job_massage_therapists",
+      "title": "Massage Therapists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dental_assistants",
+      "title": "Dental Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_assistants",
+      "title": "Medical Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_equipment_preparers",
+      "title": "Medical Equipment Preparers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_transcriptionists",
+      "title": "Medical Transcriptionists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pharmacy_aides",
+      "title": "Pharmacy Aides",
+      "source": "ONET"
+    },
+    {
+      "id": "job_veterinary_assistants_and_laboratory_animal_caretakers",
+      "title": "Veterinary Assistants and Laboratory Animal Caretakers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_phlebotomists",
+      "title": "Phlebotomists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_healthcare_support_workers_all_other",
+      "title": "Healthcare Support Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_speechlanguage_pathology_assistants",
+      "title": "Speech-Language Pathology Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_endoscopy_technicians",
+      "title": "Endoscopy Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_correctional_officers",
+      "title": "First-Line Supervisors of Correctional Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_police_and_detectives",
+      "title": "First-Line Supervisors of Police and Detectives",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_firefighting_and_prevention_workers",
+      "title": "First-Line Supervisors of Firefighting and Prevention Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_security_workers",
+      "title": "First-Line Supervisors of Security Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_protective_service_workers_all_other",
+      "title": "First-Line Supervisors of Protective Service Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firefighters",
+      "title": "Firefighters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fire_inspectors_and_investigators",
+      "title": "Fire Inspectors and Investigators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_forest_fire_inspectors_and_prevention_specialists",
+      "title": "Forest Fire Inspectors and Prevention Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bailiffs",
+      "title": "Bailiffs",
+      "source": "ONET"
+    },
+    {
+      "id": "job_correctional_officers_and_jailers",
+      "title": "Correctional Officers and Jailers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_detectives_and_criminal_investigators",
+      "title": "Detectives and Criminal Investigators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_police_identification_and_records_officers",
+      "title": "Police Identification and Records Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_intelligence_analysts",
+      "title": "Intelligence Analysts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fish_and_game_wardens",
+      "title": "Fish and Game Wardens",
+      "source": "ONET"
+    },
+    {
+      "id": "job_parking_enforcement_workers",
+      "title": "Parking Enforcement Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_police_and_sheriffs_patrol_officers",
+      "title": "Police and Sheriff's Patrol Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_customs_and_border_protection_officers",
+      "title": "Customs and Border Protection Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_transit_and_railroad_police",
+      "title": "Transit and Railroad Police",
+      "source": "ONET"
+    },
+    {
+      "id": "job_animal_control_workers",
+      "title": "Animal Control Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_private_detectives_and_investigators",
+      "title": "Private Detectives and Investigators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_gambling_surveillance_officers_and_gambling_investigators",
+      "title": "Gambling Surveillance Officers and Gambling Investigators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_security_guards",
+      "title": "Security Guards",
+      "source": "ONET"
+    },
+    {
+      "id": "job_crossing_guards_and_flaggers",
+      "title": "Crossing Guards and Flaggers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_lifeguards_ski_patrol_and_other_recreational_protective_service_workers",
+      "title": "Lifeguards, Ski Patrol, and Other Recreational Protective Service Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_transportation_security_screeners",
+      "title": "Transportation Security Screeners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_school_bus_monitors",
+      "title": "School Bus Monitors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_protective_service_workers_all_other",
+      "title": "Protective Service Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_retail_loss_prevention_specialists",
+      "title": "Retail Loss Prevention Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_chefs_and_head_cooks",
+      "title": "Chefs and Head Cooks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_food_preparation_and_serving_workers",
+      "title": "First-Line Supervisors of Food Preparation and Serving Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cooks_fast_food",
+      "title": "Cooks, Fast Food",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cooks_institution_and_cafeteria",
+      "title": "Cooks, Institution and Cafeteria",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cooks_private_household",
+      "title": "Cooks, Private Household",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cooks_restaurant",
+      "title": "Cooks, Restaurant",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cooks_short_order",
+      "title": "Cooks, Short Order",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cooks_all_other",
+      "title": "Cooks, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_food_preparation_workers",
+      "title": "Food Preparation Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bartenders",
+      "title": "Bartenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fast_food_and_counter_workers",
+      "title": "Fast Food and Counter Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_baristas",
+      "title": "Baristas",
+      "source": "ONET"
+    },
+    {
+      "id": "job_waiters_and_waitresses",
+      "title": "Waiters and Waitresses",
+      "source": "ONET"
+    },
+    {
+      "id": "job_food_servers_nonrestaurant",
+      "title": "Food Servers, Nonrestaurant",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dining_room_and_cafeteria_attendants_and_bartender_helpers",
+      "title": "Dining Room and Cafeteria Attendants and Bartender Helpers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dishwashers",
+      "title": "Dishwashers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_hosts_and_hostesses_restaurant_lounge_and_coffee_shop",
+      "title": "Hosts and Hostesses, Restaurant, Lounge, and Coffee Shop",
+      "source": "ONET"
+    },
+    {
+      "id": "job_food_preparation_and_serving_related_workers_all_other",
+      "title": "Food Preparation and Serving Related Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_housekeeping_and_janitorial_workers",
+      "title": "First-Line Supervisors of Housekeeping and Janitorial Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_landscaping_lawn_service_and_groundskeeping_workers",
+      "title": "First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_janitors_and_cleaners_except_maids_and_housekeeping_cleaners",
+      "title": "Janitors and Cleaners, Except Maids and Housekeeping Cleaners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_maids_and_housekeeping_cleaners",
+      "title": "Maids and Housekeeping Cleaners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_building_cleaning_workers_all_other",
+      "title": "Building Cleaning Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pest_control_workers",
+      "title": "Pest Control Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_landscaping_and_groundskeeping_workers",
+      "title": "Landscaping and Groundskeeping Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pesticide_handlers_sprayers_and_applicators_vegetation",
+      "title": "Pesticide Handlers, Sprayers, and Applicators, Vegetation",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tree_trimmers_and_pruners",
+      "title": "Tree Trimmers and Pruners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_grounds_maintenance_workers_all_other",
+      "title": "Grounds Maintenance Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_gambling_services_workers",
+      "title": "First-Line Supervisors of Gambling Services Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_entertainment_and_recreation_workers_except_gambling_services",
+      "title": "First-Line Supervisors of Entertainment and Recreation Workers, Except Gambling Services",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_personal_service_workers",
+      "title": "First-Line Supervisors of Personal Service Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_animal_trainers",
+      "title": "Animal Trainers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_animal_caretakers",
+      "title": "Animal Caretakers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_gambling_dealers",
+      "title": "Gambling Dealers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_gambling_and_sports_book_writers_and_runners",
+      "title": "Gambling and Sports Book Writers and Runners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_gambling_service_workers_all_other",
+      "title": "Gambling Service Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_motion_picture_projectionists",
+      "title": "Motion Picture Projectionists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_ushers_lobby_attendants_and_ticket_takers",
+      "title": "Ushers, Lobby Attendants, and Ticket Takers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_amusement_and_recreation_attendants",
+      "title": "Amusement and Recreation Attendants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_costume_attendants",
+      "title": "Costume Attendants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_locker_room_coatroom_and_dressing_room_attendants",
+      "title": "Locker Room, Coatroom, and Dressing Room Attendants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_entertainment_attendants_and_related_workers_all_other",
+      "title": "Entertainment Attendants and Related Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_embalmers",
+      "title": "Embalmers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_crematory_operators",
+      "title": "Crematory Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_funeral_attendants",
+      "title": "Funeral Attendants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_morticians_undertakers_and_funeral_arrangers",
+      "title": "Morticians, Undertakers, and Funeral Arrangers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_barbers",
+      "title": "Barbers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_hairdressers_hairstylists_and_cosmetologists",
+      "title": "Hairdressers, Hairstylists, and Cosmetologists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_makeup_artists_theatrical_and_performance",
+      "title": "Makeup Artists, Theatrical and Performance",
+      "source": "ONET"
+    },
+    {
+      "id": "job_manicurists_and_pedicurists",
+      "title": "Manicurists and Pedicurists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_shampooers",
+      "title": "Shampooers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_skincare_specialists",
+      "title": "Skincare Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_baggage_porters_and_bellhops",
+      "title": "Baggage Porters and Bellhops",
+      "source": "ONET"
+    },
+    {
+      "id": "job_concierges",
+      "title": "Concierges",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tour_guides_and_escorts",
+      "title": "Tour Guides and Escorts",
+      "source": "ONET"
+    },
+    {
+      "id": "job_travel_guides",
+      "title": "Travel Guides",
+      "source": "ONET"
+    },
+    {
+      "id": "job_childcare_workers",
+      "title": "Childcare Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nannies",
+      "title": "Nannies",
+      "source": "ONET"
+    },
+    {
+      "id": "job_exercise_trainers_and_group_fitness_instructors",
+      "title": "Exercise Trainers and Group Fitness Instructors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_recreation_workers",
+      "title": "Recreation Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_residential_advisors",
+      "title": "Residential Advisors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_personal_care_and_service_workers_all_other",
+      "title": "Personal Care and Service Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_retail_sales_workers",
+      "title": "First-Line Supervisors of Retail Sales Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_nonretail_sales_workers",
+      "title": "First-Line Supervisors of Non-Retail Sales Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cashiers",
+      "title": "Cashiers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_gambling_change_persons_and_booth_cashiers",
+      "title": "Gambling Change Persons and Booth Cashiers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_counter_and_rental_clerks",
+      "title": "Counter and Rental Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_parts_salespersons",
+      "title": "Parts Salespersons",
+      "source": "ONET"
+    },
+    {
+      "id": "job_retail_salespersons",
+      "title": "Retail Salespersons",
+      "source": "ONET"
+    },
+    {
+      "id": "job_advertising_sales_agents",
+      "title": "Advertising Sales Agents",
+      "source": "ONET"
+    },
+    {
+      "id": "job_insurance_sales_agents",
+      "title": "Insurance Sales Agents",
+      "source": "ONET"
+    },
+    {
+      "id": "job_securities_commodities_and_financial_services_sales_agents",
+      "title": "Securities, Commodities, and Financial Services Sales Agents",
+      "source": "ONET"
+    },
+    {
+      "id": "job_travel_agents",
+      "title": "Travel Agents",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sales_representatives_of_services_except_advertising_insurance_financial_services_and_travel",
+      "title": "Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sales_representatives_wholesale_and_manufacturing_technical_and_scientific_products",
+      "title": "Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",
+      "source": "ONET"
+    },
+    {
+      "id": "job_solar_sales_representatives_and_assessors",
+      "title": "Solar Sales Representatives and Assessors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sales_representatives_wholesale_and_manufacturing_except_technical_and_scientific_products",
+      "title": "Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",
+      "source": "ONET"
+    },
+    {
+      "id": "job_demonstrators_and_product_promoters",
+      "title": "Demonstrators and Product Promoters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_models",
+      "title": "Models",
+      "source": "ONET"
+    },
+    {
+      "id": "job_real_estate_brokers",
+      "title": "Real Estate Brokers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_real_estate_sales_agents",
+      "title": "Real Estate Sales Agents",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sales_engineers",
+      "title": "Sales Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_telemarketers",
+      "title": "Telemarketers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_doortodoor_sales_workers_news_and_street_vendors_and_related_workers",
+      "title": "Door-to-Door Sales Workers, News and Street Vendors, and Related Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sales_and_related_workers_all_other",
+      "title": "Sales and Related Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_office_and_administrative_support_workers",
+      "title": "First-Line Supervisors of Office and Administrative Support Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_switchboard_operators_including_answering_service",
+      "title": "Switchboard Operators, Including Answering Service",
+      "source": "ONET"
+    },
+    {
+      "id": "job_telephone_operators",
+      "title": "Telephone Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_communications_equipment_operators_all_other",
+      "title": "Communications Equipment Operators, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bill_and_account_collectors",
+      "title": "Bill and Account Collectors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_billing_and_posting_clerks",
+      "title": "Billing and Posting Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bookkeeping_accounting_and_auditing_clerks",
+      "title": "Bookkeeping, Accounting, and Auditing Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_gambling_cage_workers",
+      "title": "Gambling Cage Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_payroll_and_timekeeping_clerks",
+      "title": "Payroll and Timekeeping Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_procurement_clerks",
+      "title": "Procurement Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tellers",
+      "title": "Tellers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_financial_clerks_all_other",
+      "title": "Financial Clerks, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_brokerage_clerks",
+      "title": "Brokerage Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_correspondence_clerks",
+      "title": "Correspondence Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_court_municipal_and_license_clerks",
+      "title": "Court, Municipal, and License Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_credit_authorizers_checkers_and_clerks",
+      "title": "Credit Authorizers, Checkers, and Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_customer_service_representatives",
+      "title": "Customer Service Representatives",
+      "source": "ONET"
+    },
+    {
+      "id": "job_eligibility_interviewers_government_programs",
+      "title": "Eligibility Interviewers, Government Programs",
+      "source": "ONET"
+    },
+    {
+      "id": "job_file_clerks",
+      "title": "File Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_hotel_motel_and_resort_desk_clerks",
+      "title": "Hotel, Motel, and Resort Desk Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_interviewers_except_eligibility_and_loan",
+      "title": "Interviewers, Except Eligibility and Loan",
+      "source": "ONET"
+    },
+    {
+      "id": "job_library_assistants_clerical",
+      "title": "Library Assistants, Clerical",
+      "source": "ONET"
+    },
+    {
+      "id": "job_loan_interviewers_and_clerks",
+      "title": "Loan Interviewers and Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_new_accounts_clerks",
+      "title": "New Accounts Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_order_clerks",
+      "title": "Order Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_human_resources_assistants_except_payroll_and_timekeeping",
+      "title": "Human Resources Assistants, Except Payroll and Timekeeping",
+      "source": "ONET"
+    },
+    {
+      "id": "job_receptionists_and_information_clerks",
+      "title": "Receptionists and Information Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_reservation_and_transportation_ticket_agents_and_travel_clerks",
+      "title": "Reservation and Transportation Ticket Agents and Travel Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_information_and_record_clerks_all_other",
+      "title": "Information and Record Clerks, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cargo_and_freight_agents",
+      "title": "Cargo and Freight Agents",
+      "source": "ONET"
+    },
+    {
+      "id": "job_freight_forwarders",
+      "title": "Freight Forwarders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_couriers_and_messengers",
+      "title": "Couriers and Messengers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_public_safety_telecommunicators",
+      "title": "Public Safety Telecommunicators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dispatchers_except_police_fire_and_ambulance",
+      "title": "Dispatchers, Except Police, Fire, and Ambulance",
+      "source": "ONET"
+    },
+    {
+      "id": "job_meter_readers_utilities",
+      "title": "Meter Readers, Utilities",
+      "source": "ONET"
+    },
+    {
+      "id": "job_postal_service_clerks",
+      "title": "Postal Service Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_postal_service_mail_carriers",
+      "title": "Postal Service Mail Carriers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_postal_service_mail_sorters_processors_and_processing_machine_operators",
+      "title": "Postal Service Mail Sorters, Processors, and Processing Machine Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_production_planning_and_expediting_clerks",
+      "title": "Production, Planning, and Expediting Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_shipping_receiving_and_inventory_clerks",
+      "title": "Shipping, Receiving, and Inventory Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_weighers_measurers_checkers_and_samplers_recordkeeping",
+      "title": "Weighers, Measurers, Checkers, and Samplers, Recordkeeping",
+      "source": "ONET"
+    },
+    {
+      "id": "job_executive_secretaries_and_executive_administrative_assistants",
+      "title": "Executive Secretaries and Executive Administrative Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_legal_secretaries_and_administrative_assistants",
+      "title": "Legal Secretaries and Administrative Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_secretaries_and_administrative_assistants",
+      "title": "Medical Secretaries and Administrative Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_secretaries_and_administrative_assistants_except_legal_medical_and_executive",
+      "title": "Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",
+      "source": "ONET"
+    },
+    {
+      "id": "job_data_entry_keyers",
+      "title": "Data Entry Keyers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_word_processors_and_typists",
+      "title": "Word Processors and Typists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_desktop_publishers",
+      "title": "Desktop Publishers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_insurance_claims_and_policy_processing_clerks",
+      "title": "Insurance Claims and Policy Processing Clerks",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mail_clerks_and_mail_machine_operators_except_postal_service",
+      "title": "Mail Clerks and Mail Machine Operators, Except Postal Service",
+      "source": "ONET"
+    },
+    {
+      "id": "job_office_clerks_general",
+      "title": "Office Clerks, General",
+      "source": "ONET"
+    },
+    {
+      "id": "job_office_machine_operators_except_computer",
+      "title": "Office Machine Operators, Except Computer",
+      "source": "ONET"
+    },
+    {
+      "id": "job_proofreaders_and_copy_markers",
+      "title": "Proofreaders and Copy Markers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_statistical_assistants",
+      "title": "Statistical Assistants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_office_and_administrative_support_workers_all_other",
+      "title": "Office and Administrative Support Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_farming_fishing_and_forestry_workers",
+      "title": "First-Line Supervisors of Farming, Fishing, and Forestry Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_agricultural_inspectors",
+      "title": "Agricultural Inspectors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_animal_breeders",
+      "title": "Animal Breeders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_graders_and_sorters_agricultural_products",
+      "title": "Graders and Sorters, Agricultural Products",
+      "source": "ONET"
+    },
+    {
+      "id": "job_agricultural_equipment_operators",
+      "title": "Agricultural Equipment Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_farmworkers_and_laborers_crop_nursery_and_greenhouse",
+      "title": "Farmworkers and Laborers, Crop, Nursery, and Greenhouse",
+      "source": "ONET"
+    },
+    {
+      "id": "job_farmworkers_farm_ranch_and_aquacultural_animals",
+      "title": "Farmworkers, Farm, Ranch, and Aquacultural Animals",
+      "source": "ONET"
+    },
+    {
+      "id": "job_agricultural_workers_all_other",
+      "title": "Agricultural Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fishing_and_hunting_workers",
+      "title": "Fishing and Hunting Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_forest_and_conservation_workers",
+      "title": "Forest and Conservation Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fallers",
+      "title": "Fallers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_logging_equipment_operators",
+      "title": "Logging Equipment Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_log_graders_and_scalers",
+      "title": "Log Graders and Scalers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_logging_workers_all_other",
+      "title": "Logging Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_construction_trades_and_extraction_workers",
+      "title": "First-Line Supervisors of Construction Trades and Extraction Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_solar_energy_installation_managers",
+      "title": "Solar Energy Installation Managers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_boilermakers",
+      "title": "Boilermakers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_brickmasons_and_blockmasons",
+      "title": "Brickmasons and Blockmasons",
+      "source": "ONET"
+    },
+    {
+      "id": "job_stonemasons",
+      "title": "Stonemasons",
+      "source": "ONET"
+    },
+    {
+      "id": "job_carpenters",
+      "title": "Carpenters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_carpet_installers",
+      "title": "Carpet Installers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_floor_layers_except_carpet_wood_and_hard_tiles",
+      "title": "Floor Layers, Except Carpet, Wood, and Hard Tiles",
+      "source": "ONET"
+    },
+    {
+      "id": "job_floor_sanders_and_finishers",
+      "title": "Floor Sanders and Finishers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tile_and_stone_setters",
+      "title": "Tile and Stone Setters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cement_masons_and_concrete_finishers",
+      "title": "Cement Masons and Concrete Finishers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_terrazzo_workers_and_finishers",
+      "title": "Terrazzo Workers and Finishers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_construction_laborers",
+      "title": "Construction Laborers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_paving_surfacing_and_tamping_equipment_operators",
+      "title": "Paving, Surfacing, and Tamping Equipment Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pile_driver_operators",
+      "title": "Pile Driver Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_operating_engineers_and_other_construction_equipment_operators",
+      "title": "Operating Engineers and Other Construction Equipment Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_drywall_and_ceiling_tile_installers",
+      "title": "Drywall and Ceiling Tile Installers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tapers",
+      "title": "Tapers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electricians",
+      "title": "Electricians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_glaziers",
+      "title": "Glaziers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_insulation_workers_floor_ceiling_and_wall",
+      "title": "Insulation Workers, Floor, Ceiling, and Wall",
+      "source": "ONET"
+    },
+    {
+      "id": "job_insulation_workers_mechanical",
+      "title": "Insulation Workers, Mechanical",
+      "source": "ONET"
+    },
+    {
+      "id": "job_painters_construction_and_maintenance",
+      "title": "Painters, Construction and Maintenance",
+      "source": "ONET"
+    },
+    {
+      "id": "job_paperhangers",
+      "title": "Paperhangers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pipelayers",
+      "title": "Pipelayers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_plumbers_pipefitters_and_steamfitters",
+      "title": "Plumbers, Pipefitters, and Steamfitters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_solar_thermal_installers_and_technicians",
+      "title": "Solar Thermal Installers and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_plasterers_and_stucco_masons",
+      "title": "Plasterers and Stucco Masons",
+      "source": "ONET"
+    },
+    {
+      "id": "job_reinforcing_iron_and_rebar_workers",
+      "title": "Reinforcing Iron and Rebar Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_roofers",
+      "title": "Roofers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sheet_metal_workers",
+      "title": "Sheet Metal Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_structural_iron_and_steel_workers",
+      "title": "Structural Iron and Steel Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_solar_photovoltaic_installers",
+      "title": "Solar Photovoltaic Installers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_helpersbrickmasons_blockmasons_stonemasons_and_tile_and_marble_setters",
+      "title": "Helpers--Brickmasons, Blockmasons, Stonemasons, and Tile and Marble Setters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_helperscarpenters",
+      "title": "Helpers--Carpenters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_helperselectricians",
+      "title": "Helpers--Electricians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_helperspainters_paperhangers_plasterers_and_stucco_masons",
+      "title": "Helpers--Painters, Paperhangers, Plasterers, and Stucco Masons",
+      "source": "ONET"
+    },
+    {
+      "id": "job_helperspipelayers_plumbers_pipefitters_and_steamfitters",
+      "title": "Helpers--Pipelayers, Plumbers, Pipefitters, and Steamfitters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_helpersroofers",
+      "title": "Helpers--Roofers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_helpers_construction_trades_all_other",
+      "title": "Helpers, Construction Trades, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_construction_and_building_inspectors",
+      "title": "Construction and Building Inspectors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_energy_auditors",
+      "title": "Energy Auditors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_elevator_and_escalator_installers_and_repairers",
+      "title": "Elevator and Escalator Installers and Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fence_erectors",
+      "title": "Fence Erectors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_hazardous_materials_removal_workers",
+      "title": "Hazardous Materials Removal Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_highway_maintenance_workers",
+      "title": "Highway Maintenance Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_railtrack_laying_and_maintenance_equipment_operators",
+      "title": "Rail-Track Laying and Maintenance Equipment Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_septic_tank_servicers_and_sewer_pipe_cleaners",
+      "title": "Septic Tank Servicers and Sewer Pipe Cleaners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_segmental_pavers",
+      "title": "Segmental Pavers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_construction_and_related_workers_all_other",
+      "title": "Construction and Related Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_weatherization_installers_and_technicians",
+      "title": "Weatherization Installers and Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_derrick_operators_oil_and_gas",
+      "title": "Derrick Operators, Oil and Gas",
+      "source": "ONET"
+    },
+    {
+      "id": "job_rotary_drill_operators_oil_and_gas",
+      "title": "Rotary Drill Operators, Oil and Gas",
+      "source": "ONET"
+    },
+    {
+      "id": "job_service_unit_operators_oil_and_gas",
+      "title": "Service Unit Operators, Oil and Gas",
+      "source": "ONET"
+    },
+    {
+      "id": "job_excavating_and_loading_machine_and_dragline_operators_surface_mining",
+      "title": "Excavating and Loading Machine and Dragline Operators, Surface Mining",
+      "source": "ONET"
+    },
+    {
+      "id": "job_earth_drillers_except_oil_and_gas",
+      "title": "Earth Drillers, Except Oil and Gas",
+      "source": "ONET"
+    },
+    {
+      "id": "job_explosives_workers_ordnance_handling_experts_and_blasters",
+      "title": "Explosives Workers, Ordnance Handling Experts, and Blasters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_continuous_mining_machine_operators",
+      "title": "Continuous Mining Machine Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_roof_bolters_mining",
+      "title": "Roof Bolters, Mining",
+      "source": "ONET"
+    },
+    {
+      "id": "job_loading_and_moving_machine_operators_underground_mining",
+      "title": "Loading and Moving Machine Operators, Underground Mining",
+      "source": "ONET"
+    },
+    {
+      "id": "job_underground_mining_machine_operators_all_other",
+      "title": "Underground Mining Machine Operators, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_rock_splitters_quarry",
+      "title": "Rock Splitters, Quarry",
+      "source": "ONET"
+    },
+    {
+      "id": "job_roustabouts_oil_and_gas",
+      "title": "Roustabouts, Oil and Gas",
+      "source": "ONET"
+    },
+    {
+      "id": "job_helpersextraction_workers",
+      "title": "Helpers--Extraction Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_extraction_workers_all_other",
+      "title": "Extraction Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_mechanics_installers_and_repairers",
+      "title": "First-Line Supervisors of Mechanics, Installers, and Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_automated_teller_and_office_machine_repairers",
+      "title": "Computer, Automated Teller, and Office Machine Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_radio_cellular_and_tower_equipment_installers_and_repairers",
+      "title": "Radio, Cellular, and Tower Equipment Installers and Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_telecommunications_equipment_installers_and_repairers_except_line_installers",
+      "title": "Telecommunications Equipment Installers and Repairers, Except Line Installers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_avionics_technicians",
+      "title": "Avionics Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electric_motor_power_tool_and_related_repairers",
+      "title": "Electric Motor, Power Tool, and Related Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electrical_and_electronics_installers_and_repairers_transportation_equipment",
+      "title": "Electrical and Electronics Installers and Repairers, Transportation Equipment",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electrical_and_electronics_repairers_commercial_and_industrial_equipment",
+      "title": "Electrical and Electronics Repairers, Commercial and Industrial Equipment",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electrical_and_electronics_repairers_powerhouse_substation_and_relay",
+      "title": "Electrical and Electronics Repairers, Powerhouse, Substation, and Relay",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electronic_equipment_installers_and_repairers_motor_vehicles",
+      "title": "Electronic Equipment Installers and Repairers, Motor Vehicles",
+      "source": "ONET"
+    },
+    {
+      "id": "job_audiovisual_equipment_installers_and_repairers",
+      "title": "Audiovisual Equipment Installers and Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_security_and_fire_alarm_systems_installers",
+      "title": "Security and Fire Alarm Systems Installers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_aircraft_mechanics_and_service_technicians",
+      "title": "Aircraft Mechanics and Service Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_automotive_body_and_related_repairers",
+      "title": "Automotive Body and Related Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_automotive_glass_installers_and_repairers",
+      "title": "Automotive Glass Installers and Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_automotive_service_technicians_and_mechanics",
+      "title": "Automotive Service Technicians and Mechanics",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bus_and_truck_mechanics_and_diesel_engine_specialists",
+      "title": "Bus and Truck Mechanics and Diesel Engine Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_farm_equipment_mechanics_and_service_technicians",
+      "title": "Farm Equipment Mechanics and Service Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mobile_heavy_equipment_mechanics_except_engines",
+      "title": "Mobile Heavy Equipment Mechanics, Except Engines",
+      "source": "ONET"
+    },
+    {
+      "id": "job_rail_car_repairers",
+      "title": "Rail Car Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_motorboat_mechanics_and_service_technicians",
+      "title": "Motorboat Mechanics and Service Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_motorcycle_mechanics",
+      "title": "Motorcycle Mechanics",
+      "source": "ONET"
+    },
+    {
+      "id": "job_outdoor_power_equipment_and_other_small_engine_mechanics",
+      "title": "Outdoor Power Equipment and Other Small Engine Mechanics",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bicycle_repairers",
+      "title": "Bicycle Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_recreational_vehicle_service_technicians",
+      "title": "Recreational Vehicle Service Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tire_repairers_and_changers",
+      "title": "Tire Repairers and Changers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mechanical_door_repairers",
+      "title": "Mechanical Door Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_control_and_valve_installers_and_repairers_except_mechanical_door",
+      "title": "Control and Valve Installers and Repairers, Except Mechanical Door",
+      "source": "ONET"
+    },
+    {
+      "id": "job_heating_air_conditioning_and_refrigeration_mechanics_and_installers",
+      "title": "Heating, Air Conditioning, and Refrigeration Mechanics and Installers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_home_appliance_repairers",
+      "title": "Home Appliance Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_industrial_machinery_mechanics",
+      "title": "Industrial Machinery Mechanics",
+      "source": "ONET"
+    },
+    {
+      "id": "job_maintenance_workers_machinery",
+      "title": "Maintenance Workers, Machinery",
+      "source": "ONET"
+    },
+    {
+      "id": "job_millwrights",
+      "title": "Millwrights",
+      "source": "ONET"
+    },
+    {
+      "id": "job_refractory_materials_repairers_except_brickmasons",
+      "title": "Refractory Materials Repairers, Except Brickmasons",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electrical_powerline_installers_and_repairers",
+      "title": "Electrical Power-Line Installers and Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_telecommunications_line_installers_and_repairers",
+      "title": "Telecommunications Line Installers and Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_camera_and_photographic_equipment_repairers",
+      "title": "Camera and Photographic Equipment Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_equipment_repairers",
+      "title": "Medical Equipment Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_musical_instrument_repairers_and_tuners",
+      "title": "Musical Instrument Repairers and Tuners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_watch_and_clock_repairers",
+      "title": "Watch and Clock Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_precision_instrument_and_equipment_repairers_all_other",
+      "title": "Precision Instrument and Equipment Repairers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_maintenance_and_repair_workers_general",
+      "title": "Maintenance and Repair Workers, General",
+      "source": "ONET"
+    },
+    {
+      "id": "job_wind_turbine_service_technicians",
+      "title": "Wind Turbine Service Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_coin_vending_and_amusement_machine_servicers_and_repairers",
+      "title": "Coin, Vending, and Amusement Machine Servicers and Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_commercial_divers",
+      "title": "Commercial Divers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_locksmiths_and_safe_repairers",
+      "title": "Locksmiths and Safe Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_manufactured_building_and_mobile_home_installers",
+      "title": "Manufactured Building and Mobile Home Installers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_riggers",
+      "title": "Riggers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_signal_and_track_switch_repairers",
+      "title": "Signal and Track Switch Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_helpersinstallation_maintenance_and_repair_workers",
+      "title": "Helpers--Installation, Maintenance, and Repair Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_installation_maintenance_and_repair_workers_all_other",
+      "title": "Installation, Maintenance, and Repair Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_geothermal_technicians",
+      "title": "Geothermal Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_production_and_operating_workers",
+      "title": "First-Line Supervisors of Production and Operating Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_aircraft_structure_surfaces_rigging_and_systems_assemblers",
+      "title": "Aircraft Structure, Surfaces, Rigging, and Systems Assemblers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_coil_winders_tapers_and_finishers",
+      "title": "Coil Winders, Tapers, and Finishers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electrical_and_electronic_equipment_assemblers",
+      "title": "Electrical and Electronic Equipment Assemblers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_electromechanical_equipment_assemblers",
+      "title": "Electromechanical Equipment Assemblers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_engine_and_other_machine_assemblers",
+      "title": "Engine and Other Machine Assemblers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_structural_metal_fabricators_and_fitters",
+      "title": "Structural Metal Fabricators and Fitters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fiberglass_laminators_and_fabricators",
+      "title": "Fiberglass Laminators and Fabricators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_timing_device_assemblers_and_adjusters",
+      "title": "Timing Device Assemblers and Adjusters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_team_assemblers",
+      "title": "Team Assemblers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_assemblers_and_fabricators_all_other",
+      "title": "Assemblers and Fabricators, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bakers",
+      "title": "Bakers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_butchers_and_meat_cutters",
+      "title": "Butchers and Meat Cutters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_meat_poultry_and_fish_cutters_and_trimmers",
+      "title": "Meat, Poultry, and Fish Cutters and Trimmers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_slaughterers_and_meat_packers",
+      "title": "Slaughterers and Meat Packers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_food_and_tobacco_roasting_baking_and_drying_machine_operators_and_tenders",
+      "title": "Food and Tobacco Roasting, Baking, and Drying Machine Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_food_batchmakers",
+      "title": "Food Batchmakers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_food_cooking_machine_operators_and_tenders",
+      "title": "Food Cooking Machine Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_food_processing_workers_all_other",
+      "title": "Food Processing Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_extruding_and_drawing_machine_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Extruding and Drawing Machine Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_forging_machine_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Forging Machine Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_rolling_machine_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Rolling Machine Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cutting_punching_and_press_machine_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Cutting, Punching, and Press Machine Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_drilling_and_boring_machine_tool_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Drilling and Boring Machine Tool Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_grinding_lapping_polishing_and_buffing_machine_tool_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Grinding, Lapping, Polishing, and Buffing Machine Tool Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_lathe_and_turning_machine_tool_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Lathe and Turning Machine Tool Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_milling_and_planing_machine_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Milling and Planing Machine Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_machinists",
+      "title": "Machinists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_metalrefining_furnace_operators_and_tenders",
+      "title": "Metal-Refining Furnace Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pourers_and_casters_metal",
+      "title": "Pourers and Casters, Metal",
+      "source": "ONET"
+    },
+    {
+      "id": "job_model_makers_metal_and_plastic",
+      "title": "Model Makers, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_patternmakers_metal_and_plastic",
+      "title": "Patternmakers, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_foundry_mold_and_coremakers",
+      "title": "Foundry Mold and Coremakers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_molding_coremaking_and_casting_machine_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Molding, Coremaking, and Casting Machine Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_multiple_machine_tool_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Multiple Machine Tool Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tool_and_die_makers",
+      "title": "Tool and Die Makers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_welders_cutters_solderers_and_brazers",
+      "title": "Welders, Cutters, Solderers, and Brazers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_welding_soldering_and_brazing_machine_setters_operators_and_tenders",
+      "title": "Welding, Soldering, and Brazing Machine Setters, Operators, and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_heat_treating_equipment_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Heat Treating Equipment Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_layout_workers_metal_and_plastic",
+      "title": "Layout Workers, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_plating_machine_setters_operators_and_tenders_metal_and_plastic",
+      "title": "Plating Machine Setters, Operators, and Tenders, Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tool_grinders_filers_and_sharpeners",
+      "title": "Tool Grinders, Filers, and Sharpeners",
+      "source": "ONET"
+    },
+    {
+      "id": "job_metal_workers_and_plastic_workers_all_other",
+      "title": "Metal Workers and Plastic Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_prepress_technicians_and_workers",
+      "title": "Prepress Technicians and Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_printing_press_operators",
+      "title": "Printing Press Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_print_binding_and_finishing_workers",
+      "title": "Print Binding and Finishing Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_laundry_and_drycleaning_workers",
+      "title": "Laundry and Dry-Cleaning Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pressers_textile_garment_and_related_materials",
+      "title": "Pressers, Textile, Garment, and Related Materials",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sewing_machine_operators",
+      "title": "Sewing Machine Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_shoe_and_leather_workers_and_repairers",
+      "title": "Shoe and Leather Workers and Repairers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_shoe_machine_operators_and_tenders",
+      "title": "Shoe Machine Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sewers_hand",
+      "title": "Sewers, Hand",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tailors_dressmakers_and_custom_sewers",
+      "title": "Tailors, Dressmakers, and Custom Sewers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_textile_bleaching_and_dyeing_machine_operators_and_tenders",
+      "title": "Textile Bleaching and Dyeing Machine Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_textile_cutting_machine_setters_operators_and_tenders",
+      "title": "Textile Cutting Machine Setters, Operators, and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_textile_knitting_and_weaving_machine_setters_operators_and_tenders",
+      "title": "Textile Knitting and Weaving Machine Setters, Operators, and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_textile_winding_twisting_and_drawing_out_machine_setters_operators_and_tenders",
+      "title": "Textile Winding, Twisting, and Drawing Out Machine Setters, Operators, and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_extruding_and_forming_machine_setters_operators_and_tenders_synthetic_and_glass_fibers",
+      "title": "Extruding and Forming Machine Setters, Operators, and Tenders, Synthetic and Glass Fibers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_fabric_and_apparel_patternmakers",
+      "title": "Fabric and Apparel Patternmakers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_upholsterers",
+      "title": "Upholsterers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_textile_apparel_and_furnishings_workers_all_other",
+      "title": "Textile, Apparel, and Furnishings Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cabinetmakers_and_bench_carpenters",
+      "title": "Cabinetmakers and Bench Carpenters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_furniture_finishers",
+      "title": "Furniture Finishers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_model_makers_wood",
+      "title": "Model Makers, Wood",
+      "source": "ONET"
+    },
+    {
+      "id": "job_patternmakers_wood",
+      "title": "Patternmakers, Wood",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sawing_machine_setters_operators_and_tenders_wood",
+      "title": "Sawing Machine Setters, Operators, and Tenders, Wood",
+      "source": "ONET"
+    },
+    {
+      "id": "job_woodworking_machine_setters_operators_and_tenders_except_sawing",
+      "title": "Woodworking Machine Setters, Operators, and Tenders, Except Sawing",
+      "source": "ONET"
+    },
+    {
+      "id": "job_woodworkers_all_other",
+      "title": "Woodworkers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_nuclear_power_reactor_operators",
+      "title": "Nuclear Power Reactor Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_power_distributors_and_dispatchers",
+      "title": "Power Distributors and Dispatchers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_power_plant_operators",
+      "title": "Power Plant Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_biomass_plant_technicians",
+      "title": "Biomass Plant Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_hydroelectric_plant_technicians",
+      "title": "Hydroelectric Plant Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_stationary_engineers_and_boiler_operators",
+      "title": "Stationary Engineers and Boiler Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_water_and_wastewater_treatment_plant_and_system_operators",
+      "title": "Water and Wastewater Treatment Plant and System Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_chemical_plant_and_system_operators",
+      "title": "Chemical Plant and System Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_gas_plant_operators",
+      "title": "Gas Plant Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_petroleum_pump_system_operators_refinery_operators_and_gaugers",
+      "title": "Petroleum Pump System Operators, Refinery Operators, and Gaugers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_plant_and_system_operators_all_other",
+      "title": "Plant and System Operators, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_biofuels_processing_technicians",
+      "title": "Biofuels Processing Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_chemical_equipment_operators_and_tenders",
+      "title": "Chemical Equipment Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_separating_filtering_clarifying_precipitating_and_still_machine_setters_operators_and_tenders",
+      "title": "Separating, Filtering, Clarifying, Precipitating, and Still Machine Setters, Operators, and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_crushing_grinding_and_polishing_machine_setters_operators_and_tenders",
+      "title": "Crushing, Grinding, and Polishing Machine Setters, Operators, and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_grinding_and_polishing_workers_hand",
+      "title": "Grinding and Polishing Workers, Hand",
+      "source": "ONET"
+    },
+    {
+      "id": "job_mixing_and_blending_machine_setters_operators_and_tenders",
+      "title": "Mixing and Blending Machine Setters, Operators, and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cutters_and_trimmers_hand",
+      "title": "Cutters and Trimmers, Hand",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cutting_and_slicing_machine_setters_operators_and_tenders",
+      "title": "Cutting and Slicing Machine Setters, Operators, and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_extruding_forming_pressing_and_compacting_machine_setters_operators_and_tenders",
+      "title": "Extruding, Forming, Pressing, and Compacting Machine Setters, Operators, and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_furnace_kiln_oven_drier_and_kettle_operators_and_tenders",
+      "title": "Furnace, Kiln, Oven, Drier, and Kettle Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_inspectors_testers_sorters_samplers_and_weighers",
+      "title": "Inspectors, Testers, Sorters, Samplers, and Weighers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_jewelers_and_precious_stone_and_metal_workers",
+      "title": "Jewelers and Precious Stone and Metal Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_gem_and_diamond_workers",
+      "title": "Gem and Diamond Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dental_laboratory_technicians",
+      "title": "Dental Laboratory Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_medical_appliance_technicians",
+      "title": "Medical Appliance Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_ophthalmic_laboratory_technicians",
+      "title": "Ophthalmic Laboratory Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_packaging_and_filling_machine_operators_and_tenders",
+      "title": "Packaging and Filling Machine Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_painting_coating_and_decorating_workers",
+      "title": "Painting, Coating, and Decorating Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_coating_painting_and_spraying_machine_setters_operators_and_tenders",
+      "title": "Coating, Painting, and Spraying Machine Setters, Operators, and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_semiconductor_processing_technicians",
+      "title": "Semiconductor Processing Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_photographic_process_workers_and_processing_machine_operators",
+      "title": "Photographic Process Workers and Processing Machine Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_numerically_controlled_tool_operators",
+      "title": "Computer Numerically Controlled Tool Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_computer_numerically_controlled_tool_programmers",
+      "title": "Computer Numerically Controlled Tool Programmers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_adhesive_bonding_machine_operators_and_tenders",
+      "title": "Adhesive Bonding Machine Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cleaning_washing_and_metal_pickling_equipment_operators_and_tenders",
+      "title": "Cleaning, Washing, and Metal Pickling Equipment Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cooling_and_freezing_equipment_operators_and_tenders",
+      "title": "Cooling and Freezing Equipment Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_etchers_and_engravers",
+      "title": "Etchers and Engravers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_molders_shapers_and_casters_except_metal_and_plastic",
+      "title": "Molders, Shapers, and Casters, Except Metal and Plastic",
+      "source": "ONET"
+    },
+    {
+      "id": "job_stone_cutters_and_carvers_manufacturing",
+      "title": "Stone Cutters and Carvers, Manufacturing",
+      "source": "ONET"
+    },
+    {
+      "id": "job_glass_blowers_molders_benders_and_finishers",
+      "title": "Glass Blowers, Molders, Benders, and Finishers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_potters_manufacturing",
+      "title": "Potters, Manufacturing",
+      "source": "ONET"
+    },
+    {
+      "id": "job_paper_goods_machine_setters_operators_and_tenders",
+      "title": "Paper Goods Machine Setters, Operators, and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tire_builders",
+      "title": "Tire Builders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_helpersproduction_workers",
+      "title": "Helpers--Production Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_production_workers_all_other",
+      "title": "Production Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_aircraft_cargo_handling_supervisors",
+      "title": "Aircraft Cargo Handling Supervisors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_helpers_laborers_and_material_movers_hand",
+      "title": "First-Line Supervisors of Helpers, Laborers, and Material Movers, Hand",
+      "source": "ONET"
+    },
+    {
+      "id": "job_recycling_coordinators",
+      "title": "Recycling Coordinators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_materialmoving_machine_and_vehicle_operators",
+      "title": "First-Line Supervisors of Material-Moving Machine and Vehicle Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_passenger_attendants",
+      "title": "First-Line Supervisors of Passenger Attendants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_transportation_workers_all_other",
+      "title": "First-Line Supervisors of Transportation Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_airline_pilots_copilots_and_flight_engineers",
+      "title": "Airline Pilots, Copilots, and Flight Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_commercial_pilots",
+      "title": "Commercial Pilots",
+      "source": "ONET"
+    },
+    {
+      "id": "job_air_traffic_controllers",
+      "title": "Air Traffic Controllers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_airfield_operations_specialists",
+      "title": "Airfield Operations Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_flight_attendants",
+      "title": "Flight Attendants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_ambulance_drivers_and_attendants_except_emergency_medical_technicians",
+      "title": "Ambulance Drivers and Attendants, Except Emergency Medical Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_driversales_workers",
+      "title": "Driver/Sales Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_heavy_and_tractortrailer_truck_drivers",
+      "title": "Heavy and Tractor-Trailer Truck Drivers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_light_truck_drivers",
+      "title": "Light Truck Drivers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bus_drivers_school",
+      "title": "Bus Drivers, School",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bus_drivers_transit_and_intercity",
+      "title": "Bus Drivers, Transit and Intercity",
+      "source": "ONET"
+    },
+    {
+      "id": "job_shuttle_drivers_and_chauffeurs",
+      "title": "Shuttle Drivers and Chauffeurs",
+      "source": "ONET"
+    },
+    {
+      "id": "job_taxi_drivers",
+      "title": "Taxi Drivers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_motor_vehicle_operators_all_other",
+      "title": "Motor Vehicle Operators, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_locomotive_engineers",
+      "title": "Locomotive Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_rail_yard_engineers_dinkey_operators_and_hostlers",
+      "title": "Rail Yard Engineers, Dinkey Operators, and Hostlers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_railroad_brake_signal_and_switch_operators_and_locomotive_firers",
+      "title": "Railroad Brake, Signal, and Switch Operators and Locomotive Firers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_railroad_conductors_and_yardmasters",
+      "title": "Railroad Conductors and Yardmasters",
+      "source": "ONET"
+    },
+    {
+      "id": "job_subway_and_streetcar_operators",
+      "title": "Subway and Streetcar Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_rail_transportation_workers_all_other",
+      "title": "Rail Transportation Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_sailors_and_marine_oilers",
+      "title": "Sailors and Marine Oilers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_captains_mates_and_pilots_of_water_vessels",
+      "title": "Captains, Mates, and Pilots of Water Vessels",
+      "source": "ONET"
+    },
+    {
+      "id": "job_motorboat_operators",
+      "title": "Motorboat Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_ship_engineers",
+      "title": "Ship Engineers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_bridge_and_lock_tenders",
+      "title": "Bridge and Lock Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_parking_attendants",
+      "title": "Parking Attendants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_automotive_and_watercraft_service_attendants",
+      "title": "Automotive and Watercraft Service Attendants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_aircraft_service_attendants",
+      "title": "Aircraft Service Attendants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_traffic_technicians",
+      "title": "Traffic Technicians",
+      "source": "ONET"
+    },
+    {
+      "id": "job_transportation_inspectors",
+      "title": "Transportation Inspectors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_aviation_inspectors",
+      "title": "Aviation Inspectors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_transportation_vehicle_equipment_and_systems_inspectors_except_aviation",
+      "title": "Transportation Vehicle, Equipment and Systems Inspectors, Except Aviation",
+      "source": "ONET"
+    },
+    {
+      "id": "job_passenger_attendants",
+      "title": "Passenger Attendants",
+      "source": "ONET"
+    },
+    {
+      "id": "job_transportation_workers_all_other",
+      "title": "Transportation Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_conveyor_operators_and_tenders",
+      "title": "Conveyor Operators and Tenders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_crane_and_tower_operators",
+      "title": "Crane and Tower Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_dredge_operators",
+      "title": "Dredge Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_hoist_and_winch_operators",
+      "title": "Hoist and Winch Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_industrial_truck_and_tractor_operators",
+      "title": "Industrial Truck and Tractor Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_cleaners_of_vehicles_and_equipment",
+      "title": "Cleaners of Vehicles and Equipment",
+      "source": "ONET"
+    },
+    {
+      "id": "job_laborers_and_freight_stock_and_material_movers_hand",
+      "title": "Laborers and Freight, Stock, and Material Movers, Hand",
+      "source": "ONET"
+    },
+    {
+      "id": "job_recycling_and_reclamation_workers",
+      "title": "Recycling and Reclamation Workers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_machine_feeders_and_offbearers",
+      "title": "Machine Feeders and Offbearers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_packers_and_packagers_hand",
+      "title": "Packers and Packagers, Hand",
+      "source": "ONET"
+    },
+    {
+      "id": "job_stockers_and_order_fillers",
+      "title": "Stockers and Order Fillers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_gas_compressor_and_gas_pumping_station_operators",
+      "title": "Gas Compressor and Gas Pumping Station Operators",
+      "source": "ONET"
+    },
+    {
+      "id": "job_pump_operators_except_wellhead_pumpers",
+      "title": "Pump Operators, Except Wellhead Pumpers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_wellhead_pumpers",
+      "title": "Wellhead Pumpers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_refuse_and_recyclable_material_collectors",
+      "title": "Refuse and Recyclable Material Collectors",
+      "source": "ONET"
+    },
+    {
+      "id": "job_tank_car_truck_and_ship_loaders",
+      "title": "Tank Car, Truck, and Ship Loaders",
+      "source": "ONET"
+    },
+    {
+      "id": "job_material_moving_workers_all_other",
+      "title": "Material Moving Workers, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_air_crew_officers",
+      "title": "Air Crew Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_aircraft_launch_and_recovery_officers",
+      "title": "Aircraft Launch and Recovery Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_armored_assault_vehicle_officers",
+      "title": "Armored Assault Vehicle Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_artillery_and_missile_officers",
+      "title": "Artillery and Missile Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_command_and_control_center_officers",
+      "title": "Command and Control Center Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_infantry_officers",
+      "title": "Infantry Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_special_forces_officers",
+      "title": "Special Forces Officers",
+      "source": "ONET"
+    },
+    {
+      "id": "job_military_officer_special_and_tactical_operations_leaders_all_other",
+      "title": "Military Officer Special and Tactical Operations Leaders, All Other",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_air_crew_members",
+      "title": "First-Line Supervisors of Air Crew Members",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_weapons_specialistscrew_members",
+      "title": "First-Line Supervisors of Weapons Specialists/Crew Members",
+      "source": "ONET"
+    },
+    {
+      "id": "job_firstline_supervisors_of_all_other_tactical_operations_specialists",
+      "title": "First-Line Supervisors of All Other Tactical Operations Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_air_crew_members",
+      "title": "Air Crew Members",
+      "source": "ONET"
+    },
+    {
+      "id": "job_aircraft_launch_and_recovery_specialists",
+      "title": "Aircraft Launch and Recovery Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_armored_assault_vehicle_crew_members",
+      "title": "Armored Assault Vehicle Crew Members",
+      "source": "ONET"
+    },
+    {
+      "id": "job_artillery_and_missile_crew_members",
+      "title": "Artillery and Missile Crew Members",
+      "source": "ONET"
+    },
+    {
+      "id": "job_command_and_control_center_specialists",
+      "title": "Command and Control Center Specialists",
+      "source": "ONET"
+    },
+    {
+      "id": "job_infantry",
+      "title": "Infantry",
+      "source": "ONET"
+    },
+    {
+      "id": "job_special_forces",
+      "title": "Special Forces",
+      "source": "ONET"
+    },
+    {
+      "id": "job_military_enlisted_tactical_operations_and_airweapons_specialists_and_crew_members_all_other",
+      "title": "Military Enlisted Tactical Operations and Air/Weapons Specialists and Crew Members, All Other",
+      "source": "ONET"
+    }
+  ]
+}
