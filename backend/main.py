@@ -4,8 +4,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from database import engine
-from models import Base
+from database import engine, init_db
 from kb_loader import load_knowledge_base
 from routers import upload, analyze, history, compare, export
 
@@ -22,7 +21,7 @@ _spacy_loaded = False
 async def lifespan(app: FastAPI):
     global _kb_initialized, _kb_tables_loaded, _spacy_loaded
     logger.info("Starting ATS Resume Checker backend...")
-    Base.metadata.create_all(bind=engine)
+    init_db()
     try:
         load_knowledge_base()
         _kb_initialized = True

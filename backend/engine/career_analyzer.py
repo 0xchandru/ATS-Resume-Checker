@@ -3,7 +3,7 @@ import json
 import logging
 from typing import Dict, List, Optional
 from engine.extractor import normalize
-from sqlalchemy import text
+from sqlalchemy import text as sa_text
 from database import engine
 
 logger = logging.getLogger(__name__)
@@ -53,7 +53,7 @@ def _detect_seniority(text: str, context: str = "resume") -> Dict:
             pass
 
     with engine.connect() as conn:
-        rows = conn.execute(text("SELECT canonical_title, normalized, seniority_level FROM kb_job_titles WHERE seniority_level IS NOT NULL")).fetchall()
+        rows = conn.execute(sa_text("SELECT canonical_title, normalized, seniority_level FROM kb_job_titles WHERE seniority_level IS NOT NULL")).fetchall()
 
     text_lower = text.lower()
     level_votes = {}
@@ -126,7 +126,7 @@ def _explain_seniority_gap(jd: Dict, resume: Dict) -> str:
 
 def _match_onet_occupation(keywords: List[str]) -> Dict:
     with engine.connect() as conn:
-        rows = conn.execute(text("SELECT soc_code, title, typical_skills, domain FROM kb_onet_occupations LIMIT 500")).fetchall()
+        rows = conn.execute(sa_text("SELECT soc_code, title, typical_skills, domain FROM kb_onet_occupations LIMIT 500")).fetchall()
 
     if not rows:
         return {"soc_code": None, "title": None, "match_confidence": 0.0, "occupation_expected_missing_skills": [], "explanation": "No O*NET data available"}
@@ -185,21 +185,21 @@ def _recognize_companies(text: str) -> List[Dict]:
 
         with engine.connect() as conn:
             row = conn.execute(
-                text("SELECT canonical_name FROM kb_company_aliases WHERE alias_normalized = :n"),
+                sa_text("SELECT canonical_name FROM kb_company_aliases WHERE alias_normalized = :n"),
                 {"n": norm}
             ).fetchone()
             if row:
                 canonical = row[0]
             else:
                 row = conn.execute(
-                    text("SELECT canonical_name, industry, tier FROM kb_companies WHERE normalized = :n"),
+                    sa_text("SELECT canonical_name, industry, tier FROM kb_companies WHERE normalized = :n"),
                     {"n": norm}
                 ).fetchone()
                 canonical = row[0] if row else None
 
             if canonical:
                 comp_row = conn.execute(
-                    text("SELECT canonical_name, industry, tier FROM kb_companies WHERE normalized = :n"),
+                    sa_text("SELECT canonical_name, industry, tier FROM kb_companies WHERE normalized = :n"),
                     {"n": normalize(canonical)}
                 ).fetchone()
                 if comp_row:
@@ -218,7 +218,7 @@ def _recognize_universities(text: str) -> List[Dict]:
     seen = set()
 
     with engine.connect() as conn:
-        rows = conn.execute(text("SELECT canonical_name, normalized, country FROM kb_universities LIMIT 2000")).fetchall()
+        rows = conn.execute(sa_text("SELECT canonical_name, normalized, country FROM kb_universities LIMIT 2000")).fetchall()
 
     text_lower = text.lower()
     for row in rows:
@@ -245,7 +245,7 @@ def _analyze_jd_normality(jd_text: str, role_category: Optional[str]) -> Dict:
 
     with engine.connect() as conn:
         rows = conn.execute(
-            text("SELECT keyword, keyword_normalized, frequency FROM kb_jd_frequency WHERE role_category = :rc AND frequency > 0.85"),
+            sa_text("SELECT keyword, keyword_normalized, frequency FROM kb_jd_frequency WHERE role_category = :rc AND frequency > 0.85"),
             {"rc": role_category}
         ).fetchall()
 
