@@ -47,3 +47,11 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Backend runtime — never commit user uploads or database files
+backend/uploads/*
+backend/data/*.db
+backend/data/*.db-wal
+backend/data/*.db-shm
+!backend/uploads/.gitkeep
+!backend/data/.gitkeep

@@ -14,18 +14,11 @@ run = "bash /home/runner/workspace/backend/start_backend.sh"
 
 [services.production]
 
-[services.production.build]
-args = ["bash", "/home/runner/workspace/backend/start_backend.sh"]
-
-[services.production.build.env]
-NODE_ENV = "production"
-
 [services.production.run]
 args = ["bash", "/home/runner/workspace/backend/start_backend.sh"]
 
 [services.production.run.env]
 PORT = "8080"
-NODE_ENV = "production"
 
 [services.production.health.startup]
 path = "/api/healthz"
