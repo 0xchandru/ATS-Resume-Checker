@@ -3,12 +3,11 @@
 
 echo "=== ATS Resume Checker ==="
 
-# Download spaCy model if needed
-python3 -m spacy download en_core_web_sm --quiet 2>/dev/null || true
+PYTHON=".venv/bin/python3"
 
 # Start backend in background
 echo "Starting backend on port 8787..."
-python3 -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8787 &
+$PYTHON -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8787 &
 BACKEND_PID=$!
 
 # Start frontend
