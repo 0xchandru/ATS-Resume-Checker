@@ -1,7 +1,7 @@
 modules = ["nodejs-20", "python-3.12", "web", "bash"]
 [agent]
 expertMode = true
-stack = "BEST_EFFORT_FALLBACK"
+stack = "FULLSTACK_JS"
 
 [nix]
 channel = "stable-25_05"
@@ -23,23 +23,19 @@ args = "Start application"
 name = "Start application"
 author = "agent"
 
+[workflows.workflow.metadata]
+outputType = "webview"
+
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "bash run.sh"
 waitForPort = 5000
 
-[workflows.workflow.metadata]
-outputType = "webview"
-
 [[ports]]
 localPort = 5000
 externalPort = 80
 
-[[ports]]
-localPort = 23636
-externalPort = 3001
-
 [deployment]
 deploymentTarget = "autoscale"
-run = ["bash", "run.sh"]
-build = ["bash", "-c", "cd frontend && npm install && npm run build"]
+run = ["node", "./dist/index.cjs"]
+build = ["npm", "run", "build"]
