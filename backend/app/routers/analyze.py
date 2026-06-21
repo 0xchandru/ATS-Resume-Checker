@@ -44,58 +44,11 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
     # --- 1. Base Extraction ---
     raw_jd_kws = extractor.extract_jd_keywords(jd_text)
     resume_kws = extractor.extract_resume_keywords(resume_text)
-    
-    # --- 2. New Normalization Engine (Filter Noise) ---
-    skill_concepts, noise_filtered = normalize_and_group_skills(raw_jd_kws)
-    jd_kws_clean = list(skill_concepts.keys())
-
-    # --- 3. Base Matching ---
-    base_match_result = matcher.match_all_layers(resume_kws, jd_kws_clean, resume_text, jd_text)
-    
-    # --- 4. Semantic Grouping ---
-    enhanced_matches = group_aware_match(jd_kws_clean, resume_kws, base_match_result.get("matched", []))
-    match_result = base_match_result.copy()
-    match_result["matched"] = enhanced_matches
-    
-    # Recalculate match rate
-    total_jd = max(1, len(jd_kws_clean))
-    matched_count = len(enhanced_matches)
-    match_result["match_rate"] = min(1.0, matched_count / total_jd)
-    match_result["matched_count"] = matched_count
-    
-    # Deduplicate missing skills
-    matched_kws = {m.get("jd_keyword", "").lower() for m in enhanced_matches}
-    missing_kws = [m for m in base_match_result.get("missing", []) 
-                   if (m.get("keyword", "") if isinstance(m, dict) else m).lower() not in matched_kws]
-    match_result["missing"] = missing_kws
-
-    # --- 5. Parsing & Structure ---
+    match_result = matcher.match_all_layers(resume_kws, jd_kws, resume_text, jd_text)
     sections = section_detector.detect_sections(resume_text, file_metadata)
     formatting = format_checker.check_formatting(record.file_path, file_metadata)
-    
-    # --- 6. Evidence Scoring ---
-    matched_skill_names = [m.get("resume_keyword", "") for m in enhanced_matches]
-    evidence_quality = score_all_evidence(matched_skill_names, resume_text, sections)
-    
-    # --- 7. Seniority Analysis ---
     career = career_analyzer.analyze_career_signals(resume_text, jd_text, match_result)
-    jd_seniority = analyze_jd_seniority(jd_text)
-    resume_seniority = analyze_resume_seniority(resume_text, career)
-    seniority_gap = compute_seniority_gap(jd_seniority, resume_seniority)
-
-    # --- 8. Enhanced Scoring Model ---
-    scoring = scorer.calculate_score_v2(
-        match_result, sections, formatting, career, resume_text, jd_text, 
-        seniority_gap, evidence_quality
-    )
-
-    # --- 9. Role-Fit Verdict ---
-    role_fit = generate_role_fit_verdict(
-        scoring["overall_score"], seniority_gap, evidence_quality, 
-        skill_concepts, noise_filtered, match_result, career
-    )
-
-    # Additional standard analyses
+    scoring = scorer.calculate_score(match_result, sections, formatting, career, resume_text, jd_text)
     action_verbs = feedback_engine.analyze_action_verbs(resume_text, sections)
     feedback = feedback_engine.generate_feedback(match_result, sections, formatting, career, scoring, action_verbs, resume_text, jd_text)
     cyber = feedback_engine.check_cybersecurity_vertical(match_result, resume_text)
@@ -118,15 +71,6 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
         "sub_scores": scoring["sub_scores"],
         "category_scores": category_scores,
         "keywords": match_result,
-        "role_fit": role_fit,
-        "seniority_analysis": {
-            "jd_level": jd_seniority,
-            "resume_level": resume_seniority,
-            "gap": seniority_gap
-        },
-        "evidence_quality": evidence_quality,
-        "skill_concepts": skill_concepts,
-        "noise_filtered": noise_filtered,
         "career_intelligence": career,
         "action_verbs": action_verbs,
         "sections": sections,
@@ -134,8 +78,8 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
         "skill_prediction": skill_prediction,
         "cybersecurity_analysis": cyber,
         "feedback": feedback,
-        "resume_preview": resume_text[:600],
-        "jd_preview": jd_text[:300],
+        "resume_preview": resume_text[:5000],
+        "jd_preview": jd_text[:8000],
     }
 
     existing = db.query(ScanResult).filter(ScanResult.scan_id == scan_id).first()
@@ -175,4 +119,3 @@ def _build_skill_prediction(career: Dict) -> Dict:
         "occupation_matched": f"{onet.get('title', 'Unknown')} (SOC: {onet.get('soc_code', 'N/A')})",
         "predictions": predictions[:5],
     }
-
