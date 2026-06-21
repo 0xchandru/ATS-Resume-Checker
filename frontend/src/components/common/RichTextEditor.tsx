@@ -25,7 +25,7 @@ export default function RichTextEditor({ value, onChange, placeholder, minHeight
     },
     editorProps: {
       attributes: {
-        class: `prose prose-sm dark:prose-invert prose-headings:font-bold prose-p:leading-relaxed prose-a:text-primary max-w-none focus:outline-none w-full px-4 py-3`,
+        class: `prose prose-sm dark:prose-invert prose-headings:font-bold prose-p:leading-relaxed prose-a:text-primary max-w-none focus:outline-none w-full px-4 py-3 min-h-full`,
       },
     },
   });
@@ -47,7 +47,7 @@ export default function RichTextEditor({ value, onChange, placeholder, minHeight
   return (
     <div
       className={`flex flex-col w-full bg-background border border-border rounded-xl overflow-hidden transition-colors ${!readOnly ? "focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary/50" : ""}`}
-      style={{ minHeight }}
+      style={{ height: minHeight }}
     >
       {/* Toolbar */}
       {!readOnly && (
@@ -116,9 +116,12 @@ export default function RichTextEditor({ value, onChange, placeholder, minHeight
         </div>
       )}
 
-      {/* Editor Content — scrollable */}
-      <div className="flex-1 overflow-y-auto cursor-text text-foreground">
-        <EditorContent editor={editor} className="h-full" />
+      {/* Editor Content — fixed height, scrollable */}
+      <div
+        className="flex-1 overflow-y-auto cursor-text text-foreground min-h-0"
+        onClick={() => editor.commands.focus()}
+      >
+        <EditorContent editor={editor} className="h-full [&_.ProseMirror]:min-h-full" />
       </div>
     </div>
   );
