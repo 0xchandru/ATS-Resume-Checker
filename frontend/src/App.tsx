@@ -17,6 +17,12 @@ import { getHistory, uploadAndAnalyze, runAIEvaluation } from "./utils/api";
 export type View = "upload" | "results" | "history" | "compare";
 export type Theme = "dark" | "light";
 
+export interface CategoryScore {
+  score: number;
+  issues_to_fix: number;
+  [key: string]: any;
+}
+
 export interface AnalysisResult {
   scan_id: string;
   filename: string;
@@ -26,6 +32,13 @@ export interface AnalysisResult {
   overall_score: number;
   letter_grade: string;
   sub_scores: Record<string, any>;
+  category_scores?: {
+    searchability: CategoryScore;
+    hard_skills: CategoryScore;
+    soft_skills: CategoryScore;
+    recruiter_tips: CategoryScore;
+    formatting: CategoryScore;
+  };
   keywords: any;
   career_intelligence: any;
   action_verbs: any;

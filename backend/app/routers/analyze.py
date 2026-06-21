@@ -44,6 +44,9 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
     feedback = feedback_engine.generate_feedback(match_result, sections, formatting, career, scoring, action_verbs, resume_text, jd_text)
     cyber = feedback_engine.check_cybersecurity_vertical(match_result, resume_text)
     skill_prediction = _build_skill_prediction(career)
+    category_scores = scorer.compute_category_scores(
+        match_result, sections, formatting, career, resume_text, jd_text, action_verbs
+    )
 
     processing_time = round(time.time() - t_start, 2)
     timestamp = datetime.utcnow().isoformat() + "Z"
@@ -57,6 +60,7 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
         "overall_score": scoring["overall_score"],
         "letter_grade": scoring["letter_grade"],
         "sub_scores": scoring["sub_scores"],
+        "category_scores": category_scores,
         "keywords": match_result,
         "career_intelligence": career,
         "action_verbs": action_verbs,

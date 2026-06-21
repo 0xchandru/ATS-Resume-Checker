@@ -130,47 +130,41 @@ export default function ResultsSidebar({
   aiLoading,
   onScrollToCategory,
 }: Props) {
-  const { overall_score, letter_grade, keywords, sub_scores, formatting, sections, feedback } = result;
+  const { overall_score, letter_grade, keywords, sub_scores, formatting, sections, feedback, category_scores } = result;
 
-  // Calculate category scores from the analysis result
+  // Prefer backend-computed category_scores; fall back to client-side derivation
+  const cs = category_scores;
+
   const matchRate = keywords?.match_rate ? Math.round(keywords.match_rate * 100) : 0;
 
-  // Searchability issues: missing contact info fields, missing sections, etc.
-  const searchabilityScore = Math.round(
+  const searchabilityScore = cs?.searchability?.score ?? Math.round(
     ((sub_scores?.section_completeness?.score || 0) * 0.5 +
     (sub_scores?.keyword_match?.score || 0) * 0.5)
   );
-  const searchabilityIssues = (sections?.missing?.length || 0) + (matchRate < 50 ? 1 : 0);
+  const searchabilityIssues = cs?.searchability?.issues_to_fix ?? ((sections?.missing?.length || 0) + (matchRate < 50 ? 1 : 0));
 
-  // Hard skills = keyword match
-  const hardSkillsScore = Math.round(sub_scores?.keyword_match?.score || 0);
-  const hardSkillsIssues = keywords?.missing?.filter((m: any) =>
+  const hardSkillsScore = cs?.hard_skills?.score ?? Math.round(sub_scores?.keyword_match?.score || 0);
+  const hardSkillsIssues = cs?.hard_skills?.issues_to_fix ?? (keywords?.missing?.filter((m: any) =>
     m.jd_importance === "critical" || m.jd_importance === "high"
-  )?.length || 0;
+  )?.length || 0);
 
-  // Soft skills
-  const softSkillsScore = Math.round(sub_scores?.semantic_relevance?.score || 0);
-  const softSkillsIssues = keywords?.missing?.filter((m: any) =>
+  const softSkillsScore = cs?.soft_skills?.score ?? Math.round(sub_scores?.semantic_relevance?.score || 0);
+  const softSkillsIssues = cs?.soft_skills?.issues_to_fix ?? Math.min(keywords?.missing?.filter((m: any) =>
     m.jd_importance === "medium" || m.jd_importance === "low"
-  )?.length || 0;
-  const softSkillsCapped = Math.min(softSkillsIssues, 5);
+  )?.length || 0, 5);
 
-  // Recruiter tips
-  const recruiterScore = Math.round(sub_scores?.impact_quantification?.score || 0);
-  const recruiterIssues = feedback?.filter((f: any) => f.priority === "important")?.length || 0;
+  const recruiterScore = cs?.recruiter_tips?.score ?? Math.round(sub_scores?.impact_quantification?.score || 0);
+  const recruiterIssues = cs?.recruiter_tips?.issues_to_fix ?? (feedback?.filter((f: any) => f.priority === "important")?.length || 0);
 
-  // Formatting
-  const formattingScore = Math.round(sub_scores?.format_compliance?.score || 0);
-  const formattingIssues = formatting?.issues?.filter((i: any) =>
+  const formattingScore = cs?.formatting?.score ?? Math.round(sub_scores?.format_compliance?.score || 0);
+  const formattingIssues = cs?.formatting?.issues_to_fix ?? (formatting?.issues?.filter((i: any) =>
     i.severity === "critical" || i.severity === "warning"
-  )?.length || 0;
+  )?.length || 0);
 
   const categories = [
     { label: "Searchability", score: searchabilityScore, issues: searchabilityIssues, id: "searchability" },
-    { label: "Hard Skills", score: hardSkillsScore, issues: hardSkillsIssues, id: "hard-skills",
-      color: hardSkillsScore >= 60 ? "#3b82f6" : undefined },
-    { label: "Soft Skills", score: softSkillsScore, issues: softSkillsCapped, id: "soft-skills",
-      color: softSkillsScore < 40 ? "#ef4444" : undefined },
+    { label: "Hard Skills", score: hardSkillsScore, issues: hardSkillsIssues, id: "hard-skills" },
+    { label: "Soft Skills", score: softSkillsScore, issues: softSkillsIssues, id: "soft-skills" },
     { label: "Recruiter Tips", score: recruiterScore, issues: recruiterIssues, id: "recruiter-tips" },
     { label: "Formatting", score: formattingScore, issues: formattingIssues, id: "formatting" },
   ];

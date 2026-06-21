@@ -392,3 +392,145 @@ def _get_grade(score: float) -> str:
         if score >= threshold:
             return grade
     return "F"
+
+
+# ─── Soft skill vocabulary (mirrors frontend SoftSkillsSection.tsx) ────────────
+
+_SOFT_SKILL_TERMS = {
+    "communication", "leadership", "teamwork", "team player", "problem solving",
+    "problem-solving", "critical thinking", "adaptability", "time management",
+    "collaboration", "interpersonal", "analytical", "attention to detail",
+    "self-motivated", "creativity", "flexibility", "organizational",
+    "decision making", "conflict resolution", "mentoring", "coaching",
+    "negotiation", "presentation", "public speaking", "emotional intelligence",
+    "empathy", "initiative", "proactive", "multitasking", "prioritization",
+    "delegation", "strategic thinking", "innovation", "customer service",
+    "relationship building", "accountability", "work ethic", "professionalism",
+    "resilience", "patience", "active listening", "cross-functional",
+    "stakeholder", "agile", "scrum", "detail-oriented", "fast learner",
+    "self-starter", "results-driven", "team-oriented", "motivated",
+}
+
+_SOFT_FRAGMENTS = ("communicat", "leadership", "interpersonal", "agile", "scrum")
+_SOFT_EXCLUSIONS = ("system", "database", "server", "cloud", "platform")
+
+
+def _is_soft_skill(keyword: str) -> bool:
+    lower = keyword.lower()
+    if lower in _SOFT_SKILL_TERMS:
+        return True
+    for frag in _SOFT_FRAGMENTS:
+        if frag in lower and not any(ex in lower for ex in _SOFT_EXCLUSIONS):
+            return True
+    return False
+
+
+def compute_category_scores(
+    match_result: Dict,
+    sections: Dict,
+    formatting: Dict,
+    career: Dict,
+    resume_text: str,
+    jd_text: str,
+    action_verbs: Dict = None,
+) -> Dict:
+    """
+    Compute Jobscan-style 5-category scores for the results sidebar.
+    Each category has: score (0-100), issues_to_fix (int).
+    """
+    matched = match_result.get("matched", [])
+    missing = match_result.get("missing", [])
+
+    # ── Searchability ─────────────────────────────────────────────────────────
+    detected_names = {s["name"] for s in sections.get("detected", [])}
+    search_checks = [
+        "contact_info" in detected_names,
+        "summary" in detected_names,
+        "experience" in detected_names,
+        "education" in detected_names,
+        "skills" in detected_names,
+        match_result.get("match_rate", 0) >= 0.25,
+    ]
+    search_passed = sum(1 for c in search_checks if c)
+    search_score = round(search_passed / len(search_checks) * 100)
+    search_issues = len(search_checks) - search_passed
+
+    # ── Hard Skills ────────────────────────────────────────────────────────────
+    hard_matched = [m for m in matched if not _is_soft_skill(m.get("keyword", ""))]
+    hard_missing = [m for m in missing if not _is_soft_skill(m.get("keyword", ""))]
+    hard_total = len(hard_matched) + len(hard_missing)
+    hard_score = round(len(hard_matched) / hard_total * 100) if hard_total > 0 else 50
+    hard_issues = min(len(hard_missing), 15)
+
+    # ── Soft Skills ────────────────────────────────────────────────────────────
+    soft_matched = [m for m in matched if _is_soft_skill(m.get("keyword", ""))]
+    soft_missing = [m for m in missing if _is_soft_skill(m.get("keyword", ""))]
+    soft_total = len(soft_matched) + len(soft_missing)
+    if soft_total > 0:
+        soft_score = round(len(soft_matched) / soft_total * 100)
+    else:
+        soft_score = 60
+    soft_issues = min(len(soft_missing), 8)
+
+    # ── Recruiter Tips ─────────────────────────────────────────────────────────
+    impact = _impact_score(sections, resume_text)
+    quant_score = impact["score"]
+    quant_ok = quant_score >= 40
+
+    strong_verb_ratio = 0.5
+    if action_verbs:
+        strong_verb_ratio = action_verbs.get("strong_verb_ratio", 0.5)
+    verbs_ok = strong_verb_ratio >= 0.5
+
+    word_count = formatting.get("word_count", 500)
+    wc_ok = 300 <= word_count <= 1200
+
+    file_type = formatting.get("file_type", "pdf")
+    fmt_ok = file_type in ("pdf", "docx")
+
+    recruiter_checks = [quant_ok, verbs_ok, wc_ok, fmt_ok]
+    recruiter_passed = sum(1 for c in recruiter_checks if c)
+    recruiter_base = round(recruiter_passed / len(recruiter_checks) * 100)
+    recruiter_score = round(recruiter_base * 0.55 + quant_score * 0.45)
+    recruiter_issues = len(recruiter_checks) - recruiter_passed
+
+    # ── Formatting ─────────────────────────────────────────────────────────────
+    fmt_result = _format_score(formatting)
+    fmt_score_val = round(fmt_result["score"])
+    fmt_issues = sum(
+        1 for i in formatting.get("issues", [])
+        if i.get("severity") in ("critical", "warning")
+    )
+
+    return {
+        "searchability": {
+            "score": search_score,
+            "issues_to_fix": search_issues,
+            "passed_checks": search_passed,
+            "total_checks": len(search_checks),
+        },
+        "hard_skills": {
+            "score": hard_score,
+            "issues_to_fix": hard_issues,
+            "matched_count": len(hard_matched),
+            "missing_count": len(hard_missing),
+        },
+        "soft_skills": {
+            "score": soft_score,
+            "issues_to_fix": soft_issues,
+            "matched_count": len(soft_matched),
+            "missing_count": len(soft_missing),
+        },
+        "recruiter_tips": {
+            "score": recruiter_score,
+            "issues_to_fix": recruiter_issues,
+            "quantification_score": round(quant_score, 1),
+            "quantified_bullets": impact["quantified_bullets"],
+            "total_bullets": impact["total_bullets"],
+            "strong_verb_ratio": round(strong_verb_ratio, 2),
+        },
+        "formatting": {
+            "score": fmt_score_val,
+            "issues_to_fix": fmt_issues,
+        },
+    }
