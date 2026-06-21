@@ -132,6 +132,7 @@ def group_aware_match(
             freq = jk.get("frequency", 0.0) if isinstance(jk, dict) else 0.0
             req_type = jk.get("requirement_type", "mentioned") if isinstance(jk, dict) else "mentioned"
             from backend.app.engine.matching.matcher import _calc_importance
+            kb_source = jk.get("kb_source", "primary") if isinstance(jk, dict) else "primary"
             
             concept_matches.append({
                 "keyword": jk_term,
@@ -148,7 +149,7 @@ def group_aware_match(
                 "explanation": f"'{jk_term}' and '{resume_variant}' are both in the '{gname}' skill group",
                 "jd_frequency": freq,
                 "requirement_type": req_type,
-                "jd_importance": _calc_importance(freq, req_type),
+                "jd_importance": _calc_importance(freq, req_type, kb_source),
                 "jd_occurrence_count": 1,
             })
             already_matched.add(jk_norm)

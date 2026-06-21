@@ -187,6 +187,57 @@ _STOPWORDS: Set[str] = {
     "passionate", "provider", "line", "delivery", "advisory", "workforce",
     "change", "impact", "chain", "base", "proficiency", "team barracuda", "barracuda",
     "hundreds of thousands", "exercise", "landscape", "tier",
+
+    # ── Corporate mission / values language (not skills) ──
+    "commitment", "passion", "purpose", "mission", "vision", "integrity",
+    "champion", "championing", "championed",
+    "shape", "shaping", "shaped",
+    "respect", "respecting", "mutual",
+    "inclusion", "inclusive", "diversity",
+    "culture", "cultural",
+    "community", "communities",
+    "belonging", "equity",
+    "trust", "trustworthy", "transparency",
+
+    # ── Generic adjectives / quantifiers that appear in any JD ──
+    "additional", "extra", "further", "added",
+    "simple", "simplified", "straightforward",
+    "meaningful", "impactful", "exciting",
+    "collaborative", "cross-functional",
+    "dedicated", "motivated", "driven",
+
+    # ── Generic nouns that are NOT skills ──
+    "goal", "goals", "objective", "objectives",
+    "chance", "chances", "opportunity",
+    "fortune",  # Fortune 500 context
+    "talent", "talents",
+    "success", "successful",
+    "stability", "stable",
+    "growth", "growing",
+    "step", "steps",
+    "phase", "phases",
+    "category", "categories",
+    "recording", "recordings",
+    "center",  # standalone; "security operations center" captured as multi-word
+    "hire", "hiring", "hired",
+    "degree",  # qualification; "bachelor's degree" captured as multi-word
+    "bachelor", "bachelors",
+    "bringing",
+    "contribution", "contributions",
+    "campaign", "campaigns",
+    "learning",  # alone; "machine learning" multi-word survives stopword ratio check
+    "financial",  # alone; "financial analysis", "financial services" survive
+    "client",   # alone; "client management", "client-facing" survive
+    "standard", "standards",  # alone; "NIST standards", "ISO 27001" survive
+    "completion",
+    "adhere", "adhering", "adherence",
+    "awareness",  # alone; "security awareness" multi-word survives
+    "exposure",   # alone — "cloud exposure" survives as multi-word
+    "administration",  # alone; "Windows administration", "system administration" survive
+    "indicators",  # alone; "indicators of compromise" survives as multi-word
+    "defense",  # alone; "defense in depth", "cyber defense" survive as multi-word
+    "framework",  # alone; "NIST framework", "security framework" survive
+    "continuity",  # alone; "business continuity" survives as multi-word
 }
 
 _MIN_KEYWORD_LENGTH = 2

@@ -1,6 +1,8 @@
+import re
 import time
 import json
 import logging
+from html import unescape
 from datetime import datetime, timezone
 from typing import Dict
 from fastapi import APIRouter, HTTPException, Depends
@@ -22,6 +24,33 @@ from backend.app.engine.intelligence import career_analyzer, feedback_engine
 from pydantic import BaseModel
 from typing import Optional
 
+
+def _strip_html(html: str) -> str:
+    """Convert HTML from the rich-text editor to plain text.
+
+    Preserves line structure so that section headers (h1-h6, p, li …)
+    each land on their own line — which is what the section detector,
+    keyword extractor and scoring modules all expect.
+    """
+    if not html or not html.strip():
+        return html or ""
+    if not re.search(r"<[a-zA-Z]", html):
+        return html
+    text = re.sub(r"<(br\s*/?)>", "\n", html, flags=re.IGNORECASE)
+    text = re.sub(
+        r"</?(?:h[1-6]|p|div|li|ul|ol|tr|section|article|header|footer|blockquote)[^>]*>",
+        "\n",
+        text,
+        flags=re.IGNORECASE,
+    )
+    text = re.sub(r"<[^>]+>", "", text)
+    text = unescape(text)
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r"\n[ \t]+", "\n", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
 class AnalyzeRequest(BaseModel):
     resume_text: Optional[str] = None
 
@@ -42,8 +71,9 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
         logger.error("Parse error for %s: %s", scan_id, e)
         raise HTTPException(status_code=422, detail=f"Could not parse resume: {e}")
 
-    resume_text = request.resume_text if (request and request.resume_text) else parsed["raw_text"]
-    jd_text = str(record.jd_text or "")
+    raw_resume_text = request.resume_text if (request and request.resume_text) else parsed["raw_text"]
+    resume_text = _strip_html(raw_resume_text)
+    jd_text = _strip_html(str(record.jd_text or ""))
     file_metadata = parsed["metadata"]
     file_metadata["page_count"] = parsed["page_count"]
     file_metadata["file_type"] = parsed["file_type"]

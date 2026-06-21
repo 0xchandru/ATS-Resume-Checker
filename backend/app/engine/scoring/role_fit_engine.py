@@ -153,16 +153,19 @@ def _identify_strengths(
     cert_skills = evidence_breakdown.get("certification", [])
 
     if production_skills:
-        skills_list = ", ".join(s["skill"] for s in production_skills[:3])
-        strengths.append(f"Production experience with: {skills_list}")
+        skill_names = [s.get("skill", "") for s in production_skills[:3] if s.get("skill")]
+        if skill_names:
+            strengths.append(f"Production experience with: {', '.join(skill_names)}")
 
     if project_skills:
-        skills_list = ", ".join(s["skill"] for s in project_skills[:3])
-        strengths.append(f"Project work demonstrating: {skills_list}")
+        skill_names = [s.get("skill", "") for s in project_skills[:3] if s.get("skill")]
+        if skill_names:
+            strengths.append(f"Project work demonstrating: {', '.join(skill_names)}")
 
     if cert_skills:
-        skills_list = ", ".join(s["skill"] for s in cert_skills[:3])
-        strengths.append(f"Relevant certifications: {skills_list}")
+        skill_names = [s.get("skill", "") for s in cert_skills[:3] if s.get("skill")]
+        if skill_names:
+            strengths.append(f"Relevant certifications: {', '.join(skill_names)}")
 
     # Match rate
     matched = keywords_data.get("matched", [])

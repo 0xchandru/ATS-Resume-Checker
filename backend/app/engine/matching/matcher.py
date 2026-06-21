@@ -157,12 +157,14 @@ def match_all_layers(
         jd_kw = jd_terms.get(jd_norm, {})
         freq = jd_kw.get("frequency", 0.0)
         req_type = jd_kw.get("requirement_type", "mentioned")
-        importance = _calc_importance(freq, req_type)
+        kb_source = jd_kw.get("kb_source", "statistical")
+        importance = _calc_importance(freq, req_type, kb_source)
         missing.append({
             "keyword": jd_kw.get("term", jd_norm),
             "normalized_form": jd_kw.get("canonical", jd_norm),
             "category": jd_kw.get("category"),
             "domain": jd_kw.get("domain"),
+            "kb_source": kb_source,
             "jd_frequency": freq,
             "requirement_type": req_type,
             "jd_importance": importance,
@@ -300,21 +302,25 @@ def _build_match(jd_kw: Dict, norm: str, layer: str, confidence: float, matched_
         "domain": domain or jd_kw.get("domain"),
         "jd_frequency": freq,
         "requirement_type": req_type,
-        "jd_importance": _calc_importance(freq, req_type),
+        "jd_importance": _calc_importance(freq, req_type, jd_kw.get("kb_source", "statistical")),
         "jd_occurrence_count": _count_occurrences(jd_kw.get("term", norm), jd_text) if jd_text else 1,
         "resume_occurrence_count": _count_occurrences(matched_form, resume_text) if resume_text else 1,
         "match_confidence": confidence,
     }
 
 
-def _calc_importance(freq: float, req_type: str) -> str:
-    # Phase 2.3: Must-have vs preferred logic
+def _calc_importance(freq: float, req_type: str, kb_source: str = "primary") -> str:
+    # Only KB-verified skills (primary / alias) can be marked "critical".
+    # Statistical terms (not in KB) that happen to appear in a "required"
+    # JD section are NOT real hard requirements — cap them at "medium".
+    is_kb_skill = kb_source in ("primary", "alias")
+
     if req_type == "required":
-        return "critical"
+        return "critical" if is_kb_skill else "medium"
     elif req_type == "preferred":
-        return "high" if freq >= 0.5 else "medium"
-    
-    # Fallback to frequency-based if not explicitly required/preferred
+        return "high" if (is_kb_skill and freq >= 0.5) else "medium"
+
+    # Frequency-based fallback for "mentioned" terms
     if freq >= 0.8:
         return "high"
     elif freq >= 0.4:
@@ -335,14 +341,14 @@ def _calc_source_flags(jd_kw: Dict) -> List[str]:
 
 def _generate_suggestion(kw: Dict, importance: str) -> str:
     term = kw.get("canonical", kw.get("term", "this skill"))
-    cat = kw.get("category") or "skill"
+    kb_source = kw.get("kb_source", "statistical")
     req_type = kw.get("requirement_type", "mentioned")
-    
-    # More specific actionable feedback based on requirement type
-    if importance == "critical" or req_type == "required":
-        return f"Add '{term}' to your skills or experience section — it's a MUST-HAVE requirement for this role."
-    elif importance == "high" or req_type == "preferred":
-        return f"Consider adding '{term}' if you have experience — it's explicitly preferred for this role."
+    is_kb_skill = kb_source in ("primary", "alias")
+
+    if importance == "critical" and is_kb_skill:
+        return f"Add '{term}' to your skills or experience section — it's a required skill for this role."
+    elif importance == "high" or (importance == "critical" and not is_kb_skill) or req_type == "preferred":
+        return f"Consider adding '{term}' if you have relevant experience — it's mentioned in the job description."
     return f"Mention '{term}' if applicable to strengthen keyword alignment."
 
 
