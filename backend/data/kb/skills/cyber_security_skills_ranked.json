@@ -1,109 +1,1247 @@
 {
-  "_metadata": {
-    "description": "Ranked cybersecurity skills for SOC/security role matching",
-    "version": "1.0.0",
-    "source": "NIST NICE Framework, CyberSeek, industry JD analysis"
-  },
-  "data": [
-    {"skill": "SIEM", "rank": 1, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Splunk", "rank": 2, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Incident Response", "rank": 3, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Threat Intelligence", "rank": 4, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Log Analysis", "rank": 5, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Network Security", "rank": 6, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Vulnerability Assessment", "rank": 7, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Firewall", "rank": 8, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "IDS/IPS", "rank": 9, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Endpoint Security", "rank": 10, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "IBM QRadar", "rank": 11, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Microsoft Sentinel", "rank": 12, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "CrowdStrike", "rank": 13, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Wireshark", "rank": 14, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "MITRE ATT&CK", "rank": 15, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "SOC", "rank": 16, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Threat Hunting", "rank": 17, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Malware Analysis", "rank": 18, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Penetration Testing", "rank": 19, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "EDR", "rank": 20, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "SOAR", "rank": 21, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Nessus", "rank": 22, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Qualys", "rank": 23, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Palo Alto Networks", "rank": 24, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Digital Forensics", "rank": 25, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "DFIR", "rank": 26, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Cloud Security", "rank": 27, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Zero Trust", "rank": 28, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "OWASP", "rank": 29, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Application Security", "rank": 30, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Snort", "rank": 31, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Suricata", "rank": 32, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Zeek", "rank": 33, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Wazuh", "rank": 34, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "OSSEC", "rank": 35, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Sysmon", "rank": 36, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "YARA", "rank": 37, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Sigma", "rank": 38, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Nmap", "rank": 39, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Metasploit", "rank": 40, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Burp Suite", "rank": 41, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "SentinelOne", "rank": 42, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Carbon Black", "rank": 43, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Cortex XDR", "rank": 44, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "ArcSight", "rank": 45, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "LogRhythm", "rank": 46, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Elastic SIEM", "rank": 47, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Fortinet", "rank": 48, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Check Point", "rank": 49, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Cisco ASA", "rank": 50, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Splunk SOAR", "rank": 51, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Palo Alto XSOAR", "rank": 52, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Shuffle SOAR", "rank": 53, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Security Automation", "rank": 54, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Risk Assessment", "rank": 55, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Compliance", "rank": 56, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "GRC", "rank": 57, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "ISO 27001", "rank": 58, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "NIST", "rank": 59, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "PCI DSS", "rank": 60, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "HIPAA", "rank": 61, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "GDPR", "rank": 62, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "SOC 2", "rank": 63, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "IAM", "rank": 64, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Active Directory", "rank": 65, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "VPN", "rank": 66, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "DLP", "rank": 67, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Encryption", "rank": 68, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "PKI", "rank": 69, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "DevSecOps", "rank": 70, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Python", "rank": 71, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Bash", "rank": 72, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "PowerShell", "rank": 73, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "TCP/IP", "rank": 74, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "DNS", "rank": 75, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Linux", "rank": 76, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Windows", "rank": 77, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Phishing", "rank": 78, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Ransomware", "rank": 79, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Social Engineering", "rank": 80, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "TryHackMe", "rank": 81, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "HackTheBox", "rank": 82, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "CTF", "rank": 83, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Tenable", "rank": 84, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Rapid7", "rank": 85, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "OpenVAS", "rank": 86, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "ServiceNow", "rank": 87, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Jira", "rank": 88, "precision_level": "low", "domain": "cybersecurity"},
-    {"skill": "ITIL", "rank": 89, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "Kubernetes", "rank": 90, "precision_level": "low", "domain": "cybersecurity"},
-    {"skill": "Docker", "rank": 91, "precision_level": "low", "domain": "cybersecurity"},
-    {"skill": "AWS", "rank": 92, "precision_level": "low", "domain": "cybersecurity"},
-    {"skill": "Azure", "rank": 93, "precision_level": "low", "domain": "cybersecurity"},
-    {"skill": "SQL", "rank": 94, "precision_level": "low", "domain": "cybersecurity"},
-    {"skill": "Network Security", "rank": 95, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Endpoint Security", "rank": 96, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "Microsoft Defender", "rank": 97, "precision_level": "high", "domain": "cybersecurity"},
-    {"skill": "CyberDefenders", "rank": 98, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "LetsDefend", "rank": 99, "precision_level": "medium", "domain": "cybersecurity"},
-    {"skill": "XDR", "rank": 100, "precision_level": "medium", "domain": "cybersecurity"}
+  "generated_at": "2026-06-20T10:41:42.215802Z",
+  "ranked": [
+    {
+      "term": "risk management",
+      "jd_count": 324,
+      "resume_count": 0,
+      "score": 648
+    },
+    {
+      "term": "adobe creative suite",
+      "jd_count": 43,
+      "resume_count": 0,
+      "score": 86
+    },
+    {
+      "term": "cyber security",
+      "jd_count": 33,
+      "resume_count": 0,
+      "score": 66
+    },
+    {
+      "term": "enterprise risk management",
+      "jd_count": 17,
+      "resume_count": 0,
+      "score": 34
+    },
+    {
+      "term": "security engineering",
+      "jd_count": 8,
+      "resume_count": 0,
+      "score": 16
+    },
+    {
+      "term": "wireshark",
+      "jd_count": 5,
+      "resume_count": 0,
+      "score": 10
+    },
+    {
+      "term": "banking activities",
+      "jd_count": 3,
+      "resume_count": 0,
+      "score": 6
+    },
+    {
+      "term": "information security strategy",
+      "jd_count": 2,
+      "resume_count": 0,
+      "score": 4
+    },
+    {
+      "term": "nessus",
+      "jd_count": 2,
+      "resume_count": 0,
+      "score": 4
+    },
+    {
+      "term": "metasploit",
+      "jd_count": 1,
+      "resume_count": 0,
+      "score": 2
+    },
+    {
+      "term": "penetration testing tool",
+      "jd_count": 1,
+      "resume_count": 0,
+      "score": 2
+    },
+    {
+      "term": "apply credit risk policy",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "perform roof maintenance",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "maltego",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "operate radio equipment",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair insulating tube winding machinery",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "manage it security compliances",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "distribute local information materials",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "cain and abel (penetration testing tool)",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "ferment stacks of tobacco leaves",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "prepare animal materials for brush bristles",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "internal risk management policy",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "advise on risk management",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "produce content for tourism brochures",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "implement ict security policies",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "diagnose diseases of the vascular system",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "offer assistance to national citizens",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "diagnose respiratory diseases",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair jewellery",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "use textile technique for hand-made products",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "cloud security and compliance",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "prepare promotional materials on nutritition",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "media law",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair musical instruments",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "manage sports events",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "embroider fabrics",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "replace tyres",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "perform bronchoscopy",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "communicate expectations of fight actions",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "broadcast equipment",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "manage distribution of destination promotional materials",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "select hazard control",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair heat sealing machinery",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair core defects",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "set up portable field transmission equipment",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "diagnose rheumatic diseases",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "advise legislators",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "electrical equipment regulations",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "summarise stories",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "ict network security risks",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "youth work principles",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "induce spawning and fertilisation on aquaculture species",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "inform on toilet facilities malfunctions",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "develop information security strategy",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "apply permanent make-up",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "implement risk management in procurement",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "design web-based courses",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "provide online help",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "condition broodstock",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "monitor quality of broadcasts",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "food ethics",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "manage electronic logistics for sound equipment",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "use technology for forensics",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "maintain tile flooring",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "develop food safety programmes",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "coat inside of tyres",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "provide cost benefit analysis reports",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "implement risk management for works of art",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "establish an information security management system",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "aquaculture reproduction",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "perform financial risk management in international trade",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "types of cylindrical grinding processes",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "manage sound quality",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "apply sports massage",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "perform toys finishing",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "advertise new book releases",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "perform street cleaning manually",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "aircrack (penetration testing tool)",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair plastic machinery",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "backbox (penetration testing tool)",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair leather goods",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "types of cartridges",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "monitor media industry research figures",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "provide immigration advice",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "telecommunication industry",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "kali linux",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "cut glass",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair furniture frames",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair mould defects",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "enable audience participation",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "interpret languages in live broadcasting shows",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair wood board machinery",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "ensure information security",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "implement ict risk management",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "manage capture broodstock operations",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "educate on emergency management",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "maintain broadcast equipment",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "polish gemstones",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "broadcast using internet protocol",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "dismantle broken appliances",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "develop aquaculture breeding strategies",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "build rebar cages",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "attend parliament plenaries",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "handle fragile items",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "conduct threat intelligence",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "john the ripper (penetration testing tool)",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "execute ict audits",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "carry out storage risk management",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "perform rail operations risk management",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "framework for a safety management system",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "handle cybersecurity incidents",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "insert bristles",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "apply information security policies",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "reproduce documents",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "blackarch",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "operate remote broadcast equipment",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "record court procedures",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair edge banding machinery",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "collect broken appliances",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "web application security threats",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "maintain plan for continuity of operations",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "maritime telecommunications",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "wash fibres",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "apply import strategies",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "develop programming schedule",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "perform escalation procedure",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "compose playlist",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "hand out product samples",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "apply risk management processes",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "sanitise winery area",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "promote the transfer of knowledge",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "blockchain applications security principles",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "comply with quality standards related to healthcare practice",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "manage athletes touring abroad",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "information governance compliance",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "weld mining machinery",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "watch video and motion picture production products",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "coordinate shipments of recycling materials",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "evaluate forensic data",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "contact talent agents",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "respect cultural preferences",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "advise on environmental risk management systems",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "monitor broadcast programming",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "create production schedules",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "apply risk management in sports",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "memorise lines",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "operate broadcast equipment",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "prepare broadcasts",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "gemstone grading systems",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair slitting machinery",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "gather information to substitute parts",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "perform cerebrospinal fluid analysis",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "ensure safety regulations in dealing with infectious diseases",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "samurai web testing framework",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "types of sawing blades",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "grind gemstones",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "use curing room equipment",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "smooth glass surface",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "work with broad variety of personalities",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair furniture machinery",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "implement cloud security and compliance",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "conduct airport security screening",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "operate games",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair router machinery",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "study media sources",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "calculate value of gems",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "operate metal polishing equipment",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair hammer mill",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "create script for artistic production",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "perform facial treatment",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "characteristics of diamonds",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "bristles",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "implement risk management for outdoors",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "develop tourist information materials",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "jewellery product categories",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "create editorial board",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "manufacturing of jewellery",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "handle broken glass sheets",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "estimate value of used jewellery and watches",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "types of alarm systems",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "align antennae with receiving dishes",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "complete evaluation forms of calls",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "provide multimedia content",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "answer questions about the train transport service",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "offer financial services",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "browse, search and filter data, information and digital content",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "feed broodstock",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "implement a firewall",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "collect broodstock",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "apply rubber patches",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "advice on security risk management",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "maintain a non-emotional involvement",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "maintain database security",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "evaluate broadcast programs",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "nexpose",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "ensure law application",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "manage production of destination promotional materials",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "interview insurance claimants",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "perform ict security testing",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "expand the network of providers",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "abrasive machining processes",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "culture aquaculture hatchery stocks",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "conduct security screenings",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "repair coquille defects",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "translate language concepts",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "present during live broadcasts",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    },
+    {
+      "term": "set up broadcast equipment",
+      "jd_count": 0,
+      "resume_count": 0,
+      "score": 0
+    }
   ]
 }

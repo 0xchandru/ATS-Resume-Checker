@@ -205,7 +205,7 @@ def _identify_gaps(
     missing = keywords_data.get("missing", [])
     critical_missing = [m for m in missing if isinstance(m, dict) and m.get("jd_importance") in ("critical", "high")]
     if critical_missing:
-        skills_list = ", ".join(m.get("keyword", m.get("skill", "")) for m in critical_missing[:3])
+        skills_list = ", ".join(str(m.get("keyword", m.get("skill", ""))) for m in critical_missing[:3])
         gaps.append(f"Missing critical skills: {skills_list}")
 
     # Weak evidence
@@ -239,7 +239,7 @@ def _identify_truly_missing(
 
     truly_missing = []
     for m in missing:
-        skill = m.get("keyword", m.get("skill", "")) if isinstance(m, dict) else str(m)
+        skill = str(m.get("keyword") or m.get("skill") or "") if isinstance(m, dict) else str(m)
         if skill.lower() in noise_set:
             continue
         importance = m.get("jd_importance", "medium") if isinstance(m, dict) else "medium"

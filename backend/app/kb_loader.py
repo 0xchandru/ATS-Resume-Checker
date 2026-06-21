@@ -69,6 +69,8 @@ def load_knowledge_base():
         _load_universities(conn, kb)
         _load_jd_frequency(conn, kb)
         _load_section_patterns(conn)
+        _load_cover_letters(conn, kb)
+        _load_portfolio_projects(conn, kb)
         conn.execute(text("INSERT OR REPLACE INTO kb_meta (key, value) VALUES ('kb_initialized', 'true')"))
 
     logger.info("Knowledge base initialization complete")
@@ -76,8 +78,12 @@ def load_knowledge_base():
 
 def _load_skills(conn, kb: str):
     rows = []
+    # Load from ALL skill sources: curated master, ESCO, O*NET software
     files = [
         ("skills/skills_master.json", "curated"),
+        ("skills/esco_skills.json", "ESCO"),
+        ("skills/onet_skills.json", "ONET"),
+        ("skills/onet_software_skills.json", "ONET_software"),
     ]
     categories = {}
     cat_raw = _load_json(os.path.join(kb, "skills/skills_by_category.json"))
@@ -91,7 +97,7 @@ def _load_skills(conn, kb: str):
                         categories[_normalize(name)] = cat
 
     seen = set()
-    for fname, source in files:
+    for fname, default_source in files:
         data = _extract_data(_load_json(os.path.join(kb, fname)))
         if not data:
             continue
@@ -101,12 +107,12 @@ def _load_skills(conn, kb: str):
                 name = entry
                 cat = categories.get(_normalize(name), None)
                 domain = None
+                source = default_source
             elif isinstance(entry, dict):
                 name = entry.get("name") or entry.get("canonical_name") or entry.get("skill") or ""
                 cat = entry.get("category") or categories.get(_normalize(name))
                 domain = entry.get("domain")
-                src = entry.get("source") or source
-                source = src or source
+                source = entry.get("source") or default_source
             else:
                 continue
             if not name:
@@ -127,7 +133,8 @@ def _load_skills(conn, kb: str):
 
 def _load_aliases(conn, kb: str):
     rows = []
-    files = ["skills/skills_aliases.json"]
+    # Load from BOTH curated aliases and ESCO aliases (99,672 entries)
+    files = ["skills/skills_aliases.json", "skills/esco_aliases.json"]
     seen = set()
     for fname in files:
         data = _extract_data(_load_json(os.path.join(kb, fname)))
@@ -158,9 +165,12 @@ def _load_aliases(conn, kb: str):
 
     if rows:
         conn.execute(text("DELETE FROM kb_skill_aliases"))
-        conn.execute(text(
-            "INSERT OR IGNORE INTO kb_skill_aliases (alias, alias_normalized, canonical_name, confidence) VALUES (:alias, :alias_normalized, :canonical_name, :confidence)"
-        ), rows)
+        # Insert in batches to avoid SQLite variable limit
+        batch_size = 5000
+        for i in range(0, len(rows), batch_size):
+            conn.execute(text(
+                "INSERT OR IGNORE INTO kb_skill_aliases (alias, alias_normalized, canonical_name, confidence) VALUES (:alias, :alias_normalized, :canonical_name, :confidence)"
+            ), rows[i:i + batch_size])
     logger.info("kb_skill_aliases: %d rows", len(rows))
 
 
@@ -169,10 +179,25 @@ def _load_cyber_skills(conn, kb: str):
     files = ["skills/cyber_security_skills_ranked.json", "skills/cyber_security_high_precision.json", "skills/cyber_security_skills.json"]
     seen = set()
     for fname in files:
-        data = _extract_data(_load_json(os.path.join(kb, fname)))
-        if not data:
+        raw = _load_json(os.path.join(kb, fname))
+        if not raw:
             continue
-        entries = data if isinstance(data, list) else list(data.values()) if isinstance(data, dict) else []
+        # Handle different formats:
+        # ranked file: {_metadata, data: {generated_at, ranked: [...]}} 
+        # high_precision: {_metadata, data: [...]}
+        # cyber_skills: {_metadata, data: [...]}
+        data = _extract_data(raw)
+        if isinstance(data, dict):
+            # The ranked file wraps entries in a 'ranked' key
+            if "ranked" in data:
+                entries = data["ranked"]
+            else:
+                entries = list(data.values())
+        elif isinstance(data, list):
+            entries = data
+        else:
+            continue
+        
         for i, entry in enumerate(entries):
             if isinstance(entry, str):
                 name = entry
@@ -180,15 +205,22 @@ def _load_cyber_skills(conn, kb: str):
                 precision = None
                 domain = "cybersecurity"
             elif isinstance(entry, dict):
-                name = entry.get("skill") or entry.get("name") or entry.get("skill_name") or ""
-                rank = entry.get("rank") or (i + 1)
+                # Handle different key names across files:
+                # ranked: {term, jd_count, resume_count, score}
+                # high_precision: {canonical_name, score}
+                # cyber_skills: {canonical_name, source}
+                name = entry.get("canonical_name") or entry.get("term") or entry.get("skill") or entry.get("name") or entry.get("skill_name") or ""
+                rank = entry.get("rank") or entry.get("score") or (i + 1)
                 precision = entry.get("precision_level") or entry.get("precision")
                 domain = entry.get("domain") or "cybersecurity"
             else:
                 continue
-            if not name or name in seen:
+            if not name:
                 continue
-            seen.add(name)
+            norm_name = _normalize(name)
+            if norm_name in seen:
+                continue
+            seen.add(norm_name)
             rows.append({"skill_name": name, "rank": rank, "precision_level": precision, "domain": domain})
 
     if rows:
@@ -205,21 +237,33 @@ def _load_certifications(conn, kb: str):
     pattern_rows = []
     seen = set()
 
-    pat_data = _extract_data(_load_json(os.path.join(kb, "certifications/certifications_regex.json")))
-    if pat_data:
-        entries = pat_data if isinstance(pat_data, list) else []
-        for entry in entries:
-            if isinstance(entry, dict):
-                pattern_rows.append({
-                    "canonical_name": entry.get("canonical_name") or entry.get("name") or "",
-                    "regex_pattern": entry.get("pattern") or entry.get("regex") or ""
-                })
+    # Load cert regex patterns
+    # Format: {generated_at, master_pattern} — it's a single large regex, not a list
+    pat_raw = _load_json(os.path.join(kb, "certifications/certifications_regex.json"))
+    if pat_raw:
+        master_pattern = pat_raw.get("master_pattern", "")
+        if master_pattern:
+            pattern_rows.append({
+                "canonical_name": "__master_cert_regex__",
+                "regex_pattern": master_pattern
+            })
 
     for fname in files:
-        data = _extract_data(_load_json(os.path.join(kb, fname)))
-        if not data:
+        raw = _load_json(os.path.join(kb, fname))
+        if not raw:
             continue
-        entries = data if isinstance(data, list) else list(data.values()) if isinstance(data, dict) else []
+        data = _extract_data(raw)
+        if not data:
+            # Try direct access for lookup format {lookup: {name: {...}, ...}}
+            data = raw.get("lookup", raw)
+        
+        entries = []
+        if isinstance(data, list):
+            entries = data
+        elif isinstance(data, dict):
+            # certifications_lookup.json: {"cissp": {canonical_name, issuer, domain, ...}, ...}
+            entries = list(data.values())
+        
         for entry in entries:
             if isinstance(entry, str):
                 name = entry
@@ -227,8 +271,19 @@ def _load_certifications(conn, kb: str):
                 domain = None
             elif isinstance(entry, dict):
                 name = entry.get("canonical_name") or entry.get("name") or entry.get("cert") or ""
-                issuer = entry.get("issuer")
+                issuer = entry.get("issuer") or entry.get("issuer_full")
                 domain = entry.get("domain")
+                # Extract per-cert regex pattern if available
+                regex = entry.get("regex_pattern") or entry.get("regex")
+                if regex and name:
+                    pattern_rows.append({"canonical_name": name, "regex_pattern": regex})
+                # Also build pattern from abbreviation if present
+                abbr = entry.get("abbreviation")
+                if abbr and name and not regex:
+                    pattern_rows.append({
+                        "canonical_name": name,
+                        "regex_pattern": r"\b" + re.escape(abbr) + r"\b"
+                    })
             else:
                 continue
             if not name or name in seen:
@@ -315,13 +370,68 @@ def _load_onet_occupations(conn, kb: str):
 
 def _load_action_verbs(conn, kb: str):
     rows = []
-    files = ["action-verbs/action_verbs_by_category.json", "action-verbs/action_verbs_flat_lookup.json", "action-verbs/action_verbs_master.json"]
     seen = set()
-    for fname in files:
+
+    # 1. Load the FULL action-verbs.json (the comprehensive 170KB dataset)
+    #    It has: categories (19 with rich verb objects), flat_verb_lookup, weak_verb_lookup
+    full_data = _load_json(os.path.join(kb, "action-verbs/action-verbs.json"))
+    if full_data:
+        # Parse categories with rich verb objects (strength_score, impact_type, etc.)
+        categories = full_data.get("categories", {})
+        for cat_name, cat_data in categories.items():
+            if cat_name.startswith("_") or not isinstance(cat_data, dict):
+                continue
+            verbs = cat_data.get("verbs", [])
+            for verb_obj in verbs:
+                if isinstance(verb_obj, dict):
+                    base = verb_obj.get("verb_base") or verb_obj.get("verb") or ""
+                    past = verb_obj.get("past_tense", "")
+                    present = verb_obj.get("present_tense", "")
+                    gerund = verb_obj.get("gerund", "")
+                    strength = verb_obj.get("strength_score", 3)
+                    # Normalize strength to 1-3 scale (from 1-5)
+                    if strength >= 4:
+                        norm_strength = 3  # strong
+                    elif strength >= 2:
+                        norm_strength = 2  # medium
+                    else:
+                        norm_strength = 1  # weak
+                    # Add all forms of the verb
+                    for form in [base, past, present, gerund]:
+                        if form and form.lower() not in seen:
+                            seen.add(form.lower())
+                            rows.append({"verb": form.lower(), "category": cat_name, "strength": norm_strength})
+                    # Also add aliases
+                    for alias in verb_obj.get("aliases", []):
+                        if alias and alias.lower() not in seen:
+                            seen.add(alias.lower())
+                            rows.append({"verb": alias.lower(), "category": cat_name, "strength": norm_strength})
+                elif isinstance(verb_obj, str):
+                    if verb_obj.lower() not in seen:
+                        seen.add(verb_obj.lower())
+                        rows.append({"verb": verb_obj.lower(), "category": cat_name, "strength": 2})
+
+        # Parse flat_verb_lookup for any additional strong verbs
+        flat_verbs = full_data.get("flat_verb_lookup", {}).get("verbs", [])
+        for v in flat_verbs:
+            if isinstance(v, str) and v.lower() not in seen:
+                seen.add(v.lower())
+                rows.append({"verb": v.lower(), "category": "strong", "strength": 3})
+
+        # Parse weak_verb_lookup — mark them as strength 1
+        weak_verbs = full_data.get("weak_verb_lookup", {}).get("verbs", [])
+        for v in weak_verbs:
+            if isinstance(v, str) and v.lower() not in seen:
+                seen.add(v.lower())
+                rows.append({"verb": v.lower(), "category": "weak_verbs_to_avoid", "strength": 1})
+
+    # 2. Also load the smaller supplementary files for any extras
+    extra_files = ["action-verbs/action_verbs_by_category.json", "action-verbs/action_verbs_flat_lookup.json", "action-verbs/action_verbs_master.json"]
+    for fname in extra_files:
         data = _extract_data(_load_json(os.path.join(kb, fname)))
         if not data:
             continue
-        if isinstance(data, dict) and fname.endswith("action_verbs_by_category.json"):
+        if isinstance(data, dict):
             for cat, verbs in data.items():
                 if cat.startswith("_"):
                     continue
@@ -333,9 +443,8 @@ def _load_action_verbs(conn, kb: str):
                         continue
                     seen.add(verb.lower())
                     rows.append({"verb": verb.lower(), "category": cat, "strength": strength})
-        else:
-            entries = data if isinstance(data, list) else list(data.values()) if isinstance(data, dict) else []
-            for entry in entries:
+        elif isinstance(data, list):
+            for entry in data:
                 if isinstance(entry, str):
                     verb = entry
                     cat = "generic"
@@ -350,6 +459,7 @@ def _load_action_verbs(conn, kb: str):
                     continue
                 seen.add(verb.lower())
                 rows.append({"verb": verb.lower(), "category": cat, "strength": strength})
+
     if rows:
         conn.execute(text("DELETE FROM kb_action_verbs"))
         conn.execute(text("INSERT OR REPLACE INTO kb_action_verbs (verb, category, strength) VALUES (:verb, :category, :strength)"), rows)
@@ -533,3 +643,44 @@ def _load_default_section_patterns(conn):
     conn.execute(text("DELETE FROM kb_section_patterns"))
     conn.execute(text("INSERT INTO kb_section_patterns (section_name, pattern, confidence) VALUES (:section_name, :pattern, :confidence)"), rows)
     logger.info("kb_section_patterns (default): %d rows", len(rows))
+
+
+def _load_cover_letters(conn, kb: str):
+    import json
+    rows = []
+    path = os.path.join(kb, "cover-letters/templates.json")
+    if os.path.exists(path):
+        data = _extract_data(_load_json(path))
+        if data and isinstance(data, list):
+            for entry in data:
+                rows.append({
+                    "tone": entry.get("tone", "professional"),
+                    "role_category": entry.get("role_category", "general"),
+                    "template_text": entry.get("template", "")
+                })
+    if rows:
+        conn.execute(text("DELETE FROM kb_cover_letter_templates"))
+        conn.execute(text("INSERT INTO kb_cover_letter_templates (tone, role_category, template_text) VALUES (:tone, :role_category, :template_text)"), rows)
+        logger.info("kb_cover_letter_templates: %d rows", len(rows))
+
+
+def _load_portfolio_projects(conn, kb: str):
+    import json
+    rows = []
+    path = os.path.join(kb, "portfolio-projects/projects.json")
+    if os.path.exists(path):
+        data = _extract_data(_load_json(path))
+        if data and isinstance(data, list):
+            for entry in data:
+                rows.append({
+                    "title": entry.get("title", ""),
+                    "description": entry.get("description", ""),
+                    "tech_stack": json.dumps(entry.get("tech_stack", [])),
+                    "difficulty": entry.get("difficulty", "Intermediate"),
+                    "business_impact": entry.get("business_impact", ""),
+                    "target_roles": json.dumps(entry.get("target_roles", []))
+                })
+    if rows:
+        conn.execute(text("DELETE FROM kb_portfolio_projects"))
+        conn.execute(text("INSERT INTO kb_portfolio_projects (title, description, tech_stack, difficulty, business_impact, target_roles) VALUES (:title, :description, :tech_stack, :difficulty, :business_impact, :target_roles)"), rows)
+        logger.info("kb_portfolio_projects: %d rows", len(rows))

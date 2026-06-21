@@ -55,6 +55,8 @@ def calculate_score_v2(
     jd_text: str,
     seniority_gap: Optional[Dict] = None,
     evidence_quality: Optional[Dict] = None,
+    cert_match: Optional[Dict] = None,
+    edu_match: Optional[Dict] = None,
 ) -> Dict:
     """
     Enhanced 7-dimension scoring model.
@@ -101,6 +103,24 @@ def calculate_score_v2(
     # Apply parseability multiplier
     weighted = weighted * parseability_multiplier
 
+    # Apply Certification Bonus (up to +5 points for exact/bonus certs)
+    cert_bonus = 0.0
+    if cert_match:
+        cert_bonus += min(3.0, cert_match.get("matched_count", 0) * 1.5)
+        cert_bonus += min(2.0, cert_match.get("bonus_count", 0) * 0.5)
+    
+    # Apply Education Adjustment (up to +2 points or -2 points)
+    edu_adj = 0.0
+    if edu_match:
+        if edu_match.get("degree_level_match") == "exceeds":
+            edu_adj += 2.0
+        elif edu_match.get("degree_level_match") == "below":
+            edu_adj -= 2.0
+        if len(edu_match.get("recognized_universities", [])) > 0:
+            edu_adj += 1.0
+
+    weighted += cert_bonus + edu_adj
+
     # Apply seniority score cap
     score_cap = 100
     if seniority_gap:
@@ -115,6 +135,16 @@ def calculate_score_v2(
         "parseability_multiplier": round(parseability_multiplier, 2),
         "score_cap": score_cap,
         "score_cap_reason": seniority_gap.get("plain_statement", "") if seniority_gap and score_cap < 100 else "",
+        
+        # New 7 dimensions explicitly required by UI
+        "parsing_quality": round(sec_score["score"]),
+        "formatting_quality": round(fmt_score["score"]),
+        "keyword_match": round(kw_score),
+        "semantic_match": round(sem_score["score"]),
+        "evidence_strength": round(evidence_score_val),
+        "seniority_fit": round(seniority_score_val),
+        "overall_fit": overall,
+        
         "sub_scores": {
             "keyword_match": {
                 "score": round(kw_score, 1),
@@ -355,9 +385,10 @@ def _semantic_score(resume_text: str, jd_text: str) -> Dict:
         from sklearn.metrics.pairwise import cosine_similarity
 
         vectorizer = TfidfVectorizer(stop_words="english", max_features=5000)
-        docs = [resume_text[:50000], jd_text[:20000]]
-        tfidf = vectorizer.fit_transform(docs)
-        tfidf_cosine = float(cosine_similarity(tfidf[0:1], tfidf[1:2])[0][0])
+        vectorizer.fit([resume_text[:50000], jd_text[:20000]])
+        vec1 = vectorizer.transform([resume_text[:50000]])
+        vec2 = vectorizer.transform([jd_text[:20000]])
+        tfidf_cosine = float(cosine_similarity(vec1, vec2)[0][0])
     except Exception as e:
         logger.debug("TF-IDF failed: %s", e)
 
@@ -603,7 +634,7 @@ def compute_category_scores(
     career: Dict,
     resume_text: str,
     jd_text: str,
-    action_verbs: Dict = None,
+    action_verbs: Optional[Dict] = None,
 ) -> Dict:
     """
     Compute Jobscan-style 5-category scores for the results sidebar.

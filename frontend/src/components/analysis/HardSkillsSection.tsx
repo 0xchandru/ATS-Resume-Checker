@@ -1,10 +1,12 @@
 import { useState, useMemo } from "react";
-import { Copy, Check, Search } from "lucide-react";
+import { Copy, Check, Search, ChevronDown, ChevronUp } from "lucide-react";
 
 interface Props {
   keywords: any;
   resumeText: string;
   jdText: string;
+  resumeFull?: string;
+  jdFull?: string;
 }
 
 function useCopy(textFn: () => string) {
@@ -18,16 +20,28 @@ function useCopy(textFn: () => string) {
   return { copied, copy };
 }
 
-function SkillChip({ label, matched }: { label: string; matched: boolean }) {
+const MATCH_TYPE_STYLES: Record<string, { bg: string; text: string; label: string }> = {
+  exact_match: { bg: "bg-emerald-500/10", text: "text-emerald-500", label: "Exact" },
+  normalized_match: { bg: "bg-blue-500/10", text: "text-blue-500", label: "Alias" },
+  inferred_match: { bg: "bg-amber-500/10", text: "text-amber-500", label: "Inferred" },
+  unsupported_claim: { bg: "bg-red-500/10", text: "text-red-500", label: "Unsupported" },
+};
+
+function SkillChip({ label, matched, matchType }: { label: string; matched: boolean; matchType?: string }) {
+  const mt = matchType && MATCH_TYPE_STYLES[matchType];
   return (
     <span
-      className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
-        matched
+      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${matched
           ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/25"
           : "bg-muted text-muted-foreground border-border"
-      }`}
+        }`}
     >
       {label}
+      {mt && (
+        <span className={`text-[9px] uppercase font-black px-1.5 py-0.5 rounded-md ${mt.bg} ${mt.text}`}>
+          {mt.label}
+        </span>
+      )}
     </span>
   );
 }
@@ -43,13 +57,17 @@ function HighlightedPanel({
   matchedSet: Set<string>;
   missingSet?: Set<string>;
 }) {
+  const [expanded, setExpanded] = useState(false);
+  const isLong = text.length > 600;
+  const displayText = expanded || !isLong ? text : text.slice(0, 600) + "...";
+
   const highlighted = useMemo(() => {
-    if (!text) return text;
+    if (!displayText) return displayText;
     const allKw = [...matchedSet, ...(missingSet || [])].sort((a, b) => b.length - a.length);
-    if (allKw.length === 0) return text;
+    if (allKw.length === 0) return displayText;
     const escaped = allKw.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
     const regex = new RegExp(`(${escaped.join("|")})`, "gi");
-    return text.split(regex).map((part, i) => {
+    return displayText.split(regex).map((part, i) => {
       const lower = part.toLowerCase();
       if (matchedSet.has(lower)) {
         return <mark key={i} className="bg-emerald-500/20 text-emerald-400 rounded-sm px-0.5 font-semibold not-italic">{part}</mark>;
@@ -59,37 +77,91 @@ function HighlightedPanel({
       }
       return <span key={i}>{part}</span>;
     });
-  }, [text, matchedSet, missingSet]);
+  }, [displayText, matchedSet, missingSet]);
 
   return (
     <div className="flex-1 min-w-0">
       <h4 className="text-sm font-bold text-foreground mb-3">{title}</h4>
-      <div className="bg-muted/30 border border-border rounded-xl p-4 max-h-80 overflow-y-auto">
+      <div className="bg-muted/30 border border-border rounded-xl p-4 max-h-[32rem] overflow-y-auto">
         <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-wrap font-mono">{highlighted}</p>
+        {isLong && (
+          <button
+            onClick={() => setExpanded(e => !e)}
+            className="mt-3 flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 font-semibold transition-colors"
+          >
+            {expanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+            {expanded ? "Show less" : "Show full content"}
+          </button>
+        )}
       </div>
     </div>
   );
 }
 
-export default function HardSkillsSection({ keywords, resumeText, jdText, result }: Props & { result?: any }) {
+// Helper to extract a display label from any skill object
+function getSkillLabel(skill: any): string {
+  if (typeof skill === "string") return skill;
+  if (!skill || typeof skill !== "object") return "Unknown skill";
+  return (
+    (typeof skill.keyword === "string" && skill.keyword) ||
+    (typeof skill.term === "string" && skill.term) ||
+    (typeof skill.canonical === "string" && skill.canonical) ||
+    (typeof skill.jd_keyword === "string" && skill.jd_keyword) ||
+    (typeof skill.matched_form === "string" && skill.matched_form) ||
+    (typeof skill.normalized_form === "string" && skill.normalized_form) ||
+    "Unknown skill"
+  );
+}
+
+export default function HardSkillsSection({ keywords, resumeText, jdText, resumeFull, jdFull, result }: Props & { result?: any }) {
   if (!keywords) return null;
 
   const { matched = [], matched_count, total_jd_keywords, match_rate } = keywords;
   const [activeTab, setActiveTab] = useState<"comparison" | "highlighted">("comparison");
 
+  // Filter out soft and other skills from the main hard skills display
+  const isHardSkill = (skill: any) => {
+    const cat = skill?.category?.toLowerCase?.() || "";
+    return cat !== "soft_skill" && cat !== "transversal" && cat !== "social" && cat !== "competency" && cat !== "other_skill" && cat !== "other";
+  };
+
+  const hardMatched = matched.filter(isHardSkill);
+  
   // Use truly missing skills from the role fit assessment if available
-  const trulyMissing = result?.role_fit?.honest_assessment?.truly_missing || keywords.missing || [];
+  const rawTrulyMissing = result?.role_fit?.honest_assessment?.truly_missing || keywords.missing || [];
+  const trulyMissing = rawTrulyMissing.filter(isHardSkill);
+  
   const noiseFiltered = result?.role_fit?.honest_assessment?.noise_filtered || [];
 
-  const matchedSet = useMemo(() => new Set<string>(matched.map((m: any) => m.keyword.toLowerCase())), [matched]);
-  const missingSet = useMemo(() => new Set<string>(trulyMissing.map((m: any) => m.skill?.toLowerCase() || m.keyword?.toLowerCase())), [trulyMissing]);
+  const matchedSet = useMemo(
+    () => new Set<string>(
+      hardMatched
+        .map((m: any) => (typeof m?.keyword === "string" ? m.keyword.toLowerCase() : ""))
+        .filter(Boolean)
+    ),
+    [matched]
+  );
+
+  const missingSet = useMemo(
+    () => new Set<string>(
+      trulyMissing
+        .map((m: any) => {
+          const value = m?.skill || m?.keyword;
+          return typeof value === "string" ? value.toLowerCase() : "";
+        })
+        .filter(Boolean)
+    ),
+    [trulyMissing]
+  );
 
   const matchPercent = Math.round((match_rate || 0) * 100);
-  const { copied: copiedAll, copy: copyAll } = useCopy(() => trulyMissing.map((m: any) => m.skill || m.keyword).join(", "));
+  const { copied: copiedAll, copy: copyAll } = useCopy(
+    () => trulyMissing.map((m: any) => (typeof m?.skill === "string" ? m.skill : m?.keyword || "")).filter(Boolean).join(", ")
+  );
 
   // Separate hard skills (technical keywords)
   const allSkills = [
-    ...matched.map((m: any) => ({ ...m, isMatched: true })), 
+    ...hardMatched.map((m: any) => ({ ...m, isMatched: true })),
     ...trulyMissing.map((m: any) => ({ ...m, keyword: m.skill || m.keyword, isMatched: false }))
   ];
 
@@ -98,7 +170,7 @@ export default function HardSkillsSection({ keywords, resumeText, jdText, result
       <div className="flex items-center gap-3 mb-4">
         <h2 className="text-2xl font-black text-foreground">Hard Skills</h2>
         <span className="text-xs text-muted-foreground font-medium bg-muted px-2.5 py-1 rounded-lg">
-          {matched_count || 0} of {total_jd_keywords || 0} matched
+          {hardMatched.length} of {hardMatched.length + trulyMissing.length} matched
         </span>
       </div>
 
@@ -115,11 +187,10 @@ export default function HardSkillsSection({ keywords, resumeText, jdText, result
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-5 py-3 text-sm font-semibold transition-colors relative ${
-              activeTab === tab.id
+            className={`px-5 py-3 text-sm font-semibold transition-colors relative ${activeTab === tab.id
                 ? "text-foreground tab-active"
                 : "text-muted-foreground hover:text-foreground"
-            }`}
+              }`}
           >
             {tab.label}
           </button>
@@ -130,25 +201,29 @@ export default function HardSkillsSection({ keywords, resumeText, jdText, result
         <div className="space-y-5">
           {/* Skill chips */}
           <div className="flex flex-wrap gap-2">
-            {allSkills.slice(0, 30).map((skill: any, i: number) => (
-              <SkillChip
-                key={i}
-                label={skill.keyword || skill.term}
-                matched={skill.isMatched}
-              />
-            ))}
+            {allSkills.slice(0, 30).map((skill: any, i: number) => {
+              const label = getSkillLabel(skill);
+              return (
+                <SkillChip
+                  key={i}
+                  label={label}
+                  matched={skill.isMatched}
+                  matchType={skill.match_type}
+                />
+              );
+            })}
           </div>
 
           {/* Side by side resume vs JD */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <HighlightedPanel
               title="Resume:"
-              text={resumeText || ""}
+              text={resumeFull || resumeText || ""}
               matchedSet={matchedSet}
             />
             <HighlightedPanel
               title="Job Description:"
-              text={jdText || ""}
+              text={jdFull || jdText || ""}
               matchedSet={matchedSet}
               missingSet={missingSet}
             />
@@ -185,13 +260,16 @@ export default function HardSkillsSection({ keywords, resumeText, jdText, result
 
           {/* All matched skills */}
           <div>
-            <h4 className="text-sm font-bold text-emerald-500 mb-2">✓ Matched Skills ({matched.length})</h4>
+            <h4 className="text-sm font-bold text-emerald-500 mb-2">✓ Matched Skills ({hardMatched.length})</h4>
             <div className="flex flex-wrap gap-2">
-              {matched.map((kw: any, i: number) => (
-                <span key={i} className="px-3 py-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 rounded-lg text-sm font-medium">
-                  {kw.keyword}
-                </span>
-              ))}
+              {hardMatched.map((kw: any, i: number) => {
+                const count = kw.resume_occurrence_count || kw.jd_occurrence_count;
+                return (
+                  <span key={i} className="px-3 py-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 rounded-lg text-sm font-medium">
+                    {getSkillLabel(kw)} {count > 1 ? `(${count})` : ''}
+                  </span>
+                );
+              })}
             </div>
           </div>
 
@@ -200,11 +278,14 @@ export default function HardSkillsSection({ keywords, resumeText, jdText, result
             <div>
               <h4 className="text-sm font-bold text-red-500 mb-2">✗ Missing Skills ({trulyMissing.length})</h4>
               <div className="flex flex-wrap gap-2">
-                {trulyMissing.map((kw: any, i: number) => (
-                  <span key={i} className="px-3 py-1.5 bg-red-500/10 text-red-400 border border-red-500/25 rounded-lg text-sm font-medium">
-                    {kw.skill || kw.keyword}
-                  </span>
-                ))}
+                {trulyMissing.map((kw: any, i: number) => {
+                  const count = kw.jd_occurrence_count || 1;
+                  return (
+                    <span key={i} className="px-3 py-1.5 bg-red-500/10 text-red-400 border border-red-500/25 rounded-lg text-sm font-medium">
+                      {kw.skill || kw.keyword} {count > 1 ? `(${count})` : ''}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           )}

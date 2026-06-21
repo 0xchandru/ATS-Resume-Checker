@@ -1,0 +1,12 @@
+[
+  {
+    "tone": "professional",
+    "role_category": "general",
+    "template": "Dear Hiring Manager,\n\nI am writing to express my interest in the open position. My background aligns well with the skills required, particularly in [Top Skills]. My experience preparing robust solutions makes me a great fit for your team.\n\nThank you for considering my application.\n\nSincerely,\n[Candidate Name]"
+  },
+  {
+    "tone": "enthusiastic",
+    "role_category": "general",
+    "template": "Hi Team,\n\nI am thrilled to apply for this role! I have a strong passion for building solutions with [Top Skills] and I know I can make an immediate impact.\n\nBest,\n[Candidate Name]"
+  }
+]

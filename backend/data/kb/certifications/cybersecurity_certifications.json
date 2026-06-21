@@ -1,0 +1,3714 @@
+{
+  "_metadata": {
+    "version": "2.0.0",
+    "source": "raw/certifications/certifications.json",
+    "description": "Production-grade cybersecurity certifications dataset for ATS resume matching",
+    "issuers": [
+      "ISC2",
+      "ISACA",
+      "CompTIA",
+      "EC-Council",
+      "Offensive Security",
+      "SANS Institute / GIAC",
+      "Mile2",
+      "Cisco",
+      "Microsoft",
+      "AWS",
+      "Google",
+      "Palo Alto Networks",
+      "Fortinet",
+      "Check Point",
+      "CrowdStrike",
+      "Splunk",
+      "IBM",
+      "PECB",
+      "EXIN",
+      "CREST",
+      "Vendor-Neutral"
+    ],
+    "generated_at": "2026-06-20T09:15:55.439760Z",
+    "record_count": 118,
+    "certification_regex_patterns": {
+      "master_pattern": "\\b(?:(?:\\b(IBM\\s+QRadar(?:\\s+SIEM)?(?:\\s+(?:Foundation|certification))?|QRadar(?:\\s+SIEM)?(?:\\s+certification)?|C1000-0[0-9]{2})\\b)|(?:\\b(ISO\\s*/?\\s*IEC\\s+27001\\s+Lead\\s+Implementer|ISO\\s*27001\\s+(?:Lead\\s+)?Implementer|27001\\s+LI|ISMS\\s+Implementer)\\b)|(?:\\b(NIST\\s+(?:CSF|Cybersecurity\\s+Framework)(?:\\s+Practitioner)?|CSF\\s+(?:Practitioner|certification)|CNSP)\\b)|(?:\\b(AWS\\s+(?:Certified\\s+)?Solutions\\s+Architect(?:\\s+(?:Associate|Professional))?|SAA-C0[0-9]|AWS-SAA)\\b)|(?:\\b(CISSP(?:-ISS[AEM]P)?|Certified\\s+Information\\s+Systems\\s+Security\\s+Professional|ISC[²2]?\\s+CISSP)\\b)|(?:\\b((?:Google\\s+)?Professional\\s+Cloud\\s+Security\\s+Engineer|GCP\\s+Security(?:\\s+Engineer)?|GCP-PCSE)\\b)|(?:\\b(GICSP|(?:ICS|OT|SCADA|Industrial)\\s+(?:Cybersecurity|Security)\\s+(?:Certification|Professional))\\b)|(?:\\b(SC-200|Microsoft\\s+Security\\s+Operations\\s+Analyst|Security\\s+Operations\\s+Analyst\\s+Associate)\\b)|(?:\\b(CySA\\+|CySA\\s+Plus|CompTIA\\s+CySA(?:\\+|\\s+Plus)|CS0-00[0-9]|CompTIA\\s+Cybersecurity\\s+Analyst)\\b)|(?:\\b(CASE(?:\\s+(?:Java|\\.NET))?|Certified\\s+Application\\s+Security\\s+Engineer|EC-?Council\\s+CASE)\\b)|(?:\\b(CPTS|Hack\\s+The\\s+Box\\s+(?:CPTS|Certified\\s+Penetration\\s+Testing\\s+Specialist)|HTB\\s+CPTS)\\b)|(?:\\b(Splunk\\s+(?:Certified\\s+Cybersecurity\\s+Defense\\s+Analyst|Enterprise\\s+Security)|SPLK-5001)\\b)|(?:\\b(CCNP(?:\\s+Security)?|Cisco\\s+(?:Certified\\s+Network\\s+Professional|CCNP)(?:\\s+Security)?)\\b)|(?:\\b(CCIE(?:\\s+Security)?|Cisco\\s+(?:Certified\\s+Internetwork\\s+Expert|CCIE)(?:\\s+Security)?)\\b)|(?:\\b(PCNSE|Palo\\s+Alto\\s+(?:Networks\\s+)?(?:Certified\\s+Network\\s+Security\\s+Engineer|PCNSE))\\b)|(?:\\b(ZTCE|Zero\\s+Trust\\s+Certified\\s+(?:Engineer|Professional)|Zero\\s+Trust\\s+certification)\\b)|(?:\\b(ISC[²2]?\\s+CC|Certified\\s+in\\s+Cybersecurity|ISC[²2]?\\s+Certified\\s+in\\s+Cybersecurity)\\b)|(?:\\b(CCFA|CrowdStrike\\s+(?:Certified\\s+Falcon\\s+Administrator|CCFA)|Falcon\\s+Administrator)\\b)|(?:\\b(CIPP(?:/(?:US|E|A|G|C))?|Certified\\s+Information\\s+Privacy\\s+Professional|IAPP\\s+CIPP)\\b)|(?:\\b(CASP\\+|CASP\\s+Plus|CompTIA\\s+(?:CASP|Advanced\\s+Security\\s+Practitioner)|CAS-00[0-9])\\b)|(?:\\b(CCNA(?:\\s+Security)?|Cisco\\s+(?:Certified\\s+Network\\s+Associate|CCNA)|CCNA\\s+200-301)\\b)|(?:\\b(ISO\\s*/?\\s*IEC\\s+27001\\s+Lead\\s+Auditor|ISO\\s*27001\\s+(?:Lead\\s+)?Auditor|27001\\s+LA)\\b)|(?:\\b(PCCSA|Palo\\s+Alto\\s+(?:Networks\\s+)?(?:Certified\\s+Cybersecurity\\s+Associate|PCCSA))\\b)|(?:\\b(FCNSP|Fortinet\\s+(?:Certified\\s+Network\\s+Security\\s+Professional|FCNSP)|NSE[0-9]+)\\b)|(?:\\b(HTB\\s+CDSA|Hack\\s+The\\s+Box\\s+(?:CDSA|Certified\\s+Defensive\\s+Security\\s+Analyst))\\b)|(?:\\b(AZ-500|Azure\\s+Security\\s+Engineer(?:\\s+Associate)?|Microsoft\\s+Azure\\s+Security)\\b)|(?:\\b(Security\\+|Security\\s+Plus|CompTIA\\s+Security(?:\\+|\\s+Plus)|SY0-[0-9]{3}|Sec\\+)\\b)|(?:\\b(GICSP|GIAC\\s+(?:Global\\s+)?Industrial\\s+Cyber\\s+Security\\s+Professional|ICS410)\\b)|(?:\\b(PNPT|TCM\\s+(?:Security\\s+)?PNPT|Practical\\s+Network\\s+Penetration\\s+Tester)\\b)|(?:\\b(GREM|GIAC\\s+Reverse\\s+Engineering\\s+Malware|SANS\\s+(?:GREM|FOR610)|FOR610)\\b)|(?:\\b(GCIH|GIAC\\s+Certified\\s+Incident\\s+Handler|SANS\\s+(?:GCIH|SEC504)|SEC504)\\b)|(?:\\b(eJPT|eLearnSecurity\\s+(?:Junior\\s+Penetration\\s+Tester|eJPT)|INE\\s+eJPT)\\b)|(?:\\b(CCFH|CrowdStrike\\s+(?:Certified\\s+Falcon\\s+Hunter|CCFH)|Falcon\\s+Hunter)\\b)|(?:\\b(OSEP|Offensive\\s+Security\\s+Experienced\\s+Penetration\\s+Tester|PEN-300)\\b)|(?:\\b(Network\\+|Network\\s+Plus|CompTIA\\s+Network(?:\\+|\\s+Plus)|N10-[0-9]{3})\\b)|(?:\\b(GCCC|GIAC\\s+Critical\\s+Controls|SEC566|CIS\\s+Controls\\s+certification)\\b)|(?:\\b(CSWAE|Certified\\s+Secure\\s+Web\\s+Application\\s+Engineer|Mile2\\s+CSWAE)\\b)|(?:\\b(CDPSE|Certified\\s+Data\\s+Privacy\\s+Solutions\\s+Engineer|ISACA\\s+CDPSE)\\b)|(?:\\b(GOSI|GIAC\\s+Open\\s+Source\\s+Intelligence|SEC497|OSINT\\s+certification)\\b)|(?:\\b(eWPT(?:X)?|eLearnSecurity\\s+Web\\s+Application\\s+Penetration\\s+Tester)\\b)|(?:\\b(PenTest\\+|PenTest\\s+Plus|CompTIA\\s+PenTest(?:\\+|\\s+Plus)|PT0-00[0-9])\\b)|(?:\\b(CEH(?:\\s+(?:v1[0-9]|Practical|Master))?|Certified\\s+Ethical\\s+Hacker)\\b)|(?:\\b(CTIA|Certified\\s+Threat\\s+Intelligence\\s+Analyst|EC-?Council\\s+CTIA)\\b)|(?:\\b(CRISC|Certified\\s+in\\s+Risk\\s+and\\s+Information\\s+Systems\\s+Control)\\b)|(?:\\b(CPENT|Certified\\s+Penetration\\s+Testing\\s+Professional|LPT\\s+Master)\\b)|(?:\\b(AWS\\s+(?:Certified\\s+)?Security(?:\\s+Specialty)?|SCS-C0[12]|AWS-SCS)\\b)|(?:\\b(Splunk\\s+(?:Core\\s+)?Certified\\s+Power\\s+User|SPLK-1002|Splunk\\s+PU)\\b)|(?:\\b(eMAPT|eLearnSecurity\\s+Mobile\\s+Application\\s+Penetration\\s+Tester)\\b)|(?:\\b(CEH\\s+v1[0-9]|Certified\\s+Ethical\\s+Hacker\\s+v(?:ersion\\s+)?1[0-9])\\b)|(?:\\b(CCSA|Check\\s*Point\\s+(?:Certified\\s+Security\\s+Administrator|CCSA))\\b)|(?:\\b(CREST\\s+(?:Registered\\s+(?:Penetration\\s+)?Tester|CRT)|CRT\\s+CREST)\\b)|(?:\\b(SSCP|Systems\\s+Security\\s+Certified\\s+Practitioner|ISC[²2]?\\s+SSCP)\\b)|(?:\\b(CSA\\s+STAR(?:\\s+Certification)?|Cloud\\s+Security\\s+Alliance\\s+STAR)\\b)|(?:\\b(CIPT|Certified\\s+Information\\s+Privacy\\s+Technologist|IAPP\\s+CIPT)\\b)|(?:\\b(Mile2\\s+CPT|Mile2\\s+Certified\\s+Penetration\\s+Tester|Mile2\\s+CPT)\\b)|(?:\\b(CCSP|Certified\\s+Cloud\\s+Security\\s+Professional|ISC[²2]?\\s+CCSP)\\b)|(?:\\b(OSCP|Offensive\\s+Security\\s+Certified\\s+Professional|PEN-200|PWK)\\b)|(?:\\b(CCSK|Certificate\\s+of\\s+Cloud\\s+Security\\s+Knowledge|CSA\\s+CCSK)\\b)|(?:\\b(GSEC|GIAC\\s+Security\\s+Essentials|SANS\\s+(?:GSEC|SEC401)|SEC401)\\b)|(?:\\b(CGEIT|Certified\\s+in\\s+the\\s+Governance\\s+of\\s+Enterprise\\s+IT)\\b)|(?:\\b(GPEN|GIAC\\s+Penetration\\s+Tester|SANS\\s+(?:GPEN|SEC560)|SEC560)\\b)|(?:\\b(CISM|Certified\\s+Information\\s+Security\\s+Manager|ISACA\\s+CISM)\\b)|(?:\\b(CCSS|EXIN\\s+(?:Certified\\s+Cloud\\s+Security\\s+Specialist|CCSS))\\b)|(?:\\b(CISA|Certified\\s+Information\\s+Systems\\s+Auditor|ISACA\\s+CISA)\\b)|(?:\\b(GPPA|GIAC\\s+Privacy\\s+and\\s+Data\\s+Protection\\s+Practitioner)\\b)|(?:\\b(AZ-900|Azure\\s+Fundamentals|Microsoft\\s+Azure\\s+Fundamentals)\\b)|(?:\\b(CIPM|Certified\\s+Information\\s+Privacy\\s+Manager|IAPP\\s+CIPM)\\b)|(?:\\b(GWAPT|GIAC\\s+Web\\s+Application\\s+Penetration\\s+Tester|SEC542)\\b)|(?:\\b(GWEB|GIAC\\s+Certified\\s+Web\\s+Application\\s+Defender|SEC522)\\b)|(?:\\b(CCSE|Check\\s*Point\\s+(?:Certified\\s+Security\\s+Expert|CCSE))\\b)|(?:\\b(OSWP|Offensive\\s+Security\\s+Wireless\\s+Professional|PEN-210)\\b)|(?:\\b(CompTIA\\s+A\\+|A\\+\\s+(?:certified|certification)|220-110[12])\\b)|(?:\\b(Splunk\\s+(?:Core\\s+)?Certified\\s+User|SPLK-1001|Splunk\\s+CU)\\b)|(?:\\b(NSE\\s*4|Fortinet\\s+NSE\\s*4|Network\\s+Security\\s+Expert\\s+4)\\b)|(?:\\b(SC-300|Microsoft\\s+Identity\\s+and\\s+Access\\s+Administrator)\\b)|(?:\\b(GEVA|GIAC\\s+Enterprise\\s+Vulnerability\\s+Assessor|SEC460)\\b)|(?:\\b(CEH\\s+Practical|Certified\\s+Ethical\\s+Hacker\\s+Practical)\\b)|(?:\\b(GRID|GIAC\\s+Response\\s+and\\s+Industrial\\s+Defense|ICS515)\\b)|(?:\\b(GISF|GIAC\\s+Information\\s+Security\\s+Fundamentals|SEC301)\\b)|(?:\\b(OSED|Offensive\\s+Security\\s+Exploit\\s+Developer|EXP-301)\\b)|(?:\\b(GMOB|GIAC\\s+Mobile\\s+Device\\s+Security\\s+Analyst|SEC575)\\b)|(?:\\b(OSMR|Offensive\\s+Security\\s+macOS\\s+Researcher|EXP-312)\\b)|(?:\\b(ECES|EC-?Council\\s+Certified\\s+Encryption\\s+Specialist)\\b)|(?:\\b(OSDA|Offensive\\s+Security\\s+Defense\\s+Analyst|SOC-200)\\b)|(?:\\b(OCLP|OffSec\\s+Certified\\s+Lead\\s+Penetration\\s+Tester)\\b)|(?:\\b(EDRP|EC-?Council\\s+Disaster\\s+Recovery\\s+Professional)\\b)|(?:\\b(CND|Certified\\s+Network\\s+Defender|EC-?Council\\s+CND)\\b)|(?:\\b(Server\\+|CompTIA\\s+Server(?:\\+|\\s+Plus)|SK0-00[0-9])\\b)|(?:\\b(Mile2\\s+CSO|Mile2\\s+Certified\\s+Security\\s+Officer)\\b)|(?:\\b(GCFE|GIAC\\s+Certified\\s+Forensic\\s+Examiner|FOR500)\\b)|(?:\\b(CEH\\s+Master|Certified\\s+Ethical\\s+Hacker\\s+Master)\\b)|(?:\\b(GCIP|GIAC\\s+Critical\\s+Infrastructure\\s+Protection)\\b)|(?:\\b(GCIA|GIAC\\s+Certified\\s+Intrusion\\s+Analyst|SEC503)\\b)|(?:\\b(GCFA|GIAC\\s+Certified\\s+Forensic\\s+Analyst|FOR508)\\b)|(?:\\b(ECSA|EC-?Council\\s+Certified\\s+Security\\s+Analyst)\\b)|(?:\\b(Linux\\+|CompTIA\\s+Linux(?:\\+|\\s+Plus)|XK0-00[0-9])\\b)|(?:\\b(GDAT|GIAC\\s+Defending\\s+Advanced\\s+Threats|SEC530)\\b)|(?:\\b(Cloud\\+|CompTIA\\s+Cloud(?:\\+|\\s+Plus)|CV0-00[0-9])\\b)|(?:\\b(CHFI|Computer\\s+Hacking\\s+Forensic\\s+Investigator)\\b)|(?:\\b(GCLD|GIAC\\s+Cloud\\s+Security\\s+Essentials|SEC488)\\b)|(?:\\b(OSWE|Offensive\\s+Security\\s+Web\\s+Expert|WEB-300)\\b)|(?:\\b(GCTI|GIAC\\s+Cyber\\s+Threat\\s+Intelligence|FOR578)\\b)|(?:\\b(GPRO|GIAC\\s+Security\\s+Awareness\\s+Professional)\\b)|(?:\\b(GNFA|GIAC\\s+Network\\s+Forensic\\s+Analyst|FOR572)\\b)|(?:\\b(GCPN|GIAC\\s+Cloud\\s+Penetration\\s+Tester|SEC588)\\b)|(?:\\b(CSIH|Certified\\s+Security\\s+Incident\\s+Handler)\\b)|(?:\\b(GPCS|GIAC\\s+Public\\s+Cloud\\s+Security|SEC510)\\b)|(?:\\b(SC-100|Microsoft\\s+Cybersecurity\\s+Architect)\\b)|(?:\\b(Data\\+|CompTIA\\s+Data(?:\\+|\\s+Plus)|DA0-001)\\b)|(?:\\b(GBFA|GIAC\\s+Battlefield\\s+Forensics|FOR498)\\b)|(?:\\b(GMON|GIAC\\s+Continuous\\s+Monitoring|SEC511)\\b)|(?:\\b(GSLC|GIAC\\s+Security\\s+Leadership|MGT512)\\b)|(?:\\b(GXPN|GIAC\\s+Exploit\\s+Researcher|SEC660)\\b)|(?:\\b(GHTQ|GIAC\\s+Certified\\s+Threat\\s+Hunter)\\b)|(?:CCT|CREST\\ Certified\\ Penetration\\ Tester)|(?:\\b(COBIT(?:\\s+(?:2019|5|Foundation))?)\\b)|(?:\\b(GPYC|GIAC\\s+Python\\s+Coder|SEC573)\\b)|(?:\\b(GSE|GIAC\\s+Security\\s+Expert)\\b))\\b"
+    }
+  },
+  "data": [
+    {
+      "id": "cert_cissp",
+      "canonical_name": "Certified Information Systems Security Professional",
+      "abbreviation": "CISSP",
+      "issuer": "ISC2",
+      "issuer_full": "International Information System Security Certification Consortium",
+      "category": "security_management",
+      "subcategory": "senior_security_professional",
+      "experience_level": [
+        "senior",
+        "expert",
+        "executive"
+      ],
+      "importance_score": 10,
+      "ats_weight": 2.0,
+      "market_demand": "extremely_high",
+      "is_active": true,
+      "aliases": [
+        "CISSP",
+        "cissp",
+        "Certified Information Systems Security Professional",
+        "CISSP certification",
+        "ISC2 CISSP",
+        "(ISC)2 CISSP",
+        "ISC² CISSP",
+        "CISSP certified",
+        "CISSP holder",
+        "CISSP credential",
+        "cissp certified",
+        "C.I.S.S.P",
+        "CISSP-ISSAP",
+        "CISSP-ISSEP",
+        "CISSP-ISSMP",
+        "CISSP concentration",
+        "isc2 certified"
+      ],
+      "concentrations": [
+        "CISSP-ISSAP (Information Systems Security Architecture Professional)",
+        "CISSP-ISSEP (Information Systems Security Engineering Professional)",
+        "CISSP-ISSMP (Information Systems Security Management Professional)"
+      ],
+      "regex_pattern": "\\b(CISSP(?:-ISS[AEM]P)?|Certified\\s+Information\\s+Systems\\s+Security\\s+Professional|ISC[²2]?\\s+CISSP)\\b",
+      "role_relevance": [
+        "CISO",
+        "Security Architect",
+        "Security Manager",
+        "Security Engineer",
+        "GRC Analyst",
+        "Compliance Officer"
+      ],
+      "domains_covered": [
+        "Security and Risk Management",
+        "Asset Security",
+        "Security Architecture and Engineering",
+        "Communication and Network Security",
+        "Identity and Access Management",
+        "Security Assessment and Testing",
+        "Security Operations",
+        "Software Development Security"
+      ],
+      "prerequisites": "5 years paid work experience in 2+ CISSP domains",
+      "validity_years": 3,
+      "cpe_required": 120,
+      "official_url": "https://www.isc2.org/Certifications/CISSP"
+    },
+    {
+      "id": "cert_cism",
+      "canonical_name": "Certified Information Security Manager",
+      "abbreviation": "CISM",
+      "issuer": "ISACA",
+      "issuer_full": "Information Systems Audit and Control Association",
+      "category": "security_management",
+      "subcategory": "security_management",
+      "experience_level": [
+        "senior",
+        "expert",
+        "executive"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.9,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "CISM",
+        "cism",
+        "Certified Information Security Manager",
+        "ISACA CISM",
+        "CISM certification",
+        "CISM certified",
+        "CISM credential",
+        "C.I.S.M",
+        "cism certified"
+      ],
+      "regex_pattern": "\\b(CISM|Certified\\s+Information\\s+Security\\s+Manager|ISACA\\s+CISM)\\b",
+      "role_relevance": [
+        "CISO",
+        "Security Manager",
+        "GRC Analyst",
+        "Compliance Officer",
+        "Risk Manager"
+      ],
+      "domains_covered": [
+        "Information Security Governance",
+        "Information Risk Management",
+        "Information Security Program Development and Management",
+        "Information Security Incident Management"
+      ],
+      "prerequisites": "5 years information security management experience",
+      "validity_years": 3,
+      "cpe_required": 120,
+      "official_url": "https://www.isaca.org/credentialing/cism"
+    },
+    {
+      "id": "cert_cisa",
+      "canonical_name": "Certified Information Systems Auditor",
+      "abbreviation": "CISA",
+      "issuer": "ISACA",
+      "issuer_full": "Information Systems Audit and Control Association",
+      "category": "governance_risk_compliance",
+      "subcategory": "audit",
+      "experience_level": [
+        "mid",
+        "senior",
+        "expert"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.8,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "CISA",
+        "cisa",
+        "Certified Information Systems Auditor",
+        "ISACA CISA",
+        "CISA certification",
+        "CISA certified",
+        "CISA credential",
+        "C.I.S.A",
+        "cisa certified",
+        "information systems auditor"
+      ],
+      "regex_pattern": "\\b(CISA|Certified\\s+Information\\s+Systems\\s+Auditor|ISACA\\s+CISA)\\b",
+      "role_relevance": [
+        "IT Auditor",
+        "GRC Analyst",
+        "Compliance Officer",
+        "Risk Manager",
+        "Security Analyst"
+      ],
+      "domains_covered": [
+        "Information System Auditing Process",
+        "Governance and Management of IT",
+        "Information Systems Acquisition Development and Implementation",
+        "Information Systems Operations and Business Resilience",
+        "Protection of Information Assets"
+      ],
+      "prerequisites": "5 years IS audit control assurance or security experience",
+      "validity_years": 3,
+      "official_url": "https://www.isaca.org/credentialing/cisa"
+    },
+    {
+      "id": "cert_crisc",
+      "canonical_name": "Certified in Risk and Information Systems Control",
+      "abbreviation": "CRISC",
+      "issuer": "ISACA",
+      "category": "governance_risk_compliance",
+      "subcategory": "risk_management",
+      "experience_level": [
+        "mid",
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CRISC",
+        "crisc",
+        "Certified in Risk and Information Systems Control",
+        "ISACA CRISC",
+        "CRISC certification",
+        "CRISC certified",
+        "C.R.I.S.C"
+      ],
+      "regex_pattern": "\\b(CRISC|Certified\\s+in\\s+Risk\\s+and\\s+Information\\s+Systems\\s+Control)\\b",
+      "role_relevance": [
+        "Risk Manager",
+        "GRC Analyst",
+        "Compliance Officer",
+        "IT Auditor",
+        "Security Manager"
+      ],
+      "official_url": "https://www.isaca.org/credentialing/crisc"
+    },
+    {
+      "id": "cert_cgeit",
+      "canonical_name": "Certified in the Governance of Enterprise IT",
+      "abbreviation": "CGEIT",
+      "issuer": "ISACA",
+      "category": "governance_risk_compliance",
+      "subcategory": "governance",
+      "experience_level": [
+        "expert",
+        "executive"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CGEIT",
+        "cgeit",
+        "Certified in the Governance of Enterprise IT",
+        "ISACA CGEIT"
+      ],
+      "regex_pattern": "\\b(CGEIT|Certified\\s+in\\s+the\\s+Governance\\s+of\\s+Enterprise\\s+IT)\\b",
+      "role_relevance": [
+        "CIO",
+        "CISO",
+        "IT Governance Manager",
+        "Risk Manager"
+      ],
+      "official_url": "https://www.isaca.org/credentialing/cgeit"
+    },
+    {
+      "id": "cert_ceh",
+      "canonical_name": "Certified Ethical Hacker",
+      "abbreviation": "CEH",
+      "issuer": "EC-Council",
+      "issuer_full": "International Council of E-Commerce Consultants",
+      "category": "penetration_testing",
+      "subcategory": "ethical_hacking",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "CEH",
+        "ceh",
+        "Certified Ethical Hacker",
+        "EC-Council CEH",
+        "CEH certification",
+        "CEH certified",
+        "CEH v11",
+        "CEH v12",
+        "CEH v13",
+        "CEH Practical",
+        "CEH Master",
+        "Ethical Hacking certification",
+        "C.E.H",
+        "ceh certified",
+        "certified ethical hacker"
+      ],
+      "regex_pattern": "\\b(CEH(?:\\s+(?:v1[0-9]|Practical|Master))?|Certified\\s+Ethical\\s+Hacker)\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Ethical Hacker",
+        "Security Analyst",
+        "Red Team Operator",
+        "Vulnerability Assessor"
+      ],
+      "official_url": "https://www.eccouncil.org/train-certify/certified-ethical-hacker-ceh/"
+    },
+    {
+      "id": "cert_cpent",
+      "canonical_name": "Certified Penetration Testing Professional",
+      "abbreviation": "CPENT",
+      "issuer": "EC-Council",
+      "category": "penetration_testing",
+      "subcategory": "advanced_pentest",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CPENT",
+        "cpent",
+        "Certified Penetration Testing Professional",
+        "EC-Council CPENT",
+        "LPT Master",
+        "Licensed Penetration Tester Master"
+      ],
+      "regex_pattern": "\\b(CPENT|Certified\\s+Penetration\\s+Testing\\s+Professional|LPT\\s+Master)\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Red Team Operator",
+        "Security Engineer"
+      ],
+      "official_url": "https://www.eccouncil.org/train-certify/cpent/"
+    },
+    {
+      "id": "cert_ecsa",
+      "canonical_name": "EC-Council Certified Security Analyst",
+      "abbreviation": "ECSA",
+      "issuer": "EC-Council",
+      "category": "penetration_testing",
+      "subcategory": "security_analysis",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.3,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "ECSA",
+        "ecsa",
+        "EC-Council Certified Security Analyst",
+        "EC Council ECSA",
+        "ECSA Practical"
+      ],
+      "regex_pattern": "\\b(ECSA|EC-?Council\\s+Certified\\s+Security\\s+Analyst)\\b",
+      "role_relevance": [
+        "Security Analyst",
+        "Penetration Tester",
+        "Vulnerability Assessor"
+      ],
+      "official_url": "https://www.eccouncil.org/train-certify/ecsa-practical/"
+    },
+    {
+      "id": "cert_chfi",
+      "canonical_name": "Computer Hacking Forensic Investigator",
+      "abbreviation": "CHFI",
+      "issuer": "EC-Council",
+      "category": "incident_response_forensics",
+      "subcategory": "digital_forensics",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CHFI",
+        "chfi",
+        "Computer Hacking Forensic Investigator",
+        "EC-Council CHFI",
+        "CHFI certification",
+        "CHFI certified",
+        "computer forensics certification"
+      ],
+      "regex_pattern": "\\b(CHFI|Computer\\s+Hacking\\s+Forensic\\s+Investigator)\\b",
+      "role_relevance": [
+        "Digital Forensics Analyst",
+        "Incident Responder",
+        "Cybercrime Investigator",
+        "SOC Analyst"
+      ],
+      "official_url": "https://www.eccouncil.org/train-certify/computer-hacking-forensic-investigator-chfi/"
+    },
+    {
+      "id": "cert_eces",
+      "canonical_name": "EC-Council Certified Encryption Specialist",
+      "abbreviation": "ECES",
+      "issuer": "EC-Council",
+      "category": "network_security",
+      "subcategory": "cryptography",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 5,
+      "ats_weight": 1.1,
+      "market_demand": "low_moderate",
+      "is_active": true,
+      "aliases": [
+        "ECES",
+        "eces",
+        "EC-Council Certified Encryption Specialist",
+        "Encryption Specialist certification"
+      ],
+      "regex_pattern": "\\b(ECES|EC-?Council\\s+Certified\\s+Encryption\\s+Specialist)\\b",
+      "role_relevance": [
+        "Security Engineer",
+        "Cryptography Engineer",
+        "Security Architect"
+      ]
+    },
+    {
+      "id": "cert_oscp",
+      "canonical_name": "Offensive Security Certified Professional",
+      "abbreviation": "OSCP",
+      "issuer": "Offensive Security",
+      "issuer_full": "Offensive Security",
+      "category": "penetration_testing",
+      "subcategory": "practical_pentest",
+      "experience_level": [
+        "mid",
+        "senior",
+        "expert"
+      ],
+      "importance_score": 10,
+      "ats_weight": 2.0,
+      "market_demand": "extremely_high",
+      "is_active": true,
+      "aliases": [
+        "OSCP",
+        "oscp",
+        "Offensive Security Certified Professional",
+        "OffSec OSCP",
+        "Offensive Security OSCP",
+        "OSCP certification",
+        "OSCP certified",
+        "OSCP holder",
+        "oscp certified",
+        "PEN-200",
+        "PWK",
+        "Penetration Testing with Kali Linux",
+        "O.S.C.P"
+      ],
+      "regex_pattern": "\\b(OSCP|Offensive\\s+Security\\s+Certified\\s+Professional|PEN-200|PWK)\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Red Team Operator",
+        "Ethical Hacker",
+        "Security Researcher",
+        "Vulnerability Assessor"
+      ],
+      "official_url": "https://www.offsec.com/courses/pen-200/"
+    },
+    {
+      "id": "cert_osep",
+      "canonical_name": "Offensive Security Experienced Penetration Tester",
+      "abbreviation": "OSEP",
+      "issuer": "Offensive Security",
+      "category": "penetration_testing",
+      "subcategory": "advanced_pentest",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.9,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "OSEP",
+        "osep",
+        "Offensive Security Experienced Penetration Tester",
+        "PEN-300",
+        "Evasion Techniques and Breaching Defenses",
+        "OffSec OSEP"
+      ],
+      "regex_pattern": "\\b(OSEP|Offensive\\s+Security\\s+Experienced\\s+Penetration\\s+Tester|PEN-300)\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Red Team Operator",
+        "Security Researcher"
+      ]
+    },
+    {
+      "id": "cert_osed",
+      "canonical_name": "Offensive Security Exploit Developer",
+      "abbreviation": "OSED",
+      "issuer": "Offensive Security",
+      "category": "malware_reverse_engineering",
+      "subcategory": "exploit_development",
+      "experience_level": [
+        "expert"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.9,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "OSED",
+        "osed",
+        "Offensive Security Exploit Developer",
+        "EXP-301",
+        "Windows User Mode Exploit Development",
+        "OffSec OSED"
+      ],
+      "regex_pattern": "\\b(OSED|Offensive\\s+Security\\s+Exploit\\s+Developer|EXP-301)\\b",
+      "role_relevance": [
+        "Exploit Developer",
+        "Malware Analyst",
+        "Reverse Engineer",
+        "Red Team Operator",
+        "Vulnerability Researcher"
+      ]
+    },
+    {
+      "id": "cert_oswe",
+      "canonical_name": "Offensive Security Web Expert",
+      "abbreviation": "OSWE",
+      "issuer": "Offensive Security",
+      "category": "application_security",
+      "subcategory": "web_application_pentest",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.8,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "OSWE",
+        "oswe",
+        "Offensive Security Web Expert",
+        "WEB-300",
+        "Advanced Web Attacks and Exploitation",
+        "OffSec OSWE"
+      ],
+      "regex_pattern": "\\b(OSWE|Offensive\\s+Security\\s+Web\\s+Expert|WEB-300)\\b",
+      "role_relevance": [
+        "AppSec Engineer",
+        "Penetration Tester",
+        "Web Security Researcher"
+      ]
+    },
+    {
+      "id": "cert_oswp",
+      "canonical_name": "Offensive Security Wireless Professional",
+      "abbreviation": "OSWP",
+      "issuer": "Offensive Security",
+      "category": "network_security",
+      "subcategory": "wireless_security",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.3,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "OSWP",
+        "oswp",
+        "Offensive Security Wireless Professional",
+        "PEN-210",
+        "WiFi Security certification",
+        "OffSec OSWP"
+      ],
+      "regex_pattern": "\\b(OSWP|Offensive\\s+Security\\s+Wireless\\s+Professional|PEN-210)\\b",
+      "role_relevance": [
+        "Network Penetration Tester",
+        "Wireless Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_osda",
+      "canonical_name": "Offensive Security Defense Analyst",
+      "abbreviation": "OSDA",
+      "issuer": "Offensive Security",
+      "category": "incident_response_forensics",
+      "subcategory": "soc_defense",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "OSDA",
+        "osda",
+        "Offensive Security Defense Analyst",
+        "SOC-200",
+        "OffSec OSDA",
+        "Foundational SOC Analyst"
+      ],
+      "regex_pattern": "\\b(OSDA|Offensive\\s+Security\\s+Defense\\s+Analyst|SOC-200)\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "Blue Team Analyst",
+        "Threat Hunter"
+      ]
+    },
+    {
+      "id": "cert_osmr",
+      "canonical_name": "Offensive Security macOS Researcher",
+      "abbreviation": "OSMR",
+      "issuer": "Offensive Security",
+      "category": "malware_reverse_engineering",
+      "subcategory": "macos_security",
+      "experience_level": [
+        "expert"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "OSMR",
+        "osmr",
+        "Offensive Security macOS Researcher",
+        "EXP-312",
+        "OffSec OSMR"
+      ],
+      "regex_pattern": "\\b(OSMR|Offensive\\s+Security\\s+macOS\\s+Researcher|EXP-312)\\b",
+      "role_relevance": [
+        "Malware Analyst",
+        "Reverse Engineer",
+        "Exploit Developer"
+      ]
+    },
+    {
+      "id": "cert_oclp",
+      "canonical_name": "OffSec Certified Lead Penetration Tester",
+      "abbreviation": "OCLP",
+      "issuer": "Offensive Security",
+      "category": "penetration_testing",
+      "subcategory": "advanced_pentest",
+      "experience_level": [
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "OCLP",
+        "oclp",
+        "OffSec Certified Lead Penetration Tester",
+        "OffSec OCLP"
+      ],
+      "regex_pattern": "\\b(OCLP|OffSec\\s+Certified\\s+Lead\\s+Penetration\\s+Tester)\\b",
+      "role_relevance": [
+        "Senior Penetration Tester",
+        "Red Team Lead"
+      ]
+    },
+    {
+      "id": "cert_comptia_security_plus",
+      "canonical_name": "CompTIA Security+",
+      "abbreviation": "Security+",
+      "issuer": "CompTIA",
+      "issuer_full": "Computing Technology Industry Association",
+      "category": "foundational",
+      "subcategory": "general_security",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.8,
+      "market_demand": "extremely_high",
+      "is_active": true,
+      "aliases": [
+        "Security+",
+        "Security Plus",
+        "CompTIA Security+",
+        "CompTIA Security Plus",
+        "SY0-601",
+        "SY0-701",
+        "CompTIA SY0-701",
+        "Sec+",
+        "security plus certification",
+        "comptia security",
+        "Security+ certified",
+        "CompTIA Security+ certified",
+        "S+",
+        "Sec Plus"
+      ],
+      "regex_pattern": "\\b(Security\\+|Security\\s+Plus|CompTIA\\s+Security(?:\\+|\\s+Plus)|SY0-[0-9]{3}|Sec\\+)\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "Security Analyst",
+        "Security Engineer",
+        "Network Security Analyst",
+        "IT Security Specialist",
+        "Help Desk Security"
+      ],
+      "official_url": "https://www.comptia.org/certifications/security"
+    },
+    {
+      "id": "cert_comptia_network_plus",
+      "canonical_name": "CompTIA Network+",
+      "abbreviation": "Network+",
+      "issuer": "CompTIA",
+      "category": "foundational",
+      "subcategory": "networking",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.3,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "Network+",
+        "Network Plus",
+        "CompTIA Network+",
+        "CompTIA Network Plus",
+        "N10-008",
+        "N10-009",
+        "Net+",
+        "network plus certification"
+      ],
+      "regex_pattern": "\\b(Network\\+|Network\\s+Plus|CompTIA\\s+Network(?:\\+|\\s+Plus)|N10-[0-9]{3})\\b",
+      "role_relevance": [
+        "Network Administrator",
+        "Network Security Analyst",
+        "SOC Analyst",
+        "IT Support"
+      ],
+      "official_url": "https://www.comptia.org/certifications/network"
+    },
+    {
+      "id": "cert_comptia_a_plus",
+      "canonical_name": "CompTIA A+",
+      "abbreviation": "A+",
+      "issuer": "CompTIA",
+      "category": "foundational",
+      "subcategory": "it_fundamentals",
+      "experience_level": [
+        "entry"
+      ],
+      "importance_score": 5,
+      "ats_weight": 1.0,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "A+",
+        "CompTIA A+",
+        "CompTIA A Plus",
+        "A Plus certification",
+        "220-1101",
+        "220-1102"
+      ],
+      "regex_pattern": "\\b(CompTIA\\s+A\\+|A\\+\\s+(?:certified|certification)|220-110[12])\\b",
+      "role_relevance": [
+        "IT Support",
+        "Help Desk",
+        "Entry-level Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_comptia_cysa_plus",
+      "canonical_name": "CompTIA CySA+",
+      "abbreviation": "CySA+",
+      "issuer": "CompTIA",
+      "category": "incident_response_forensics",
+      "subcategory": "soc_analyst",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "CySA+",
+        "CySA Plus",
+        "CompTIA CySA+",
+        "CompTIA CySA Plus",
+        "Cybersecurity Analyst",
+        "CS0-002",
+        "CS0-003",
+        "CompTIA Cybersecurity Analyst",
+        "CompTIA Cybersecurity Analyst+",
+        "cysa+ certified"
+      ],
+      "regex_pattern": "\\b(CySA\\+|CySA\\s+Plus|CompTIA\\s+CySA(?:\\+|\\s+Plus)|CS0-00[0-9]|CompTIA\\s+Cybersecurity\\s+Analyst)\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "Threat Intelligence Analyst",
+        "Incident Responder",
+        "Security Analyst",
+        "Vulnerability Analyst"
+      ],
+      "official_url": "https://www.comptia.org/certifications/cybersecurity-analyst"
+    },
+    {
+      "id": "cert_comptia_pentest_plus",
+      "canonical_name": "CompTIA PenTest+",
+      "abbreviation": "PenTest+",
+      "issuer": "CompTIA",
+      "category": "penetration_testing",
+      "subcategory": "pentest_fundamentals",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "PenTest+",
+        "PenTest Plus",
+        "CompTIA PenTest+",
+        "CompTIA PenTest Plus",
+        "PT0-001",
+        "PT0-002",
+        "PT0-003",
+        "pentest plus certification"
+      ],
+      "regex_pattern": "\\b(PenTest\\+|PenTest\\s+Plus|CompTIA\\s+PenTest(?:\\+|\\s+Plus)|PT0-00[0-9])\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Ethical Hacker",
+        "Vulnerability Assessor"
+      ],
+      "official_url": "https://www.comptia.org/certifications/pentest"
+    },
+    {
+      "id": "cert_comptia_casp_plus",
+      "canonical_name": "CompTIA Advanced Security Practitioner",
+      "abbreviation": "CASP+",
+      "issuer": "CompTIA",
+      "category": "security_management",
+      "subcategory": "advanced_security",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CASP+",
+        "CASP Plus",
+        "CompTIA CASP+",
+        "CompTIA Advanced Security Practitioner",
+        "CAS-003",
+        "CAS-004",
+        "casp+ certified"
+      ],
+      "regex_pattern": "\\b(CASP\\+|CASP\\s+Plus|CompTIA\\s+(?:CASP|Advanced\\s+Security\\s+Practitioner)|CAS-00[0-9])\\b",
+      "role_relevance": [
+        "Security Architect",
+        "Security Engineer",
+        "Senior Security Analyst",
+        "Security Manager"
+      ],
+      "official_url": "https://www.comptia.org/certifications/comptia-advanced-security-practitioner"
+    },
+    {
+      "id": "cert_comptia_cloud_plus",
+      "canonical_name": "CompTIA Cloud+",
+      "abbreviation": "Cloud+",
+      "issuer": "CompTIA",
+      "category": "cloud_security",
+      "subcategory": "cloud_fundamentals",
+      "experience_level": [
+        "mid"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "Cloud+",
+        "CompTIA Cloud+",
+        "Cloud Plus",
+        "CV0-003",
+        "CV0-004"
+      ],
+      "regex_pattern": "\\b(Cloud\\+|CompTIA\\s+Cloud(?:\\+|\\s+Plus)|CV0-00[0-9])\\b",
+      "role_relevance": [
+        "Cloud Security Engineer",
+        "Cloud Administrator"
+      ]
+    },
+    {
+      "id": "cert_comptia_linux_plus",
+      "canonical_name": "CompTIA Linux+",
+      "abbreviation": "Linux+",
+      "issuer": "CompTIA",
+      "category": "foundational",
+      "subcategory": "linux_systems",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 5,
+      "ats_weight": 1.0,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "Linux+",
+        "CompTIA Linux+",
+        "Linux Plus",
+        "XK0-005"
+      ],
+      "regex_pattern": "\\b(Linux\\+|CompTIA\\s+Linux(?:\\+|\\s+Plus)|XK0-00[0-9])\\b",
+      "role_relevance": [
+        "Linux Administrator",
+        "Security Analyst",
+        "SOC Analyst"
+      ]
+    },
+    {
+      "id": "cert_giac_gsec",
+      "canonical_name": "GIAC Security Essentials",
+      "abbreviation": "GSEC",
+      "issuer": "SANS Institute / GIAC",
+      "issuer_full": "Global Information Assurance Certification",
+      "category": "foundational",
+      "subcategory": "security_essentials",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "GSEC",
+        "gsec",
+        "GIAC Security Essentials",
+        "SANS GSEC",
+        "GIAC GSEC",
+        "SEC401",
+        "SANS SEC401",
+        "GSEC certified",
+        "giac security"
+      ],
+      "regex_pattern": "\\b(GSEC|GIAC\\s+Security\\s+Essentials|SANS\\s+(?:GSEC|SEC401)|SEC401)\\b",
+      "role_relevance": [
+        "Security Analyst",
+        "SOC Analyst",
+        "Network Security Analyst",
+        "Security Engineer"
+      ],
+      "official_url": "https://www.giac.org/certifications/security-essentials-gsec/"
+    },
+    {
+      "id": "cert_giac_gpen",
+      "canonical_name": "GIAC Penetration Tester",
+      "abbreviation": "GPEN",
+      "issuer": "SANS Institute / GIAC",
+      "category": "penetration_testing",
+      "subcategory": "network_pentest",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "GPEN",
+        "gpen",
+        "GIAC Penetration Tester",
+        "SANS GPEN",
+        "GIAC GPEN",
+        "SEC560",
+        "SANS SEC560",
+        "gpen certified"
+      ],
+      "regex_pattern": "\\b(GPEN|GIAC\\s+Penetration\\s+Tester|SANS\\s+(?:GPEN|SEC560)|SEC560)\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Red Team Operator",
+        "Ethical Hacker"
+      ]
+    },
+    {
+      "id": "cert_giac_gwapt",
+      "canonical_name": "GIAC Web Application Penetration Tester",
+      "abbreviation": "GWAPT",
+      "issuer": "SANS Institute / GIAC",
+      "category": "application_security",
+      "subcategory": "web_pentest",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GWAPT",
+        "gwapt",
+        "GIAC Web Application Penetration Tester",
+        "SANS GWAPT",
+        "SEC542",
+        "SANS SEC542"
+      ],
+      "regex_pattern": "\\b(GWAPT|GIAC\\s+Web\\s+Application\\s+Penetration\\s+Tester|SEC542)\\b",
+      "role_relevance": [
+        "AppSec Engineer",
+        "Penetration Tester",
+        "Web Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_giac_grem",
+      "canonical_name": "GIAC Reverse Engineering Malware",
+      "abbreviation": "GREM",
+      "issuer": "SANS Institute / GIAC",
+      "category": "malware_reverse_engineering",
+      "subcategory": "malware_analysis",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.8,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GREM",
+        "grem",
+        "GIAC Reverse Engineering Malware",
+        "SANS GREM",
+        "FOR610",
+        "SANS FOR610",
+        "Reverse Engineering Malware",
+        "grem certified"
+      ],
+      "regex_pattern": "\\b(GREM|GIAC\\s+Reverse\\s+Engineering\\s+Malware|SANS\\s+(?:GREM|FOR610)|FOR610)\\b",
+      "role_relevance": [
+        "Malware Analyst",
+        "Reverse Engineer",
+        "Threat Intelligence Analyst"
+      ]
+    },
+    {
+      "id": "cert_giac_gcih",
+      "canonical_name": "GIAC Certified Incident Handler",
+      "abbreviation": "GCIH",
+      "issuer": "SANS Institute / GIAC",
+      "category": "incident_response_forensics",
+      "subcategory": "incident_handling",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "GCIH",
+        "gcih",
+        "GIAC Certified Incident Handler",
+        "SANS GCIH",
+        "SEC504",
+        "SANS SEC504",
+        "gcih certified",
+        "incident handler certification"
+      ],
+      "regex_pattern": "\\b(GCIH|GIAC\\s+Certified\\s+Incident\\s+Handler|SANS\\s+(?:GCIH|SEC504)|SEC504)\\b",
+      "role_relevance": [
+        "Incident Responder",
+        "SOC Analyst",
+        "Blue Team Analyst",
+        "Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_giac_gcfe",
+      "canonical_name": "GIAC Certified Forensic Examiner",
+      "abbreviation": "GCFE",
+      "issuer": "SANS Institute / GIAC",
+      "category": "incident_response_forensics",
+      "subcategory": "digital_forensics",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GCFE",
+        "gcfe",
+        "GIAC Certified Forensic Examiner",
+        "SANS GCFE",
+        "FOR500",
+        "SANS FOR500",
+        "Windows Forensics certification"
+      ],
+      "regex_pattern": "\\b(GCFE|GIAC\\s+Certified\\s+Forensic\\s+Examiner|FOR500)\\b",
+      "role_relevance": [
+        "Digital Forensics Analyst",
+        "Incident Responder",
+        "Cybercrime Investigator"
+      ]
+    },
+    {
+      "id": "cert_giac_gcfa",
+      "canonical_name": "GIAC Certified Forensic Analyst",
+      "abbreviation": "GCFA",
+      "issuer": "SANS Institute / GIAC",
+      "category": "incident_response_forensics",
+      "subcategory": "advanced_forensics",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GCFA",
+        "gcfa",
+        "GIAC Certified Forensic Analyst",
+        "SANS GCFA",
+        "FOR508",
+        "SANS FOR508",
+        "Advanced Incident Response certification"
+      ],
+      "regex_pattern": "\\b(GCFA|GIAC\\s+Certified\\s+Forensic\\s+Analyst|FOR508)\\b",
+      "role_relevance": [
+        "Digital Forensics Analyst",
+        "Incident Responder",
+        "Threat Hunter",
+        "SOC Lead"
+      ]
+    },
+    {
+      "id": "cert_giac_gnfa",
+      "canonical_name": "GIAC Network Forensic Analyst",
+      "abbreviation": "GNFA",
+      "issuer": "SANS Institute / GIAC",
+      "category": "incident_response_forensics",
+      "subcategory": "network_forensics",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GNFA",
+        "gnfa",
+        "GIAC Network Forensic Analyst",
+        "SANS GNFA",
+        "FOR572",
+        "SANS FOR572"
+      ],
+      "regex_pattern": "\\b(GNFA|GIAC\\s+Network\\s+Forensic\\s+Analyst|FOR572)\\b",
+      "role_relevance": [
+        "Digital Forensics Analyst",
+        "Network Security Analyst",
+        "Incident Responder"
+      ]
+    },
+    {
+      "id": "cert_giac_gcia",
+      "canonical_name": "GIAC Certified Intrusion Analyst",
+      "abbreviation": "GCIA",
+      "issuer": "SANS Institute / GIAC",
+      "category": "network_security",
+      "subcategory": "intrusion_analysis",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GCIA",
+        "gcia",
+        "GIAC Certified Intrusion Analyst",
+        "SANS GCIA",
+        "SEC503",
+        "SANS SEC503",
+        "Intrusion Analyst certification"
+      ],
+      "regex_pattern": "\\b(GCIA|GIAC\\s+Certified\\s+Intrusion\\s+Analyst|SEC503)\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "Network Security Analyst",
+        "Intrusion Detection Analyst",
+        "Threat Hunter"
+      ]
+    },
+    {
+      "id": "cert_giac_gicsp",
+      "canonical_name": "GIAC Global Industrial Cyber Security Professional",
+      "abbreviation": "GICSP",
+      "issuer": "SANS Institute / GIAC",
+      "category": "ot_ics_security",
+      "subcategory": "ics_security",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GICSP",
+        "gicsp",
+        "GIAC Global Industrial Cyber Security Professional",
+        "SANS GICSP",
+        "ICS410",
+        "SANS ICS410",
+        "Industrial Cyber Security Professional",
+        "ICS Security certification"
+      ],
+      "regex_pattern": "\\b(GICSP|GIAC\\s+(?:Global\\s+)?Industrial\\s+Cyber\\s+Security\\s+Professional|ICS410)\\b",
+      "role_relevance": [
+        "OT/ICS Security Engineer",
+        "Critical Infrastructure Security",
+        "SCADA Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_giac_grid",
+      "canonical_name": "GIAC Response and Industrial Defense",
+      "abbreviation": "GRID",
+      "issuer": "SANS Institute / GIAC",
+      "category": "ot_ics_security",
+      "subcategory": "ics_incident_response",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GRID",
+        "grid",
+        "GIAC Response and Industrial Defense",
+        "SANS GRID",
+        "ICS515",
+        "SANS ICS515"
+      ],
+      "regex_pattern": "\\b(GRID|GIAC\\s+Response\\s+and\\s+Industrial\\s+Defense|ICS515)\\b",
+      "role_relevance": [
+        "OT/ICS Security Engineer",
+        "ICS Incident Responder"
+      ]
+    },
+    {
+      "id": "cert_giac_gxpn",
+      "canonical_name": "GIAC Exploit Researcher and Advanced Penetration Tester",
+      "abbreviation": "GXPN",
+      "issuer": "SANS Institute / GIAC",
+      "category": "penetration_testing",
+      "subcategory": "advanced_exploitation",
+      "experience_level": [
+        "expert"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.8,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GXPN",
+        "gxpn",
+        "GIAC Exploit Researcher and Advanced Penetration Tester",
+        "SANS GXPN",
+        "SEC660",
+        "SANS SEC660"
+      ],
+      "regex_pattern": "\\b(GXPN|GIAC\\s+Exploit\\s+Researcher|SEC660)\\b",
+      "role_relevance": [
+        "Exploit Developer",
+        "Penetration Tester",
+        "Red Team Operator",
+        "Vulnerability Researcher"
+      ]
+    },
+    {
+      "id": "cert_giac_gweb",
+      "canonical_name": "GIAC Certified Web Application Defender",
+      "abbreviation": "GWEB",
+      "issuer": "SANS Institute / GIAC",
+      "category": "application_security",
+      "subcategory": "web_defense",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GWEB",
+        "gweb",
+        "GIAC Certified Web Application Defender",
+        "SANS GWEB",
+        "SEC522",
+        "SANS SEC522"
+      ],
+      "regex_pattern": "\\b(GWEB|GIAC\\s+Certified\\s+Web\\s+Application\\s+Defender|SEC522)\\b",
+      "role_relevance": [
+        "AppSec Engineer",
+        "Web Security Analyst",
+        "Security Developer"
+      ]
+    },
+    {
+      "id": "cert_giac_gmon",
+      "canonical_name": "GIAC Continuous Monitoring Certification",
+      "abbreviation": "GMON",
+      "issuer": "SANS Institute / GIAC",
+      "category": "incident_response_forensics",
+      "subcategory": "continuous_monitoring",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GMON",
+        "gmon",
+        "GIAC Continuous Monitoring",
+        "SANS GMON",
+        "SEC511",
+        "SANS SEC511"
+      ],
+      "regex_pattern": "\\b(GMON|GIAC\\s+Continuous\\s+Monitoring|SEC511)\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "Security Engineer",
+        "Threat Hunter"
+      ]
+    },
+    {
+      "id": "cert_giac_gslc",
+      "canonical_name": "GIAC Security Leadership",
+      "abbreviation": "GSLC",
+      "issuer": "SANS Institute / GIAC",
+      "category": "security_management",
+      "subcategory": "security_leadership",
+      "experience_level": [
+        "senior",
+        "expert",
+        "executive"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GSLC",
+        "gslc",
+        "GIAC Security Leadership",
+        "SANS GSLC",
+        "MGT512",
+        "SANS MGT512"
+      ],
+      "regex_pattern": "\\b(GSLC|GIAC\\s+Security\\s+Leadership|MGT512)\\b",
+      "role_relevance": [
+        "CISO",
+        "Security Manager",
+        "Security Director"
+      ]
+    },
+    {
+      "id": "cert_giac_gpyc",
+      "canonical_name": "GIAC Python Coder",
+      "abbreviation": "GPYC",
+      "issuer": "SANS Institute / GIAC",
+      "category": "application_security",
+      "subcategory": "security_scripting",
+      "experience_level": [
+        "mid"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GPYC",
+        "gpyc",
+        "GIAC Python Coder",
+        "SANS GPYC",
+        "SEC573",
+        "SANS SEC573"
+      ],
+      "regex_pattern": "\\b(GPYC|GIAC\\s+Python\\s+Coder|SEC573)\\b",
+      "role_relevance": [
+        "Security Analyst",
+        "SOC Analyst",
+        "Automation Engineer"
+      ]
+    },
+    {
+      "id": "cert_giac_gcld",
+      "canonical_name": "GIAC Cloud Security Essentials",
+      "abbreviation": "GCLD",
+      "issuer": "SANS Institute / GIAC",
+      "category": "cloud_security",
+      "subcategory": "cloud_essentials",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "GCLD",
+        "gcld",
+        "GIAC Cloud Security Essentials",
+        "SANS GCLD",
+        "SEC488",
+        "SANS SEC488",
+        "Cloud Security Essentials certification"
+      ],
+      "regex_pattern": "\\b(GCLD|GIAC\\s+Cloud\\s+Security\\s+Essentials|SEC488)\\b",
+      "role_relevance": [
+        "Cloud Security Engineer",
+        "Security Architect",
+        "Security Engineer"
+      ]
+    },
+    {
+      "id": "cert_giac_gpcs",
+      "canonical_name": "GIAC Public Cloud Security",
+      "abbreviation": "GPCS",
+      "issuer": "SANS Institute / GIAC",
+      "category": "cloud_security",
+      "subcategory": "public_cloud",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GPCS",
+        "gpcs",
+        "GIAC Public Cloud Security",
+        "SANS GPCS",
+        "SEC510",
+        "SANS SEC510"
+      ],
+      "regex_pattern": "\\b(GPCS|GIAC\\s+Public\\s+Cloud\\s+Security|SEC510)\\b",
+      "role_relevance": [
+        "Cloud Security Engineer",
+        "DevSecOps Engineer"
+      ]
+    },
+    {
+      "id": "cert_aws_security_specialty",
+      "canonical_name": "AWS Certified Security Specialty",
+      "abbreviation": "AWS-SCS",
+      "issuer": "AWS",
+      "issuer_full": "Amazon Web Services",
+      "category": "cloud_security",
+      "subcategory": "aws_security",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.8,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "AWS Certified Security Specialty",
+        "AWS Security Specialty",
+        "SCS-C01",
+        "SCS-C02",
+        "AWS-SCS",
+        "AWS Security certification",
+        "Amazon Security Specialty",
+        "AWS Security Specialist",
+        "aws certified security"
+      ],
+      "regex_pattern": "\\b(AWS\\s+(?:Certified\\s+)?Security(?:\\s+Specialty)?|SCS-C0[12]|AWS-SCS)\\b",
+      "role_relevance": [
+        "Cloud Security Engineer",
+        "AWS Security Architect",
+        "DevSecOps Engineer",
+        "Security Engineer"
+      ],
+      "official_url": "https://aws.amazon.com/certification/certified-security-specialty/"
+    },
+    {
+      "id": "cert_aws_solutions_architect",
+      "canonical_name": "AWS Certified Solutions Architect Associate",
+      "abbreviation": "AWS-SAA",
+      "issuer": "AWS",
+      "category": "cloud_security",
+      "subcategory": "aws_fundamentals",
+      "experience_level": [
+        "mid"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "AWS Certified Solutions Architect",
+        "AWS Solutions Architect Associate",
+        "SAA-C02",
+        "SAA-C03",
+        "AWS-SAA",
+        "AWS SA Associate",
+        "amazon solutions architect"
+      ],
+      "regex_pattern": "\\b(AWS\\s+(?:Certified\\s+)?Solutions\\s+Architect(?:\\s+(?:Associate|Professional))?|SAA-C0[0-9]|AWS-SAA)\\b",
+      "role_relevance": [
+        "Cloud Security Engineer",
+        "Cloud Architect",
+        "Security Architect"
+      ]
+    },
+    {
+      "id": "cert_azure_security_engineer",
+      "canonical_name": "Microsoft Azure Security Engineer Associate",
+      "abbreviation": "AZ-500",
+      "issuer": "Microsoft",
+      "category": "cloud_security",
+      "subcategory": "azure_security",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.8,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "AZ-500",
+        "Azure Security Engineer",
+        "Microsoft Azure Security Engineer",
+        "Azure Security Engineer Associate",
+        "Microsoft AZ-500",
+        "az-500",
+        "azure security engineer associate",
+        "azure security certification"
+      ],
+      "regex_pattern": "\\b(AZ-500|Azure\\s+Security\\s+Engineer(?:\\s+Associate)?|Microsoft\\s+Azure\\s+Security)\\b",
+      "role_relevance": [
+        "Cloud Security Engineer",
+        "Azure Security Architect",
+        "Security Engineer",
+        "DevSecOps Engineer"
+      ],
+      "official_url": "https://learn.microsoft.com/en-us/credentials/certifications/azure-security-engineer/"
+    },
+    {
+      "id": "cert_azure_fundamentals",
+      "canonical_name": "Microsoft Azure Fundamentals",
+      "abbreviation": "AZ-900",
+      "issuer": "Microsoft",
+      "category": "cloud_security",
+      "subcategory": "azure_fundamentals",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 5,
+      "ats_weight": 1.0,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "AZ-900",
+        "Azure Fundamentals",
+        "Microsoft Azure Fundamentals",
+        "az-900",
+        "azure fundamentals certification"
+      ],
+      "regex_pattern": "\\b(AZ-900|Azure\\s+Fundamentals|Microsoft\\s+Azure\\s+Fundamentals)\\b",
+      "role_relevance": [
+        "Cloud Administrator",
+        "Security Analyst",
+        "IT Professional"
+      ]
+    },
+    {
+      "id": "cert_sc_200",
+      "canonical_name": "Microsoft Security Operations Analyst",
+      "abbreviation": "SC-200",
+      "issuer": "Microsoft",
+      "category": "incident_response_forensics",
+      "subcategory": "soc_analyst",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "SC-200",
+        "Microsoft Security Operations Analyst",
+        "sc-200",
+        "Security Operations Analyst Associate",
+        "Microsoft SC-200",
+        "Sentinel certification",
+        "Microsoft Defender certification"
+      ],
+      "regex_pattern": "\\b(SC-200|Microsoft\\s+Security\\s+Operations\\s+Analyst|Security\\s+Operations\\s+Analyst\\s+Associate)\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "Incident Responder",
+        "Threat Hunter",
+        "Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_sc_100",
+      "canonical_name": "Microsoft Cybersecurity Architect",
+      "abbreviation": "SC-100",
+      "issuer": "Microsoft",
+      "category": "security_management",
+      "subcategory": "security_architecture",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "SC-100",
+        "Microsoft Cybersecurity Architect",
+        "sc-100",
+        "Cybersecurity Architect Expert",
+        "Microsoft SC-100"
+      ],
+      "regex_pattern": "\\b(SC-100|Microsoft\\s+Cybersecurity\\s+Architect)\\b",
+      "role_relevance": [
+        "Security Architect",
+        "CISO",
+        "Cloud Security Architect"
+      ]
+    },
+    {
+      "id": "cert_sc_300",
+      "canonical_name": "Microsoft Identity and Access Administrator",
+      "abbreviation": "SC-300",
+      "issuer": "Microsoft",
+      "category": "network_security",
+      "subcategory": "identity_access_management",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "SC-300",
+        "Microsoft Identity and Access Administrator",
+        "sc-300",
+        "Identity Administrator Associate",
+        "Microsoft IAM certification"
+      ],
+      "regex_pattern": "\\b(SC-300|Microsoft\\s+Identity\\s+and\\s+Access\\s+Administrator)\\b",
+      "role_relevance": [
+        "IAM Engineer",
+        "Security Engineer",
+        "Cloud Security Engineer"
+      ]
+    },
+    {
+      "id": "cert_gcp_security_engineer",
+      "canonical_name": "Google Professional Cloud Security Engineer",
+      "abbreviation": "GCP-PCSE",
+      "issuer": "Google",
+      "category": "cloud_security",
+      "subcategory": "gcp_security",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "Google Professional Cloud Security Engineer",
+        "GCP Security Engineer",
+        "GCP-PCSE",
+        "Professional Cloud Security Engineer",
+        "Google Cloud Security",
+        "google cloud security engineer",
+        "GCP Security certification"
+      ],
+      "regex_pattern": "\\b((?:Google\\s+)?Professional\\s+Cloud\\s+Security\\s+Engineer|GCP\\s+Security(?:\\s+Engineer)?|GCP-PCSE)\\b",
+      "role_relevance": [
+        "Cloud Security Engineer",
+        "GCP Architect",
+        "DevSecOps Engineer"
+      ],
+      "official_url": "https://cloud.google.com/learn/certification/cloud-security-engineer"
+    },
+    {
+      "id": "cert_ccsp",
+      "canonical_name": "Certified Cloud Security Professional",
+      "abbreviation": "CCSP",
+      "issuer": "ISC2",
+      "category": "cloud_security",
+      "subcategory": "cloud_security_professional",
+      "experience_level": [
+        "mid",
+        "senior",
+        "expert"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.8,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "CCSP",
+        "ccsp",
+        "Certified Cloud Security Professional",
+        "ISC2 CCSP",
+        "(ISC)2 CCSP",
+        "CCSP certification",
+        "CCSP certified",
+        "cloud security professional"
+      ],
+      "regex_pattern": "\\b(CCSP|Certified\\s+Cloud\\s+Security\\s+Professional|ISC[²2]?\\s+CCSP)\\b",
+      "role_relevance": [
+        "Cloud Security Engineer",
+        "Cloud Security Architect",
+        "Security Architect",
+        "CISO"
+      ],
+      "official_url": "https://www.isc2.org/Certifications/CCSP"
+    },
+    {
+      "id": "cert_sscp",
+      "canonical_name": "Systems Security Certified Practitioner",
+      "abbreviation": "SSCP",
+      "issuer": "ISC2",
+      "category": "foundational",
+      "subcategory": "security_practitioner",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "SSCP",
+        "sscp",
+        "Systems Security Certified Practitioner",
+        "ISC2 SSCP",
+        "(ISC)2 SSCP",
+        "SSCP certification",
+        "SSCP certified"
+      ],
+      "regex_pattern": "\\b(SSCP|Systems\\s+Security\\s+Certified\\s+Practitioner|ISC[²2]?\\s+SSCP)\\b",
+      "role_relevance": [
+        "Security Analyst",
+        "Network Security Analyst",
+        "Security Administrator"
+      ]
+    },
+    {
+      "id": "cert_cc",
+      "canonical_name": "Certified in Cybersecurity",
+      "abbreviation": "CC",
+      "issuer": "ISC2",
+      "category": "foundational",
+      "subcategory": "entry_level",
+      "experience_level": [
+        "entry"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.1,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CC",
+        "ISC2 CC",
+        "Certified in Cybersecurity",
+        "(ISC)2 CC",
+        "ISC2 Certified in Cybersecurity",
+        "CC certification"
+      ],
+      "regex_pattern": "\\b(ISC[²2]?\\s+CC|Certified\\s+in\\s+Cybersecurity|ISC[²2]?\\s+Certified\\s+in\\s+Cybersecurity)\\b",
+      "role_relevance": [
+        "Entry-level Security Analyst",
+        "Help Desk Security",
+        "Junior SOC Analyst"
+      ]
+    },
+    {
+      "id": "cert_ccna_security",
+      "canonical_name": "Cisco Certified Network Associate Security",
+      "abbreviation": "CCNA Security",
+      "issuer": "Cisco",
+      "category": "network_security",
+      "subcategory": "cisco_security",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CCNA Security",
+        "CCNA",
+        "Cisco CCNA",
+        "Cisco CCNA Security",
+        "CCNA certification",
+        "Cisco Certified Network Associate",
+        "ccna certified",
+        "CCNA 200-301"
+      ],
+      "regex_pattern": "\\b(CCNA(?:\\s+Security)?|Cisco\\s+(?:Certified\\s+Network\\s+Associate|CCNA)|CCNA\\s+200-301)\\b",
+      "role_relevance": [
+        "Network Security Analyst",
+        "Network Administrator",
+        "Security Engineer",
+        "SOC Analyst"
+      ]
+    },
+    {
+      "id": "cert_ccnp_security",
+      "canonical_name": "Cisco Certified Network Professional Security",
+      "abbreviation": "CCNP Security",
+      "issuer": "Cisco",
+      "category": "network_security",
+      "subcategory": "cisco_security_advanced",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CCNP Security",
+        "CCNP",
+        "Cisco CCNP",
+        "Cisco CCNP Security",
+        "Cisco Certified Network Professional Security",
+        "ccnp certified"
+      ],
+      "regex_pattern": "\\b(CCNP(?:\\s+Security)?|Cisco\\s+(?:Certified\\s+Network\\s+Professional|CCNP)(?:\\s+Security)?)\\b",
+      "role_relevance": [
+        "Network Security Engineer",
+        "Security Engineer",
+        "Network Architect"
+      ]
+    },
+    {
+      "id": "cert_ccie_security",
+      "canonical_name": "Cisco Certified Internetwork Expert Security",
+      "abbreviation": "CCIE Security",
+      "issuer": "Cisco",
+      "category": "network_security",
+      "subcategory": "cisco_expert",
+      "experience_level": [
+        "expert"
+      ],
+      "importance_score": 9,
+      "ats_weight": 1.9,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CCIE Security",
+        "CCIE",
+        "Cisco CCIE",
+        "Cisco CCIE Security",
+        "Cisco Certified Internetwork Expert Security",
+        "ccie certified"
+      ],
+      "regex_pattern": "\\b(CCIE(?:\\s+Security)?|Cisco\\s+(?:Certified\\s+Internetwork\\s+Expert|CCIE)(?:\\s+Security)?)\\b",
+      "role_relevance": [
+        "Senior Network Security Engineer",
+        "Security Architect",
+        "Network Architect"
+      ]
+    },
+    {
+      "id": "cert_palo_pcnse",
+      "canonical_name": "Palo Alto Networks Certified Network Security Engineer",
+      "abbreviation": "PCNSE",
+      "issuer": "Palo Alto Networks",
+      "category": "network_security",
+      "subcategory": "next_gen_firewall",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "PCNSE",
+        "pcnse",
+        "Palo Alto PCNSE",
+        "Palo Alto Networks Certified Network Security Engineer",
+        "Palo Alto Networks PCNSE",
+        "PCNSE certification",
+        "PAN-OS certification"
+      ],
+      "regex_pattern": "\\b(PCNSE|Palo\\s+Alto\\s+(?:Networks\\s+)?(?:Certified\\s+Network\\s+Security\\s+Engineer|PCNSE))\\b",
+      "role_relevance": [
+        "Firewall Engineer",
+        "Network Security Engineer",
+        "Security Engineer",
+        "SOC Analyst"
+      ]
+    },
+    {
+      "id": "cert_palo_pccsa",
+      "canonical_name": "Palo Alto Networks Certified Cybersecurity Associate",
+      "abbreviation": "PCCSA",
+      "issuer": "Palo Alto Networks",
+      "category": "foundational",
+      "subcategory": "palo_alto_associate",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "PCCSA",
+        "pccsa",
+        "Palo Alto PCCSA",
+        "Palo Alto Networks Certified Cybersecurity Associate"
+      ],
+      "regex_pattern": "\\b(PCCSA|Palo\\s+Alto\\s+(?:Networks\\s+)?(?:Certified\\s+Cybersecurity\\s+Associate|PCCSA))\\b",
+      "role_relevance": [
+        "Entry-level Security Analyst",
+        "SOC Analyst"
+      ]
+    },
+    {
+      "id": "cert_fortinet_fcnsp",
+      "canonical_name": "Fortinet Certified Network Security Professional",
+      "abbreviation": "FCNSP",
+      "issuer": "Fortinet",
+      "category": "network_security",
+      "subcategory": "fortinet_security",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "FCNSP",
+        "fcnsp",
+        "Fortinet FCNSP",
+        "Fortinet Certified Network Security Professional",
+        "FortiGate certification",
+        "NSE certification"
+      ],
+      "regex_pattern": "\\b(FCNSP|Fortinet\\s+(?:Certified\\s+Network\\s+Security\\s+Professional|FCNSP)|NSE[0-9]+)\\b",
+      "role_relevance": [
+        "Firewall Engineer",
+        "Network Security Engineer",
+        "Security Engineer"
+      ]
+    },
+    {
+      "id": "cert_fortinet_nse4",
+      "canonical_name": "Fortinet Network Security Expert 4",
+      "abbreviation": "NSE 4",
+      "issuer": "Fortinet",
+      "category": "network_security",
+      "subcategory": "fortinet_nse",
+      "experience_level": [
+        "mid"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "NSE 4",
+        "NSE4",
+        "Fortinet NSE 4",
+        "Fortinet NSE4",
+        "Network Security Expert 4",
+        "FortiGate NSE 4"
+      ],
+      "regex_pattern": "\\b(NSE\\s*4|Fortinet\\s+NSE\\s*4|Network\\s+Security\\s+Expert\\s+4)\\b",
+      "role_relevance": [
+        "Firewall Engineer",
+        "Network Security Engineer"
+      ]
+    },
+    {
+      "id": "cert_checkpoint_ccsa",
+      "canonical_name": "Check Point Certified Security Administrator",
+      "abbreviation": "CCSA",
+      "issuer": "Check Point",
+      "category": "network_security",
+      "subcategory": "checkpoint_security",
+      "experience_level": [
+        "mid"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CCSA",
+        "ccsa",
+        "Check Point CCSA",
+        "Check Point Certified Security Administrator",
+        "CheckPoint CCSA"
+      ],
+      "regex_pattern": "\\b(CCSA|Check\\s*Point\\s+(?:Certified\\s+Security\\s+Administrator|CCSA))\\b",
+      "role_relevance": [
+        "Firewall Administrator",
+        "Network Security Engineer"
+      ]
+    },
+    {
+      "id": "cert_checkpoint_ccse",
+      "canonical_name": "Check Point Certified Security Expert",
+      "abbreviation": "CCSE",
+      "issuer": "Check Point",
+      "category": "network_security",
+      "subcategory": "checkpoint_advanced",
+      "experience_level": [
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CCSE",
+        "ccse",
+        "Check Point CCSE",
+        "Check Point Certified Security Expert",
+        "CheckPoint CCSE"
+      ],
+      "regex_pattern": "\\b(CCSE|Check\\s*Point\\s+(?:Certified\\s+Security\\s+Expert|CCSE))\\b",
+      "role_relevance": [
+        "Senior Firewall Engineer",
+        "Network Security Engineer"
+      ]
+    },
+    {
+      "id": "cert_splunk_core_certified_user",
+      "canonical_name": "Splunk Core Certified User",
+      "abbreviation": "Splunk CU",
+      "issuer": "Splunk",
+      "category": "incident_response_forensics",
+      "subcategory": "siem_soc",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "Splunk Core Certified User",
+        "Splunk Certified User",
+        "Splunk CU",
+        "Splunk User certification",
+        "SPLK-1001",
+        "splunk certification"
+      ],
+      "regex_pattern": "\\b(Splunk\\s+(?:Core\\s+)?Certified\\s+User|SPLK-1001|Splunk\\s+CU)\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "Security Analyst",
+        "SIEM Analyst"
+      ]
+    },
+    {
+      "id": "cert_splunk_power_user",
+      "canonical_name": "Splunk Core Certified Power User",
+      "abbreviation": "Splunk PU",
+      "issuer": "Splunk",
+      "category": "incident_response_forensics",
+      "subcategory": "siem_soc",
+      "experience_level": [
+        "mid"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "Splunk Core Certified Power User",
+        "Splunk Power User",
+        "Splunk PU",
+        "SPLK-1002",
+        "Splunk Advanced Power User"
+      ],
+      "regex_pattern": "\\b(Splunk\\s+(?:Core\\s+)?Certified\\s+Power\\s+User|SPLK-1002|Splunk\\s+PU)\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "SIEM Engineer",
+        "Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_splunk_enterprise_security",
+      "canonical_name": "Splunk Certified Cybersecurity Defense Analyst",
+      "abbreviation": "SPLK-5001",
+      "issuer": "Splunk",
+      "category": "incident_response_forensics",
+      "subcategory": "siem_soc",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "Splunk Certified Cybersecurity Defense Analyst",
+        "SPLK-5001",
+        "Splunk ES certification",
+        "Splunk Enterprise Security",
+        "Splunk SIEM certification"
+      ],
+      "regex_pattern": "\\b(Splunk\\s+(?:Certified\\s+Cybersecurity\\s+Defense\\s+Analyst|Enterprise\\s+Security)|SPLK-5001)\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "SIEM Engineer",
+        "Security Operations Manager"
+      ]
+    },
+    {
+      "id": "cert_crowdstrike_ccfh",
+      "canonical_name": "CrowdStrike Certified Falcon Hunter",
+      "abbreviation": "CCFH",
+      "issuer": "CrowdStrike",
+      "category": "incident_response_forensics",
+      "subcategory": "threat_hunting",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CCFH",
+        "ccfh",
+        "CrowdStrike CCFH",
+        "CrowdStrike Certified Falcon Hunter",
+        "Falcon Hunter certification",
+        "CrowdStrike threat hunting"
+      ],
+      "regex_pattern": "\\b(CCFH|CrowdStrike\\s+(?:Certified\\s+Falcon\\s+Hunter|CCFH)|Falcon\\s+Hunter)\\b",
+      "role_relevance": [
+        "Threat Hunter",
+        "SOC Analyst",
+        "Incident Responder"
+      ]
+    },
+    {
+      "id": "cert_crowdstrike_ccfa",
+      "canonical_name": "CrowdStrike Certified Falcon Administrator",
+      "abbreviation": "CCFA",
+      "issuer": "CrowdStrike",
+      "category": "incident_response_forensics",
+      "subcategory": "edr_administration",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CCFA",
+        "ccfa",
+        "CrowdStrike Certified Falcon Administrator",
+        "CrowdStrike CCFA",
+        "Falcon Administrator certification"
+      ],
+      "regex_pattern": "\\b(CCFA|CrowdStrike\\s+(?:Certified\\s+Falcon\\s+Administrator|CCFA)|Falcon\\s+Administrator)\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "EDR Administrator",
+        "Security Engineer"
+      ]
+    },
+    {
+      "id": "cert_giac_ghtq",
+      "canonical_name": "GIAC Certified Threat Hunter",
+      "abbreviation": "GHTQ",
+      "issuer": "SANS Institute / GIAC",
+      "category": "incident_response_forensics",
+      "subcategory": "threat_hunting",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GHTQ",
+        "ghtq",
+        "GIAC Certified Threat Hunter",
+        "SANS GHTQ",
+        "FOR508",
+        "Threat Hunter certification",
+        "SANS Threat Hunting"
+      ],
+      "regex_pattern": "\\b(GHTQ|GIAC\\s+Certified\\s+Threat\\s+Hunter)\\b",
+      "role_relevance": [
+        "Threat Hunter",
+        "SOC Lead",
+        "Senior Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_edrp",
+      "canonical_name": "EC-Council Disaster Recovery Professional",
+      "abbreviation": "EDRP",
+      "issuer": "EC-Council",
+      "category": "incident_response_forensics",
+      "subcategory": "disaster_recovery",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 5,
+      "ats_weight": 1.0,
+      "market_demand": "low_moderate",
+      "is_active": true,
+      "aliases": [
+        "EDRP",
+        "edrp",
+        "EC-Council Disaster Recovery Professional",
+        "Disaster Recovery Professional"
+      ],
+      "regex_pattern": "\\b(EDRP|EC-?Council\\s+Disaster\\s+Recovery\\s+Professional)\\b",
+      "role_relevance": [
+        "Business Continuity Analyst",
+        "Disaster Recovery Specialist"
+      ]
+    },
+    {
+      "id": "cert_gcpn",
+      "canonical_name": "GIAC Cloud Penetration Tester",
+      "abbreviation": "GCPN",
+      "issuer": "SANS Institute / GIAC",
+      "category": "cloud_security",
+      "subcategory": "cloud_pentest",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GCPN",
+        "gcpn",
+        "GIAC Cloud Penetration Tester",
+        "SANS GCPN",
+        "SEC588",
+        "SANS SEC588",
+        "Cloud Penetration Testing"
+      ],
+      "regex_pattern": "\\b(GCPN|GIAC\\s+Cloud\\s+Penetration\\s+Tester|SEC588)\\b",
+      "role_relevance": [
+        "Cloud Penetration Tester",
+        "Cloud Security Engineer",
+        "Red Team Operator"
+      ]
+    },
+    {
+      "id": "cert_cpt",
+      "canonical_name": "Certified Penetration Tester",
+      "abbreviation": "CPT",
+      "issuer": "Mile2",
+      "category": "penetration_testing",
+      "subcategory": "network_pentest",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CPT",
+        "cpt",
+        "Mile2 CPT",
+        "Certified Penetration Tester",
+        "Mile2 Certified Penetration Tester"
+      ],
+      "regex_pattern": "\\b(Mile2\\s+CPT|Mile2\\s+Certified\\s+Penetration\\s+Tester|Mile2\\s+CPT)\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Ethical Hacker",
+        "Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_iso27001_lead_implementer",
+      "canonical_name": "ISO 27001 Lead Implementer",
+      "abbreviation": "ISO 27001 LI",
+      "issuer": "PECB",
+      "category": "governance_risk_compliance",
+      "subcategory": "iso_standards",
+      "experience_level": [
+        "mid",
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "ISO 27001 Lead Implementer",
+        "ISO/IEC 27001 Lead Implementer",
+        "ISO27001 Lead Implementer",
+        "PECB ISO 27001",
+        "27001 LI",
+        "ISO 27001 LI",
+        "ISO 27001 implementation",
+        "ISMS implementer",
+        "information security management system"
+      ],
+      "regex_pattern": "\\b(ISO\\s*/?\\s*IEC\\s+27001\\s+Lead\\s+Implementer|ISO\\s*27001\\s+(?:Lead\\s+)?Implementer|27001\\s+LI|ISMS\\s+Implementer)\\b",
+      "role_relevance": [
+        "GRC Analyst",
+        "Compliance Officer",
+        "Security Manager",
+        "CISO",
+        "Security Consultant"
+      ]
+    },
+    {
+      "id": "cert_iso27001_lead_auditor",
+      "canonical_name": "ISO 27001 Lead Auditor",
+      "abbreviation": "ISO 27001 LA",
+      "issuer": "PECB",
+      "category": "governance_risk_compliance",
+      "subcategory": "iso_standards",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "ISO 27001 Lead Auditor",
+        "ISO/IEC 27001 Lead Auditor",
+        "ISO27001 Lead Auditor",
+        "ISO 27001 LA",
+        "27001 LA",
+        "ISMS auditor",
+        "ISO 27001 auditor"
+      ],
+      "regex_pattern": "\\b(ISO\\s*/?\\s*IEC\\s+27001\\s+Lead\\s+Auditor|ISO\\s*27001\\s+(?:Lead\\s+)?Auditor|27001\\s+LA)\\b",
+      "role_relevance": [
+        "IT Auditor",
+        "GRC Analyst",
+        "Compliance Officer"
+      ]
+    },
+    {
+      "id": "cert_nist_csf",
+      "canonical_name": "NIST Cybersecurity Framework Practitioner",
+      "abbreviation": "NIST CSF",
+      "issuer": "ISACA",
+      "category": "governance_risk_compliance",
+      "subcategory": "frameworks",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "NIST CSF",
+        "NIST Cybersecurity Framework",
+        "NIST CSF Practitioner",
+        "CSF certification",
+        "nist csf certified",
+        "CNSP",
+        "Certified NIST CSF Practitioner"
+      ],
+      "regex_pattern": "\\b(NIST\\s+(?:CSF|Cybersecurity\\s+Framework)(?:\\s+Practitioner)?|CSF\\s+(?:Practitioner|certification)|CNSP)\\b",
+      "role_relevance": [
+        "GRC Analyst",
+        "Compliance Officer",
+        "Security Manager",
+        "Risk Manager"
+      ]
+    },
+    {
+      "id": "cert_cobit",
+      "canonical_name": "COBIT 2019 Foundation",
+      "abbreviation": "COBIT",
+      "issuer": "ISACA",
+      "category": "governance_risk_compliance",
+      "subcategory": "it_governance",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "COBIT",
+        "COBIT 2019",
+        "COBIT Foundation",
+        "COBIT 2019 Foundation",
+        "ISACA COBIT",
+        "COBIT 5",
+        "cobit certified"
+      ],
+      "regex_pattern": "\\b(COBIT(?:\\s+(?:2019|5|Foundation))?)\\b",
+      "role_relevance": [
+        "IT Governance Manager",
+        "GRC Analyst",
+        "IT Auditor"
+      ]
+    },
+    {
+      "id": "cert_ceh_master",
+      "canonical_name": "Certified Ethical Hacker Master",
+      "abbreviation": "CEH Master",
+      "issuer": "EC-Council",
+      "category": "penetration_testing",
+      "subcategory": "ethical_hacking_advanced",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CEH Master",
+        "ceh master",
+        "Certified Ethical Hacker Master",
+        "EC-Council CEH Master"
+      ],
+      "regex_pattern": "\\b(CEH\\s+Master|Certified\\s+Ethical\\s+Hacker\\s+Master)\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Red Team Operator",
+        "Ethical Hacker"
+      ]
+    },
+    {
+      "id": "cert_cnd",
+      "canonical_name": "Certified Network Defender",
+      "abbreviation": "CND",
+      "issuer": "EC-Council",
+      "category": "network_security",
+      "subcategory": "network_defense",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.3,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CND",
+        "cnd",
+        "Certified Network Defender",
+        "EC-Council CND",
+        "CND certification",
+        "Network Defender certification"
+      ],
+      "regex_pattern": "\\b(CND|Certified\\s+Network\\s+Defender|EC-?Council\\s+CND)\\b",
+      "role_relevance": [
+        "Network Security Analyst",
+        "SOC Analyst",
+        "Network Administrator",
+        "Security Engineer"
+      ]
+    },
+    {
+      "id": "cert_cso",
+      "canonical_name": "Certified Security Officer",
+      "abbreviation": "CSO",
+      "issuer": "Mile2",
+      "category": "security_management",
+      "subcategory": "security_management",
+      "experience_level": [
+        "senior",
+        "expert",
+        "executive"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CSO",
+        "Certified Security Officer",
+        "Mile2 CSO"
+      ],
+      "regex_pattern": "\\b(Mile2\\s+CSO|Mile2\\s+Certified\\s+Security\\s+Officer)\\b",
+      "role_relevance": [
+        "CISO",
+        "Security Manager",
+        "Security Director"
+      ]
+    },
+    {
+      "id": "cert_csih",
+      "canonical_name": "Certified Security Incident Handler",
+      "abbreviation": "CSIH",
+      "issuer": "EC-Council",
+      "category": "incident_response_forensics",
+      "subcategory": "incident_response",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CSIH",
+        "csih",
+        "Certified Security Incident Handler",
+        "EC-Council CSIH",
+        "Incident Handler certification"
+      ],
+      "regex_pattern": "\\b(CSIH|Certified\\s+Security\\s+Incident\\s+Handler)\\b",
+      "role_relevance": [
+        "Incident Responder",
+        "SOC Analyst",
+        "Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_csa_ccsk",
+      "canonical_name": "Certificate of Cloud Security Knowledge",
+      "abbreviation": "CCSK",
+      "issuer": "Cloud Security Alliance",
+      "category": "cloud_security",
+      "subcategory": "cloud_knowledge",
+      "experience_level": [
+        "mid"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CCSK",
+        "ccsk",
+        "Certificate of Cloud Security Knowledge",
+        "CSA CCSK",
+        "Cloud Security Alliance CCSK",
+        "Cloud Security Knowledge certification"
+      ],
+      "regex_pattern": "\\b(CCSK|Certificate\\s+of\\s+Cloud\\s+Security\\s+Knowledge|CSA\\s+CCSK)\\b",
+      "role_relevance": [
+        "Cloud Security Engineer",
+        "Security Architect",
+        "Cloud Architect"
+      ]
+    },
+    {
+      "id": "cert_csa_star",
+      "canonical_name": "CSA STAR Certification",
+      "abbreviation": "CSA STAR",
+      "issuer": "Cloud Security Alliance",
+      "category": "cloud_security",
+      "subcategory": "cloud_compliance",
+      "experience_level": [
+        "senior"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CSA STAR",
+        "STAR Certification",
+        "Cloud Security Alliance STAR",
+        "CSA STAR certification"
+      ],
+      "regex_pattern": "\\b(CSA\\s+STAR(?:\\s+Certification)?|Cloud\\s+Security\\s+Alliance\\s+STAR)\\b",
+      "role_relevance": [
+        "Cloud Security Engineer",
+        "GRC Analyst",
+        "Compliance Officer"
+      ]
+    },
+    {
+      "id": "cert_giac_gwapt_web",
+      "canonical_name": "Certified Application Security Engineer",
+      "abbreviation": "CASE",
+      "issuer": "EC-Council",
+      "category": "application_security",
+      "subcategory": "appsec_engineering",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CASE",
+        "case",
+        "Certified Application Security Engineer",
+        "EC-Council CASE",
+        "CASE Java",
+        "CASE .NET",
+        "Application Security Engineer certification"
+      ],
+      "regex_pattern": "\\b(CASE(?:\\s+(?:Java|\\.NET))?|Certified\\s+Application\\s+Security\\s+Engineer|EC-?Council\\s+CASE)\\b",
+      "role_relevance": [
+        "AppSec Engineer",
+        "Security Developer",
+        "Software Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_cswae",
+      "canonical_name": "Certified Secure Web Application Engineer",
+      "abbreviation": "CSWAE",
+      "issuer": "Mile2",
+      "category": "application_security",
+      "subcategory": "web_appsec",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CSWAE",
+        "cswae",
+        "Certified Secure Web Application Engineer",
+        "Mile2 CSWAE"
+      ],
+      "regex_pattern": "\\b(CSWAE|Certified\\s+Secure\\s+Web\\s+Application\\s+Engineer|Mile2\\s+CSWAE)\\b",
+      "role_relevance": [
+        "AppSec Engineer",
+        "Web Developer",
+        "Security Developer"
+      ]
+    },
+    {
+      "id": "cert_giac_gppa",
+      "canonical_name": "GIAC Privacy and Data Protection Practitioner",
+      "abbreviation": "GPPA",
+      "issuer": "SANS Institute / GIAC",
+      "category": "privacy_data_protection",
+      "subcategory": "privacy",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GPPA",
+        "gppa",
+        "GIAC Privacy and Data Protection Practitioner",
+        "SANS GPPA",
+        "Data Protection certification",
+        "Privacy certification GIAC"
+      ],
+      "regex_pattern": "\\b(GPPA|GIAC\\s+Privacy\\s+and\\s+Data\\s+Protection\\s+Practitioner)\\b",
+      "role_relevance": [
+        "Privacy Officer",
+        "Data Protection Officer",
+        "GRC Analyst"
+      ]
+    },
+    {
+      "id": "cert_cdp",
+      "canonical_name": "Certified Data Privacy Solutions Engineer",
+      "abbreviation": "CDPSE",
+      "issuer": "ISACA",
+      "category": "privacy_data_protection",
+      "subcategory": "data_privacy",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CDPSE",
+        "cdpse",
+        "Certified Data Privacy Solutions Engineer",
+        "ISACA CDPSE",
+        "Data Privacy Solutions Engineer"
+      ],
+      "regex_pattern": "\\b(CDPSE|Certified\\s+Data\\s+Privacy\\s+Solutions\\s+Engineer|ISACA\\s+CDPSE)\\b",
+      "role_relevance": [
+        "Privacy Engineer",
+        "Data Protection Officer",
+        "GRC Analyst"
+      ]
+    },
+    {
+      "id": "cert_cipp",
+      "canonical_name": "Certified Information Privacy Professional",
+      "abbreviation": "CIPP",
+      "issuer": "IAPP",
+      "issuer_full": "International Association of Privacy Professionals",
+      "category": "privacy_data_protection",
+      "subcategory": "privacy_professional",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CIPP",
+        "cipp",
+        "Certified Information Privacy Professional",
+        "IAPP CIPP",
+        "CIPP/US",
+        "CIPP/E",
+        "CIPP/A",
+        "CIPP/G",
+        "CIPP/C",
+        "GDPR certification",
+        "Privacy Professional certification"
+      ],
+      "regex_pattern": "\\b(CIPP(?:/(?:US|E|A|G|C))?|Certified\\s+Information\\s+Privacy\\s+Professional|IAPP\\s+CIPP)\\b",
+      "role_relevance": [
+        "Privacy Officer",
+        "Data Protection Officer",
+        "GRC Analyst",
+        "Compliance Officer"
+      ]
+    },
+    {
+      "id": "cert_cipm",
+      "canonical_name": "Certified Information Privacy Manager",
+      "abbreviation": "CIPM",
+      "issuer": "IAPP",
+      "category": "privacy_data_protection",
+      "subcategory": "privacy_management",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CIPM",
+        "cipm",
+        "Certified Information Privacy Manager",
+        "IAPP CIPM",
+        "Privacy Manager certification"
+      ],
+      "regex_pattern": "\\b(CIPM|Certified\\s+Information\\s+Privacy\\s+Manager|IAPP\\s+CIPM)\\b",
+      "role_relevance": [
+        "Privacy Officer",
+        "Data Protection Officer",
+        "Compliance Manager"
+      ]
+    },
+    {
+      "id": "cert_cipt",
+      "canonical_name": "Certified Information Privacy Technologist",
+      "abbreviation": "CIPT",
+      "issuer": "IAPP",
+      "category": "privacy_data_protection",
+      "subcategory": "privacy_technology",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "CIPT",
+        "cipt",
+        "Certified Information Privacy Technologist",
+        "IAPP CIPT",
+        "Privacy Technologist certification"
+      ],
+      "regex_pattern": "\\b(CIPT|Certified\\s+Information\\s+Privacy\\s+Technologist|IAPP\\s+CIPT)\\b",
+      "role_relevance": [
+        "Privacy Engineer",
+        "AppSec Engineer",
+        "Security Developer"
+      ]
+    },
+    {
+      "id": "cert_gpen_mobile",
+      "canonical_name": "GIAC Mobile Device Security Analyst",
+      "abbreviation": "GMOB",
+      "issuer": "SANS Institute / GIAC",
+      "category": "penetration_testing",
+      "subcategory": "mobile_pentest",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GMOB",
+        "gmob",
+        "GIAC Mobile Device Security Analyst",
+        "SANS GMOB",
+        "SEC575",
+        "SANS SEC575",
+        "Mobile Security certification"
+      ],
+      "regex_pattern": "\\b(GMOB|GIAC\\s+Mobile\\s+Device\\s+Security\\s+Analyst|SEC575)\\b",
+      "role_relevance": [
+        "Mobile Penetration Tester",
+        "Mobile Security Engineer",
+        "AppSec Engineer"
+      ]
+    },
+    {
+      "id": "cert_certified_ethical_hacker_practical",
+      "canonical_name": "Certified Ethical Hacker Practical",
+      "abbreviation": "CEH Practical",
+      "issuer": "EC-Council",
+      "category": "penetration_testing",
+      "subcategory": "practical_pentest",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CEH Practical",
+        "ceh practical",
+        "Certified Ethical Hacker Practical",
+        "EC-Council CEH Practical"
+      ],
+      "regex_pattern": "\\b(CEH\\s+Practical|Certified\\s+Ethical\\s+Hacker\\s+Practical)\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Ethical Hacker"
+      ]
+    },
+    {
+      "id": "cert_crest_crt",
+      "canonical_name": "CREST Registered Penetration Tester",
+      "abbreviation": "CRT",
+      "issuer": "CREST",
+      "issuer_full": "Council of Registered Ethical Security Testers",
+      "category": "penetration_testing",
+      "subcategory": "registered_pentest",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CRT",
+        "crt",
+        "CREST CRT",
+        "CREST Registered Penetration Tester",
+        "CREST Registered Tester",
+        "CREST certification"
+      ],
+      "regex_pattern": "\\b(CREST\\s+(?:Registered\\s+(?:Penetration\\s+)?Tester|CRT)|CRT\\s+CREST)\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Red Team Operator"
+      ],
+      "regions": [
+        "UK",
+        "Europe",
+        "Australia"
+      ]
+    },
+    {
+      "id": "cert_crest_ccrt",
+      "canonical_name": "CREST Certified Penetration Tester",
+      "abbreviation": "CCT",
+      "issuer": "CREST",
+      "category": "penetration_testing",
+      "subcategory": "advanced_pentest",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CCT",
+        "CREST CCT",
+        "CREST Certified Penetration Tester",
+        "CREST Certified Tester",
+        "CREST CCT APP",
+        "CREST CCT INF"
+      ],
+      "regex_pattern": "\\b(CREST\\s+(?:Certified\\s+(?:Penetration\\s+)?Tester|CCT(?:\\s+(?:APP|INF))?)\\b",
+      "role_relevance": [
+        "Senior Penetration Tester",
+        "Red Team Lead"
+      ],
+      "regions": [
+        "UK",
+        "Europe",
+        "Australia"
+      ]
+    },
+    {
+      "id": "cert_ibm_qradar",
+      "canonical_name": "IBM QRadar SIEM Foundation",
+      "abbreviation": "IBM QRadar",
+      "issuer": "IBM",
+      "category": "incident_response_forensics",
+      "subcategory": "siem_soc",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "IBM QRadar",
+        "QRadar certification",
+        "IBM QRadar SIEM",
+        "IBM QRadar Foundation",
+        "QRadar SIEM certification",
+        "C1000-026",
+        "IBM Security QRadar"
+      ],
+      "regex_pattern": "\\b(IBM\\s+QRadar(?:\\s+SIEM)?(?:\\s+(?:Foundation|certification))?|QRadar(?:\\s+SIEM)?(?:\\s+certification)?|C1000-0[0-9]{2})\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "SIEM Engineer",
+        "Security Operations Analyst"
+      ]
+    },
+    {
+      "id": "cert_giac_gisf",
+      "canonical_name": "GIAC Information Security Fundamentals",
+      "abbreviation": "GISF",
+      "issuer": "SANS Institute / GIAC",
+      "category": "foundational",
+      "subcategory": "security_fundamentals",
+      "experience_level": [
+        "entry"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.1,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GISF",
+        "gisf",
+        "GIAC Information Security Fundamentals",
+        "SANS GISF",
+        "SEC301",
+        "SANS SEC301"
+      ],
+      "regex_pattern": "\\b(GISF|GIAC\\s+Information\\s+Security\\s+Fundamentals|SEC301)\\b",
+      "role_relevance": [
+        "Entry-level Security Analyst",
+        "IT Professional",
+        "Help Desk"
+      ]
+    },
+    {
+      "id": "cert_giac_gse",
+      "canonical_name": "GIAC Security Expert",
+      "abbreviation": "GSE",
+      "issuer": "SANS Institute / GIAC",
+      "category": "security_management",
+      "subcategory": "expert_level",
+      "experience_level": [
+        "expert"
+      ],
+      "importance_score": 10,
+      "ats_weight": 2.0,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GSE",
+        "gse",
+        "GIAC Security Expert",
+        "SANS GSE",
+        "GIAC Expert",
+        "gse certified"
+      ],
+      "regex_pattern": "\\b(GSE|GIAC\\s+Security\\s+Expert)\\b",
+      "role_relevance": [
+        "Senior Security Engineer",
+        "Security Researcher",
+        "Security Architect",
+        "Security Manager"
+      ]
+    },
+    {
+      "id": "cert_giac_geva",
+      "canonical_name": "GIAC Enterprise Vulnerability Assessor",
+      "abbreviation": "GEVA",
+      "issuer": "SANS Institute / GIAC",
+      "category": "penetration_testing",
+      "subcategory": "vulnerability_assessment",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GEVA",
+        "geva",
+        "GIAC Enterprise Vulnerability Assessor",
+        "SANS GEVA",
+        "SEC460",
+        "SANS SEC460"
+      ],
+      "regex_pattern": "\\b(GEVA|GIAC\\s+Enterprise\\s+Vulnerability\\s+Assessor|SEC460)\\b",
+      "role_relevance": [
+        "Vulnerability Assessor",
+        "Security Analyst",
+        "Penetration Tester"
+      ]
+    },
+    {
+      "id": "cert_cysa_threat",
+      "canonical_name": "Certified Threat Intelligence Analyst",
+      "abbreviation": "CTIA",
+      "issuer": "EC-Council",
+      "category": "incident_response_forensics",
+      "subcategory": "threat_intelligence",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CTIA",
+        "ctia",
+        "Certified Threat Intelligence Analyst",
+        "EC-Council CTIA",
+        "Threat Intelligence certification"
+      ],
+      "regex_pattern": "\\b(CTIA|Certified\\s+Threat\\s+Intelligence\\s+Analyst|EC-?Council\\s+CTIA)\\b",
+      "role_relevance": [
+        "Threat Intelligence Analyst",
+        "SOC Analyst",
+        "Security Researcher",
+        "Incident Responder"
+      ]
+    },
+    {
+      "id": "cert_giac_gosi",
+      "canonical_name": "GIAC Open Source Intelligence",
+      "abbreviation": "GOSI",
+      "issuer": "SANS Institute / GIAC",
+      "category": "incident_response_forensics",
+      "subcategory": "osint",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GOSI",
+        "gosi",
+        "GIAC Open Source Intelligence",
+        "SANS GOSI",
+        "SEC497",
+        "OSINT certification",
+        "SANS OSINT"
+      ],
+      "regex_pattern": "\\b(GOSI|GIAC\\s+Open\\s+Source\\s+Intelligence|SEC497|OSINT\\s+certification)\\b",
+      "role_relevance": [
+        "Threat Intelligence Analyst",
+        "SOC Analyst",
+        "Cybercrime Investigator"
+      ]
+    },
+    {
+      "id": "cert_giac_gdat",
+      "canonical_name": "GIAC Defending Advanced Threats",
+      "abbreviation": "GDAT",
+      "issuer": "SANS Institute / GIAC",
+      "category": "incident_response_forensics",
+      "subcategory": "advanced_threat_defense",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GDAT",
+        "gdat",
+        "GIAC Defending Advanced Threats",
+        "SANS GDAT",
+        "SEC530",
+        "Defending Advanced Threats"
+      ],
+      "regex_pattern": "\\b(GDAT|GIAC\\s+Defending\\s+Advanced\\s+Threats|SEC530)\\b",
+      "role_relevance": [
+        "Senior SOC Analyst",
+        "Blue Team Lead",
+        "Security Engineer"
+      ]
+    },
+    {
+      "id": "cert_comptia_server_plus",
+      "canonical_name": "CompTIA Server+",
+      "abbreviation": "Server+",
+      "issuer": "CompTIA",
+      "category": "foundational",
+      "subcategory": "server_administration",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 4,
+      "ats_weight": 0.9,
+      "market_demand": "low_moderate",
+      "is_active": true,
+      "aliases": [
+        "Server+",
+        "CompTIA Server+",
+        "Server Plus",
+        "SK0-005"
+      ],
+      "regex_pattern": "\\b(Server\\+|CompTIA\\s+Server(?:\\+|\\s+Plus)|SK0-00[0-9])\\b",
+      "role_relevance": [
+        "Server Administrator",
+        "IT Support"
+      ]
+    },
+    {
+      "id": "cert_certified_cloud_security_specialist",
+      "canonical_name": "Certified Cloud Security Specialist",
+      "abbreviation": "CCSS",
+      "issuer": "EXIN",
+      "category": "cloud_security",
+      "subcategory": "cloud_specialist",
+      "experience_level": [
+        "mid"
+      ],
+      "importance_score": 5,
+      "ats_weight": 1.0,
+      "market_demand": "low_moderate",
+      "is_active": true,
+      "aliases": [
+        "CCSS",
+        "ccss",
+        "Certified Cloud Security Specialist",
+        "EXIN CCSS",
+        "EXIN Cloud Security"
+      ],
+      "regex_pattern": "\\b(CCSS|EXIN\\s+(?:Certified\\s+Cloud\\s+Security\\s+Specialist|CCSS))\\b",
+      "role_relevance": [
+        "Cloud Security Engineer",
+        "Cloud Administrator"
+      ]
+    },
+    {
+      "id": "cert_ics_gicsp",
+      "canonical_name": "Global Industrial Cyber Security Professional",
+      "abbreviation": "GICSP",
+      "issuer": "GIAC",
+      "category": "ot_ics_security",
+      "subcategory": "ics_ot_security",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GICSP",
+        "ICS security certification",
+        "OT security certification",
+        "industrial cybersecurity certification",
+        "SCADA security certification"
+      ],
+      "regex_pattern": "\\b(GICSP|(?:ICS|OT|SCADA|Industrial)\\s+(?:Cybersecurity|Security)\\s+(?:Certification|Professional))\\b",
+      "role_relevance": [
+        "OT/ICS Security Engineer",
+        "SCADA Security Analyst",
+        "Industrial Cybersecurity Specialist"
+      ]
+    },
+    {
+      "id": "cert_gicsp_gcip",
+      "canonical_name": "GIAC Critical Infrastructure Protection",
+      "abbreviation": "GCIP",
+      "issuer": "SANS Institute / GIAC",
+      "category": "ot_ics_security",
+      "subcategory": "critical_infrastructure",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GCIP",
+        "gcip",
+        "GIAC Critical Infrastructure Protection",
+        "SANS GCIP",
+        "Critical Infrastructure certification"
+      ],
+      "regex_pattern": "\\b(GCIP|GIAC\\s+Critical\\s+Infrastructure\\s+Protection)\\b",
+      "role_relevance": [
+        "Critical Infrastructure Security Engineer",
+        "OT Security Specialist"
+      ]
+    },
+    {
+      "id": "cert_csc_zero_trust",
+      "canonical_name": "Zero Trust Certified Engineer",
+      "abbreviation": "ZTCE",
+      "issuer": "Zero Trust Institute",
+      "category": "network_security",
+      "subcategory": "zero_trust",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "ZTCE",
+        "ztce",
+        "Zero Trust Certified Engineer",
+        "Zero Trust certification",
+        "Zero Trust Engineer"
+      ],
+      "regex_pattern": "\\b(ZTCE|Zero\\s+Trust\\s+Certified\\s+(?:Engineer|Professional)|Zero\\s+Trust\\s+certification)\\b",
+      "role_relevance": [
+        "Security Architect",
+        "Network Security Engineer",
+        "Cloud Security Engineer"
+      ]
+    },
+    {
+      "id": "cert_giac_gccc",
+      "canonical_name": "GIAC Critical Controls Certification",
+      "abbreviation": "GCCC",
+      "issuer": "SANS Institute / GIAC",
+      "category": "governance_risk_compliance",
+      "subcategory": "security_controls",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GCCC",
+        "gccc",
+        "GIAC Critical Controls Certification",
+        "SANS GCCC",
+        "SEC566",
+        "CIS Controls certification",
+        "Critical Security Controls"
+      ],
+      "regex_pattern": "\\b(GCCC|GIAC\\s+Critical\\s+Controls|SEC566|CIS\\s+Controls\\s+certification)\\b",
+      "role_relevance": [
+        "GRC Analyst",
+        "Security Engineer",
+        "Compliance Officer"
+      ]
+    },
+    {
+      "id": "cert_ceh_v13",
+      "canonical_name": "Certified Ethical Hacker v13",
+      "abbreviation": "CEH v13",
+      "issuer": "EC-Council",
+      "category": "penetration_testing",
+      "subcategory": "ethical_hacking",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.7,
+      "market_demand": "very_high",
+      "is_active": true,
+      "aliases": [
+        "CEH v13",
+        "CEH v12",
+        "CEH v11",
+        "CEH v10",
+        "EC-Council CEH v13",
+        "Certified Ethical Hacker version 13"
+      ],
+      "regex_pattern": "\\b(CEH\\s+v1[0-9]|Certified\\s+Ethical\\s+Hacker\\s+v(?:ersion\\s+)?1[0-9])\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Ethical Hacker",
+        "Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_giac_gcti",
+      "canonical_name": "GIAC Cyber Threat Intelligence",
+      "abbreviation": "GCTI",
+      "issuer": "SANS Institute / GIAC",
+      "category": "incident_response_forensics",
+      "subcategory": "threat_intelligence",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 8,
+      "ats_weight": 1.6,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "GCTI",
+        "gcti",
+        "GIAC Cyber Threat Intelligence",
+        "SANS GCTI",
+        "FOR578",
+        "SANS FOR578",
+        "Cyber Threat Intelligence certification"
+      ],
+      "regex_pattern": "\\b(GCTI|GIAC\\s+Cyber\\s+Threat\\s+Intelligence|FOR578)\\b",
+      "role_relevance": [
+        "Threat Intelligence Analyst",
+        "SOC Analyst",
+        "Security Researcher"
+      ]
+    },
+    {
+      "id": "cert_ine_ejpt",
+      "canonical_name": "eLearnSecurity Junior Penetration Tester",
+      "abbreviation": "eJPT",
+      "issuer": "INE / eLearnSecurity",
+      "category": "penetration_testing",
+      "subcategory": "entry_pentest",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "eJPT",
+        "ejpt",
+        "eLearnSecurity Junior Penetration Tester",
+        "INE eJPT",
+        "eLearnSecurity eJPT",
+        "Junior Penetration Tester certification"
+      ],
+      "regex_pattern": "\\b(eJPT|eLearnSecurity\\s+(?:Junior\\s+Penetration\\s+Tester|eJPT)|INE\\s+eJPT)\\b",
+      "role_relevance": [
+        "Entry-level Penetration Tester",
+        "Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_ine_emapt",
+      "canonical_name": "eLearnSecurity Mobile Application Penetration Tester",
+      "abbreviation": "eMAPT",
+      "issuer": "INE / eLearnSecurity",
+      "category": "application_security",
+      "subcategory": "mobile_pentest",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "eMAPT",
+        "emapt",
+        "eLearnSecurity Mobile Application Penetration Tester",
+        "INE eMAPT"
+      ],
+      "regex_pattern": "\\b(eMAPT|eLearnSecurity\\s+Mobile\\s+Application\\s+Penetration\\s+Tester)\\b",
+      "role_relevance": [
+        "Mobile Penetration Tester",
+        "AppSec Engineer"
+      ]
+    },
+    {
+      "id": "cert_ine_ewpt",
+      "canonical_name": "eLearnSecurity Web Application Penetration Tester",
+      "abbreviation": "eWPT",
+      "issuer": "INE / eLearnSecurity",
+      "category": "application_security",
+      "subcategory": "web_pentest",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.4,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "eWPT",
+        "ewpt",
+        "eLearnSecurity Web Application Penetration Tester",
+        "eWPTX",
+        "eLearnSecurity eWPT",
+        "INE eWPT"
+      ],
+      "regex_pattern": "\\b(eWPT(?:X)?|eLearnSecurity\\s+Web\\s+Application\\s+Penetration\\s+Tester)\\b",
+      "role_relevance": [
+        "Web Penetration Tester",
+        "AppSec Engineer"
+      ]
+    },
+    {
+      "id": "cert_htb_cpts",
+      "canonical_name": "Hack The Box Certified Penetration Testing Specialist",
+      "abbreviation": "CPTS",
+      "issuer": "Hack The Box",
+      "category": "penetration_testing",
+      "subcategory": "practical_pentest",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CPTS",
+        "cpts",
+        "Hack The Box CPTS",
+        "HTB CPTS",
+        "HackTheBox Certified Penetration Testing Specialist",
+        "HTB Penetration Testing Specialist"
+      ],
+      "regex_pattern": "\\b(CPTS|Hack\\s+The\\s+Box\\s+(?:CPTS|Certified\\s+Penetration\\s+Testing\\s+Specialist)|HTB\\s+CPTS)\\b",
+      "role_relevance": [
+        "Penetration Tester",
+        "Ethical Hacker",
+        "Red Team Operator"
+      ]
+    },
+    {
+      "id": "cert_htb_cdsa",
+      "canonical_name": "Hack The Box Certified Defensive Security Analyst",
+      "abbreviation": "CDSA",
+      "issuer": "Hack The Box",
+      "category": "incident_response_forensics",
+      "subcategory": "defensive_security",
+      "experience_level": [
+        "mid",
+        "senior"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "high",
+      "is_active": true,
+      "aliases": [
+        "CDSA",
+        "cdsa",
+        "Hack The Box CDSA",
+        "HTB CDSA",
+        "HackTheBox Certified Defensive Security Analyst",
+        "HTB Defensive Security Analyst"
+      ],
+      "regex_pattern": "\\b(HTB\\s+CDSA|Hack\\s+The\\s+Box\\s+(?:CDSA|Certified\\s+Defensive\\s+Security\\s+Analyst))\\b",
+      "role_relevance": [
+        "SOC Analyst",
+        "Blue Team Analyst",
+        "Incident Responder"
+      ]
+    },
+    {
+      "id": "cert_tcm_pnpt",
+      "canonical_name": "Practical Network Penetration Tester",
+      "abbreviation": "PNPT",
+      "issuer": "TCM Security",
+      "category": "penetration_testing",
+      "subcategory": "practical_pentest",
+      "experience_level": [
+        "entry",
+        "mid"
+      ],
+      "importance_score": 6,
+      "ats_weight": 1.2,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "PNPT",
+        "pnpt",
+        "Practical Network Penetration Tester",
+        "TCM Security PNPT",
+        "TCM PNPT",
+        "Practical Penetration Testing certification"
+      ],
+      "regex_pattern": "\\b(PNPT|TCM\\s+(?:Security\\s+)?PNPT|Practical\\s+Network\\s+Penetration\\s+Tester)\\b",
+      "role_relevance": [
+        "Entry Penetration Tester",
+        "Ethical Hacker",
+        "Security Analyst"
+      ]
+    },
+    {
+      "id": "cert_giac_gwpt",
+      "canonical_name": "GIAC Battlefield Forensics and Acquisition",
+      "abbreviation": "GBFA",
+      "issuer": "SANS Institute / GIAC",
+      "category": "incident_response_forensics",
+      "subcategory": "battlefield_forensics",
+      "experience_level": [
+        "senior",
+        "expert"
+      ],
+      "importance_score": 7,
+      "ats_weight": 1.5,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "GBFA",
+        "gbfa",
+        "GIAC Battlefield Forensics and Acquisition",
+        "SANS GBFA",
+        "FOR498",
+        "Battlefield Forensics certification"
+      ],
+      "regex_pattern": "\\b(GBFA|GIAC\\s+Battlefield\\s+Forensics|FOR498)\\b",
+      "role_relevance": [
+        "Digital Forensics Analyst",
+        "Incident Responder",
+        "Military Cyber"
+      ]
+    },
+    {
+      "id": "cert_giac_gpro",
+      "canonical_name": "GIAC Security Awareness Professional",
+      "abbreviation": "GPRO",
+      "issuer": "SANS Institute / GIAC",
+      "category": "security_management",
+      "subcategory": "security_awareness",
+      "experience_level": [
+        "mid"
+      ],
+      "importance_score": 5,
+      "ats_weight": 1.0,
+      "market_demand": "low_moderate",
+      "is_active": true,
+      "aliases": [
+        "GPRO",
+        "gpro",
+        "GIAC Security Awareness Professional",
+        "SANS GPRO",
+        "Security Awareness Professional"
+      ],
+      "regex_pattern": "\\b(GPRO|GIAC\\s+Security\\s+Awareness\\s+Professional)\\b",
+      "role_relevance": [
+        "Security Awareness Manager",
+        "Security Trainer",
+        "GRC Analyst"
+      ]
+    },
+    {
+      "id": "cert_comptia_cdia",
+      "canonical_name": "CompTIA Data+",
+      "abbreviation": "Data+",
+      "issuer": "CompTIA",
+      "category": "governance_risk_compliance",
+      "subcategory": "data_management",
+      "experience_level": [
+        "mid"
+      ],
+      "importance_score": 5,
+      "ats_weight": 1.0,
+      "market_demand": "moderate",
+      "is_active": true,
+      "aliases": [
+        "Data+",
+        "CompTIA Data+",
+        "Data Plus",
+        "DA0-001"
+      ],
+      "regex_pattern": "\\b(Data\\+|CompTIA\\s+Data(?:\\+|\\s+Plus)|DA0-001)\\b",
+      "role_relevance": [
+        "Data Analyst",
+        "Security Analyst",
+        "GRC Analyst"
+      ]
+    }
+  ]
+}

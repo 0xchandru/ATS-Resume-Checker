@@ -20,8 +20,8 @@ def compare_scans(scan_id_1: str, scan_id_2: str, db: Session = Depends(get_db))
         raise HTTPException(status_code=404, detail=f"scan_id_2={scan_id_2} not found")
 
     try:
-        d1 = json.loads(r1.result_json)
-        d2 = json.loads(r2.result_json)
+        d1 = json.loads(str(r1.result_json))
+        d2 = json.loads(str(r2.result_json))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Could not deserialize results: {e}")
 

@@ -2,9 +2,13 @@ import { CheckCircle2, XCircle, Lightbulb } from "lucide-react";
 
 interface Props {
   keywords: any;
+  softSkillData?: {
+    matched: any[];
+    missing: any[];
+  };
 }
 
-// Common soft skill keywords that we detect separately
+// Common soft skill keywords — used as fallback when backend doesn't provide categories
 const SOFT_SKILL_KEYWORDS = new Set([
   "communication", "leadership", "teamwork", "team player", "problem solving", "problem-solving",
   "critical thinking", "adaptability", "time management", "collaboration", "interpersonal",
@@ -14,26 +18,58 @@ const SOFT_SKILL_KEYWORDS = new Set([
   "initiative", "proactive", "multitasking", "prioritization", "delegation",
   "strategic thinking", "innovation", "customer service", "relationship building", "accountability",
   "work ethic", "professionalism", "resilience", "patience", "active listening",
+  "detail-oriented", "documentation", "reporting", "investigation", "troubleshooting",
+  "analytical thinking", "problem solving skills", "strong analytical",
 ]);
 
-function isSoftSkill(keyword: string): boolean {
+// Helper to extract keyword string from any skill object
+function getSkillKeyword(skill: any): string {
+  if (typeof skill === "string") return skill;
+  if (!skill || typeof skill !== "object") return "";
+  return (
+    (typeof skill.keyword === "string" && skill.keyword) ||
+    (typeof skill.term === "string" && skill.term) ||
+    (typeof skill.canonical === "string" && skill.canonical) ||
+    (typeof skill.jd_keyword === "string" && skill.jd_keyword) ||
+    (typeof skill.normalized_form === "string" && skill.normalized_form) ||
+    ""
+  );
+}
+
+function isSoftSkill(skill: any): boolean {
+  const keyword = getSkillKeyword(skill);
+  if (!keyword) return false;
   const lower = keyword.toLowerCase();
+  
+  // Check backend category first
+  const cat = skill?.category?.toLowerCase?.() || "";
+  if (cat === "soft_skill" || cat === "transversal" || cat === "social" || cat === "competency") {
+    return true;
+  }
+  
+  // Fallback to keyword matching
   return SOFT_SKILL_KEYWORDS.has(lower) || 
     lower.includes("communicat") || 
     lower.includes("leadership") || 
-    lower.includes("team") || 
-    lower.includes("management") && !lower.includes("system") && !lower.includes("database") ||
+    (lower.includes("team") && !lower.includes("system")) ||
+    (lower.includes("management") && !lower.includes("system") && !lower.includes("database") && !lower.includes("network")) ||
     lower.includes("interpersonal") ||
-    lower.includes("presentation");
+    lower.includes("presentation") ||
+    lower.includes("analytical") ||
+    lower.includes("problem-solving") ||
+    lower.includes("problem solving") ||
+    lower.includes("documentation") ||
+    lower.includes("reporting");
 }
 
-export default function SoftSkillsSection({ keywords }: Props) {
+export default function SoftSkillsSection({ keywords, softSkillData }: Props) {
   if (!keywords) return null;
 
   const { matched = [], missing = [] } = keywords;
 
-  const matchedSoft = matched.filter((m: any) => isSoftSkill(m.keyword));
-  const missingSoft = missing.filter((m: any) => isSoftSkill(m.keyword));
+  // If backend provides pre-categorized soft skills, use those; otherwise detect locally
+  const matchedSoft = softSkillData?.matched || matched.filter((m: any) => isSoftSkill(m));
+  const missingSoft = softSkillData?.missing || missing.filter((m: any) => isSoftSkill(m));
 
   const totalSoft = matchedSoft.length + missingSoft.length;
 
@@ -69,15 +105,18 @@ export default function SoftSkillsSection({ keywords }: Props) {
                 Found in Resume ({matchedSoft.length})
               </h4>
               <div className="bg-muted/30 rounded-xl p-4 space-y-2">
-                {matchedSoft.map((kw: any, i: number) => (
-                  <div key={i} className="flex items-center gap-3 py-2 border-b border-border/50 last:border-0">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500 flex-shrink-0" />
-                    <span className="text-sm font-medium text-foreground">{kw.keyword}</span>
-                    <span className="text-xs text-muted-foreground ml-auto">
-                      Matched via {kw.match_layer}
-                    </span>
-                  </div>
-                ))}
+                {matchedSoft.map((kw: any, i: number) => {
+                  const count = kw.resume_occurrence_count || kw.jd_occurrence_count;
+                  return (
+                    <div key={i} className="flex items-center gap-3 py-2 border-b border-border/50 last:border-0">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500 flex-shrink-0" />
+                      <span className="text-sm font-medium text-foreground">{getSkillKeyword(kw) || kw.keyword} {count > 1 ? <span className="text-muted-foreground ml-1">({count})</span> : null}</span>
+                      <span className="text-xs text-muted-foreground ml-auto">
+                        Matched via {kw.match_layer || kw.match_type || "keyword"}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -90,22 +129,25 @@ export default function SoftSkillsSection({ keywords }: Props) {
                 Missing from Resume ({missingSoft.length})
               </h4>
               <div className="bg-muted/30 rounded-xl p-4 space-y-2">
-                {missingSoft.map((kw: any, i: number) => (
-                  <div key={i} className="flex items-start gap-3 py-2 border-b border-border/50 last:border-0">
-                    <XCircle className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
-                    <div className="flex-1 min-w-0">
-                      <span className="text-sm font-medium text-foreground">{kw.keyword}</span>
-                      {kw.suggestion && (
-                        <p className="text-xs text-muted-foreground mt-1">→ {kw.suggestion}</p>
-                      )}
+                {missingSoft.map((kw: any, i: number) => {
+                  const count = kw.jd_occurrence_count || 1;
+                  return (
+                    <div key={i} className="flex items-start gap-3 py-2 border-b border-border/50 last:border-0">
+                      <XCircle className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
+                      <div className="flex-1 min-w-0">
+                        <span className="text-sm font-medium text-foreground">{getSkillKeyword(kw) || kw.keyword} {count > 1 ? <span className="text-muted-foreground ml-1">({count})</span> : null}</span>
+                        {kw.suggestion && (
+                          <p className="text-xs text-muted-foreground mt-1">→ {kw.suggestion}</p>
+                        )}
+                      </div>
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${
+                        kw.jd_importance === "critical" ? "bg-red-500/20 text-red-400" :
+                        kw.jd_importance === "high" ? "bg-amber-500/20 text-amber-400" :
+                        "bg-muted text-muted-foreground"
+                      }`}>{kw.jd_importance || "relevant"}</span>
                     </div>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${
-                      kw.jd_importance === "critical" ? "bg-red-500/20 text-red-400" :
-                      kw.jd_importance === "high" ? "bg-amber-500/20 text-amber-400" :
-                      "bg-muted text-muted-foreground"
-                    }`}>{kw.jd_importance}</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}

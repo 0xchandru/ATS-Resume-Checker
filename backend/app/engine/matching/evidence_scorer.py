@@ -38,12 +38,7 @@ _QUANT_PATTERNS = [
     r'mttr|mttd|sla|uptime|availability|latency|throughput',
 ]
 
-# Project verbs — indicate hands-on building
-_PROJECT_VERBS = {
-    "built", "created", "developed", "designed", "implemented",
-    "architected", "engineered", "deployed", "automated", "configured",
-    "constructed", "prototyped", "launched", "established",
-}
+# Project verbs will be loaded dynamically from the KB
 
 # Lab/training indicators
 _LAB_INDICATORS = {
@@ -131,8 +126,17 @@ def score_skill_evidence(
                 break
 
         # Check for project work
+        try:
+            from sqlalchemy import text
+            from backend.app.database import engine
+            with engine.connect() as conn:
+                verb_rows = conn.execute(text("SELECT verb FROM kb_action_verbs WHERE strength >= 2")).fetchall()
+                project_verbs = {row[0].lower() for row in verb_rows}
+        except Exception:
+            project_verbs = set()
+
         words = set(ctx_lower.split())
-        if words & _PROJECT_VERBS:
+        if words & project_verbs:
             if EVIDENCE_WEIGHTS["project"] > best_score:
                 best_type = "project"
                 best_context = ctx

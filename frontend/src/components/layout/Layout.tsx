@@ -9,7 +9,6 @@ interface LayoutProps {
   children: React.ReactNode;
   theme: Theme;
   onToggleTheme: () => void;
-  onLogout: () => void;
 }
 
 const sidebarIcons = [
@@ -19,7 +18,7 @@ const sidebarIcons = [
   { id: "history" as View, label: "History", icon: History },
 ];
 
-export default function Layout({ activeView, onViewChange, hasResult, children, theme, onToggleTheme, onLogout }: LayoutProps) {
+export default function Layout({ activeView, onViewChange, hasResult, children, theme, onToggleTheme }: LayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -79,13 +78,6 @@ export default function Layout({ activeView, onViewChange, hasResult, children, 
           >
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
-          <button
-            onClick={onLogout}
-            className="w-10 h-10 flex items-center justify-center rounded-xl text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-colors"
-            title="Sign out"
-          >
-            <LogOut className="h-4 w-4" />
-          </button>
         </div>
       </aside>
 
@@ -143,10 +135,6 @@ export default function Layout({ activeView, onViewChange, hasResult, children, 
                 <PlusCircle className="h-5 w-5" />
                 New Scan
               </button>
-              <button onClick={onLogout} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-500/10 transition-colors">
-                <LogOut className="h-5 w-5" />
-                Sign out
-              </button>
             </div>
           </div>
         </div>
@@ -154,9 +142,15 @@ export default function Layout({ activeView, onViewChange, hasResult, children, 
 
       {/* Main Content */}
       <main className="flex-1 lg:ml-14 min-h-screen pt-14 lg:pt-0">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
-          {children}
-        </div>
+        {activeView === "upload" ? (
+          <div className="h-[calc(100vh-3.5rem)] lg:h-screen">
+            {children}
+          </div>
+        ) : (
+          <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+            {children}
+          </div>
+        )}
       </main>
     </div>
   );

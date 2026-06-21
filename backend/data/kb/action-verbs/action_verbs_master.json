@@ -1,0 +1,239 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "source": "Harvard OCS, MIT CAPD, and other career services PDFs",
+    "etl_script": "01_extract_action_verbs.py",
+    "description": "Complete action verbs list for ATS resume analysis",
+    "total_verbs": 20,
+    "categories": [
+      "achievement_improvement",
+      "leadership_management",
+      "general",
+      "creative_design"
+    ],
+    "generated_at": "2026-06-20T09:11:34.815335Z",
+    "record_count": 20
+  },
+  "data": [
+    {
+      "id": "verb_accelerated",
+      "verb": "Accelerated",
+      "verb_lower": "accelerated",
+      "category": "achievement_improvement",
+      "past_tense": "Accelerated",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_achieved",
+      "verb": "Achieved",
+      "verb_lower": "achieved",
+      "category": "achievement_improvement",
+      "past_tense": "Achieved",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_attained",
+      "verb": "Attained",
+      "verb_lower": "attained",
+      "category": "achievement_improvement",
+      "past_tense": "Attained",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_increased",
+      "verb": "Increased",
+      "verb_lower": "increased",
+      "category": "achievement_improvement",
+      "past_tense": "Increased",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_initiated",
+      "verb": "Initiated",
+      "verb_lower": "initiated",
+      "category": "leadership_management",
+      "past_tense": "Initiated",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_innovated",
+      "verb": "Innovated",
+      "verb_lower": "innovated",
+      "category": "achievement_improvement",
+      "past_tense": "Innovated",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_introduced",
+      "verb": "Introduced",
+      "verb_lower": "introduced",
+      "category": "general",
+      "past_tense": "Introduced",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_invented",
+      "verb": "Invented",
+      "verb_lower": "invented",
+      "category": "creative_design",
+      "past_tense": "Invented",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_launched",
+      "verb": "Launched",
+      "verb_lower": "launched",
+      "category": "leadership_management",
+      "past_tense": "Launched",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_mastered",
+      "verb": "Mastered",
+      "verb_lower": "mastered",
+      "category": "general",
+      "past_tense": "Mastered",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_originated",
+      "verb": "Originated",
+      "verb_lower": "originated",
+      "category": "general",
+      "past_tense": "Originated",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_overhauled",
+      "verb": "Overhauled",
+      "verb_lower": "overhauled",
+      "category": "general",
+      "past_tense": "Overhauled",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_pioneered",
+      "verb": "Pioneered",
+      "verb_lower": "pioneered",
+      "category": "leadership_management",
+      "past_tense": "Pioneered",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_purchased",
+      "verb": "Purchased",
+      "verb_lower": "purchased",
+      "category": "general",
+      "past_tense": "Purchased",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_recorded",
+      "verb": "Recorded",
+      "verb_lower": "recorded",
+      "category": "general",
+      "past_tense": "Recorded",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_reduced",
+      "verb": "Reduced",
+      "verb_lower": "reduced",
+      "category": "achievement_improvement",
+      "past_tense": "Reduced",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_retrieved",
+      "verb": "Retrieved",
+      "verb_lower": "retrieved",
+      "category": "general",
+      "past_tense": "Retrieved",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_screened",
+      "verb": "Screened",
+      "verb_lower": "screened",
+      "category": "general",
+      "past_tense": "Screened",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_specified",
+      "verb": "Specified",
+      "verb_lower": "specified",
+      "category": "general",
+      "past_tense": "Specified",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    },
+    {
+      "id": "verb_systematized",
+      "verb": "Systematized",
+      "verb_lower": "systematized",
+      "category": "general",
+      "past_tense": "Systematized",
+      "sources": [
+        "resume-action-verbs-capd.pdf"
+      ],
+      "ats_usage": "Use in experience bullet points to demonstrate action"
+    }
+  ]
+}

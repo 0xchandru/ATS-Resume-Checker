@@ -68,7 +68,7 @@ def _detect_seniority(text: str, context: str = "resume") -> Dict:
     confidence = 0.5
 
     if level_votes:
-        inferred_level = max(level_votes, key=level_votes.get)
+        inferred_level = max(level_votes, key=lambda k: level_votes[k])
         total_votes = sum(level_votes.values())
         confidence = level_votes[inferred_level] / total_votes
     elif years_mentioned:
@@ -87,13 +87,15 @@ def _detect_seniority(text: str, context: str = "resume") -> Dict:
             inferred_level = "principal"
         confidence = 0.6
 
+    # Only check the top of the document (usually header/title area) for naked seniority keywords
+    search_header = text_lower[:500]
     for seniority_kw, level in [
         ("c-level", "c_suite"), ("chief", "c_suite"), ("vp", "vp"), ("vice president", "vp"),
         ("director", "director"), ("principal", "principal"), ("lead", "lead"),
         ("senior", "senior"), ("sr.", "senior"), ("junior", "junior"), ("jr.", "junior"),
         ("entry level", "junior"), ("intern", "intern"),
     ]:
-        if seniority_kw in text_lower:
+        if re.search(r'\b' + re.escape(seniority_kw) + r'\b', search_header):
             inferred_level = level
             confidence = max(confidence, 0.75)
             break

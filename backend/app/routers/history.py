@@ -42,6 +42,6 @@ def get_history_item(scan_id: str, db: Session = Depends(get_db)):
     if not result:
         raise HTTPException(status_code=404, detail=f"No result found for scan_id={scan_id}")
     try:
-        return json.loads(result.result_json)
+        return json.loads(str(result.result_json))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Could not deserialize result: {e}")

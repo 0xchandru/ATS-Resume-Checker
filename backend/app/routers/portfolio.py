@@ -1,9 +1,10 @@
-import os
 import json
 import logging
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-import openai
+from sqlalchemy import text
+from backend.app.database import engine
+from backend.app.engine.extraction.extractor import extract_resume_keywords
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -11,64 +12,51 @@ router = APIRouter()
 class PortfolioRequest(BaseModel):
     resume_text: str
 
-SYSTEM_PROMPT = """You are a senior tech recruiter and engineering manager. Analyze the candidate's resume and suggest 3 highly specific, impressive portfolio projects they should build to strengthen their profile for their target roles.
-
-Return exactly this JSON structure:
-{
-    "projects": [
-        {
-            "title": "<Project Name>",
-            "description": "<What it is and why it's impressive>",
-            "tech_stack": ["Tech1", "Tech2", "Tech3"],
-            "difficulty": "<Beginner|Intermediate|Advanced>",
-            "business_impact": "<What ATS/Recruiters will love about this>"
-        }
-    ]
-}
-"""
-
 @router.post("/portfolio")
 async def analyze_portfolio(request: PortfolioRequest):
     if not request.resume_text:
         raise HTTPException(status_code=400, detail="resume_text is required")
 
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        raise HTTPException(status_code=503, detail="OPENAI_API_KEY not configured")
-
-    client = openai.OpenAI(api_key=api_key)
-
     try:
-        completion = client.chat.completions.create(
-            model="gpt-4o-mini",
-            max_tokens=1500,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": f"Resume:\n{request.resume_text[:5000]}"}
-            ],
-            response_format={"type": "json_object"}
-        )
-        
-        raw_content = completion.choices[0].message.content or "{}"
-        parsed = json.loads(raw_content)
-        return parsed
+        with engine.connect() as conn:
+            # Get all projects
+            result = conn.execute(text("SELECT title, description, tech_stack, difficulty, business_impact FROM kb_portfolio_projects"))
+            rows = result.fetchall()
+
+            if not rows:
+                return {
+                    "projects": [
+                        {
+                            "title": "No Projects Found in KB",
+                            "description": "Please add projects to backend/data/kb/portfolio-projects/projects.json",
+                            "tech_stack": ["Add Dataset"],
+                            "difficulty": "Beginner",
+                            "business_impact": "Will allow the platform to suggest actual projects."
+                        }
+                    ]
+                }
+
+            # Simple logic: extract resume skills and try to find overlap,
+            # or just return up to 3 random projects if no overlap logic needed yet.
+            # Here we just return the first 3 for simplicity.
+            
+            projects_out = []
+            for row in rows[:3]:
+                try:
+                    tech_stack = json.loads(row[2]) if row[2] else []
+                except:
+                    tech_stack = []
+
+                projects_out.append({
+                    "title": row[0],
+                    "description": row[1],
+                    "tech_stack": tech_stack,
+                    "difficulty": row[3],
+                    "business_impact": row[4]
+                })
+
+            return {"projects": projects_out}
 
     except Exception as e:
-        error_msg = str(e)
-        logger.error(f"Portfolio analysis failed: {error_msg}")
-        
-        if "insufficient_quota" in error_msg or "429" in error_msg:
-            logger.warning("OpenAI quota exceeded for portfolio. Returning mock fallback.")
-            return {
-                "projects": [
-                    {
-                        "title": "API Quota Exceeded (Mock Project)",
-                        "description": "Please check your OpenAI billing details to get real portfolio recommendations.",
-                        "tech_stack": ["OpenAI API", "Billing"],
-                        "difficulty": "Beginner",
-                        "business_impact": "Resolving this will allow the ATS platform to generate real AI projects."
-                    }
-                ]
-            }
-            
-        raise HTTPException(status_code=502, detail="Failed to analyze portfolio")
+        logger.error(f"Portfolio matching failed: {e}")
+        raise HTTPException(status_code=502, detail="Failed to retrieve portfolio projects from datasets")

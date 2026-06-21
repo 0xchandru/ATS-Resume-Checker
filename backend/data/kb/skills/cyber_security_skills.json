@@ -1,0 +1,837 @@
+{
+  "_metadata": {
+    "generated_at": "2026-06-20T10:41:38.906113Z",
+    "record_count": 207,
+    "method": "keyword+whitelist extraction from skills_master"
+  },
+  "data": [
+    {
+      "canonical_name": "Enterprise Risk Management",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Apply Credit Risk Policy",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Perform Roof Maintenance",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Maltego",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Operate Radio Equipment",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Insulating Tube Winding Machinery",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Manage IT Security Compliances",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Distribute Local Information Materials",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Cain and Abel (penetration Testing Tool)",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Ferment Stacks of Tobacco Leaves",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Prepare Animal Materials for Brush Bristles",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Internal Risk Management Policy",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Advise on Risk Management",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Produce Content for Tourism Brochures",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Information Security Strategy",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Implement ICT Security Policies",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Diagnose Diseases of the Vascular System",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Offer Assistance to National Citizens",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Diagnose Respiratory Diseases",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Jewellery",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Use Textile Technique for Hand-made Products",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Cloud Security and Compliance",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Prepare Promotional Materials on Nutritition",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Media Law",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Musical Instruments",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Manage Sports Events",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Embroider Fabrics",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Replace Tyres",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Perform Bronchoscopy",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Communicate Expectations of Fight Actions",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Broadcast Equipment",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Manage Distribution of Destination Promotional Materials",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Select Hazard Control",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Heat Sealing Machinery",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Core Defects",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Set Up Portable Field Transmission Equipment",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Diagnose Rheumatic Diseases",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Advise Legislators",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Nessus",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Electrical Equipment Regulations",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Summarise Stories",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "ICT Network Security Risks",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Youth Work Principles",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Induce Spawning and Fertilisation on Aquaculture Species",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Inform on Toilet Facilities Malfunctions",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Develop Information Security Strategy",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Banking Activities",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Apply Permanent Make-up",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Implement Risk Management in Procurement",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Design Web-based Courses",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Provide Online Help",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Condition Broodstock",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Monitor Quality of Broadcasts",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Food Ethics",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Manage Electronic Logistics for Sound Equipment",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Use Technology for Forensics",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Maintain Tile Flooring",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Develop Food Safety Programmes",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Coat Inside of Tyres",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Provide Cost Benefit Analysis Reports",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Implement Risk Management for Works of Art",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Establish an Information Security Management System",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Aquaculture Reproduction",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Perform Financial Risk Management in International Trade",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Types of Cylindrical Grinding Processes",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Manage Sound Quality",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Metasploit",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Apply Sports Massage",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Perform Toys Finishing",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Advertise New Book Releases",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Perform Street Cleaning Manually",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Aircrack (penetration Testing Tool)",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Plastic Machinery",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Backbox (penetration Testing Tool)",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Leather Goods",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Types of Cartridges",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Monitor Media Industry Research Figures",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Provide Immigration Advice",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Telecommunication Industry",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Kali Linux",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Cut Glass",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Furniture Frames",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Mould Defects",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Enable Audience Participation",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Interpret Languages in Live Broadcasting Shows",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Wood Board Machinery",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Ensure Information Security",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Implement ICT Risk Management",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Manage Capture Broodstock Operations",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Educate on Emergency Management",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Maintain Broadcast Equipment",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Polish Gemstones",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Risk Management",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Security Engineering",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Broadcast Using Internet Protocol",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Adobe Creative Suite",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Dismantle Broken Appliances",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Develop Aquaculture Breeding Strategies",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Build Rebar Cages",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Attend Parliament Plenaries",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Handle Fragile Items",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Conduct Threat Intelligence",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "John the Ripper (penetration Testing Tool)",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Execute ICT Audits",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Carry Out Storage Risk Management",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Cyber Security",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Perform Rail Operations Risk Management",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Framework for a Safety Management System",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Handle Cybersecurity Incidents",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Insert Bristles",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Apply Information Security Policies",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Reproduce Documents",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Blackarch",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Operate Remote Broadcast Equipment",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Record Court Procedures",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Edge Banding Machinery",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Wireshark",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Collect Broken Appliances",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Web Application Security Threats",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Maintain Plan for Continuity of Operations",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Maritime Telecommunications",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Wash Fibres",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Apply Import Strategies",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Develop Programming Schedule",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Perform Escalation Procedure",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Compose Playlist",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Hand Out Product Samples",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Apply Risk Management Processes",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Sanitise Winery Area",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Promote the Transfer of Knowledge",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Blockchain Applications Security Principles",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Comply with Quality Standards Related to Healthcare Practice",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Manage Athletes Touring Abroad",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Information Governance Compliance",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Weld Mining Machinery",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Watch Video and Motion Picture Production Products",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Coordinate Shipments of Recycling Materials",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Evaluate Forensic Data",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Contact Talent Agents",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Respect Cultural Preferences",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Advise on Environmental Risk Management Systems",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Monitor Broadcast Programming",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Create Production Schedules",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Apply Risk Management in Sports",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Memorise Lines",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Operate Broadcast Equipment",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Prepare Broadcasts",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Gemstone Grading Systems",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Slitting Machinery",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Gather Information to Substitute Parts",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Perform Cerebrospinal Fluid Analysis",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Ensure Safety Regulations in Dealing with Infectious Diseases",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Samurai Web Testing Framework",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Types of Sawing Blades",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Grind Gemstones",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Use Curing Room Equipment",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Smooth Glass Surface",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Work with Broad Variety of Personalities",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Furniture Machinery",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Implement Cloud Security and Compliance",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Conduct Airport Security Screening",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Operate Games",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Router Machinery",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Study Media Sources",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Calculate Value of Gems",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Operate Metal Polishing Equipment",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Hammer Mill",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Create Script for Artistic Production",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Perform Facial Treatment",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Characteristics of Diamonds",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Bristles",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Implement Risk Management for Outdoors",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Develop Tourist Information Materials",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Jewellery Product Categories",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Create Editorial Board",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Manufacturing of Jewellery",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Handle Broken Glass Sheets",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Estimate Value of Used Jewellery and Watches",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Types of Alarm Systems",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Align Antennae with Receiving Dishes",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Complete Evaluation Forms of Calls",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Penetration Testing Tool",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Provide Multimedia Content",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Answer Questions About the Train Transport Service",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Offer Financial Services",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Browse, Search and Filter Data, Information and Digital Content",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Feed Broodstock",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Implement a Firewall",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Collect Broodstock",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Apply Rubber Patches",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Advice on Security Risk Management",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Maintain a Non-emotional Involvement",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Maintain Database Security",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Evaluate Broadcast Programs",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Nexpose",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Ensure Law Application",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Manage Production of Destination Promotional Materials",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Interview Insurance Claimants",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Perform ICT Security Testing",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Expand the Network of Providers",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Abrasive Machining Processes",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Culture Aquaculture Hatchery Stocks",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Conduct Security Screenings",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Repair Coquille Defects",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Translate Language Concepts",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Present During Live Broadcasts",
+      "source": "ESCO"
+    },
+    {
+      "canonical_name": "Set Up Broadcast Equipment",
+      "source": "ESCO"
+    }
+  ]
+}

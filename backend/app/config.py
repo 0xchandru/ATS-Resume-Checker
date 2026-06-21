@@ -30,7 +30,7 @@ UPLOADS_PATH = os.path.join(_HERE, "uploads")
 FUZZY_THRESHOLD = 82
 SEMANTIC_THRESHOLD = 0.68  # Lowered from 0.72 for better recall
 MAX_FILE_SIZE_MB = 10
-SUPPORTED_EXTENSIONS = [".pdf", ".docx"]
+SUPPORTED_EXTENSIONS = [".pdf", ".docx", ".txt"]
 MAX_HISTORY = 10
 
 SENIORITY_LEVELS = ["intern", "junior", "mid", "senior", "lead", "principal", "director", "vp", "c_suite"]

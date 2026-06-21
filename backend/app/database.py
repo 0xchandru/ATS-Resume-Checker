@@ -52,6 +52,55 @@ def init_db() -> None:
             f"Database initialisation failed — required tables not created: {sorted(missing)}"
         )
 
+    # Ensure any new columns added to ORM models are present in existing SQLite tables.
+    # SQLAlchemy's create_all() does not alter existing tables, so add missing columns
+    # via ALTER TABLE for simple column types to avoid manual migrations in dev.
+    for table_name in existing & REQUIRED_TABLES:
+        try:
+            expected = []
+            if table_name in Base.metadata.tables:
+                expected = [c.name for c in Base.metadata.tables[table_name].columns]
+            else:
+                continue
+
+            existing_cols = [c["name"] for c in insp.get_columns(table_name)]
+            missing_cols = [c for c in expected if c not in existing_cols]
+            if not missing_cols:
+                continue
+
+            conn = engine.connect()
+            for colname in missing_cols:
+                col = Base.metadata.tables[table_name].columns[colname]
+                # Map SQLAlchemy types to SQLite types (simple mapping for common types)
+                coltype = col.type
+                try:
+                    from sqlalchemy import String, Integer, Float, Text, DateTime, JSON
+
+                    if isinstance(coltype, Integer):
+                        sql_type = "INTEGER"
+                    elif isinstance(coltype, Float):
+                        sql_type = "REAL"
+                    elif isinstance(coltype, (Text,)):
+                        sql_type = "TEXT"
+                    elif isinstance(coltype, DateTime):
+                        sql_type = "TEXT"
+                    else:
+                        # default to TEXT for String, JSON, and unknown types
+                        sql_type = "TEXT"
+                except Exception:
+                    sql_type = "TEXT"
+
+                alter_sql = f'ALTER TABLE {table_name} ADD COLUMN {colname} {sql_type}'
+                try:
+                    conn.execute(text(alter_sql))
+                    logger.info("Added missing column '%s' to table '%s'", colname, table_name)
+                except Exception as e:
+                    logger.warning("Failed to add column %s to %s: %s", colname, table_name, e)
+            conn.close()
+        except Exception:
+            # Be conservative: don't crash startup for migration helpers
+            logger.exception("Error while checking/adding missing columns for %s", table_name)
+
     logger.info(
         "Database ready — %d tables present, required tables verified: %s",
         len(existing),

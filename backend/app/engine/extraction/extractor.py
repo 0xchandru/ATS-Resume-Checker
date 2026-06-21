@@ -169,8 +169,24 @@ _STOPWORDS: Set[str] = {
     "engage", "engages", "engaging", "engaged",
     "escalate", "escalates", "escalating", "escalated",
     "generation", "generations",
-    "response",   # 'incident response' is captured as a phrase; bare 'response' is noise
-    "incident",   # caught as part of 'incident management', 'incident response' phrases
+
+    # ── EEOC, Diversity, & Legal Terms ──
+    "race", "gender", "religion", "sex", "sexual", "orientation", "disability",
+    "national", "origin", "basis", "age", "veteran", "status", "law", "laws",
+    "local", "state", "federal", "equal", "opportunity", "employer", "employment",
+    "discriminate", "discrimination", "protect", "protected", "color", "creed", "marital",
+    "genetic", "citizenship",
+
+    # ── Shift & Timing Terms ──
+    "weekend", "weekends", "holiday", "holidays", "evening", "evenings",
+    "shift", "shifts", "morning", "mornings", "night", "nights", "midnight",
+    "hourly", "salary", "pay", "compensation", "schedule", "scheduled", "hours",
+
+    # ── Miscellaneous JD Noise ──
+    "req", "id", "hundreds", "thousands", "millions", "matter", "concern", "value",
+    "passionate", "provider", "line", "delivery", "advisory", "workforce",
+    "change", "impact", "chain", "base", "proficiency", "team barracuda", "barracuda",
+    "hundreds of thousands", "exercise", "landscape", "tier",
 }
 
 _MIN_KEYWORD_LENGTH = 2
@@ -233,7 +249,7 @@ def _is_valid_keyword(term: str) -> bool:
     return True
 
 
-def extract_keywords(text_input: str, top_n: int = 80) -> List[Dict]:
+def extract_keywords(text_input: str, top_n: int = 200) -> List[Dict]:
     """
     Extract keywords from text using multiple methods:
     1. spaCy NER + noun chunks (structural extraction)
@@ -296,8 +312,9 @@ def extract_keywords(text_input: str, top_n: int = 80) -> List[Dict]:
             top_n=top_n,
         )
         for kw, score in kb_kws:
-            if 2 <= len(kw) <= 60 and _is_valid_keyword(kw):
-                candidates.add(kw)
+            kw_str = str(kw)
+            if 2 <= len(kw_str) <= 60 and _is_valid_keyword(kw_str):
+                candidates.add(kw_str)
     except Exception as e:
         logger.debug("KeyBERT extraction failed: %s", e)
 
@@ -338,10 +355,13 @@ def _enrich_with_kb(normalized_terms: List[str], term_map: Dict[str, str]) -> Li
                 skill_lookup[row[0]] = {"canonical_name": row[1], "category": row[2], "domain": row[3]}
 
             alias_rows = conn.execute(text(
-                f"SELECT alias_normalized, canonical_name FROM kb_skill_aliases WHERE alias_normalized IN ({placeholders})"
+                f"""SELECT a.alias_normalized, a.canonical_name, s.category, s.domain 
+                    FROM kb_skill_aliases a 
+                    LEFT JOIN kb_skills s ON a.canonical_name = s.canonical_name 
+                    WHERE a.alias_normalized IN ({placeholders})"""
             )).fetchall()
             for row in alias_rows:
-                alias_lookup[row[0]] = row[1]
+                alias_lookup[row[0]] = {"canonical_name": row[1], "category": row[2], "domain": row[3]}
 
             freq_rows = conn.execute(text(
                 f"SELECT keyword_normalized, frequency, role_category FROM kb_jd_frequency WHERE keyword_normalized IN ({placeholders})"
@@ -371,14 +391,27 @@ def _enrich_with_kb(normalized_terms: List[str], term_map: Dict[str, str]) -> Li
         kb_source = None
 
         if norm in alias_lookup:
-            canonical = alias_lookup[norm]
+            info = alias_lookup[norm]
+            canonical = info["canonical_name"]
+            category = info["category"]
+            domain = info["domain"]
             kb_source = "alias"
         elif norm in skill_lookup:
             info = skill_lookup[norm]
             canonical = info["canonical_name"]
             category = info["category"]
             domain = info["domain"]
-            kb_source = "kb_skills"
+            kb_source = "primary"
+
+        # ═══════════════════════════════════════════════════════════════
+        # STRICT DATASET WHITELIST RELAXATION:
+        # Instead of discarding non-KB terms, we keep them if they
+        # have some frequency or statistical weight, categorizing them
+        # as "other_skill" so they show up in the "Other Skills" section.
+        # ═══════════════════════════════════════════════════════════════
+        if not kb_source:
+            kb_source = "statistical"
+            category = "other_skill"
 
         freq_info = freq_lookup.get(norm, {})
         freq = freq_info.get("frequency", 0.0)
@@ -461,7 +494,7 @@ def extract_jd_keywords(jd_text: str) -> List[Dict]:
     # Strip JD metadata header (Job Title, Location, Mode, Notice Period etc.)
     # before extraction to avoid extracting them as "skills"
     clean_text = _strip_jd_metadata(jd_text)
-    raw = extract_keywords(clean_text, top_n=80)
+    raw = extract_keywords(clean_text, top_n=200)
     # Double-check: filter any remaining stopword-dominated phrases
     filtered = [kw for kw in raw if _is_valid_keyword(kw["normalized"])]
     # Classify as required vs preferred (use original text for context)
@@ -471,5 +504,5 @@ def extract_jd_keywords(jd_text: str) -> List[Dict]:
 
 def extract_resume_keywords(resume_text: str) -> List[Dict]:
     """Extract keywords from resume, with stopword filtering."""
-    raw = extract_keywords(resume_text, top_n=100)
+    raw = extract_keywords(resume_text, top_n=200)
     return [kw for kw in raw if _is_valid_keyword(kw["normalized"])]

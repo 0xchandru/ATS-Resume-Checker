@@ -1,6 +1,6 @@
 import re
 import logging
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional, Sequence
 from backend.app.engine.extraction.extractor import normalize
 from sqlalchemy import text
 from backend.app.database import engine
@@ -9,14 +9,32 @@ from backend.app.config import SEMANTIC_THRESHOLD
 logger = logging.getLogger(__name__)
 
 
+from typing import Union
+
+
 def match_all_layers(
     resume_kws: List[Dict],
-    jd_kws: List[Dict],
+    jd_kws: Sequence[Union[Dict, str]],
     resume_text: str,
     jd_text: str,
 ) -> Dict:
     resume_terms = {kw["normalized"]: kw for kw in resume_kws}
-    jd_terms = {kw["normalized"]: kw for kw in jd_kws}
+
+    normalized_jd_kws = []
+    for kw in jd_kws:
+        if isinstance(kw, str):
+            normalized_jd_kws.append({
+                "term": kw,
+                "normalized": normalize(kw),
+                "canonical": kw,
+            })
+        elif isinstance(kw, dict):
+            if "normalized" not in kw:
+                kw = dict(kw)
+                kw["normalized"] = normalize(kw.get("term") or kw.get("canonical") or "")
+            normalized_jd_kws.append(kw)
+
+    jd_terms = {kw["normalized"]: kw for kw in normalized_jd_kws if kw.get("normalized")}
 
     jd_norm_set = set(jd_terms.keys())
     resume_norm_set = set(resume_terms.keys())
@@ -67,13 +85,13 @@ def match_all_layers(
             canonical_norm = normalize(canonical)
             if canonical_norm in resume_full_set or jd_norm in resume_full_set:
                 breakdown["alias"] += 1
-                matched.append(_build_match(jd_kw, jd_norm, "alias", 1.0, canonical))
+                matched.append(_build_match(jd_kw, jd_norm, "alias", 1.0, canonical, jd_text=jd_text, resume_text=resume_text))
                 continue
                 
         # 2. Exact Match Layer
         if jd_norm in resume_full_set:
             breakdown["exact"] += 1
-            matched.append(_build_match(jd_kw, jd_norm, "exact", 1.0, jd_kw.get("canonical", jd_norm)))
+            matched.append(_build_match(jd_kw, jd_norm, "exact", 1.0, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
             continue
 
         # 3. KB Lookup Layer
@@ -83,8 +101,15 @@ def match_all_layers(
             canonical_norm = normalize(canonical)
             if canonical_norm in resume_full_set or jd_norm in resume_full_set:
                 breakdown["kb_lookup"] += 1
-                matched.append(_build_match(jd_kw, jd_norm, "kb_lookup", 0.98, canonical, info["category"], info["domain"]))
+                matched.append(_build_match(jd_kw, jd_norm, "kb_lookup", 0.98, canonical, info["category"], info["domain"], jd_text=jd_text, resume_text=resume_text))
                 continue
+
+        # 3.5 Substring Containment Layer
+        # Catch cases where JD says "incident response" and resume says "incident response and remediation"
+        if len(jd_norm) > 4 and (jd_norm in resume_text.lower() or original_jd.lower() in resume_text.lower()):
+            breakdown["exact"] += 1
+            matched.append(_build_match(jd_kw, jd_norm, "exact", 0.95, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
+            continue
 
         # 4. Acronym heuristic layer (Phase 2.2)
         # Check if the jd_norm is an acronym for any multi-word term in the resume
@@ -97,7 +122,7 @@ def match_all_layers(
                     r_acronym = "".join([w[0] for w in words if w]).lower()
                     if r_acronym == jd_norm.lower():
                         breakdown["alias"] += 1  # Count as alias
-                        matched.append(_build_match(jd_kw, jd_norm, "alias", 0.9, r_term))
+                        matched.append(_build_match(jd_kw, jd_norm, "alias", 0.9, r_term, jd_text=jd_text, resume_text=resume_text))
                         acronym_matched = True
                         break
         
@@ -111,7 +136,7 @@ def match_all_layers(
         resume_norm_list = list(resume_full_set)
 
         fuzzy_matched, still_unmatched = _try_fuzzy_batch(
-            unmatched_list, resume_norm_list, jd_terms
+            unmatched_list, resume_norm_list, jd_terms, jd_text, resume_text
         )
         for item in fuzzy_matched:
             breakdown["fuzzy"] += 1
@@ -119,7 +144,7 @@ def match_all_layers(
 
         if still_unmatched:
             semantic_matched, truly_missing = _try_semantic_batch(
-                still_unmatched, resume_norm_list, jd_terms, resume_text
+                still_unmatched, resume_norm_list, jd_terms, resume_text, jd_text
             )
             for item in semantic_matched:
                 breakdown["semantic"] += 1
@@ -170,6 +195,8 @@ def _try_fuzzy_batch(
     unmatched: List[str],
     resume_terms: List[str],
     jd_terms: Dict,
+    jd_text: str = "",
+    resume_text: str = "",
 ) -> Tuple[List[Dict], List[str]]:
     if not unmatched or not resume_terms:
         return [], unmatched
@@ -191,7 +218,7 @@ def _try_fuzzy_batch(
 
             if best_score >= 82:
                 jd_kw = jd_terms.get(jd_norm, {"term": jd_norm, "normalized": jd_norm, "frequency": 0.0})
-                matched.append(_build_match(jd_kw, jd_norm, "fuzzy", best_score / 100.0, jd_kw.get("canonical", jd_norm)))
+                matched.append(_build_match(jd_kw, jd_norm, "fuzzy", best_score / 100.0, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
             else:
                 still_unmatched.append(jd_norm)
         return matched, still_unmatched
@@ -205,6 +232,7 @@ def _try_semantic_batch(
     resume_terms: List[str],
     jd_terms: Dict,
     resume_text: str,
+    jd_text: str = "",
 ) -> Tuple[List[Dict], List[str]]:
     if not unmatched or not resume_terms:
         return [], unmatched
@@ -240,7 +268,7 @@ def _try_semantic_batch(
             # Phase 2.4: Lowered threshold for better recall
             if best_score >= SEMANTIC_THRESHOLD:
                 jd_kw = jd_terms.get(jd_norm, {"term": jd_norm, "normalized": jd_norm, "frequency": 0.0})
-                matched.append(_build_match(jd_kw, jd_norm, "semantic", best_score, jd_kw.get("canonical", jd_norm)))
+                matched.append(_build_match(jd_kw, jd_norm, "semantic", best_score, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
             else:
                 still_unmatched.append(jd_norm)
 
@@ -250,13 +278,22 @@ def _try_semantic_batch(
         return [], unmatched
 
 
-def _build_match(jd_kw: Dict, norm: str, layer: str, confidence: float, matched_form: str, category: str = None, domain: str = None) -> Dict:
+def _build_match(jd_kw: Dict, norm: str, layer: str, confidence: float, matched_form: str, category: Optional[str] = None, domain: Optional[str] = None, jd_text: str = "", resume_text: str = "") -> Dict:
     freq = jd_kw.get("frequency", 0.0)
     req_type = jd_kw.get("requirement_type", "mentioned")
+    
+    # Classify match_type based on layer
+    match_type = "exact_match"
+    if layer in ["alias", "kb_lookup"]:
+        match_type = "normalized_match"
+    elif layer in ["fuzzy", "semantic"]:
+        match_type = "inferred_match"
+
     return {
         "keyword": jd_kw.get("term", norm),
         "normalized_form": jd_kw.get("canonical", norm),
         "match_layer": layer,
+        "match_type": match_type,
         "matched_form": matched_form,
         "kb_source": jd_kw.get("kb_source", "unknown"),
         "category": category or jd_kw.get("category"),
@@ -264,7 +301,8 @@ def _build_match(jd_kw: Dict, norm: str, layer: str, confidence: float, matched_
         "jd_frequency": freq,
         "requirement_type": req_type,
         "jd_importance": _calc_importance(freq, req_type),
-        "jd_occurrence_count": 1,
+        "jd_occurrence_count": _count_occurrences(jd_kw.get("term", norm), jd_text) if jd_text else 1,
+        "resume_occurrence_count": _count_occurrences(matched_form, resume_text) if resume_text else 1,
         "match_confidence": confidence,
     }
 

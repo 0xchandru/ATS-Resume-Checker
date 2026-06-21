@@ -157,9 +157,17 @@ def _spacy_fallback(detected: List[Dict], lines: List[str], resume_text: str) ->
         for kw in kws:
             if kw in text_lower:
                 for i, line in enumerate(lines):
-                    if i in detected_positions:
-                        continue
-                    if kw in line.lower() and len(line.strip()) < 60:
+                    if kw in line.lower() and len(line.strip()) < 80:
+                        if i in detected_positions:
+                            # Prioritize "experience" over other labels if they share a heading
+                            if section == "experience":
+                                for d in detected:
+                                    if d["position"] == i and d["name"] != "experience":
+                                        d["name"] = "experience"
+                                        d["method"] = "spacy_heuristic_override"
+                                break
+                            continue
+                            
                         detected.append({
                             "name": section,
                             "position": i,

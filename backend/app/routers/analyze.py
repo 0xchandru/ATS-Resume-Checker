@@ -1,7 +1,7 @@
 import time
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
@@ -13,16 +13,23 @@ from backend.app.engine.extraction.skill_normalizer import normalize_and_group_s
 from backend.app.engine.matching import matcher
 from backend.app.engine.matching.semantic_grouper import group_aware_match
 from backend.app.engine.matching.evidence_scorer import score_all_evidence
+from backend.app.engine.matching.certification_matcher import match_certifications
+from backend.app.engine.matching.education_matcher import match_education
 from backend.app.engine.scoring import scorer
 from backend.app.engine.scoring.seniority_analyzer import analyze_jd_seniority, analyze_resume_seniority, compute_seniority_gap
 from backend.app.engine.scoring.role_fit_engine import generate_role_fit_verdict
 from backend.app.engine.intelligence import career_analyzer, feedback_engine
+from pydantic import BaseModel
+from typing import Optional
+
+class AnalyzeRequest(BaseModel):
+    resume_text: Optional[str] = None
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
 @router.post("/analyze/{scan_id}")
-async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
+async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None, db: Session = Depends(get_db)):
     record = db.query(ScanRecord).filter(ScanRecord.scan_id == scan_id).first()
     if not record:
         raise HTTPException(status_code=404, detail=f"Scan {scan_id} not found")
@@ -30,13 +37,13 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
     t_start = time.time()
 
     try:
-        parsed = parser.parse_resume(record.file_path)
+        parsed = parser.parse_resume(str(record.file_path))
     except Exception as e:
         logger.error("Parse error for %s: %s", scan_id, e)
         raise HTTPException(status_code=422, detail=f"Could not parse resume: {e}")
 
-    resume_text = parsed["raw_text"]
-    jd_text = record.jd_text or ""
+    resume_text = request.resume_text if (request and request.resume_text) else parsed["raw_text"]
+    jd_text = str(record.jd_text or "")
     file_metadata = parsed["metadata"]
     file_metadata["page_count"] = parsed["page_count"]
     file_metadata["file_type"] = parsed["file_type"]
@@ -44,11 +51,94 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
     # --- 1. Base Extraction ---
     raw_jd_kws = extractor.extract_jd_keywords(jd_text)
     resume_kws = extractor.extract_resume_keywords(resume_text)
-    match_result = matcher.match_all_layers(resume_kws, jd_kws, resume_text, jd_text)
+    
+    # --- 2. New Normalization Engine (Filter Noise) ---
+    skill_concepts, noise_filtered = normalize_and_group_skills(raw_jd_kws)
+    jd_kws_clean = list(skill_concepts.values())
+
+    # --- 3. Base Matching ---
+    base_match_result = matcher.match_all_layers(resume_kws, jd_kws_clean, resume_text, jd_text)
+    
+    # --- 4. Semantic Grouping ---
+    enhanced_matches = group_aware_match(jd_kws_clean, resume_kws, base_match_result.get("matched", []))
+    match_result = base_match_result.copy()
+    # Deduplicate matches by keyword to get accurate count
+    unique_matched_kws = set()
+    deduped_matches = []
+    for m in enhanced_matches:
+        kw = str(m.get("keyword", "")).lower()
+        if kw not in unique_matched_kws:
+            unique_matched_kws.add(kw)
+            deduped_matches.append(m)
+            
+    match_result["matched"] = deduped_matches
+    
+    # Recalculate match rate
+    total_jd = max(1, len(jd_kws_clean))
+    matched_count = len(deduped_matches)
+    match_result["match_rate"] = min(1.0, matched_count / total_jd)
+    match_result["matched_count"] = matched_count
+    
+    # Deduplicate missing skills
+    matched_kws = set()
+    for m in enhanced_matches:
+        jk = m.get("jd_keyword", "")
+        if isinstance(jk, dict):
+            jk = jk.get("keyword", "") or jk.get("term", "")
+        matched_kws.add(str(jk).lower())
+
+    missing_kws = [m for m in base_match_result.get("missing", []) 
+                   if (m.get("keyword", "") if isinstance(m, dict) else m).lower() not in matched_kws]
+    match_result["missing"] = missing_kws
+
+    # --- 5. Parsing & Structure ---
     sections = section_detector.detect_sections(resume_text, file_metadata)
-    formatting = format_checker.check_formatting(record.file_path, file_metadata)
+    formatting = format_checker.check_formatting(str(record.file_path), file_metadata)
+    
+    # --- 6. Evidence Scoring ---
+    matched_skill_names = [m.get("resume_keyword", "") for m in enhanced_matches]
+    evidence_quality = score_all_evidence(matched_skill_names, resume_text, sections)
+    
+    # Update match_type to unsupported_claim if evidence is keyword_only
+    for m in match_result["matched"]:
+        skill_name = m.get("resume_keyword", "")
+        if skill_name in evidence_quality.get("skills", {}):
+            if evidence_quality["skills"][skill_name].get("evidence_type") == "keyword_only":
+                m["match_type"] = "unsupported_claim"
+    
+    # --- 7. Seniority Analysis ---
     career = career_analyzer.analyze_career_signals(resume_text, jd_text, match_result)
-    scoring = scorer.calculate_score(match_result, sections, formatting, career, resume_text, jd_text)
+    jd_seniority = analyze_jd_seniority(jd_text)
+    resume_seniority = analyze_resume_seniority(resume_text, career)
+    seniority_gap = compute_seniority_gap(jd_seniority, resume_seniority)
+
+    # --- 8. Certification Matching ---
+    try:
+        cert_match = match_certifications(resume_text, jd_text)
+    except Exception as e:
+        logger.warning("Certification matching failed: %s", e)
+        cert_match = {"matched": [], "missing": [], "bonus": [], "matched_count": 0, "missing_count": 0, "bonus_count": 0, "score": 100.0}
+
+    # --- 9. Education Matching ---
+    try:
+        edu_match = match_education(resume_text, jd_text)
+    except Exception as e:
+        logger.warning("Education matching failed: %s", e)
+        edu_match = {"score": 80.0, "degree_level_match": "unknown", "recognized_universities": []}
+
+    # --- 10. Enhanced Scoring Model ---
+    scoring = scorer.calculate_score_v2(
+        match_result, sections, formatting, career, resume_text, jd_text, 
+        seniority_gap, evidence_quality, cert_match, edu_match
+    )
+
+    # --- 11. Role-Fit Verdict ---
+    role_fit = generate_role_fit_verdict(
+        scoring["overall_score"], seniority_gap, evidence_quality, 
+        skill_concepts, noise_filtered, match_result, career
+    )
+
+    # Additional standard analyses
     action_verbs = feedback_engine.analyze_action_verbs(resume_text, sections)
     feedback = feedback_engine.generate_feedback(match_result, sections, formatting, career, scoring, action_verbs, resume_text, jd_text)
     cyber = feedback_engine.check_cybersecurity_vertical(match_result, resume_text)
@@ -58,7 +148,26 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
     )
 
     processing_time = round(time.time() - t_start, 2)
-    timestamp = datetime.utcnow().isoformat() + "Z"
+    timestamp = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    # Extract soft skills early
+    def is_soft(m):
+        cat = m.get("category") or ""
+        return cat.lower() in ("soft_skill", "transversal", "social", "competency")
+        
+    def is_other(m):
+        cat = m.get("category") or ""
+        return cat.lower() in ("other_skill", "other")
+    
+    soft_skills = {
+        "matched": [m for m in match_result.get("matched", []) if is_soft(m)],
+        "missing": [m for m in match_result.get("missing", []) if is_soft(m)]
+    }
+    
+    other_skills = {
+        "matched": [m for m in match_result.get("matched", []) if is_other(m)],
+        "missing": [m for m in match_result.get("missing", []) if is_other(m)]
+    }
 
     result = {
         "scan_id": scan_id,
@@ -68,9 +177,29 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
         "processing_time_seconds": processing_time,
         "overall_score": scoring["overall_score"],
         "letter_grade": scoring["letter_grade"],
+        # ── 7 top-level scoring dimensions ──
+        "parsing_quality": scoring.get("parsing_quality", 0),
+        "formatting_quality": scoring.get("formatting_quality", 0),
+        "keyword_match": scoring.get("keyword_match", 0),
+        "semantic_match": scoring.get("semantic_match", 0),
+        "evidence_strength": scoring.get("evidence_strength", 0),
+        "seniority_fit": scoring.get("seniority_fit", 0),
+        "overall_fit": scoring.get("overall_fit", 0),
+        # ── Detailed breakdowns ──
         "sub_scores": scoring["sub_scores"],
         "category_scores": category_scores,
         "keywords": match_result,
+        "role_fit": role_fit,
+        "seniority_analysis": {
+            "jd_level": jd_seniority,
+            "resume_level": resume_seniority,
+            "gap": seniority_gap
+        },
+        "evidence_quality": evidence_quality,
+        "certifications": cert_match,
+        "education": edu_match,
+        "skill_concepts": skill_concepts,
+        "noise_filtered": noise_filtered,
         "career_intelligence": career,
         "action_verbs": action_verbs,
         "sections": sections,
@@ -78,15 +207,19 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
         "skill_prediction": skill_prediction,
         "cybersecurity_analysis": cyber,
         "feedback": feedback,
-        "resume_preview": resume_text[:5000],
-        "jd_preview": jd_text[:8000],
+        "resume_preview": resume_text[:600],
+        "jd_preview": jd_text[:300],
+        "jd_full": jd_text,
+        "resume_full": resume_text,
+        "soft_skills": soft_skills,
+        "other_skills": other_skills,
     }
 
     existing = db.query(ScanResult).filter(ScanResult.scan_id == scan_id).first()
     if existing:
         existing.overall_score = scoring["overall_score"]
         existing.letter_grade = scoring["letter_grade"]
-        existing.result_json = json.dumps(result)
+        existing.result_json = json.dumps(result)  # type: ignore
     else:
         db_result = ScanResult(
             scan_id=scan_id,
@@ -96,7 +229,7 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
         )
         db.add(db_result)
 
-    record.status = "complete"
+    record.status = "complete"  # type: ignore
     db.commit()
 
     logger.info("Analysis complete for %s: score=%.1f, grade=%s, time=%.2fs",

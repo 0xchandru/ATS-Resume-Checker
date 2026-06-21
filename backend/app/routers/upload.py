@@ -7,6 +7,8 @@ from fastapi import Depends
 from backend.app.database import get_db
 from backend.app.models import ScanRecord
 from backend.app.config import UPLOADS_PATH, MAX_FILE_SIZE_MB, SUPPORTED_EXTENSIONS
+from backend.app.engine.parsing.formatter import format_text_with_llm
+from pydantic import BaseModel
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -68,3 +70,44 @@ async def upload_resume(
         "jd_length": len(job_description),
         "status": "uploaded",
     }
+
+@router.post("/parse")
+async def parse_resume_endpoint(file: UploadFile = File(...)):
+    filename = file.filename or "resume"
+    ext = os.path.splitext(filename)[1].lower()
+    if ext not in SUPPORTED_EXTENSIONS:
+        raise HTTPException(status_code=400, detail=f"File type not supported. Got: {ext}")
+
+    content = await file.read()
+    temp_id = str(uuid.uuid4())
+    temp_path = os.path.join(UPLOADS_PATH, f"temp_{temp_id}{ext}")
+    
+    with open(temp_path, "wb") as f:
+        f.write(content)
+        
+    try:
+        from backend.app.engine.parsing import parser
+        parsed = parser.parse_resume(temp_path)
+        raw_text = parsed["raw_text"]
+        
+        # Bypass LLM formatting and use native rich text extraction from parser
+        structured_html = parsed.get("rich_text") or f"<p style='white-space: pre-wrap;'>{parsed['raw_text']}</p>"
+        
+        return {"text": structured_html}
+    except Exception as e:
+        logger.error("Error parsing resume temp file: %s", e)
+        raise HTTPException(status_code=422, detail=f"Could not parse resume: {e}")
+    finally:
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+
+class FormatJDRequest(BaseModel):
+    jd_text: str
+
+@router.post("/format_jd")
+async def format_jd_endpoint(req: FormatJDRequest):
+    if not req.jd_text or len(req.jd_text.strip()) < 50:
+        raise HTTPException(status_code=400, detail="JD text is too short")
+    
+    structured_html = format_text_with_llm(req.jd_text, doc_type="job description")
+    return {"text": structured_html}

@@ -64,18 +64,6 @@ _TITLE_LEVEL_MAP = {
     "executive":    ["ciso", "cto", "cio", "cso", "c-level", "executive"],
 }
 
-# Leadership/scope verbs (indicate seniority)
-_SENIOR_VERBS = {
-    "managed", "led", "mentored", "directed", "oversaw", "supervised",
-    "architected", "spearheaded", "governed", "orchestrated",
-    "drove", "championed", "established", "formulated", "strategized",
-}
-
-_JUNIOR_VERBS = {
-    "assisted", "helped", "supported", "participated", "contributed",
-    "learned", "studied", "observed", "shadowed", "completed",
-}
-
 # Scope indicators
 _SCOPE_PATTERNS = [
     r'team\s+of\s+(\d+)',
@@ -176,7 +164,7 @@ def analyze_jd_seniority(jd_text: str) -> Dict:
     for level, confidence in level_votes:
         level_scores[level] = level_scores.get(level, 0) + confidence
 
-    best_level = max(level_scores, key=level_scores.get)
+    best_level = max(level_scores, key=lambda k: level_scores[k])
     total_confidence = min(1.0, level_scores[best_level] / len(level_votes))
 
     return {
@@ -256,8 +244,21 @@ def analyze_resume_seniority(
 
     # 4. Analyze verb usage
     words = set(lower_text.split())
-    senior_verb_count = len(words & _SENIOR_VERBS)
-    junior_verb_count = len(words & _JUNIOR_VERBS)
+    
+    try:
+        from sqlalchemy import text
+        from backend.app.database import engine
+        with engine.connect() as conn:
+            verb_rows = conn.execute(text("SELECT verb, strength FROM kb_action_verbs")).fetchall()
+            senior_verbs = {row[0].lower() for row in verb_rows if row[1] == 3}
+            junior_verbs = {row[0].lower() for row in verb_rows if row[1] == 1}
+    except Exception as e:
+        logger.warning("Failed to load verbs from KB for seniority check: %s", e)
+        senior_verbs = set()
+        junior_verbs = set()
+
+    senior_verb_count = len(words & senior_verbs)
+    junior_verb_count = len(words & junior_verbs)
 
     if senior_verb_count >= 3:
         level_votes.append(("senior", 0.5))
@@ -299,7 +300,7 @@ def analyze_resume_seniority(
     for level, confidence in level_votes:
         level_scores[level] = level_scores.get(level, 0) + confidence
 
-    best_level = max(level_scores, key=level_scores.get)
+    best_level = max(level_scores, key=lambda k: level_scores[k])
     total_confidence = min(1.0, level_scores[best_level] / max(1, len(level_votes)) * 2)
 
     return {

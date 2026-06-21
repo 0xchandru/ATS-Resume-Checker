@@ -149,6 +149,25 @@ class KbSectionPattern(Base):
     confidence = Column(Float)
 
 
+class KbCoverLetterTemplate(Base):
+    __tablename__ = "kb_cover_letter_templates"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    tone = Column(String, nullable=False)
+    role_category = Column(String)
+    template_text = Column(String, nullable=False)
+
+
+class KbPortfolioProject(Base):
+    __tablename__ = "kb_portfolio_projects"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    tech_stack = Column(String)  # JSON-encoded list of tech skills
+    difficulty = Column(String)
+    business_impact = Column(String)
+    target_roles = Column(String) # JSON-encoded list of roles
+
+
 # ── Pydantic schemas ─────────────────────────────────────────────────────────
 
 class UploadResponse(BaseModel):

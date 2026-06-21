@@ -1,19 +1,21 @@
 import { useState, useEffect, useCallback } from "react";
 import Layout from "./components/layout/Layout";
 import UploadPanel from "./components/upload/UploadPanel";
-import ScanModal from "./components/upload/ScanModal";
 import ResultsSidebar from "./components/results/ResultsSidebar";
 import ResultsTabs from "./components/results/ResultsTabs";
 import SearchabilitySection from "./components/analysis/SearchabilitySection";
 import HardSkillsSection from "./components/analysis/HardSkillsSection";
 import SoftSkillsSection from "./components/analysis/SoftSkillsSection";
+import OtherSkillsSection from "./components/analysis/OtherSkillsSection";
 import RecruiterTipsSection from "./components/analysis/RecruiterTipsSection";
 import FormattingSection from "./components/analysis/FormattingSection";
 import JobDescriptionTab from "./components/tools/JobDescriptionTab";
+import SkillsMatrixTab from "./components/tools/SkillsMatrixTab";
+import CoverLetterTab from "./components/results/CoverLetterTab";
+import ResumePreviewTab from "./components/results/ResumePreviewTab";
 import RoleFitVerdict from "./components/verdict/RoleFitVerdict";
 import AIVerdict, { type AIEvaluation } from "./components/verdict/AIVerdict";
 import HistoryPanel from "./components/history/HistoryPanel";
-import AuthPanel from "./components/layout/AuthPanel";
 import { getHistory, uploadAndAnalyze, runAIEvaluation } from "./utils/api";
 
 export type View = "upload" | "results" | "history" | "compare";
@@ -53,6 +55,14 @@ export interface AnalysisResult {
   evidence_quality?: any;
   skill_concepts?: any;
   noise_filtered?: any[];
+  parsing_quality?: number;
+  formatting_quality?: number;
+  keyword_match?: number;
+  semantic_match?: number;
+  evidence_strength?: number;
+  seniority_fit?: number;
+  overall_fit?: number;
+  
   sub_scores: {
     keyword_match: { score: number; details: string };
     semantic_relevance: { score: number; details: string; cosine_similarity: number };
@@ -71,6 +81,10 @@ export interface AnalysisResult {
     matched: any[];
     missing: any[];
     match_rate: number;
+    matched_count?: number;
+    total_jd_keywords?: number;
+    breakdown?: any;
+    density_warnings?: any[];
   };
   career_intelligence: any;
   action_verbs: any;
@@ -80,7 +94,11 @@ export interface AnalysisResult {
   cybersecurity_analysis: any;
   feedback: any;
   resume_preview: string;
+  resume_full?: string;
   jd_preview: string;
+  jd_full?: string;
+  soft_skills?: any;
+  other_skills?: any;
   evaluation?: AIEvaluation;
 }
 
@@ -94,11 +112,9 @@ export default function App() {
   const [theme, setTheme] = useState<Theme>(() =>
     (localStorage.getItem("ats-theme") as Theme) || "dark"
   );
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRescanning, setIsRescanning] = useState(false);
   const [rescanError, setRescanError] = useState("");
-  const [resultsTab, setResultsTab] = useState<"report" | "job_description">("report");
-  const [showScanModal, setShowScanModal] = useState(false);
+  const [resultsTab, setResultsTab] = useState<"report" | "job_description" | "skills_matrix" | "smart_editor" | "cover_letter" | "resume_preview">("report");
 
   const [aiEvaluation, setAiEvaluation] = useState<AIEvaluation | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
@@ -123,7 +139,6 @@ export default function App() {
     setAiEvaluation(null);
     setAiError(null);
     setResultsTab("report");
-    setShowScanModal(false);
     setActiveView("results");
     refreshHistory();
   };
@@ -134,7 +149,7 @@ export default function App() {
     setIsRescanning(true);
     setRescanError("");
     try {
-      const result = await uploadAndAnalyze(currentFile, jdToUse, () => {});
+      const result = await uploadAndAnalyze(currentFile, jdToUse, currentResult?.resume_full || "", () => { });
       setCurrentResult(result);
       if (newJD) setCurrentJD(newJD);
       setAiEvaluation(null);
@@ -196,24 +211,6 @@ export default function App() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  if (!isAuthenticated) {
-    return (
-      <div className={theme === "dark" ? "dark" : "light"}>
-        <div className="min-h-screen bg-background">
-          <div className="absolute top-4 right-4 z-50">
-            <button
-              onClick={() => setTheme(t => t === "dark" ? "light" : "dark")}
-              className="p-2 rounded-lg bg-card border border-border text-muted-foreground hover:bg-muted hover:text-foreground transition-all shadow-sm"
-            >
-              {theme === "dark" ? "🌞" : "🌙"}
-            </button>
-          </div>
-          <AuthPanel onLogin={() => setIsAuthenticated(true)} />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <Layout
       activeView={activeView}
@@ -221,7 +218,6 @@ export default function App() {
       hasResult={!!currentResult}
       theme={theme}
       onToggleTheme={() => setTheme(t => t === "dark" ? "light" : "dark")}
-      onLogout={() => setIsAuthenticated(false)}
     >
       {activeView === "upload" && (
         <UploadPanel
@@ -237,7 +233,7 @@ export default function App() {
             <ResultsSidebar
               result={currentResult}
               onNewScan={handleNewScan}
-              onRescan={() => setShowScanModal(true)}
+              onRescan={() => setActiveView("upload")}
               isRescanning={isRescanning}
               rescanError={rescanError}
               onRunAI={handleRunAI}
@@ -253,6 +249,8 @@ export default function App() {
               activeTab={resultsTab}
               onTabChange={setResultsTab}
               onPrint={() => window.print()}
+              analysis={currentResult}
+              jd={currentJD}
             />
 
             {/* Tab Content */}
@@ -288,14 +286,28 @@ export default function App() {
                     keywords={currentResult.keywords}
                     resumeText={currentResult.resume_preview}
                     jdText={currentResult.jd_preview}
+                    resumeFull={currentResult.resume_full || currentResult.resume_preview}
+                    jdFull={currentResult.jd_full || currentResult.jd_preview}
                     result={currentResult}
                   />
 
                   {/* Divider */}
                   <hr className="border-border" />
 
-                  {/* Soft Skills */}
-                  <SoftSkillsSection keywords={currentResult.keywords} />
+                  <div className="mt-12">
+                    <SoftSkillsSection 
+                      keywords={currentResult.keywords} 
+                      softSkillData={currentResult.soft_skills}
+                    />
+
+                    {/* Divider */}
+                    <hr className="border-border my-12" />
+
+                    <OtherSkillsSection 
+                      keywords={currentResult.keywords} 
+                      otherSkillData={currentResult.other_skills}
+                    />
+                  </div>
 
                   {/* Divider */}
                   <hr className="border-border" />
@@ -331,10 +343,28 @@ export default function App() {
 
               {resultsTab === "job_description" && (
                 <JobDescriptionTab
-                  jdText={currentResult.jd_preview || currentJD}
+                  jdText={currentResult.jd_full || currentResult.jd_preview || currentJD}
                   keywords={currentResult.keywords}
                   onRescanWithNewJD={handleRescan}
                   isRescanning={isRescanning}
+                />
+              )}
+
+              {resultsTab === "skills_matrix" && (
+                <SkillsMatrixTab keywords={currentResult.keywords} />
+              )}
+
+              {resultsTab === "cover_letter" && (
+                <CoverLetterTab 
+                  resumeText={currentResult.resume_full || currentResult.resume_preview || ""}
+                  jdText={currentResult.jd_full || currentResult.jd_preview || currentJD}
+                />
+              )}
+
+              {resultsTab === "resume_preview" && (
+                <ResumePreviewTab 
+                  resumeText={currentResult.resume_full || currentResult.resume_preview || ""}
+                  keywords={currentResult.keywords}
                 />
               )}
             </div>
@@ -361,14 +391,6 @@ export default function App() {
           onCompare={handleCompare}
         />
       )}
-
-      {/* ── Scan Modal overlay — shown when "Upload & Rescan" is clicked ── */}
-      <ScanModal
-        open={showScanModal}
-        onClose={() => setShowScanModal(false)}
-        onAnalysisComplete={handleAnalysisComplete}
-        initialJD={currentJD}
-      />
 
       {activeView === "compare" && compareResult && (
         <div className="bg-card rounded-2xl border border-border shadow-sm p-6">

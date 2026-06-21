@@ -13,7 +13,7 @@ from contextlib import asynccontextmanager  # noqa: E402
 
 from backend.app.database import engine, init_db  # noqa: E402
 from backend.app.kb_loader import load_knowledge_base  # noqa: E402
-from backend.app.routers import upload, analyze, history, compare, export, evaluate, cover_letter, portfolio  # noqa: E402
+from backend.app.routers import upload, analyze, history, compare, export, evaluate, cover_letter, portfolio, editor  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s — %(message)s")
 logger = logging.getLogger(__name__)
@@ -75,6 +75,7 @@ app.include_router(export.router, prefix="/api")
 app.include_router(evaluate.router, prefix="/api")
 app.include_router(cover_letter.router, prefix="/api")
 app.include_router(portfolio.router, prefix="/api")
+app.include_router(editor.router, prefix="/api/editor", tags=["editor"])
 
 
 @app.get("/api/health")

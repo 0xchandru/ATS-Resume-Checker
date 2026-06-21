@@ -7,161 +7,13 @@ that's a concept match (not a miss).
 """
 
 import logging
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union, Sequence
 from backend.app.engine.extraction.extractor import normalize
 
 logger = logging.getLogger(__name__)
 
-# ── Predefined skill concept groups ──────────────────────────────────────
-# Each group maps a canonical concept → list of known variants/tools
-# When any variant is found, the entire concept is considered matched.
-
-SKILL_GROUPS: Dict[str, List[str]] = {
-    # Security tools
-    "SIEM": [
-        "siem", "splunk", "ibm qradar", "qradar", "microsoft sentinel",
-        "azure sentinel", "arcsight", "logrhythm", "elastic siem",
-        "securonix", "exabeam", "sumo logic", "chronicle",
-    ],
-    "EDR": [
-        "edr", "endpoint detection and response", "crowdstrike",
-        "crowdstrike falcon", "sentinelone", "carbon black",
-        "microsoft defender for endpoint", "mde", "cylance",
-        "cortex xdr", "palo alto xdr", "trellix edr",
-    ],
-    "Firewall": [
-        "firewall", "next-gen firewall", "ngfw", "next generation firewall",
-        "palo alto firewall", "fortinet", "fortigate", "cisco asa",
-        "checkpoint", "sophos", "firewall management", "firewall rules",
-        "firewall policy", "firewall log analysis", "iptables", "pfSense",
-    ],
-    "IDS/IPS": [
-        "ids", "ips", "intrusion detection", "intrusion prevention",
-        "snort", "suricata", "zeek", "bro ids",
-    ],
-    "Vulnerability Scanner": [
-        "vulnerability scanner", "vulnerability assessment", "nessus",
-        "qualys", "rapid7", "openvas", "nexpose", "tenable",
-        "vulnerability management", "vuln scanning",
-    ],
-    "Threat Intelligence": [
-        "threat intelligence", "threat intel", "cti", "cyber threat intelligence",
-        "mitre att&ck", "mitre attack", "att&ck framework", "kill chain",
-        "ioc", "indicators of compromise", "threat hunting",
-        "yara rules", "sigma rules", "stix", "taxii",
-    ],
-    "Incident Response": [
-        "incident response", "ir", "incident management", "incident handling",
-        "security incident", "breach response", "containment",
-        "eradication", "recovery", "lessons learned",
-        "incident triage", "soc operations",
-    ],
-    "Digital Forensics": [
-        "digital forensics", "computer forensics", "forensic analysis",
-        "forensic investigation", "memory forensics", "disk forensics",
-        "network forensics", "autopsy", "ftk", "encase",
-        "volatility", "forensic imaging",
-    ],
-    "Penetration Testing": [
-        "penetration testing", "pentest", "pen testing", "ethical hacking",
-        "red team", "red teaming", "offensive security",
-        "burp suite", "metasploit", "kali linux", "nmap",
-        "gobuster", "ffuf", "sqlmap", "john the ripper",
-        "hashcat", "hydra",
-    ],
-    "Cloud Security": [
-        "cloud security", "aws security", "azure security", "gcp security",
-        "cloud security posture management", "cspm", "casb",
-        "cloud access security broker", "cloud workload protection",
-    ],
-    "IAM": [
-        "iam", "identity and access management", "identity management",
-        "access management", "active directory", "azure ad",
-        "entra id", "okta", "ping identity", "saml", "oauth",
-        "openid connect", "ldap", "mfa", "multi-factor authentication",
-        "pam", "privileged access management", "cyberark",
-    ],
-    "DLP": [
-        "dlp", "data loss prevention", "data leak prevention",
-        "data protection", "information protection",
-    ],
-    "Network Security": [
-        "network security", "network monitoring", "ndr",
-        "network detection and response", "packet analysis",
-        "wireshark", "tcpdump", "netflow", "pcap analysis",
-        "network segmentation", "zero trust network",
-    ],
-
-    # Programming / Scripting
-    "Python": [
-        "python", "python3", "python 3", "python scripting",
-        "python programming", "python automation",
-    ],
-    "JavaScript": [
-        "javascript", "js", "typescript", "ts",
-        "node.js", "nodejs", "react", "react.js",
-        "angular", "vue", "vue.js", "next.js", "nextjs",
-    ],
-    "PowerShell": [
-        "powershell", "powershell scripting", "pwsh",
-    ],
-    "Bash/Shell": [
-        "bash", "shell scripting", "shell script", "sh",
-        "zsh", "linux scripting", "unix scripting",
-    ],
-    "SQL": [
-        "sql", "mysql", "postgresql", "postgres", "sqlite",
-        "mssql", "sql server", "oracle sql", "database queries",
-        "sql queries", "kusto query language", "kql",
-    ],
-
-    # DevOps / Infrastructure
-    "Container": [
-        "docker", "kubernetes", "k8s", "container", "containerization",
-        "container orchestration", "podman", "helm", "container security",
-    ],
-    "CI/CD": [
-        "ci/cd", "cicd", "continuous integration", "continuous deployment",
-        "continuous delivery", "jenkins", "github actions",
-        "gitlab ci", "azure devops", "terraform", "ansible",
-    ],
-    "Cloud Platforms": [
-        "aws", "amazon web services", "azure", "microsoft azure",
-        "gcp", "google cloud", "google cloud platform",
-        "cloud computing", "cloud infrastructure",
-    ],
-
-    # Compliance & Frameworks
-    "Compliance Frameworks": [
-        "nist", "nist 800-53", "nist csf", "iso 27001",
-        "soc 2", "pci dss", "hipaa", "gdpr", "cis controls",
-        "cis benchmarks", "fedramp", "cmmc",
-    ],
-
-    # Operating Systems
-    "Linux": [
-        "linux", "ubuntu", "centos", "rhel", "red hat",
-        "debian", "fedora", "kali", "suse", "linux administration",
-    ],
-    "Windows": [
-        "windows", "windows server", "windows administration",
-        "windows security", "group policy", "gpo",
-    ],
-
-    # Log Management & Monitoring
-    "Log Management": [
-        "log management", "log analysis", "log monitoring",
-        "elk stack", "elasticsearch", "logstash", "kibana",
-        "grafana", "prometheus", "datadog", "nagios", "zabbix",
-    ],
-
-    # Ticketing & ITSM
-    "ITSM": [
-        "itsm", "itil", "servicenow", "jira", "freshservice",
-        "zendesk", "ticketing system", "incident ticketing",
-        "service desk", "help desk",
-    ],
-}
+from sqlalchemy import text
+from backend.app.database import engine
 
 # Match confidence thresholds
 DIRECT_MATCH = 1.0       # Exact keyword or alias found
@@ -170,29 +22,63 @@ NEAR_MATCH = 0.80        # Semantically related (via embeddings)
 INFERRED_MATCH = 0.65    # Implied by a higher-level skill
 
 
-def find_group_for_skill(skill_term: str) -> Optional[Tuple[str, str]]:
+def _extract_term(keyword: Union[str, Dict]) -> str:
+    if isinstance(keyword, dict):
+        return keyword.get("term") or keyword.get("canonical") or keyword.get("normalized") or ""
+    return keyword or ""
+
+
+def find_group_for_skill(skill_term: Union[str, Dict]) -> Optional[Tuple[str, str]]:
     """
-    Check if a skill term belongs to any predefined skill group.
+    Check if a skill term belongs to any predefined skill group or KB category.
 
     Returns:
-        (group_name, canonical_term) or None
+        (category_name, canonical_term) or None
     """
-    norm = normalize(skill_term)
+    term = _extract_term(skill_term)
+    norm = normalize(term)
 
-    for group_name, variants in SKILL_GROUPS.items():
-        for variant in variants:
-            if norm == normalize(variant):
-                return (group_name, group_name)
-            # Partial containment
-            if norm in normalize(variant) or normalize(variant) in norm:
-                return (group_name, group_name)
+    try:
+        with engine.connect() as conn:
+            # 1. Check if it's an alias, get canonical
+            result = conn.execute(
+                text("SELECT canonical_name FROM kb_skill_aliases WHERE alias_normalized = :n LIMIT 1"),
+                {"n": norm}
+            )
+            row = result.fetchone()
+            if row:
+                canonical = row[0]
+                # Look up category of canonical
+                cat_res = conn.execute(
+                    text("SELECT category FROM kb_skills WHERE canonical_name = :c LIMIT 1"),
+                    {"c": canonical}
+                )
+                cat_row = cat_res.fetchone()
+                if cat_row and cat_row[0]:
+                    return (cat_row[0], canonical)
+                return (canonical, canonical)
+
+            # 2. Check if it's a primary skill
+            result = conn.execute(
+                text("SELECT category, canonical_name FROM kb_skills WHERE normalized = :n LIMIT 1"),
+                {"n": norm}
+            )
+            row = result.fetchone()
+            if row:
+                category = row[0]
+                canonical = row[1]
+                if category:
+                    return (category, canonical)
+                return (canonical, canonical)
+    except Exception as e:
+        logger.warning("KB lookup failed in find_group_for_skill: %s", e)
 
     return None
 
 
 def group_aware_match(
-    jd_keywords: List[str],
-    resume_keywords: List[str],
+    jd_keywords: Sequence[Union[str, Dict]],
+    resume_keywords: Sequence[Union[str, Dict]],
     matched_pairs: List[dict],
 ) -> List[dict]:
     """
@@ -212,6 +98,9 @@ def group_aware_match(
     # Build set of already-matched JD keywords
     already_matched = {normalize(m.get("jd_keyword", "")) for m in matched_pairs}
 
+    def _normalize_keyword(term: Union[str, Dict]) -> str:
+        return normalize(_extract_term(term))
+
     # Build resume skill group membership
     resume_groups: Dict[str, List[str]] = {}
     for rk in resume_keywords:
@@ -220,16 +109,17 @@ def group_aware_match(
             gname = group_info[0]
             if gname not in resume_groups:
                 resume_groups[gname] = []
-            resume_groups[gname].append(rk)
+            resume_groups[gname].append(_extract_term(rk))
 
     # Check unmatched JD keywords for concept matches
     concept_matches = []
     for jk in jd_keywords:
-        jk_norm = normalize(jk)
+        jk_term = _extract_term(jk)
+        jk_norm = _normalize_keyword(jk)
         if jk_norm in already_matched:
             continue
 
-        jd_group = find_group_for_skill(jk)
+        jd_group = find_group_for_skill(jk_term)
         if not jd_group:
             continue
 
@@ -237,13 +127,29 @@ def group_aware_match(
         if gname in resume_groups:
             # Found a concept match!
             resume_variant = resume_groups[gname][0]  # Use first match
+            
+            # Carry over JD properties if jk is a dict
+            freq = jk.get("frequency", 0.0) if isinstance(jk, dict) else 0.0
+            req_type = jk.get("requirement_type", "mentioned") if isinstance(jk, dict) else "mentioned"
+            from backend.app.engine.matching.matcher import _calc_importance
+            
             concept_matches.append({
-                "jd_keyword": jk,
-                "resume_keyword": resume_variant,
+                "keyword": jk_term,
+                "normalized_form": jd_group[1],
+                "match_layer": "concept",
                 "match_type": "concept",
+                "matched_form": resume_variant,
+                "jd_keyword": jk_term,
+                "resume_keyword": resume_variant,
                 "confidence": CONCEPT_MATCH,
+                "match_confidence": CONCEPT_MATCH,
+                "category": gname,
                 "group_name": gname,
-                "explanation": f"'{jk}' and '{resume_variant}' are both in the '{gname}' skill group",
+                "explanation": f"'{jk_term}' and '{resume_variant}' are both in the '{gname}' skill group",
+                "jd_frequency": freq,
+                "requirement_type": req_type,
+                "jd_importance": _calc_importance(freq, req_type),
+                "jd_occurrence_count": 1,
             })
             already_matched.add(jk_norm)
 

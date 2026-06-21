@@ -83,12 +83,20 @@ export default function TextHighlighter({ result, currentJD, onRescanWithNewJD, 
   const [jdDraft, setJdDraft] = useState(currentJD || jd_preview || "");
   const [expanded, setExpanded] = useState(false);
 
-  const matchedSet = useMemo(() =>
-    new Set<string>((keywords?.matched || []).map((m: any) => m.keyword.toLowerCase())),
+  const matchedSet = useMemo(
+    () => new Set<string>(
+      (keywords?.matched || [])
+        .map((m: any) => (typeof m?.keyword === "string" ? m.keyword.toLowerCase() : ""))
+        .filter(Boolean)
+    ),
     [keywords]
   );
-  const missingSet = useMemo(() =>
-    new Set<string>((keywords?.missing || []).map((m: any) => m.keyword.toLowerCase())),
+  const missingSet = useMemo(
+    () => new Set<string>(
+      (keywords?.missing || [])
+        .map((m: any) => (typeof m?.keyword === "string" ? m.keyword.toLowerCase() : ""))
+        .filter(Boolean)
+    ),
     [keywords]
   );
 
@@ -96,11 +104,11 @@ export default function TextHighlighter({ result, currentJD, onRescanWithNewJD, 
   const jdTokens = useMemo(() => tokenize(jd_preview || currentJD || "", matchedSet, missingSet), [jd_preview, currentJD, matchedSet, missingSet]);
 
   const resumeMatchedCount = resumeTokens.filter(t => t.type === "matched").length;
-  const jdMatchedCount    = jdTokens.filter(t => t.type === "matched").length;
-  const jdMissingCount    = jdTokens.filter(t => t.type === "missing").length;
+  const jdMatchedCount = jdTokens.filter(t => t.type === "matched").length;
+  const jdMissingCount = jdTokens.filter(t => t.type === "missing").length;
 
   const resumeWords = resume_preview?.split(/\s+/).filter(Boolean).length || 0;
-  const jdWords     = (jd_preview || currentJD || "").split(/\s+/).filter(Boolean).length || 0;
+  const jdWords = (jd_preview || currentJD || "").split(/\s+/).filter(Boolean).length || 0;
 
   const PREVIEW_LENGTH = 600;
 

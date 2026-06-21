@@ -13,12 +13,14 @@ interface Props {
 
 const CIRC = 2 * Math.PI * 52;
 
-const FACTORS = [
-  { key: "keyword_match",        label: "Searchability",    icon: Search },
-  { key: "semantic_relevance",   label: "Semantic Match",   icon: Target },
-  { key: "section_completeness", label: "Sections",         icon: AlignLeft },
-  { key: "format_compliance",    label: "Formatting",       icon: Cpu },
-  { key: "impact_quantification",label: "Impact",           icon: Award },
+type ScoreFactorKey = keyof AnalysisResult["sub_scores"];
+
+const FACTORS: { key: ScoreFactorKey; label: string; icon: any }[] = [
+  { key: "keyword_match", label: "Searchability", icon: Search },
+  { key: "semantic_relevance", label: "Semantic Match", icon: Target },
+  { key: "section_completeness", label: "Sections", icon: AlignLeft },
+  { key: "format_compliance", label: "Formatting", icon: Cpu },
+  { key: "impact_quantification", label: "Impact", icon: Award },
 ];
 
 function ScoreRing({ score, grade }: { score: number; grade: string }) {

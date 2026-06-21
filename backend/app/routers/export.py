@@ -16,7 +16,7 @@ def export_result(scan_id: str, db: Session = Depends(get_db)):
     if not result:
         raise HTTPException(status_code=404, detail=f"No result for scan_id={scan_id}")
     try:
-        data = json.loads(result.result_json)
+        data = json.loads(str(result.result_json))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Could not read result: {e}")
 

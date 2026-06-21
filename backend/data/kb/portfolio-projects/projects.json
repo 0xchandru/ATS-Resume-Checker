@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Full-Stack Application (Dummy Dataset Project)",
+    "description": "Please populate backend/data/kb/portfolio-projects/projects.json with real project datasets.",
+    "tech_stack": ["React", "Python", "SQL"],
+    "difficulty": "Intermediate",
+    "business_impact": "Shows ability to follow instructions and populate datasets.",
+    "target_roles": ["Software Engineer"]
+  }
+]

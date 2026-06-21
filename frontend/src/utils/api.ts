@@ -1,7 +1,7 @@
 const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") || "";
 const API_BASE = `${BASE}/api`;
 
-async function apiFetch(path: string, options?: RequestInit) {
+export async function apiFetch(path: string, options?: RequestInit) {
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
     signal: options?.signal ?? AbortSignal.timeout(120_000),
@@ -13,9 +13,17 @@ async function apiFetch(path: string, options?: RequestInit) {
   return res;
 }
 
+export async function parseResume(file: File) {
+  const form = new FormData();
+  form.append("file", file);
+  const res = await apiFetch("/parse", { method: "POST", body: form });
+  return res.json();
+}
+
 export async function uploadAndAnalyze(
   file: File,
   jobDescription: string,
+  resumeText: string = "",
   onProgress?: (stage: string) => void,
   scanName?: string,
 ) {
@@ -29,7 +37,11 @@ export async function uploadAndAnalyze(
   const { scan_id } = await uploadRes.json();
 
   onProgress?.("Running ATS analysis...");
-  const analysisRes = await apiFetch(`/analyze/${scan_id}`, { method: "POST" });
+  const analysisRes = await apiFetch(`/analyze/${scan_id}`, { 
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ resume_text: resumeText || null })
+  });
 
   onProgress?.("Complete");
   return analysisRes.json();
