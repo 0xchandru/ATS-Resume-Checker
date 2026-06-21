@@ -1,0 +1,194 @@
+⚡
+ATS-Specific Tips
+
+Analyzed in 0.7s with 5-layer AI pipeline
+
+Searchability
+IMPORTANT
+An ATS (Applicant Tracking System) is a software used by 90% of companies and recruiters to search for resumes and manage the hiring process. Below is how well your resume appears in an ATS and a recruiter search.
+
+Tip: Fix the red Xs to ensure your resume is easily searchable by recruiters and parsed correctly by the ATS.
+
+Contact Information
+You provided your physical address. Recruiters use your address to validate your location for job matches.
+
+You provided your email. Recruiters use your email to contact you for job matches.
+
+You provided your phone number.
+
+Summary
+We found a summary section on your resume. Good job! The summary provides a quick overview of the candidate's qualifications, helping hiring managers promptly grasp the value the candidate can offer in the position.
+
+Section Headings
+We found the education section in your resume.
+
+We found the work experience section in your resume.
+
+We found the skills section in your resume.
+
+Job Title Match
+Your resume keywords align well with the job description. This helps ensure you're found when recruiters search by job title.
+
+Hard Skills
+25 of 76 matched
+Tip: Match the skills in your resume to the exact spelling in the job description. Prioritize skills that appear most frequently in the job description.
+
+Skills Comparison
+Highlighted Skills
+SIEM
+SOC
+EDR
+security
+dashboard
+tracking
+Incident Management
+triage
+security remediations
+IT Networking concepts
+every-day SOC operation
+SOC platforms
+alert
+networking
+SOC Analyst
+cyber security incidents
+security incidents
+active incident tracking
+analyst
+analysis
+the security incidents
+ticket
+SOC platform
+incident
+concept
+firewall
+cloud
+firewalls
+av
+applications
+Resume:
+CHANDRAPRAKASH C
++919786475035 — chandraprakash.soc@gmail.com — Dindigul,TamilNadu — OpentoRelocation(Hyderabad)
+Portfolio — LinkedIn — GitHub — TryHackMe(Top1%)
+PROFESSIONAL SUMMARY
+B.Sc.CSfreshertargetingaJuniorSOCAnalystrole. RankedTop1%globallyonTryHackMe(3M+users)with
+SOC Level 1 certification, validating hands-on SIEM monitoring, log analysis, threat intelligence, incident
+triage, and case documentation competency. Operated a multi-VM SOC lab performing initial alert identifi-
+cation, basic triage, and first-level validation of security events (phishing, malware, suspicious logins) per
+p
+
+Job Description:
+Job Title: SOC Analyst (Incident Management)
+
+Experience- 4+ yrs
+
+Location-Mohali
+
+Mode- Strictly Work from Office (5 Days working)
+
+Notice Period- 30 days
+
+Responsibilities:
+
+
+
+
+
+Act as a key role in the resolution of cyber security incidents.
+
+
+
+Work with IT Infrastructure and 
+
+Copy 51 missing skills
+Add these to your resume to improve match rate
+Soft Skills
+1 of 1 matched
+Soft skills demonstrate your work style and interpersonal abilities. While less weighted than hard skills in ATS scoring, recruiters actively look for these during manual review.
+
+Found in Resume (1)
+Incident Management
+Matched via exact
+💡 Pro tip: Don't list soft skills in isolation. Demonstrate them through your experience bullets. Instead of "Strong communication skills", write "Presented quarterly security reports to C-suite executives, driving a 40% increase in security budget."
+
+Recruiter Tips
+16 improvements suggested
+These tips go beyond ATS compliance — they reflect what recruiters and hiring managers actually look for when reviewing resumes manually.
+
+Measurable Results
+7 of 7 experience bullets contain quantified impact. Great job!
+
+Action Verb Quality
+Only 5% of your verbs are strong. Replace generic verbs like "worked" with impactful alternatives.
+
+Resume Length
+Your resume is 365 words (1 page). Good length!
+
+File Format
+Your resume is in a compatible format. PDF and DOCX are the most ATS-friendly formats.
+
+Critical Issues (16)
+JD signals senior level. Resume signals junior level (2 level gap). Emphasize scope, team size, strategic impact, and leadership to bridge the gap.
+
+→ Add metrics: team size managed, project budget, users impacted
+
+'firewall' is critical for this role and missing from your resume.
+
+→ Add 'firewall' to your skills or experience if applicable.
+
+'cloud' is critical for this role and missing from your resume.
+
+→ Add 'cloud' to your skills or experience if applicable.
+
+'firewalls' is critical for this role and missing from your resume.
+
+→ Add 'firewalls' to your skills or experience if applicable.
+
+'av' is critical for this role and missing from your resume.
+
+→ Add 'av' to your skills or experience if applicable.
+
+Formatting
+2 issues to fix
+Layout
+Multi-column layout detected. Most ATS systems cannot parse multi-column resumes correctly.
+
+No tables detected. Good for ATS compatibility.
+
+No embedded images detected. ATS can parse all text content.
+
+Resume is 1 page. Good length.
+
+Font Check
+9 fonts detected. Too many fonts — use 1-2 fonts for a clean, professional look.
+
+Fonts used: SHPBEC+CharterBT-ItalicSHPBEC+CharterBT-ItalicXIVJXX+CharterBT-RomanXIVJXX+CharterBT-RomanFFJOOI+CMSY10
+
+Page Setup
+Header/footer content detected. Some ATS systems skip content in headers/footers — keep critical info in the body.
+
+365 words total. Good content length.
+
+Detailed Checks
+multiple fonts
+
+9 fonts detected. Reduce to 1–2 for ATS compatibility.
+
+warning
+multi column layout
+
+Multi-column layout detected. Ensure it reads correctly left-to-right, as some older ATS parsers may struggle.
+
+warning
+no tables
+
+No tables detected. ATS can parse all content.
+
+pass
+no images
+
+No embedded images found.
+
+pass
+header footer content
+
+Content in document header/footer. Some ATS skip header/footer. Duplicate important info in the body.

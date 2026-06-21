@@ -12,6 +12,7 @@ class ScanRecord(Base):
     __tablename__ = "scan_records"
     id = Column(Integer, primary_key=True, index=True)
     scan_id = Column(String, unique=True, index=True, nullable=False)
+    scan_name = Column(String, nullable=True)
     filename = Column(String, nullable=False)
     file_type = Column(String, nullable=False)
     file_size_mb = Column(Float)

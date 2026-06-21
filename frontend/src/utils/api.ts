@@ -16,12 +16,14 @@ async function apiFetch(path: string, options?: RequestInit) {
 export async function uploadAndAnalyze(
   file: File,
   jobDescription: string,
-  onProgress?: (stage: string) => void
+  onProgress?: (stage: string) => void,
+  scanName?: string,
 ) {
   onProgress?.("Uploading resume...");
   const form = new FormData();
   form.append("file", file);
   form.append("job_description", jobDescription);
+  if (scanName) form.append("scan_name", scanName);
 
   const uploadRes = await apiFetch("/upload", { method: "POST", body: form });
   const { scan_id } = await uploadRes.json();

@@ -1,0 +1,94 @@
+Job Title: SOC Analyst (Incident Management)
+
+Experience- 4+ yrs
+
+Location-Mohali
+
+Mode- Strictly Work from Office (5 Days working)
+
+Notice Period- 30 days
+
+Responsibilities:
+
+
+
+
+
+Act as a key role in the resolution of cyber security incidents.
+
+
+
+Work with IT Infrastructure and application team to support every-day SOC operation.
+
+
+
+Perform Incident Handling by effective communication and coordination of incident response efforts.
+
+
+
+Act as a primary incident responder as well as an incident coordinator between other business units for effective incident resolution.
+
+
+
+Perform the first/second level triage and escalate the security incidents to senior staffs for further investigations whenever necessary.
+
+
+
+Perform active incident tracking using ticket management system and provide frontline analysis for all the newly generated alerts/incidents in SOC platform, also engage respective IT team for the remediation.
+
+
+
+Plan and manage Incident response procedure. Document and maintain a daily report of security incidents.
+
+
+
+Assist in improving overall operational efficiency of SOC platforms and creation of security dashboards/higher level security presentation for management.
+
+
+
+
+Requirements:
+
+
+
+
+
+Familiarity with principles of Incident Management, including common incident response frameworks.
+
+
+
+Knowledge of SIEM, AV, EDR, Next-Gen Firewalls, Cloud Platforms etc.
+
+
+
+Basic knowledge of IT Networking concepts.
+
+
+
+Skills in monitoring/reporting security remediations and incident response activities.
+
+
+
+Effective Documentation Skill.
+
+
+
+Effective verbal and written communication skills.
+
+
+
+Effective Stakeholder management.
+
+
+
+Experience of working in a complex matrix environment with both internal and 3rd party resources.
+
+
+
+Ability to rapidly and thoroughly understand the environment in which you will operate (people, applications, technology, process).
+
+
+
+Ability to work in an international multicultural team.
+
+Skills: SOC Analyst , siem , av , edr , next-gen firewalls , cloud platforms , Incident Management , cyber security incidents

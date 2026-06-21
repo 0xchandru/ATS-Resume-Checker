@@ -22,6 +22,39 @@ _WS_RE = re.compile(r"\s+")
 # that's a critical bug. This list is intentionally conservative
 # about removing words that could be tech terms.
 
+_JD_META_RE = re.compile(
+    r"^(Job\s+Title|Experience|Location|Mode|Notice\s+Period|Work\s+Mode|"
+    r"Notice|CTC|Salary|Shift|Timing|Openings?|Vacancies|Contact)\s*[-:–]",
+    re.IGNORECASE | re.MULTILINE,
+)
+_JD_META_LINE_RE = re.compile(
+    r"^(Job\s+Title|Experience|Location|Mode|Notice\s+Period|Skills\s*:)",
+    re.IGNORECASE,
+)
+
+
+def _strip_jd_metadata(jd_text: str) -> str:
+    """
+    Remove structured JD metadata headers such as:
+      Job Title: SOC Analyst
+      Experience- 4+ yrs
+      Location-Mohali
+      Mode- Strictly Work from Office
+      Notice Period- 30 days
+    These produce garbage keyword extractions like 'mohali', 'strictly', 'yr'.
+    """
+    lines = jd_text.split("\n")
+    cleaned = []
+    for line in lines:
+        stripped = line.strip()
+        if _JD_META_RE.match(stripped):
+            continue
+        if _JD_META_LINE_RE.match(stripped) and len(stripped) < 120:
+            continue
+        cleaned.append(line)
+    return "\n".join(cleaned)
+
+
 _STOPWORDS: Set[str] = {
     # ── Standard English stopwords ──
     "a", "an", "the", "and", "or", "but", "if", "in", "on", "at", "to", "for",
@@ -109,6 +142,35 @@ _STOPWORDS: Set[str] = {
     "lead", "leading", "led",
     "report", "reporting", "reported",
     "looking", "per", "via", "etc", "ie", "eg", "vs", "re",
+
+    # ── JD metadata & boilerplate (added to fix garbage extraction) ──
+    # Role/structural markers in JDs that are NOT skills:
+    "act", "acting", "acts",
+    "perform", "performing", "performed", "performs",
+    "coordinator", "responder", "responders", "coordinators",
+    "creation", "effort", "efforts",
+    "activity", "activities",
+    "handling", "handler", "handlers",
+    "unit", "units",
+    "yr", "yrs",
+    "notice", "period", "periods",
+    "location", "locations",
+    "mode", "modes",
+    "strictly", "strict",
+    "frontline", "staffs",
+    "investigations", "investigation",
+    "resolution", "resolutions",
+    "coordination", "coordinations",
+    "responder", "responders",
+    "job", "jobs",
+    "title", "titles",
+    "act", "acts",
+    "perform", "performs",
+    "engage", "engages", "engaging", "engaged",
+    "escalate", "escalates", "escalating", "escalated",
+    "generation", "generations",
+    "response",   # 'incident response' is captured as a phrase; bare 'response' is noise
+    "incident",   # caught as part of 'incident management', 'incident response' phrases
 }
 
 _MIN_KEYWORD_LENGTH = 2
@@ -396,10 +458,13 @@ def classify_jd_requirements(jd_text: str, keywords: List[Dict]) -> List[Dict]:
 
 def extract_jd_keywords(jd_text: str) -> List[Dict]:
     """Extract keywords from job description, with stopword filtering."""
-    raw = extract_keywords(jd_text, top_n=80)
+    # Strip JD metadata header (Job Title, Location, Mode, Notice Period etc.)
+    # before extraction to avoid extracting them as "skills"
+    clean_text = _strip_jd_metadata(jd_text)
+    raw = extract_keywords(clean_text, top_n=80)
     # Double-check: filter any remaining stopword-dominated phrases
     filtered = [kw for kw in raw if _is_valid_keyword(kw["normalized"])]
-    # Classify as required vs preferred
+    # Classify as required vs preferred (use original text for context)
     classified = classify_jd_requirements(jd_text, filtered)
     return classified
 

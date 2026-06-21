@@ -214,7 +214,6 @@ export default function ResultsSidebar({
             label={cat.label}
             score={cat.score}
             issuesToFix={cat.issues}
-            color={cat.color}
             onClick={() => onScrollToCategory?.(cat.id)}
           />
         ))}

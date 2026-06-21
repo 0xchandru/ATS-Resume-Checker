@@ -25,6 +25,7 @@ def get_history(db: Session = Depends(get_db)):
     for record, scan_result in records:
         result.append({
             "scan_id": record.scan_id,
+            "scan_name": getattr(record, "scan_name", None),
             "filename": record.filename,
             "overall_score": scan_result.overall_score if scan_result else 0,
             "letter_grade": scan_result.letter_grade if scan_result else "N/A",

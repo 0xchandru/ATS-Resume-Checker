@@ -18,6 +18,7 @@ os.makedirs(UPLOADS_PATH, exist_ok=True)
 async def upload_resume(
     file: UploadFile = File(...),
     job_description: str = Form(...),
+    scan_name: str = Form(default=""),
     db: Session = Depends(get_db),
 ):
     filename = file.filename or "resume"
@@ -40,8 +41,11 @@ async def upload_resume(
     with open(file_path, "wb") as f:
         f.write(content)
 
+    clean_name = scan_name.strip() or None
+
     record = ScanRecord(
         scan_id=scan_id,
+        scan_name=clean_name,
         filename=filename,
         file_type=ext.lstrip("."),
         file_size_mb=round(file_size_mb, 3),
@@ -53,10 +57,11 @@ async def upload_resume(
     db.add(record)
     db.commit()
 
-    logger.info("Uploaded resume: %s (%s, %.1fMB)", filename, ext, file_size_mb)
+    logger.info("Uploaded resume: %s (%s, %.1fMB) scan_name=%s", filename, ext, file_size_mb, clean_name)
 
     return {
         "scan_id": scan_id,
+        "scan_name": clean_name,
         "filename": filename,
         "file_type": ext.lstrip("."),
         "file_size_mb": round(file_size_mb, 3),

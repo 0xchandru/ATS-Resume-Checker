@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Layout from "./components/Layout";
 import UploadPanel from "./components/UploadPanel";
+import ScanModal from "./components/ScanModal";
 import ResultsSidebar from "./components/ResultsSidebar";
 import ResultsTabs from "./components/ResultsTabs";
 import SearchabilitySection from "./components/SearchabilitySection";
@@ -65,6 +66,7 @@ export default function App() {
   const [isRescanning, setIsRescanning] = useState(false);
   const [rescanError, setRescanError] = useState("");
   const [resultsTab, setResultsTab] = useState<"report" | "job_description">("report");
+  const [showScanModal, setShowScanModal] = useState(false);
 
   const [aiEvaluation, setAiEvaluation] = useState<AIEvaluation | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
@@ -82,13 +84,14 @@ export default function App() {
     try { setHistory(await getHistory()); } catch { }
   };
 
-  const handleAnalysisComplete = (result: AnalysisResult, file: File, jd: string) => {
+  const handleAnalysisComplete = (result: AnalysisResult, file: File, jd: string, _scanName?: string) => {
     setCurrentResult(result);
     setCurrentFile(file);
     setCurrentJD(jd);
     setAiEvaluation(null);
     setAiError(null);
     setResultsTab("report");
+    setShowScanModal(false);
     setActiveView("results");
     refreshHistory();
   };
@@ -202,7 +205,7 @@ export default function App() {
             <ResultsSidebar
               result={currentResult}
               onNewScan={handleNewScan}
-              onRescan={() => handleRescan()}
+              onRescan={() => setShowScanModal(true)}
               isRescanning={isRescanning}
               rescanError={rescanError}
               onRunAI={handleRunAI}
@@ -322,6 +325,14 @@ export default function App() {
           onCompare={handleCompare}
         />
       )}
+
+      {/* ── Scan Modal overlay — shown when "Upload & Rescan" is clicked ── */}
+      <ScanModal
+        open={showScanModal}
+        onClose={() => setShowScanModal(false)}
+        onAnalysisComplete={handleAnalysisComplete}
+        initialJD={currentJD}
+      />
 
       {activeView === "compare" && compareResult && (
         <div className="bg-card rounded-2xl border border-border shadow-sm p-6">

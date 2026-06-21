@@ -4,7 +4,7 @@ import { uploadAndAnalyze } from "../utils/api";
 import { AnalysisResult } from "../App";
 
 interface Props {
-  onAnalysisComplete: (result: AnalysisResult, file: File, jd: string) => void;
+  onAnalysisComplete: (result: AnalysisResult, file: File, jd: string, scanName?: string) => void;
   initialJD?: string;
 }
 
@@ -23,6 +23,7 @@ const STAGES = [
 export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [jd, setJd] = useState(initialJD);
+  const [scanName, setScanName] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const [fileError, setFileError] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -65,8 +66,8 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
     if (!canAnalyze || !file) return;
     setIsAnalyzing(true); setError("");
     try {
-      const result = await uploadAndAnalyze(file, jd, setStage);
-      onAnalysisComplete(result, file, jd);
+      const result = await uploadAndAnalyze(file, jd, setStage, scanName.trim() || undefined);
+      onAnalysisComplete(result, file, jd, scanName.trim() || undefined);
     } catch (err: any) {
       setError(err?.response?.data?.detail || err?.message || "Analysis failed. Please try again.");
     } finally {
@@ -89,6 +90,20 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
 
       {/* Card */}
       <div className="bg-card rounded-2xl border border-border shadow-md p-6 space-y-5">
+        {/* Scan Name */}
+        <div>
+          <label className="block text-sm font-semibold text-foreground mb-2">
+            Scan Name <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+          </label>
+          <input
+            type="text"
+            value={scanName}
+            onChange={e => setScanName(e.target.value)}
+            placeholder="e.g. Senior SOC Analyst — Google"
+            className="w-full bg-background border border-border rounded-xl px-3.5 py-2.5 text-sm text-foreground placeholder-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-colors"
+          />
+        </div>
+
         {/* File drop zone */}
         <div>
           <label className="block text-sm font-semibold text-foreground mb-2">Resume</label>

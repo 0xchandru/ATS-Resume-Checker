@@ -126,7 +126,16 @@ export default function HistoryPanel({ history, onViewItem, onCompare }: Props) 
                     />
                   </td>
                   <td className="py-3.5 px-2 text-muted-foreground text-xs whitespace-nowrap">{formatDate(h.timestamp)}</td>
-                  <td className="py-3.5 px-2 font-medium text-foreground max-w-[140px] truncate">{h.filename}</td>
+                  <td className="py-3.5 px-2 max-w-[160px]">
+                    {h.scan_name ? (
+                      <div>
+                        <p className="font-semibold text-foreground truncate text-sm leading-tight">{h.scan_name}</p>
+                        <p className="text-xs text-muted-foreground truncate leading-tight">{h.filename}</p>
+                      </div>
+                    ) : (
+                      <p className="font-medium text-foreground truncate">{h.filename}</p>
+                    )}
+                  </td>
                   <td className="py-3.5 px-2 text-center">
                     <span className="text-base font-bold" style={{ color: scoreToColor(h.overall_score) }}>{h.overall_score}</span>
                   </td>
