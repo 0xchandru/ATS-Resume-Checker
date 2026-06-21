@@ -1,1 +1,0 @@
-- [Expo workflow port binding](expo-workflow-port.md) — Metro's interactive mode never binds waitForPort in non-TTY; use a dev-proxy.js wrapper instead.

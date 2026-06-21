@@ -44,6 +44,25 @@ Thumbs.db
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
 
-# Replit
+# Environments
+*.env*
+.venv/
+*.venv/
+
+# Python
 .cache/
 .local/
+*.mypy_cache*
+*__pycache__*
+*.pyc
+
+# Agents
+.agents/
+*.sample*
+
+backend/uploads/*
+
+backend/data/ats_platform.db-shm
+backend/data/ats_platform.db-wal
+backend/data/ats_platform.db
+test_*

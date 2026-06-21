@@ -1,15 +1,17 @@
 {
-  "name": "workspace",
-  "version": "0.0.0",
+  "name": "ats-resume-checker",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
-    "build": "pnpm run typecheck && pnpm -r --if-present run build",
-    "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
+    "dev": "concurrently -c \"blue,green\" -n \"backend,frontend\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && bash start_backend.sh",
+    "build": "cd frontend && npm run build",
+    "typecheck": "cd frontend && npm run typecheck"
   },
   "private": true,
   "devDependencies": {
+    "concurrently": "^10.0.3",
     "prettier": "^3.8.3",
     "typescript": "~5.9.3"
   }
