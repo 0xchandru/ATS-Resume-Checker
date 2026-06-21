@@ -1,0 +1,2202 @@
+RESUME:
+CHANDRAPRAKASH C
++91 97864 75035 — chandraprakash.soc@gmail.com — Dindigul, Tamil Nadu — Open to Relocation (Hyderabad)
+Portfolio — LinkedIn — GitHub — TryHackMe (Top 1%)
+PROFESSIONAL SUMMARY
+B.Sc. CS fresher targeting a Junior SOC Analyst role. Ranked Top 1% globally on TryHackMe (3M+ users) with
+SOC Level 1 certification, validating hands-on SIEM monitoring, log analysis, threat intelligence, incident
+triage, and case documentation competency. Operated a multi-VM SOC lab performing initial alert identifi-
+cation, basic triage, and first-level validation of security events (phishing, malware, suspicious logins) per
+playbooks and SOPs; escalated incidents to L1/L2 and raised ITSM / case management tickets in Jira with full
+incident documentation. Certified by IBM and Google. Available for rotational shifts including nights.
+TECHNICAL SKILLS
+SIEM & Log Analysis
+Incident Response
+Threat Intelligence
+Network & Systems
+Core Strengths
+Security Foundations
+Splunk (SPL, dashboards, alerts), Microsoft Sentinel, Windows Event Logs, Linux Syslog,
+system logs, Sysmon
+Alert monitoring, triage, true/false positive classification, incident management, case man-
+agement, playbooks & SOP-based response, L0→L1/L2 escalation, Jira ITSM ticketing, docu-
+mentation & reporting
+IOC enrichment, threat intelligence, MITRE ATT&CK, VirusTotal, AbuseIPDB, Malware-
+Bazaar, Shodan, GSEC concepts
+TCP/IP, DNS, HTTP/S, ports & protocols, operating systems, Windows/Linux, system admin-
+istration, IT support, endpoint security, antivirus, Wireshark, Zeek, Nmap, EDR (Velocirap-
+tor), firewall log analysis, Python, Bash, PowerShell, scripting, Shuffle SOAR
+Cybersecurity, Computer Science, analytical ability, analytical thinking, problem-solving, col-
+laboration, thoroughness, accuracy, attention to detail, written communication
+CompTIA Security+ concepts, security systems, security monitoring, incident response, doc-
+umentation, programming
+EDUCATION
+B.Sc. Computer Science
+G.T.N Arts College, Dindigul (Madurai Kamaraj University)
+HSC — Computer Science
+Government Higher Secondary School, Tiruppur, Tamil Nadu
+CERTIFICATIONS
+• SOC Level 1 — TryHackMe
+• IBM Cybersecurity Analyst Professional Certificate — Coursera/IBM
+• Google Cybersecurity Professional Certificate — Coursera/Google
+PROJECTS & PROFESSIONAL EXPERIENCE
+SOC Monitoring Lab — L0/L1 Analyst Simulation
+06/2023 – 05/2026
+CGPA: 8.01 / 10.0
+05/2023
+68%
+Verify
+Verify
+Verify
+06/2026
+06/2026
+04/2025
+GitHub
+Linux Mint · Ubuntu Server · Windows VM · Splunk · Wazuh · Zeek · Sysmon · Shuffle SOAR · Jira
+• Monitored security alerts across 10+ attack scenarios using Splunk and Wazuh SIEM dashboards; performed
+initial alert identification and basic validation per predefined guidelines, classifying each event as true/false
+positive and producing daily/weekly security monitoring reports.
+• Triaged security events including phishing, malware alerts, and suspicious logins per MITRE ATT&CK-
+aligned playbooks and SOPs; escalated verified incidents to the L1 queue; raised ITSM / case management
+tickets in Jira with IOC timelines and asset details; dispatched stakeholder notifications for all ticket updates.
+• Investigated endpoint/network behaviour via Sysmon, Zeek, PowerShell logs, and Wireshark; detected C2
+beaconing (T1071) and scheduled-task persistence (T1053); automated IOC enrichment via Shuffle SOAR
+with VirusTotal and AbuseIPDB to reduce triage time.
+ThreatLens — Threat Intelligence Aggregator
+GitHub
+Python · FastAPI · VirusTotal · AbuseIPDB · AlienVault OTX · URLhaus · GreyNoise
+• Engineered a multi-source IOC enrichment platform querying 5 threat intel APIs in parallel with MITRE
+ATT&CK-mapped risk scores, returning structured results in under 2 seconds to accelerate L0 alert triage and
+SOAR playbook integration.
+SecOps Console — SOC Analyst Dashboard
+GitHub
+React · Node.js · PostgreSQL · WebSockets
+• Developed a SOC dashboard with real-time alert queues, incident tracking, L0→L1 escalation workflows, and
+audit-trail logging for incident documentation.
+
+Job Description:
+Hyderabad, Telangana
+Requisition ID 2026-122850 Category Technology Position type Regular
+
+Your opportunity
+
+At Charles Schwab, our purpose is simple: we champion client’s goals with passion and integrity. Guided by honesty, mutual respect and a commitment to doing what’s right, we bring innovation, education, and service together to help shape financial futures. Our people are the foundation of our success – they approach their work with curiosity and collaboration, coming together to create solutions that make a meaningful impact for clients and communities. As we expand into India, we are bringing this same culture of inclusion, learning, and opportunity to new talent. Joining us means becoming part of a global team where your work matters and your future can take shape.
+Our Hyderabad location is central to Schwab’s growth, bringing together talented people and technology to drive innovation, scale and efficiency. Here, you will work alongside teams who create solutions that support millions of clients every day. The work you do is more than daily operations – it’s a chance to experiment, learn, and build within a values-driven, supportive environment. This is a unique opportunity to be part of our early growth phase and shape something new, backed by the stability and strength of a Fortune 500 company. Your impact begins on day one, and your contributions will help define our future in the region
+The Junior SOC Analyst serves as the first line of defense in the Security Operations Center. This entry-level role is responsible for continuous monitoring of security systems and the initial triage of potential incidents. Junior analysts follow established playbooks and standard operating procedures to investigate alerts. They operate primarily within well-defined guidelines, building foundational skills in threat detection and incident response.
+Key Responsibilities:
+Real-Time Monitoring: Monitor SIEM consoles, intrusion detection systems, and endpoint security tools continuously to identify anomalous or malicious activity across networks, endpoints, and cloud environments.
+Alert Triage: Triage incoming security alerts by determining severity and validity. Quickly filter out false positives and identify true security incidents. Follow documented playbooks to decide initial containment steps or further investigation.
+Log Analysis: Collect and analyze logs from multiple sources (e.g., firewalls, IDS/IPS, EDR, antivirus, email security, and system logs) to investigate alerts and find indicators of compromise.
+Documentation: Document all actions taken during alert triage and incident handling in the incident management or ticketing system, ensuring accuracy and thoroughness in recording findings, steps taken, and handoff notes.
+Threat Intelligence Utilization:
+threat intelligence feeds and known Indicators of Compromise (IOCs) to enrich alert analysis. Keep track of emerging threats (common malware, phishing campaigns, etc.) and use this knowledge to improve triage decisions.
+Shift Handover: Participate in shift handoff briefings at the start and end of shifts to communicate ongoing incidents, ensure continuity, and maintain situational awareness between 24/7 rotating shifts.
+Compliance & SOP Adherence: Adhere to all SOC policies, security standards, and service-level agreements for incident response (e.g., required response times). Ensure that daily actions and documentation meet any regulatory or audit requirements relevant to the financial industry
+What you have
+
+Required Qualifications:
+Education & Experience: Bachelor’s degree in Cybersecurity, Computer Science, Information
+Technology or a related field, or equivalent work experience. Approximately 0–2 years of experience in a security operations, IT support, or network/system administration role (entry-level candidates with strong fundamental knowledge are acceptable).
+Technical Foundations: Basic understanding of computer networks (TCP/IP, ports, routing) and operating systems (Windows/Linux). Familiarity with common cyber-attack types (malware, phishing, network intrusion) and fundamental concepts of incident response.
+Hands-On Skills: Exposure to security monitoring tools such as Security Information and Event
+Management (SIEM) platforms (e.g., Splunk, IBM QRadar, Microsoft Sentinel) and basic knowledge of Endpoint Detection & Response (EDR) tools or intrusion detection systems. Ability to perform basic log queries and understand security alerts’ output
+Analytical Ability: Demonstrated problem-solving skills and attention to detail. Comfortable following procedures to analyze data and identify abnormalities.
+Certification: CompTIA Security+ certification (highly preferred, or ability to obtain within 6–12 months of hire). This certification indicates a solid foundation in cybersecurity concepts suitable for an entry level SOC role.
+Preferred Qualifications:
+Additional Skills: Basic scripting or programming experience (e.g., Python, PowerShell) to automate simple tasks or parse logs is a plus.
+Knowledge of Security Tools: Familiarity with any ticketing or case management system for tracking incidents. Experience with network monitoring tools or vulnerability scanners is a bonus.
+Exposure to Best Practices: Awareness of cybersecurity frameworks or standards (like MITRE ATT&CK for understanding attack techniques, or ITIL for service management) at a conceptual level.
+Extra Certifications: Completion of the CompTIA Cybersecurity Analyst (CySA+) or GIAC GSEC certifications is a plus, as these indicate an expanding skill set in security monitoring and analysis beyond the basics.
+
+
+
+skillsyncer.com report:
+
+Match Report
+
+65
+You're almost there, just a few more keywords needed!
+Your match score is below the recommended score of 80 and there is a chance your resume may be passed over. Please review the report below and add any relevant missing skills or keywords to increase your score.
+
+Try Smart Resume Editing
+
+Beta
+Edit each section individually with AI suggestions, keyword optimization, and scoring.
+
+✨ Use AI To Help Get You Noticed!
+
+Leverage AI-driven enhancements to perfect your resume and increase your chances of landing this role with impactful, targeted content.
+
+🎯 Auto Optimize Resume
+✍️ Bullet Point Generator
+High Impact
+Hard Skills
+58%
+35 Hard skills Not Found: These skills were not identified in your resume. Adding them will help align your experience more closely with the job requirements. Prioritizing these skills will have a significant impact on your score.
+
+Intrusion Detection
+(2)
+Security Information And Event Management
+(1)
+Security Operations Center
+(1)
+Network Monitoring Tools
+(1)
+Service Level Agreements
+(1)
+Information Technology
+(1)
+Technical Foundations
+(1)
+Continuous Monitoring
+(1)
+Situational Awareness
+(1)
+Real Time Monitoring
+(1)
+Security Information
+(1)
+Security Operations
+(1)
+Service Management
+(1)
+Financial Futures
+(1)
+Incident Handling
+(1)
+Management System
+(1)
+Operations Center
+(1)
+Event Management
+(1)
+Ticketing System
+(1)
+Security Tools
+(1)
+Email Security
+(1)
+Service Level
+(1)
+Global Team
+(1)
+New Talent
+(1)
+Financial
+(1)
+Briefings
+(1)
+Handover
+(1)
+Futures
+(1)
+Qradar
+(1)
+Parse
+(1)
+Phase
+(1)
+Giac
+(1)
+Itil
+(1)
+Ids
+(1)
+Ips
+(1)
+
+3 Hard skills with Frequency Variance: These skills are mentioned in your resume, but the frequency doesn't match that of the job description. While this difference won't drastically affect your score, it is highlighted to show the variance.
+
+Incident Response
+(1)
+Cybersecurity
+(1)
+Edr
+(1)
+
+Medium Impact
+Soft Skills
+55%
+14 Soft skills Not Found: These skills were not identified in your resume. Adding them will help align your experience more closely with the job requirements.
+
+Responsible
+(2)
+Innovation
+(2)
+Create
+(2)
+Communicate
+(1)
+Commitment
+(1)
+Efficiency
+(1)
+Integrity
+(1)
+Stability
+(1)
+Maintain
+(1)
+Approach
+(1)
+Passion
+(1)
+Honesty
+(1)
+Respect
+(1)
+Serves
+(1)
+
+3 Soft skills with Frequency Variance: These skills are mentioned in your resume, but the frequency doesn't match that of the job description. While this difference won't drastically affect your score, it is highlighted to show the variance.
+
+Investigate
+(2)
+Analysis
+(2)
+Support
+(1)
+
+Low Impact
+Other Skills
+42%
+30 Other skills Not Found: These skills were not identified in your resume. Adding them will help align your experience more closely with the job requirements.
+
+Entry Level
+(3)
+Operations
+(3)
+Technology
+(3)
+Service
+(3)
+Client
+(3)
+Entry
+(3)
+Environment
+(2)
+Indicators
+(2)
+Procedures
+(2)
+Growth
+(2)
+People
+(2)
+Team
+(2)
+Fortune 500
+(1)
+Frameworks
+(1)
+Compliance
+(1)
+Recording
+(1)
+Campaigns
+(1)
+Incoming
+(1)
+Policies
+(1)
+Activity
+(1)
+Culture
+(1)
+Defense
+(1)
+Routing
+(1)
+Global
+(1)
+Region
+(1)
+Goals
+(1)
+Cloud
+(1)
+Cyber
+(1)
+Email
+(1)
+Data
+(1)
+
+3 Other skills with Frequency Variance: These skills are mentioned in your resume, but the frequency doesn't match that of the job description. While this difference won't drastically affect your score, it is highlighted to show the variance.
+
+Security
+(5)
+Networks
+(3)
+Systems
+(2)
+
+Job Title Match
+Great work! The job title Analyst was found in your resume.
+Degree Match
+Congratulations! Your resume matches the degree requirements.
+
+Resume Checks
+
+Word Count
+Good Work! Your resume has 538 words and within the recommended word count range of 500 to 700 words.
+
+Email Address
+Your resume shows you have chandraprakash.soc@gmail.com as your email contact.
+
+Phone Number
+Your resume shows you have +91 97864 75035 as your contact phone number.
+
+Accomplishments
+Your resume shows you have 7 quantifiable accomplishment(s).
+
+“Analyst role. Ranked Top 1 %”
+“users) with SOC Level 1 certification, validating hands-on SIEM”
+“(Madurai Kamaraj University) CGPA: 8. 01 / 10.0 HSC —”
+“School, Tiruppur, Tamil Nadu 6 8% CERTIFICATIONS SOC Level 1”
+“Monitored security alerts across 1 0+ attack scenarios using Splunk”
+“IOC enrichment platform querying 5 threat intel APIs in”
+“structured results in under 2 seconds to accelerate L0”
+Buzz Words
+Identify ineffective words to significantly enhance the overall impact and strength of your resume.
+This section is only availble to premium members. You will need to upgrade in order to view these resume ATS checks.
+
+Section
+Need to Unlock
+Locked
+Highly skilled
+Premium
+Users
+Only
+
+PREMIUM FEATURE
+Verb Choice
+Spot opportunities to use stronger action verbs in your bullet points for a more compelling resume.
+This section is only availble to premium members. You will need to upgrade in order to view these resume ATS checks.
+
+Premium
+Users
+Only
+
+PREMIUM FEATURE
+First-person Language Check
+Detect first-person language to maintain a professional tone in your resume.
+This section is only availble to premium members. You will need to upgrade in order to view these resume ATS checks.
+
+Us
+We
+
+PREMIUM FEATURE
+Date Formatting
+Ensure consistency and accuracy in date formatting across your resume for a polished presentation.
+This section is only availble to premium members. You will need to upgrade in order to view these resume ATS checks. This check will ensure all of your dates are in the same format like 2020-02-02 or spelleed out like Janurary 2020 or Mar 2019
+
+
+PREMIUM FEATURE
+Skills Visualization
+
+Hard Skills
+Soft Skills
+Other Skills
+ 
+Accuracy
+Soft	100%	
+1
+1
+
+Activity
+Other	0%	
+0
+1
+
+Administration
+Other	100%	
+1
+1
+
+Analyst
+Other	100%	
+6
+4
+
+Analysis
+Soft	60%	
+3
+5
+
+Antivirus
+Hard	100%	
+1
+1
+
+Approach
+Soft	0%	
+0
+1
+
+Audit
+Hard	100%	
+1
+1
+
+Briefings
+Hard	0%	
+0
+1
+
+Campaigns
+Other	0%	
+0
+1
+
+Case Management
+Hard	100%	
+3
+1
+
+Client
+Other	0%	
+0
+3
+
+Cloud
+Other	0%	
+0
+1
+
+Collaboration
+Soft	100%	
+1
+1
+
+Commitment
+Soft	0%	
+0
+1
+
+Communicate
+Soft	0%	
+0
+1
+
+Comptia Security+
+Hard	100%	
+1
+1
+
+Compliance
+Other	0%	
+0
+1
+
+Comptia
+Hard	100%	
+1
+1
+
+Computer
+Other	100%	
+3
+2
+
+Computer Science
+Hard	100%	
+3
+1
+
+Continuous Monitoring
+Hard	0%	
+0
+1
+
+Create
+Soft	0%	
+0
+2
+
+Culture
+Other	0%	
+0
+1
+
+Cyber
+Other	0%	
+0
+1
+
+Cybersecurity
+Hard	75%	
+3
+4
+
+Data
+Other	0%	
+0
+1
+
+Defense
+Other	0%	
+0
+1
+
+Attention To Detail
+Soft	100%	
+1
+1
+
+Documentation
+Other	100%	
+5
+3
+
+Email
+Other	0%	
+0
+1
+
+Edr
+Hard	50%	
+1
+2
+
+Efficiency
+Soft	0%	
+0
+1
+
+Email Security
+Hard	0%	
+0
+1
+
+Endpoint Security
+Hard	100%	
+1
+1
+
+Entry
+Other	0%	
+0
+3
+
+Entry Level
+Other	0%	
+0
+3
+
+Environment
+Other	0%	
+0
+2
+
+Event
+Other	100%	
+4
+1
+
+Event Management
+Hard	0%	
+0
+1
+
+Financial
+Hard	0%	
+0
+1
+
+Financial Futures
+Hard	0%	
+0
+1
+
+Firewalls
+Other	100%	
+1
+1
+
+Fortune 500
+Other	0%	
+0
+1
+
+Frameworks
+Other	0%	
+0
+1
+
+Futures
+Hard	0%	
+0
+1
+
+Giac
+Hard	0%	
+0
+1
+
+Global
+Other	0%	
+0
+1
+
+Global Team
+Hard	0%	
+0
+1
+
+Goals
+Other	0%	
+0
+1
+
+Growth
+Other	0%	
+0
+2
+
+Gsec
+Hard	100%	
+1
+1
+
+Handover
+Hard	0%	
+0
+1
+
+It Support
+Hard	100%	
+1
+1
+
+Ibm
+Hard	100%	
+3
+1
+
+Ids
+Hard	0%	
+0
+1
+
+Incident Handling
+Hard	0%	
+0
+1
+
+Incident Management
+Hard	100%	
+1
+1
+
+Incident Response
+Hard	67%	
+2
+3
+
+Incoming
+Other	0%	
+0
+1
+
+Indicators
+Other	0%	
+0
+2
+
+Information Technology
+Hard	0%	
+0
+1
+
+Innovation
+Soft	0%	
+0
+2
+
+Integrity
+Soft	0%	
+0
+1
+
+Intrusion Detection
+Hard	0%	
+0
+2
+
+Investigate
+Soft	33%	
+1
+3
+
+Ips
+Hard	0%	
+0
+1
+
+Itil
+Hard	0%	
+0
+1
+
+Linux
+Hard	100%	
+3
+1
+
+Log Analysis
+Hard	100%	
+3
+1
+
+Maintain
+Soft	0%	
+0
+1
+
+Management
+Soft	100%	
+4
+4
+
+Management System
+Hard	0%	
+0
+1
+
+Monitoring
+Soft	100%	
+6
+6
+
+Networks
+Other	40%	
+2
+5
+
+Network Monitoring Tools
+Hard	0%	
+0
+1
+
+New Talent
+Hard	0%	
+0
+1
+
+Operating Systems
+Other	100%	
+1
+1
+
+Operations
+Other	0%	
+0
+3
+
+Operations Center
+Hard	0%	
+0
+1
+
+Parse
+Hard	0%	
+0
+1
+
+Passion
+Soft	0%	
+0
+1
+
+People
+Other	0%	
+0
+2
+
+Phase
+Hard	0%	
+0
+1
+
+Phishing
+Hard	100%	
+2
+2
+
+Playbooks
+Other	100%	
+4
+2
+
+Policies
+Other	0%	
+0
+1
+
+Ports
+Other	100%	
+1
+1
+
+Powershell
+Hard	100%	
+2
+1
+
+Problem Solving
+Soft	100%	
+1
+1
+
+Procedures
+Other	0%	
+0
+2
+
+Programming
+Hard	100%	
+1
+1
+
+Python
+Hard	100%	
+2
+1
+
+Qradar
+Hard	0%	
+0
+1
+
+Queries
+Hard	100%	
+1
+1
+
+Real Time Monitoring
+Hard	0%	
+0
+1
+
+Recording
+Other	0%	
+0
+1
+
+Region
+Other	0%	
+0
+1
+
+Respect
+Soft	0%	
+0
+1
+
+Responsible
+Soft	0%	
+0
+2
+
+Routing
+Other	0%	
+0
+1
+
+Soc
+Hard	100%	
+8
+3
+
+Science
+Other	100%	
+3
+1
+
+Scripting
+Hard	100%	
+1
+1
+
+Security
+Other	64%	
+9
+14
+
+Security Information
+Hard	0%	
+0
+1
+
+Security Information And Event Management
+Hard	0%	
+0
+1
+
+Security Monitoring
+Hard	100%	
+2
+2
+
+Security Operations
+Hard	0%	
+0
+1
+
+Security Operations Center
+Hard	0%	
+0
+1
+
+Security Tools
+Hard	0%	
+0
+1
+
+Security+
+Hard	100%	
+1
+1
+
+Sentinel
+Hard	100%	
+1
+1
+
+Service
+Other	0%	
+0
+3
+
+Service Level
+Hard	0%	
+0
+1
+
+Service Level Agreements
+Hard	0%	
+0
+1
+
+Service Management
+Hard	0%	
+0
+1
+
+Serves
+Soft	0%	
+0
+1
+
+Siem
+Hard	100%	
+3
+2
+
+Situational Awareness
+Hard	0%	
+0
+1
+
+Splunk
+Hard	100%	
+3
+1
+
+Stability
+Soft	0%	
+0
+1
+
+Standard Operating Procedures
+Hard	100%	
+3
+2
+
+Support
+Soft	50%	
+1
+2
+
+Systems
+Other	71%	
+5
+7
+
+System Administration
+Hard	100%	
+1
+1
+
+Tcp/Ip
+Hard	100%	
+1
+1
+
+Tcp
+Hard	100%	
+1
+1
+
+Team
+Other	0%	
+0
+2
+
+Technical
+Soft	100%	
+1
+1
+
+Technical Foundations
+Hard	0%	
+0
+1
+
+Technology
+Other	0%	
+0
+3
+
+Thoroughness
+Soft	100%	
+1
+1
+
+Threat Intelligence
+Hard	100%	
+4
+2
+
+Ticketing System
+Hard	0%	
+0
+1
+
+Triage
+Hard	100%	
+5
+5
+
+Honesty
+Soft	0%	
+0
+1
+
+Windows
+Hard	100%	
+3
+1
+
+Windows/Linux
+Hard	100%	
+1
+1
+
+
+
+My ATS-Resume-Checker-Report:
+
+
+
+Current Scan
+
+Chandraprakash_Resume.pdf
+
+52
+
+Fair
+
+C
+66/133 keywords · 50%
+Upload & Rescan
+AI Optimize
+Resume Level
+entry
+→
+Role Requires
+junior
+Score Breakdown
+
+
+Parsing Quality
+0%
+
+Keyword Match
+46%
+
+Semantic Match
+41%
+
+Evidence Strength
+94%
+
+Seniority Fit
+65%
+
+Formatting
+77%
+Start new scan
+Resume Report
+Job Description
+Skills Matrix
+Cover Letter
+Resume Preview
+Smart Editor
+Print
+⚡
+ATS-Specific Tips
+
+Analyzed in 1.5s with 5-layer AI pipeline
+
+AI Verdict
+
+Stretch Fit
+Stretch
+50/100
+This resume is a STRETCH FIT for this role (score: 50). There are meaningful skills present, but significant gaps exist. Strengths: Production experience with: , , . Gaps: Missing critical skills: additional, commitment, standard.
+
+What Matches
+
+Production experience with: , ,
+66 JD keywords found in resume
+What's Missing
+
+Missing critical skills: additional, commitment, standard
+Recommendations
+
+Address missing critical skills: additional, commitment, standard
+Searchability
+IMPORTANT
+1/8 checks passed
+ATS systems are used by 90%+ of companies to screen resumes. Fix any red issues below to improve your search visibility.
+
+Tip: Fix the red items to ensure your resume is correctly parsed and easily found by recruiters.
+
+Contact Information
+0/3
+Physical address or location provided. Helps validate location for job matches.
+
+Email address detected. Primary contact method for recruiters.
+
+Phone number detected.
+
+Professional Summary
+0/1
+No summary found. Add a 2-4 sentence summary targeting this role.
+
+Section Headings
+0/3
+Education section missing — include it.
+
+Work experience section missing — critical for ATS.
+
+Skills section missing — add a dedicated skills list.
+
+Job Title Match
+1/1
+Good keyword alignment (50%). Your resume keywords match this role.
+
+Hard Skills
+5 matched
+15 missing
+50% match
+Tip: Match skills in your resume to the exact spelling in the job description. Prioritize frequently-mentioned skills.
+
+Skills Comparison
+Highlighted Skills
+tcp
+Alias
+source
+Exact
+python
+Alias
+science
+Alias
+email
+additional
+commitment
+standard
+Completion
+chance
+goal
+data
+exposure
+fortune
+Awareness
+administration
+adhere
+growth
+center
+step
+Resume
+<h2><strong>CHANDRAPRAKASH C</strong></h2><p>+91 97864 75035 — chandraprakash.soc@gmail.com — Dindigul, Tamil Nadu — Open to Relocation (Hyderabad)</p><p>Portfolio — LinkedIn — GitHub — TryHackMe (Top 1%)</p><h2><strong>PROFESSIONAL SUMMARY</strong></h2><p>B.Sc. CS fresher targeting a<strong> Junior SOC Analyst</strong> role. Ranked<strong> Top 1% globally on TryHackMe</strong> (3M+ users) with</p><p><strong>SOC Level 1 certification</strong>, validating hands-on<strong> SIEM monitoring, log analysis, threat intelligence, incident</strong></p><p><strong>triage, and case documentation</strong> ...
+
+Show full content
+Job Description
+<p>Hyderabad, Telangana</p><p><strong>Requisition ID</strong> 2026-122850 <strong>Category</strong> Technology <strong>Position type</strong> Regular</p><p><br></p><h2><strong>Your opportunity</strong></h2><p><br>At Charles Schwab, our purpose is simple: we champion client’s goals with passion and integrity. Guided by honesty, mutual respect and a commitment to doing what’s right, we bring innovation, education, and service together to help shape financial futures. Our people are the foundation of our success – they approach their work with curiosity and collaboration, coming together to creat...
+
+Show full content
+Copy 15 missing skills
+Add these to your resume to improve your score
+Soft Skills
+3/3 matched
+Soft skills demonstrate your work style. Less ATS-weighted than hard skills, but reviewed closely by hiring managers. Show them through examples, not just labels.
+
+Found in Resume (3)
+integrity
+concept
+curiosity
+concept
+innovation
+concept
+Pro tip: Don't list soft skills in isolation. Instead of "Strong communication skills", write "Presented quarterly security reports to C-suite, driving a 40% increase in security budget."
+
+Other Skills
+58/125 matched
+General terminology, operational concepts, or frameworks from the job description that don't fit into core hard or soft skills.
+
+Found in Resume (58)
+IBM
+×3
+exact
+log
+×10
+exact
+EDR
+exact
+siem
+×3
+exact
+Basic
+×2
+exact
+track
+exact
+hands
+exact
+audit
+exact
+linux
+×3
+exact
+daily
+exact
+Alert
+×8
+exact
+detail
+×2
+exact
+junior
+exact
+threat
+×6
+exact
+triage
+×6
+exact
+problem
+exact
+monitor
+×6
+exact
+initial
+×2
+exact
+concept
+×2
+exact
+network
+×2
+exact
+analyst
+×4
+exact
+windows
+×3
+exact
+console
+exact
+analysis
+×3
+exact
+Response
+×3
+exact
+Security
+×12
+exact
+strength
+exact
+positive
+×2
+exact
+incident
+×9
+exact
+accuracy
+exact
+Computer
+×3
+exact
+playbook
+×4
+exact
+firewall
+exact
+microsoft
+exact
+operating
+exact
+attention
+exact
+education
+exact
+technical
+exact
+scripting
+exact
+ticketing
+exact
+antivirus
+exact
+Hyderabad
+exact
+foundation
+exact
+analytical
+×2
+exact
+programming
+exact
+investigate
+exact
+intelligence
+×4
+exact
+thoroughness
+exact
+certification
+×2
+exact
+collaboration
+fuzzy
+strong fundamental
+fuzzy
+level.</p></li><li><p
+fuzzy
+action
+×2
+fuzzy
+the region</p><p
+fuzzy
+event</p></li><li><p
+fuzzy
+environments.</p></li><li><p
+fuzzy
+agreement
+fuzzy
+industry</p></li></ul><h2><strong
+fuzzy
+Missing from Resume (67)
+additional
+→ Add 'additional' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+commitment
+→ Add 'commitment' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+standard
+×3
+→ Add 'standard' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+Completion
+→ Add 'Completion' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+chance
+→ Add 'chance' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+goal
+→ Add 'goal' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+data
+→ Add 'data' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+exposure
+×2
+→ Add 'exposure' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+fortune
+→ Add 'fortune' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+Awareness
+×2
+→ Add 'Awareness' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+administration
+→ Add 'administration' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+adhere
+×2
+→ Add 'adhere' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+growth
+×2
+→ Add 'growth' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+center
+→ Add 'center' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+step
+×2
+→ Add 'step' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+culture
+→ Add 'culture' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+shape
+×3
+→ Add 'shape' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+compliance
+→ Add 'compliance' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+inclusion
+→ Add 'inclusion' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+bringing
+×2
+→ Add 'bringing' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+contribution
+→ Add 'contribution' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+learning
+→ Add 'learning' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+respect
+→ Add 'respect' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+campaign
+→ Add 'campaign' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+degree
+→ Add 'degree' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+simple
+×2
+→ Add 'simple' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+financial
+×2
+→ Add 'financial' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+communities
+→ Add 'communities' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+framework
+→ Add 'framework' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+defense
+→ Add 'defense' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+hire
+→ Add 'hire' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+success
+→ Add 'success' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+indicators
+×2
+→ Add 'indicators' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+extra
+→ Add 'extra' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+Category
+→ Add 'Category' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+client
+×3
+→ Add 'client' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+bachelor
+→ Add 'bachelor' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+stability
+→ Add 'stability' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+champion
+→ Add 'champion' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+recording
+→ Add 'recording' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+talent
+×2
+→ Add 'talent' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+practice
+→ Add 'practice' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+continuity
+→ Add 'continuity' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+passion
+→ Add 'passion' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+phase
+→ Add 'phase' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+purpose
+→ Add 'purpose' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+requisition
+→ Add 'requisition' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+Information
+×2
+→ Add 'Information' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+future
+×3
+→ Add 'future' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+scale
+→ Add 'scale' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+routing
+→ Add 'routing' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+detection
+×4
+→ Add 'detection' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+entry
+×3
+→ Add 'entry' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+Compromise
+×2
+→ Add 'Compromise' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+charles
+→ Add 'charles' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+Shift Handover
+→ Add 'Shift Handover' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+scanner
+→ Add 'scanner' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+India
+→ Add 'India' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+Schwab
+×2
+→ Add 'Schwab' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+parse
+→ Add 'parse' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+2026-122850
+→ Add '2026-122850' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+well-defined guidelines
+→ Add 'well-defined guidelines' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+giac
+→ Add 'giac' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+ids
+→ Add 'ids' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+attack techniques
+→ Add 'attack techniques' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+community
+→ Consider adding 'community' if you have experience — it's explicitly preferred for this role.
+
+high
+policy
+→ Consider adding 'policy' if you have experience — it's explicitly preferred for this role.
+
+high
+Recruiter Tips
+3/4 passing
+Beyond ATS compliance — what recruiters and hiring managers actually look for when reviewing manually.
+
+Measurable Results
+1 of 1 bullets contain quantified impact. Great job!
+
+Action Verb Quality
+Only 0% strong verbs. Replace "worked" with impactful alternatives.
+
+Resume Length
+365 words (1p). Good length.
+
+File Format
+PDF/DOCX format. Both are ATS-compatible.
+
+Critical Issues (20)
+'additional' is critical for this role and missing from your resume.
+
+→ Add 'additional' to your skills or experience if applicable.
+
+'commitment' is critical for this role and missing from your resume.
+
+→ Add 'commitment' to your skills or experience if applicable.
+
+'standard' is critical for this role and missing from your resume.
+
+→ Add 'standard' to your skills or experience if applicable.
+
+'Completion' is critical for this role and missing from your resume.
+
+→ Add 'Completion' to your skills or experience if applicable.
+
+'chance' is critical for this role and missing from your resume.
+
+→ Add 'chance' to your skills or experience if applicable.
+
+Formatting
+2 issues
+Layout
+Multi-column layout detected. Most ATS systems cannot parse this correctly — switch to single column.
+
+No tables detected. Good ATS compatibility.
+
+No embedded images. All content is readable by ATS.
+
+1 page. Good length.
+
+Font Check
+9 fonts detected. Too many — use 1-2 fonts for a clean look.
+
+Fonts: AJBYYG+CharterBT-BoldFFJOOI+CMSY10SHPBEC+CharterBT-ItalicSHPBEC+CharterBT-ItalicXIVJXX+CharterBT-Roman
+
+Page Setup
+Header/footer detected. Some ATS skip header/footer content — keep critical info in the body.
+
+365 words total. Good content length.
+
+Detailed Checks
+multiple fonts
+
+9 fonts detected. Reduce to 1–2 for ATS compatibility.
+
+warning
+multi column layout
+
+Multi-column layout detected. Ensure it reads correctly left-to-right, as some older ATS parsers may struggle.
+
+warning
+no tables
+
+No tables detected. ATS can parse all content.
+
+pass
+no images
+
+No embedded images found.
+
+pass
+header footer content
+
+Content in document header/footer. Some ATS skip header/footer. Duplicate important info in the body.
+
+info
+
+
+Skills Matrix
+Full breakdown of all extracted skills and their frequencies.
+
+Search skills...
+Skill
+Type
+Status
+Match Type
+JD Count
+Resume Count
+KB Source
+Confidence
+Security	Other	
+Found
+Exact	18	12	statistical	100%
+incident	Other	
+Found
+Exact	9	9	statistical	100%
+log	Other	
+Found
+Exact	8	10	statistical	100%
+Alert	Other	
+Found
+Exact	7	8	statistical	100%
+monitor	Other	
+Found
+Exact	6	6	statistical	100%
+Basic	Other	
+Found
+Exact	5	2	statistical	100%
+triage	Other	
+Found
+Exact	5	6	statistical	100%
+network	Other	
+Found
+Exact	5	2	statistical	100%
+Response	Other	
+Found
+Exact	5	3	statistical	100%
+certification	Other	
+Found
+Exact	5	2	statistical	100%
+threat	Other	
+Found
+Exact	4	6	statistical	100%
+foundation	Other	
+Found
+Exact	4	1	statistical	100%
+detection	Other	
+Missing
+–	4	0	custom	–
+concept	Other	
+Found
+Exact	3	2	statistical	100%
+analyst	Other	
+Found
+Exact	3	4	statistical	100%
+analysis	Other	
+Found
+Exact	3	3	statistical	100%
+standard	Other	
+Missing
+–	3	0	custom	–
+shape	Other	
+Missing
+–	3	0	custom	–
+client	Other	
+Missing
+–	3	0	custom	–
+future	Other	
+Missing
+–	3	0	custom	–
+entry	Other	
+Missing
+–	3	0	custom	–
+EDR	Other	
+Found
+Exact	2	1	statistical	100%
+siem	Other	
+Found
+Exact	2	3	statistical	100%
+track	Other	
+Found
+Exact	2	1	statistical	100%
+daily	Other	
+Found
+Exact	2	1	statistical	100%
+junior	Other	
+Found
+Exact	2	1	statistical	100%
+initial	Other	
+Found
+Exact	2	2	statistical	100%
+Computer	Other	
+Found
+Exact	2	3	statistical	100%
+playbook	Other	
+Found
+Exact	2	4	statistical	100%
+operating	Other	
+Found
+Exact	2	1	statistical	100%
+education	Other	
+Found
+Exact	2	1	statistical	100%
+ticketing	Other	
+Found
+Exact	2	1	statistical	100%
+Hyderabad	Other	
+Found
+Exact	2	1	statistical	100%
+investigate	Other	
+Found
+Exact	2	1	statistical	100%
+intelligence	Other	
+Found
+Exact	2	4	statistical	100%
+action	Other	
+Found
+Inferred	2	1	statistical	85%
+exposure	Other	
+Missing
+–	2	0	custom	–
+Awareness	Other	
+Missing
+–	2	0	custom	–
+adhere	Other	
+Missing
+–	2	0	custom	–
+growth	Other	
+Missing
+–	2	0	custom	–
+step	Other	
+Missing
+–	2	0	custom	–
+bringing	Other	
+Missing
+–	2	0	custom	–
+simple	Other	
+Missing
+–	2	0	custom	–
+financial	Other	
+Missing
+–	2	0	custom	–
+indicators	Other	
+Missing
+–	2	0	custom	–
+talent	Other	
+Missing
+–	2	0	custom	–
+Information	Other	
+Missing
+–	2	0	custom	–
+Compromise	Other	
+Missing
+–	2	0	custom	–
+Schwab	Other	
+Missing
+–	2	0	custom	–
+IBM	Other	
+Found
+Exact	1	3	statistical	100%
+tcp	Hard	
+Found
+Alias	1	1	alias	100%
+hands	Other	
+Found
+Exact	1	1	statistical	100%
+audit	Other	
+Found
+Exact	1	1	statistical	100%
+linux	Other	
+Found
+Exact	1	3	statistical	100%
+source	Hard	
+Found
+Exact	1	1	alias	100%
+detail	Other	
+Found
+Exact	1	2	statistical	100%
+python	Hard	
+Found
+Alias	1	1	alias	100%
+problem	Other	
+Found
+Exact	1	1	statistical	100%
+science	Hard	
+Found
+Alias	1	3	alias	100%
+windows	Other	
+Found
+Exact	1	3	statistical	100%
+console	Other	
+Found
+Exact	1	1	statistical	100%
+strength	Other	
+Found
+Exact	1	1	statistical	100%
+positive	Other	
+Found
+Exact	1	2	statistical	100%
+accuracy	Other	
+Found
+Exact	1	1	statistical	100%
+firewall	Other	
+Found
+Exact	1	1	statistical	100%
+microsoft	Other	
+Found
+Exact	1	1	statistical	100%
+attention	Other	
+Found
+Exact	1	1	statistical	100%
+technical	Other	
+Found
+Exact	1	1	statistical	100%
+scripting	Other	
+Found
+Exact	1	1	statistical	100%
+antivirus	Other	
+Found
+Exact	1	1	statistical	100%
+analytical	Other	
+Found
+Exact	1	2	statistical	100%
+programming	Other	
+Found
+Exact	1	1	statistical	100%
+thoroughness	Other	
+Found
+Exact	1	1	statistical	100%
+collaboration	Other	
+Found
+Inferred	1	1	statistical	85%
+strong fundamental	Other	
+Found
+Inferred	1	1	statistical	85%
+level.</p></li><li><p	Other	
+Found
+Inferred	1	1	statistical	85%
+the region</p><p	Other	
+Found
+Inferred	1	1	statistical	85%
+event</p></li><li><p	Other	
+Found
+Inferred	1	1	statistical	85%
+environments.</p></li><li><p	Other	
+Found
+Inferred	1	1	statistical	85%
+agreement	Other	
+Found
+Inferred	1	1	statistical	85%
+industry</p></li></ul><h2><strong	Other	
+Found
+Inferred	1	1	statistical	85%
+email	Hard	
+Found
+–	1	1	semantic engine	92%
+integrity	Soft	
+Found
+–	1	1	semantic engine	92%
+curiosity	Soft	
+Found
+–	1	1	semantic engine	92%
+innovation	Soft	
+Found
+–	1	1	semantic engine	92%
+additional	Other	
+Missing
+–	1	0	custom	–
+commitment	Other	
+Missing
+–	1	0	custom	–
+Completion	Other	
+Missing
+–	1	0	custom	–
+chance	Other	
+Missing
+–	1	0	custom	–
+goal	Other	
+Missing
+–	1	0	custom	–
+data	Other	
+Missing
+–	1	0	custom	–
+fortune	Other	
+Missing
+–	1	0	custom	–
+administration	Other	
+Missing
+–	1	0	custom	–
+center	Other	
+Missing
+–	1	0	custom	–
+culture	Other	
+Missing
+–	1	0	custom	–
+compliance	Other	
+Missing
+–	1	0	custom	–
+inclusion	Other	
+Missing
+–	1	0	custom	–
+contribution	Other	
+Missing
+–	1	0	custom	–
+learning	Other	
+Missing
+–	1	0	custom	–
+respect	Other	
+Missing
+–	1	0	custom	–
+campaign	Other	
+Missing
+–	1	0	custom	–
+degree	Other	
+Missing
+–	1	0	custom	–
+communities	Other	
+Missing
+–	1	0	custom	–
+framework	Other	
+Missing
+–	1	0	custom	–
+defense	Other	
+Missing
+–	1	0	custom	–
+hire	Other	
+Missing
+–	1	0	custom	–
+success	Other	
+Missing
+–	1	0	custom	–
+extra	Other	
+Missing
+–	1	0	custom	–
+Category	Other	
+Missing
+–	1	0	custom	–
+bachelor	Other	
+Missing
+–	1	0	custom	–
+stability	Other	
+Missing
+–	1	0	custom	–
+champion	Other	
+Missing
+–	1	0	custom	–
+recording	Other	
+Missing
+–	1	0	custom	–
+practice	Other	
+Missing
+–	1	0	custom	–
+continuity	Other	
+Missing
+–	1	0	custom	–
+passion	Other	
+Missing
+–	1	0	custom	–
+phase	Other	
+Missing
+–	1	0	custom	–
+purpose	Other	
+Missing
+–	1	0	custom	–
+requisition	Other	
+Missing
+–	1	0	custom	–
+scale	Other	
+Missing
+–	1	0	custom	–
+routing	Other	
+Missing
+–	1	0	custom	–
+charles	Other	
+Missing
+–	1	0	custom	–
+Shift Handover	Other	
+Missing
+–	1	0	custom	–
+scanner	Other	
+Missing
+–	1	0	custom	–
+India	Other	
+Missing
+–	1	0	custom	–
+parse	Other	
+Missing
+–	1	0	custom	–
+2026-122850	Other	
+Missing
+–	1	0	custom	–
+well-defined guidelines	Other	
+Missing
+–	1	0	custom	–
+giac	Other	
+Missing
+–	1	0	custom	–
+ids	Other	
+Missing
+–	1	0	custom	–
+attack techniques	Other	
+Missing
+–	1	0	custom	–
+community	Other	
+Missing
+–	1	0	custom	–
+policy	Other	
+Missing
+–	1	0	custom	–
+
+
+Smart Resume Editor
+Use AI to naturally weave missing keywords into your existing experience.
+
+API Key
+OpenAI API Key (sk-...)
+Save
+1. Select a missing skill
+No missing skills! 🎉
+
+2. Select a bullet point to rewrite
+<h2><strong>CHANDRAPRAKASH C</strong></h2><p>+91 97864 75035 — chandraprakash.soc@gmail.com — Dindigul, Tamil Nadu — Open to Relocation (Hyderabad)</p><p>Portfolio — LinkedIn — GitHub — TryHackMe (Top 1%)</p><h2><strong>PROFESSIONAL SUMMARY</strong></h2><p>B.Sc. CS fresher targeting a<strong> Junior SOC Analyst</strong> role. Ranked<strong> Top 1% globally on TryHackMe</strong> (3M+ users) with</p><p><strong>SOC Level 1 certification</strong>, validating hands-on<strong> SIEM monitoring, log analysis, threat intelligence, incident</strong></p><p><strong>triage, and case documentation</strong> competency. Operated a multi-VM SOC lab performing<strong> initial alert identifi-</strong></p><p><strong>cation, basic triage, and first-level validation</strong> of security events (<strong>phishing, malware, suspicious logins</strong>) per</p><p><strong>playbooks and SOPs</strong>; escalated incidents to L1/L2 and raised<strong> ITSM / case management tickets in Jira</strong> with full</p><p>incident documentation. Certified by<strong> IBM</strong> and<strong> Google</strong>. Available for rotational shifts including nights.</p><h2><strong>TECHNICAL SKILLS</strong></h2><p><strong>SIEM & Log Analysis</strong></p><p>Splunk (SPL, dashboards, alerts), Microsoft Sentinel, Windows Event Logs, Linux Syslog,</p><p>system logs, Sysmon</p><p><strong>Incident Response</strong></p><p>Alert monitoring, triage, true/false positive classification, incident management, case man-</p><p>agement, playbooks & SOP-based response, L0<em>→</em>L1/L2 escalation, Jira ITSM ticketing, docu-</p><p>mentation & reporting</p><p><strong>Threat Intelligence</strong></p><p>IOC enrichment, threat intelligence, MITRE ATT&CK, VirusTotal, AbuseIPDB, Malware-</p><p>Bazaar, Shodan, GSEC concepts</p><p><strong>Network & Systems</strong></p><p>TCP/IP, DNS, HTTP/S, ports & protocols, operating systems, Windows/Linux, system admin-</p><p>istration, IT support, endpoint security, antivirus, Wireshark, Zeek, Nmap, EDR (Velocirap-</p><p>tor), firewall log analysis, Python, Bash, PowerShell, scripting, Shuffle SOAR</p><p><strong>Core Strengths</strong></p><p>Cybersecurity, Computer Science, analytical ability, analytical thinking, problem-solving, col-</p><p>laboration, thoroughness, accuracy, attention to detail, written communication</p><p><strong>Security Foundations</strong></p><p>CompTIA Security+ concepts, security systems, security monitoring, incident response, doc-</p><p>umentation, programming</p><h2><strong>EDUCATION</strong></h2><p><strong>B.Sc. Computer Science</strong></p><p><em>06/2023 – 05/2026</em></p><p>G.T.N Arts College, Dindigul (Madurai Kamaraj University)</p><p><em>CGPA: 8.01 / 10.0</em></p><p><strong>HSC — Computer Science</strong></p><p><em>05/2023</em></p><p>Government Higher Secondary School, Tiruppur, Tamil Nadu</p><p><em>68%</em></p><h2><strong>CERTIFICATIONS</strong></h2><ul><li><strong> SOC Level 1</strong> — TryHackMe Verify <em>06/2026</em></li><li><strong> IBM Cybersecurity Analyst Professional Certificate</strong> — Coursera/IBM Verify <em>06/2026</em></li><li><strong> Google Cybersecurity Professional Certificate</strong> — Coursera/Google Verify <em>04/2025</em></li></ul><h2><strong>PROJECTS & PROFESSIONAL EXPERIENCE</strong></h2><p><strong>SOC Monitoring Lab — L0/L1 Analyst Simulation</strong></p><p>GitHub</p><p><em>Linux Mint</em><em> ·</em><em> Ubuntu Server</em><em> ·</em><em> Windows VM</em><em> ·</em><em> Splunk</em><em> ·</em><em> Wazuh</em><em> ·</em><em> Zeek</em><em> ·</em><em> Sysmon</em><em> ·</em><em> Shuffle SOAR</em><em> ·</em><em> Jira</em></p><ul><li><strong> Monitored</strong> security alerts across<strong> 10+ attack scenarios</strong> using<strong> Splunk</strong> and<strong> Wazuh SIEM</strong> dashboards; performed <strong>initial alert identification and basic validation</strong> per predefined guidelines, classifying each event as true/false positive and producing daily/weekly<strong> security monitoring reports</strong>.</li><li><strong> Triaged</strong> security events including<strong> phishing, malware alerts, and suspicious logins</strong> per MITRE ATT&CK- aligned<strong> playbooks and SOPs</strong>; escalated verified incidents to the<strong> L1 queue</strong>; raised<strong> ITSM / case management</strong> <strong>tickets in Jira</strong> with IOC timelines and asset details; dispatched stakeholder notifications for all ticket updates.</li><li><strong> Investigated</strong> endpoint/network behaviour via<strong> Sysmon, Zeek, PowerShell logs, and Wireshark</strong>; detected C2 beaconing (T1071) and scheduled-task persistence (T1053); automated IOC enrichment via<strong> Shuffle SOAR</strong> with<strong> VirusTotal</strong> and<strong> AbuseIPDB</strong> to reduce triage time.</li></ul><p><strong>ThreatLens — Threat Intelligence Aggregator</strong></p><p>GitHub</p><p><em>Python</em><em> ·</em><em> FastAPI</em><em> ·</em><em> VirusTotal</em><em> ·</em><em> AbuseIPDB</em><em> ·</em><em> AlienVault OTX</em><em> ·</em><em> URLhaus</em><em> ·</em><em> GreyNoise</em></p><ul><li>Engineered a multi-source<strong> IOC enrichment platform</strong> querying 5 threat intel APIs in parallel with MITRE ATT&CK-mapped risk scores, returning structured results in under 2 seconds to accelerate<strong> L0 alert triage</strong> and SOAR playbook integration. <strong>SecOps Console — SOC Analyst Dashboard</strong> GitHub <em>React</em><em> ·</em><em> Node.js</em><em> ·</em><em> PostgreSQL</em><em> ·</em><em> WebSockets</em></li><li><strong> Developed</strong> a SOC dashboard with real-time alert queues, incident tracking, L0<em>→</em>L1 escalation workflows, and audit-trail logging for incident documentation.</li></ul>
+

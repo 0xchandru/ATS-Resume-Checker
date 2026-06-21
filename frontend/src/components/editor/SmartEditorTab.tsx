@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { AnalysisResult } from "../../App";
 import { Sparkles, Edit3, Key, Loader2, Check } from "lucide-react";
 import { apiFetch } from "../../utils/api";
@@ -11,10 +11,10 @@ interface Props {
 export default function SmartEditorTab({ analysis, jd }: Props) {
   const [apiKey, setApiKey] = useState(() => localStorage.getItem("openai_api_key") || "");
   const [showKeyInput, setShowKeyInput] = useState(!localStorage.getItem("openai_api_key"));
-  
+
   const [selectedSkill, setSelectedSkill] = useState<string>("");
   const [selectedBullet, setSelectedBullet] = useState<string>("");
-  
+
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [optimizedText, setOptimizedText] = useState("");
   const [error, setError] = useState("");
@@ -35,10 +35,7 @@ export default function SmartEditorTab({ analysis, jd }: Props) {
     .filter(b => b.trim().length > 10);
 
   const handleOptimize = async () => {
-    if (!apiKey) {
-      setShowKeyInput(true);
-      return;
-    }
+    if (!apiKey) { setShowKeyInput(true); return; }
     if (!selectedBullet || !selectedSkill) return;
 
     setIsOptimizing(true);
@@ -66,63 +63,65 @@ export default function SmartEditorTab({ analysis, jd }: Props) {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+    <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold flex items-center gap-2 text-primary">
-            <Sparkles className="w-5 h-5" />
+          <h2 className="text-xl font-black text-foreground flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-violet-400" />
             Smart Resume Editor
           </h2>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-sm text-muted-foreground mt-0.5">
             Use AI to naturally weave missing keywords into your existing experience.
           </p>
         </div>
-        <button 
+        <button
           onClick={() => setShowKeyInput(!showKeyInput)}
-          className="text-xs flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+          className="text-xs flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors bg-white/[0.04] border border-white/[0.07] px-3 py-1.5 rounded-lg"
         >
-          <Key className="w-3 h-3" /> API Key
+          <Key className="w-3.5 h-3.5" /> API Key
         </button>
       </div>
 
+      {/* API Key panel */}
       {showKeyInput && (
-        <div className="bg-card border rounded-lg p-4 flex gap-3 items-center">
-          <Key className="w-4 h-4 text-muted-foreground" />
-          <input 
+        <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 flex gap-3 items-center">
+          <Key className="w-4 h-4 text-muted-foreground shrink-0" />
+          <input
             type="password"
             placeholder="OpenAI API Key (sk-...)"
             value={apiKey}
             onChange={e => setApiKey(e.target.value)}
-            className="flex-1 bg-transparent border-none focus:ring-0 text-sm outline-none"
+            className="flex-1 bg-transparent border-none focus:ring-0 text-sm outline-none text-foreground placeholder:text-muted-foreground"
           />
-          <button 
+          <button
             onClick={() => saveKey(apiKey)}
-            className="px-3 py-1 bg-primary text-primary-foreground text-xs rounded-md font-medium"
+            className="px-3.5 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-xs font-bold rounded-lg hover:opacity-90 transition-opacity"
           >
             Save
           </button>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Missing Skills Sidebar */}
-        <div className="bg-card border rounded-xl overflow-hidden flex flex-col h-[600px]">
-          <div className="p-4 border-b bg-muted/30">
-            <h3 className="font-semibold text-sm">1. Select a missing skill</h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {/* Missing Skills */}
+        <div className="bg-white/[0.02] border border-white/[0.05] rounded-xl overflow-hidden flex flex-col h-[600px]">
+          <div className="p-4 border-b border-white/[0.05] bg-white/[0.02]">
+            <h3 className="text-xs font-black text-foreground/60 uppercase tracking-wider">1. Select a missing skill</h3>
           </div>
-          <div className="flex-1 overflow-y-auto p-2">
+          <div className="flex-1 overflow-y-auto p-3">
             {missingSkills.length === 0 ? (
               <p className="p-4 text-sm text-muted-foreground text-center">No missing skills! 🎉</p>
             ) : (
-              <div className="flex flex-wrap gap-2 p-2">
+              <div className="flex flex-wrap gap-2 p-1">
                 {missingSkills.map(skill => (
                   <button
                     key={skill}
                     onClick={() => setSelectedSkill(skill)}
-                    className={`px-3 py-1.5 text-xs font-medium rounded-full transition-all border ${
-                      selectedSkill === skill 
-                        ? "bg-primary text-primary-foreground border-primary shadow-sm" 
-                        : "bg-background hover:bg-muted border-border"
+                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all border ${
+                      selectedSkill === skill
+                        ? "bg-gradient-to-r from-violet-600 to-indigo-500 text-white border-transparent shadow-md shadow-violet-500/20"
+                        : "bg-white/[0.04] border-white/[0.07] text-muted-foreground hover:text-foreground hover:bg-white/[0.07]"
                     }`}
                   >
                     {skill}
@@ -134,19 +133,19 @@ export default function SmartEditorTab({ analysis, jd }: Props) {
         </div>
 
         {/* Resume Bullets */}
-        <div className="md:col-span-2 bg-card border rounded-xl overflow-hidden flex flex-col h-[600px]">
-          <div className="p-4 border-b bg-muted/30">
-            <h3 className="font-semibold text-sm">2. Select a bullet point to rewrite</h3>
+        <div className="md:col-span-2 bg-white/[0.02] border border-white/[0.05] rounded-xl overflow-hidden flex flex-col h-[600px]">
+          <div className="p-4 border-b border-white/[0.05] bg-white/[0.02]">
+            <h3 className="text-xs font-black text-foreground/60 uppercase tracking-wider">2. Select a bullet point to rewrite</h3>
           </div>
           <div className="flex-1 overflow-y-auto p-4 space-y-2">
             {bullets.map((b, i) => (
-              <div 
+              <div
                 key={i}
                 onClick={() => setSelectedBullet(b)}
-                className={`p-3 text-sm rounded-lg border cursor-pointer transition-colors ${
-                  selectedBullet === b 
-                    ? "border-primary bg-primary/5 shadow-sm" 
-                    : "border-border hover:border-muted-foreground/30 hover:bg-muted/30"
+                className={`p-3 text-sm rounded-xl border cursor-pointer transition-colors leading-relaxed ${
+                  selectedBullet === b
+                    ? "border-violet-500/40 bg-violet-500/8 text-foreground"
+                    : "border-white/[0.05] bg-white/[0.01] text-foreground/70 hover:border-white/[0.1] hover:bg-white/[0.03]"
                 }`}
               >
                 {b}
@@ -156,67 +155,64 @@ export default function SmartEditorTab({ analysis, jd }: Props) {
         </div>
       </div>
 
-      {/* Editor Modal/Panel */}
+      {/* Editor Panel */}
       {selectedBullet && selectedSkill && (
-        <div className="bg-gradient-to-r from-primary/10 to-indigo-500/10 border border-primary/20 p-6 rounded-xl space-y-4">
+        <div className="bg-gradient-to-br from-violet-500/10 to-indigo-500/8 border border-violet-500/20 p-6 rounded-2xl space-y-4">
           <div className="flex items-start gap-4">
-            <div className="flex-1 space-y-3">
-              <h3 className="font-semibold text-sm flex items-center gap-2">
-                <Edit3 className="w-4 h-4" /> Optimizing Bullet Point
+            <div className="flex-1 space-y-4">
+              <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                <Edit3 className="w-4 h-4 text-violet-400" /> Optimizing Bullet Point
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Original</p>
-                  <p className="text-sm bg-background/50 p-3 rounded border text-muted-foreground">{selectedBullet}</p>
+                <div className="space-y-1.5">
+                  <p className="text-[10px] text-muted-foreground/60 uppercase tracking-widest font-black">Original</p>
+                  <p className="text-sm bg-white/[0.03] border border-white/[0.06] p-3 rounded-xl text-foreground/70 leading-relaxed">{selectedBullet}</p>
                 </div>
-                
-                <div className="space-y-1">
-                  <p className="text-xs text-primary uppercase tracking-wider font-semibold flex items-center justify-between">
+
+                <div className="space-y-1.5">
+                  <p className="text-[10px] uppercase tracking-widest font-black text-violet-400 flex items-center justify-between">
                     <span>AI Suggestion</span>
-                    <span className="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px]">Adding: {selectedSkill}</span>
+                    <span className="bg-violet-500/15 border border-violet-500/25 text-violet-400 px-2 py-0.5 rounded-full text-[9px] font-black">Adding: {selectedSkill}</span>
                   </p>
-                  <div className="text-sm bg-background p-3 rounded border border-primary/30 min-h-[4.5rem]">
+                  <div className="text-sm bg-white/[0.02] border border-violet-500/25 p-3 rounded-xl min-h-[5rem] leading-relaxed">
                     {isOptimizing ? (
-                      <span className="flex items-center gap-2 text-muted-foreground h-full">
-                        <Loader2 className="w-4 h-4 animate-spin" /> 
+                      <span className="flex items-center gap-2 text-muted-foreground">
+                        <Loader2 className="w-4 h-4 animate-spin text-violet-400" />
                         Generating perfect rewrite...
                       </span>
                     ) : optimizedText ? (
-                      <span className="text-foreground">{optimizedText}</span>
+                      <span className="text-foreground/90">{optimizedText}</span>
                     ) : error ? (
-                      <span className="text-destructive">{error}</span>
+                      <span className="text-red-400">{error}</span>
                     ) : (
-                      <span className="text-muted-foreground italic">Click optimize to generate...</span>
+                      <span className="text-muted-foreground/50 italic">Click optimize to generate...</span>
                     )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          <div className="flex justify-end gap-3 pt-2">
-            <button 
+
+          <div className="flex justify-end gap-2.5">
+            <button
               onClick={() => { setSelectedBullet(""); setOptimizedText(""); }}
-              className="px-4 py-2 text-sm font-medium rounded-md hover:bg-muted"
+              className="px-4 py-2 text-sm font-semibold rounded-xl hover:bg-white/[0.06] text-muted-foreground transition-colors border border-white/[0.06]"
             >
               Cancel
             </button>
-            <button 
+            <button
               onClick={handleOptimize}
               disabled={isOptimizing}
-              className="px-4 py-2 text-sm font-medium rounded-md bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2 disabled:opacity-50"
+              className="px-4 py-2 text-sm font-bold rounded-xl bg-gradient-to-r from-violet-600 to-indigo-500 text-white hover:opacity-90 flex items-center gap-2 disabled:opacity-50 transition-opacity shadow-md shadow-violet-500/20"
             >
               {isOptimizing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
               {optimizedText ? "Regenerate" : "Optimize with AI"}
             </button>
             {optimizedText && (
-              <button 
-                onClick={() => {
-                  navigator.clipboard.writeText(optimizedText);
-                  // Optional: add a tiny notification toast here
-                }}
-                className="px-4 py-2 text-sm font-medium rounded-md bg-green-600 text-white hover:bg-green-700 flex items-center gap-2"
+              <button
+                onClick={() => { navigator.clipboard.writeText(optimizedText); }}
+                className="px-4 py-2 text-sm font-bold rounded-xl bg-emerald-600 text-white hover:bg-emerald-500 flex items-center gap-2 transition-colors"
               >
                 <Check className="w-4 h-4" /> Copy Rewrite
               </button>

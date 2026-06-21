@@ -14,10 +14,10 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   const data = payload[0].payload;
   return (
-    <div className="bg-card border border-border rounded-xl shadow-lg p-3">
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="text-xl font-bold" style={{ color: scoreToColor(data.score) }}>{data.score}</p>
-      <p className="text-xs text-muted-foreground">{data.grade} grade · {data.name}</p>
+    <div className="bg-[#11121a] border border-white/[0.08] rounded-xl shadow-xl p-3 min-w-[120px]">
+      <p className="text-[10px] text-muted-foreground mb-1">{label}</p>
+      <p className="text-2xl font-black" style={{ color: scoreToColor(data.score) }}>{data.score}</p>
+      <p className="text-xs text-muted-foreground mt-0.5">{data.grade} · {data.name}</p>
     </div>
   );
 };
@@ -49,48 +49,69 @@ export default function HistoryPanel({ history, onViewItem, onCompare }: Props) 
 
   if (!history.length) {
     return (
-      <div className="bg-card rounded-2xl border border-border shadow-sm p-14 text-center">
-        <History className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
-        <h3 className="text-lg font-semibold text-foreground">No scan history yet</h3>
-        <p className="text-sm text-muted-foreground mt-1">Your analysis history will appear here after your first scan.</p>
+      <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl p-14 text-center">
+        <div className="h-16 w-16 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mx-auto mb-4">
+          <History className="h-8 w-8 text-muted-foreground/30" />
+        </div>
+        <h3 className="text-lg font-bold text-foreground">No scan history yet</h3>
+        <p className="text-sm text-muted-foreground mt-1.5">Your analysis history will appear here after your first scan.</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-5">
-      {/* Chart */}
+      {/* Score trend chart */}
       {chartData.length > 1 && (
-        <div className="bg-card rounded-2xl border border-border shadow-sm p-5">
-          <h2 className="text-base font-bold text-foreground mb-4">Score Trend</h2>
+        <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl p-5">
+          <h2 className="text-sm font-bold text-foreground/70 uppercase tracking-wider mb-4">Score Trend</h2>
           <div className="h-52">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="date" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-                <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                <XAxis
+                  dataKey="date"
+                  tick={{ fontSize: 11, fill: "rgba(255,255,255,0.35)", fontFamily: "inherit" }}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis
+                  domain={[0, 100]}
+                  tick={{ fontSize: 11, fill: "rgba(255,255,255,0.35)", fontFamily: "inherit" }}
+                  tickLine={false}
+                  axisLine={false}
+                />
                 <Tooltip content={<CustomTooltip />} />
-                <ReferenceLine y={75} stroke="#10b981" strokeDasharray="4 4" strokeOpacity={0.7}
-                  label={{ value: "75", fontSize: 10, fill: "#10b981", position: "right" }} />
-                <ReferenceLine y={50} stroke="#f59e0b" strokeDasharray="4 4" strokeOpacity={0.7}
-                  label={{ value: "50", fontSize: 10, fill: "#f59e0b", position: "right" }} />
-                <Line type="monotone" dataKey="score" stroke="hsl(var(--primary))" strokeWidth={2.5}
-                  dot={{ fill: "hsl(var(--primary))", strokeWidth: 0, r: 4 }} activeDot={{ r: 6 }} />
+                <ReferenceLine y={75} stroke="#10b981" strokeDasharray="4 4" strokeOpacity={0.5}
+                  label={{ value: "75", fontSize: 9, fill: "#10b981", position: "right" }} />
+                <ReferenceLine y={50} stroke="#f59e0b" strokeDasharray="4 4" strokeOpacity={0.5}
+                  label={{ value: "50", fontSize: 9, fill: "#f59e0b", position: "right" }} />
+                <Line
+                  type="monotone"
+                  dataKey="score"
+                  stroke="#7c3aed"
+                  strokeWidth={2.5}
+                  dot={{ fill: "#7c3aed", strokeWidth: 0, r: 4 }}
+                  activeDot={{ r: 6, fill: "#a78bfa" }}
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
       )}
 
-      {/* Table */}
-      <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-          <h2 className="text-base font-bold text-foreground">Recent Scans ({history.length})</h2>
+      {/* Scans table */}
+      <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
+          <h2 className="text-sm font-bold text-foreground/70 uppercase tracking-wider">
+            Recent Scans
+            <span className="ml-2 text-muted-foreground font-normal normal-case text-xs">({history.length})</span>
+          </h2>
           {selectedIds.length === 2 && (
             <button
               onClick={handleCompare}
               disabled={comparing}
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-primary text-primary-foreground text-xs font-bold rounded-xl hover:opacity-90 disabled:opacity-60 transition-opacity"
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-xs font-bold rounded-xl hover:opacity-90 disabled:opacity-60 transition-opacity shadow-md shadow-violet-500/20"
             >
               {comparing ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <GitCompare className="h-3.5 w-3.5" />}
               {comparing ? "Comparing…" : "Compare Selected"}
@@ -101,28 +122,30 @@ export default function HistoryPanel({ history, onViewItem, onCompare }: Props) 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border">
-                <th className="pb-3 pt-3 px-5 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide w-8" />
-                <th className="pb-3 pt-3 px-2 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Date</th>
-                <th className="pb-3 pt-3 px-2 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">File</th>
-                <th className="pb-3 pt-3 px-2 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide">Score</th>
-                <th className="pb-3 pt-3 px-2 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide">Grade</th>
-                <th className="pb-3 pt-3 pr-5 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide hidden md:table-cell">JD Preview</th>
+              <tr className="border-b border-white/[0.05]">
+                <th className="pb-3 pt-3 px-5 w-8" />
+                <th className="pb-3 pt-3 px-2 text-left text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">Date</th>
+                <th className="pb-3 pt-3 px-2 text-left text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">File</th>
+                <th className="pb-3 pt-3 px-2 text-center text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">Score</th>
+                <th className="pb-3 pt-3 px-2 text-center text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">Grade</th>
+                <th className="pb-3 pt-3 px-2 text-left text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest hidden md:table-cell">JD Preview</th>
                 <th className="pb-3 pt-3 pr-5 w-10" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody>
               {history.map((h: any) => (
                 <tr
                   key={h.scan_id}
-                  className={`hover:bg-muted/40 transition-colors ${selectedIds.includes(h.scan_id) ? "bg-primary/5" : ""}`}
+                  className={`border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02] transition-colors ${
+                    selectedIds.includes(h.scan_id) ? "bg-violet-500/5" : ""
+                  }`}
                 >
                   <td className="py-3.5 px-5">
                     <input
                       type="checkbox"
                       checked={selectedIds.includes(h.scan_id)}
                       onChange={() => toggleSelect(h.scan_id)}
-                      className="rounded border-border accent-primary"
+                      className="rounded border-white/20 accent-violet-600 cursor-pointer"
                     />
                   </td>
                   <td className="py-3.5 px-2 text-muted-foreground text-xs whitespace-nowrap">{formatDate(h.timestamp)}</td>
@@ -133,26 +156,34 @@ export default function HistoryPanel({ history, onViewItem, onCompare }: Props) 
                         <p className="text-xs text-muted-foreground truncate leading-tight">{h.filename}</p>
                       </div>
                     ) : (
-                      <p className="font-medium text-foreground truncate">{h.filename}</p>
+                      <p className="font-medium text-foreground/90 truncate text-sm">{h.filename}</p>
                     )}
                   </td>
                   <td className="py-3.5 px-2 text-center">
-                    <span className="text-base font-bold" style={{ color: scoreToColor(h.overall_score) }}>{h.overall_score}</span>
+                    <span className="text-base font-black tabular-nums" style={{ color: scoreToColor(h.overall_score) }}>
+                      {h.overall_score}
+                    </span>
                   </td>
                   <td className="py-3.5 px-2 text-center">
                     <span
-                      className="text-xs font-bold px-2 py-0.5 rounded-full"
-                      style={{ backgroundColor: `${scoreToColor(h.overall_score)}25`, color: scoreToColor(h.overall_score) }}
+                      className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+                      style={{
+                        backgroundColor: `${scoreToColor(h.overall_score)}22`,
+                        color: scoreToColor(h.overall_score),
+                        border: `1px solid ${scoreToColor(h.overall_score)}40`,
+                      }}
                     >
                       {h.letter_grade}
                     </span>
                   </td>
-                  <td className="py-3.5 pr-5 text-xs text-muted-foreground hidden md:table-cell max-w-[200px] truncate">{h.jd_preview_50_chars}</td>
+                  <td className="py-3.5 px-2 text-xs text-muted-foreground hidden md:table-cell max-w-[200px] truncate">
+                    {h.jd_preview_50_chars}
+                  </td>
                   <td className="py-3.5 pr-5">
                     <button
                       onClick={() => handleView(h.scan_id)}
                       disabled={loading === h.scan_id}
-                      className="p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-primary transition-colors"
+                      className="p-2 rounded-lg hover:bg-white/[0.06] text-muted-foreground hover:text-violet-400 transition-colors"
                     >
                       {loading === h.scan_id
                         ? <Loader2 className="h-4 w-4 animate-spin" />

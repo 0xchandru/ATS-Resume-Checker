@@ -1,5 +1,5 @@
 import { View, Theme } from "../../App";
-import { Home, FileText, History, PlusCircle, Sun, Moon, User, Settings, LogOut, ShieldCheck, Zap, Menu, X } from "lucide-react";
+import { Home, FileText, History, PlusCircle, Sun, Moon, Zap, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 interface LayoutProps {
@@ -11,7 +11,7 @@ interface LayoutProps {
   onToggleTheme: () => void;
 }
 
-const sidebarIcons = [
+const navItems = [
   { id: "upload" as View, label: "New Scan", icon: PlusCircle, accent: true },
   { id: "upload" as View, label: "Home", icon: Home },
   { id: "results" as View, label: "Results", icon: FileText },
@@ -22,58 +22,69 @@ export default function Layout({ activeView, onViewChange, hasResult, children, 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className={`min-h-screen bg-background text-foreground flex ${theme === "dark" ? "" : "light"}`}>
+    <div className={`min-h-screen bg-background text-foreground flex ${theme === "light" ? "light" : ""}`}>
+      {/* Radial violet glow at top */}
+      <div className="fixed inset-0 pointer-events-none radial-glow z-0" />
+
       {/* Left Icon Sidebar — Desktop */}
-      <aside className="hidden lg:flex flex-col w-14 bg-sidebar border-r border-sidebar-border fixed inset-y-0 left-0 z-40">
+      <aside className="hidden lg:flex flex-col w-14 fixed inset-y-0 left-0 z-40 border-r border-white/[0.06] bg-sidebar">
         {/* Logo */}
-        <div className="flex items-center justify-center h-14 border-b border-sidebar-border">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-blue-400 shadow-sm shadow-primary/20">
+        <div className="flex items-center justify-center h-14 border-b border-white/[0.06]">
+          <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-500 shadow-lg shadow-violet-500/30">
             <Zap className="h-4 w-4 text-white" />
           </div>
         </div>
 
         {/* Nav Icons */}
         <nav className="flex-1 flex flex-col items-center py-4 gap-1">
-          {sidebarIcons.map(({ id, label, icon: Icon, accent }, i) => {
+          {navItems.map(({ id, label, icon: Icon, accent }, i) => {
             if (i === 0) {
-              // New Scan button (accent)
               return (
                 <button
                   key="new-scan"
                   onClick={() => onViewChange("upload")}
-                  className="w-10 h-10 flex items-center justify-center rounded-xl bg-primary text-primary-foreground hover:brightness-110 transition-all shadow-md shadow-primary/20 mb-3"
+                  data-testid="btn-new-scan"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-500 text-white hover:opacity-90 transition-all shadow-lg shadow-violet-500/25 mb-3"
                   title={label}
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon className="h-4 w-4" />
                 </button>
               );
             }
             const disabled = id === "results" && !hasResult;
+            const isActive = activeView === id && !(i === 1 && activeView !== "upload");
+            const isHomeActive = i === 1 && activeView === "upload";
+            const isResultsActive = id === "results" && activeView === "results";
+            const isHistoryActive = id === "history" && activeView === "history";
+            const highlighted = isHomeActive || isResultsActive || isHistoryActive;
+
             return (
               <button
                 key={`${id}-${i}`}
                 onClick={() => !disabled && onViewChange(id)}
                 disabled={disabled}
+                data-testid={`btn-nav-${label.toLowerCase().replace(/\s+/g, '-')}`}
                 className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all ${
-                  activeView === id
-                    ? "bg-sidebar-accent text-foreground"
+                  highlighted
+                    ? "bg-violet-600/20 text-violet-400"
                     : disabled
-                    ? "text-muted-foreground/30 cursor-not-allowed"
-                    : "text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/50"
+                    ? "text-muted-foreground/25 cursor-not-allowed"
+                    : "text-muted-foreground hover:text-foreground hover:bg-white/[0.06]"
                 }`}
                 title={label}
               >
-                <Icon className="h-5 w-5" />
+                <Icon className="h-4 w-4" />
               </button>
             );
           })}
         </nav>
 
-        {/* Bottom actions */}
-        <div className="flex flex-col items-center py-4 gap-2 border-t border-sidebar-border">
+        {/* Bottom — theme toggle */}
+        <div className="flex flex-col items-center py-4 gap-2 border-t border-white/[0.06]">
           <button
             onClick={onToggleTheme}
-            className="w-10 h-10 flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-sidebar-accent/50 transition-colors"
+            data-testid="btn-theme-toggle"
+            className="w-10 h-10 flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-white/[0.06] transition-colors"
             title={theme === "dark" ? "Switch to Light" : "Switch to Dark"}
           >
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -82,31 +93,50 @@ export default function Layout({ activeView, onViewChange, hasResult, children, 
       </aside>
 
       {/* Mobile Header */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-background/80 backdrop-blur-xl border-b border-border flex items-center justify-between px-4">
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-background/80 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-4">
         <div className="flex items-center gap-3">
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 -ml-2 rounded-lg hover:bg-muted transition-colors">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 -ml-2 rounded-lg hover:bg-white/[0.06] transition-colors"
+            data-testid="btn-mobile-menu"
+          >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
           <div className="flex items-center gap-2">
-            <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-blue-400">
+            <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-500">
               <Zap className="h-3.5 w-3.5 text-white" />
             </div>
-            <span className="font-bold text-sm text-foreground">ATS Checker <span className="text-primary font-black">PRO</span></span>
+            <span className="font-bold text-sm">ATS<span className="text-violet-400">Optimize</span></span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <button onClick={onToggleTheme} className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground">
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </button>
-        </div>
+        <button
+          onClick={onToggleTheme}
+          className="p-2 rounded-lg hover:bg-white/[0.06] transition-colors text-muted-foreground"
+          data-testid="btn-mobile-theme"
+        >
+          {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+        </button>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
-          <div className="w-64 bg-card h-full border-r border-border p-4 pt-16" onClick={e => e.stopPropagation()}>
+        <div
+          className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <div
+            className="w-64 bg-card h-full border-r border-white/[0.06] p-4 pt-16"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={() => { onViewChange("upload"); setMobileMenuOpen(false); }}
+              className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-violet-600 to-indigo-500 text-white rounded-xl text-sm font-bold mb-4 shadow-lg shadow-violet-500/20"
+            >
+              <PlusCircle className="h-5 w-5" />
+              New Scan
+            </button>
             <nav className="space-y-1">
-              {sidebarIcons.slice(1).map(({ id, label, icon: Icon }, i) => {
+              {navItems.slice(1).map(({ id, label, icon: Icon }, i) => {
                 const disabled = id === "results" && !hasResult;
                 return (
                   <button
@@ -115,10 +145,10 @@ export default function Layout({ activeView, onViewChange, hasResult, children, 
                     disabled={disabled}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                       activeView === id
-                        ? "bg-primary/10 text-primary"
+                        ? "bg-violet-600/15 text-violet-400"
                         : disabled
                         ? "text-muted-foreground/30 cursor-not-allowed"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                        : "text-muted-foreground hover:text-foreground hover:bg-white/[0.05]"
                     }`}
                   >
                     <Icon className="h-5 w-5" />
@@ -127,21 +157,12 @@ export default function Layout({ activeView, onViewChange, hasResult, children, 
                 );
               })}
             </nav>
-            <div className="mt-6 pt-4 border-t border-border space-y-1">
-              <button
-                onClick={() => { onViewChange("upload"); setMobileMenuOpen(false); }}
-                className="w-full flex items-center gap-3 px-4 py-3 bg-primary text-primary-foreground rounded-xl text-sm font-bold"
-              >
-                <PlusCircle className="h-5 w-5" />
-                New Scan
-              </button>
-            </div>
           </div>
         </div>
       )}
 
       {/* Main Content */}
-      <main className="flex-1 lg:ml-14 min-h-screen pt-14 lg:pt-0">
+      <main className="flex-1 lg:ml-14 min-h-screen pt-14 lg:pt-0 relative z-10">
         {activeView === "upload" ? (
           <div className="h-[calc(100vh-3.5rem)] lg:h-screen">
             {children}

@@ -49,15 +49,15 @@ export default function TopNav({ theme, onToggleTheme, onLogout }: Props) {
             </div>
             
             {/* Simple dropdown hover */}
-            <div className="absolute right-0 top-full mt-2 w-48 bg-card border border-border rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform origin-top-right">
+            <div className="absolute right-0 top-full mt-2 w-48 bg-[#13141f] border border-white/[0.08] rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform origin-top-right backdrop-blur-xl">
               <div className="p-2 space-y-1">
-                <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted rounded-lg transition-colors">
+                <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-white/[0.06] rounded-lg transition-colors">
                   <User className="h-4 w-4 text-muted-foreground" /> Profile
                 </button>
-                <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted rounded-lg transition-colors">
+                <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-white/[0.06] rounded-lg transition-colors">
                   <Settings className="h-4 w-4 text-muted-foreground" /> Settings
                 </button>
-                <div className="h-px bg-border my-1" />
+                <div className="h-px bg-white/[0.06] my-1" />
                 <button 
                   onClick={onLogout}
                   className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"

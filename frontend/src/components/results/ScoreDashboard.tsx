@@ -36,7 +36,13 @@ function ScoreRing({ score, grade }: { score: number; grade: string }) {
   return (
     <div className="relative inline-flex items-center justify-center">
       <svg width="192" height="192" viewBox="0 0 192 192">
-        <circle cx="96" cy="96" r="80" fill="none" stroke="#e2e8f0" strokeWidth="12" />
+        <defs>
+          <filter id="score-glow">
+            <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+            <feMerge><feMergeNode in="coloredBlur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+        <circle cx="96" cy="96" r="80" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="12" />
         <circle
           ref={ringRef}
           cx="96" cy="96" r="80"
@@ -47,12 +53,13 @@ function ScoreRing({ score, grade }: { score: number; grade: string }) {
           strokeDasharray={CIRCUMFERENCE}
           strokeDashoffset={CIRCUMFERENCE}
           transform="rotate(-90 96 96)"
+          filter="url(#score-glow)"
         />
       </svg>
       <div className="absolute text-center">
-        <p className="text-5xl font-bold" style={{ color }}>{Math.round(score)}</p>
-        <p className="text-2xl font-bold text-slate-700">{grade}</p>
-        <p className="text-xs text-slate-400 mt-1">ATS Score</p>
+        <p className="text-5xl font-black tabular-nums" style={{ color }}>{Math.round(score)}</p>
+        <p className="text-2xl font-black text-foreground/60">{grade}</p>
+        <p className="text-xs text-muted-foreground/50 mt-1 uppercase tracking-widest">ATS Score</p>
       </div>
     </div>
   );
@@ -77,19 +84,21 @@ function SubScoreBar({ name, data }: { name: string; data: any }) {
 
   return (
     <div className="group relative">
-      <div className="flex justify-between items-center mb-1">
-        <span className="text-sm font-medium text-slate-700">{meta.label}</span>
+      <div className="flex justify-between items-center mb-1.5">
+        <span className="text-sm font-medium text-foreground/80">{meta.label}</span>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-500">+{data.weighted_contribution?.toFixed(1)} pts</span>
-          <span className="text-sm font-bold" style={{ color }}>{Math.round(data.score)}%</span>
+          <span className="text-xs text-muted-foreground/50 tabular-nums">+{data.weighted_contribution?.toFixed(1)} pts</span>
+          <span className="text-sm font-black tabular-nums" style={{ color }}>{Math.round(data.score)}%</span>
         </div>
       </div>
-      <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
+      <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden">
         <div ref={barRef} className="h-full rounded-full" style={{ backgroundColor: color, width: "0%" }} />
       </div>
-      <div className="hidden group-hover:block absolute z-10 bottom-full left-0 mb-2 p-2 bg-slate-800 text-white text-xs rounded-lg max-w-xs shadow-lg">
-        {meta.desc}
-      </div>
+      {meta.desc && (
+        <div className="hidden group-hover:block absolute z-10 bottom-full left-0 mb-2 p-2.5 bg-[#1a1b26] text-white text-xs rounded-xl max-w-xs shadow-xl border border-white/[0.08] leading-relaxed">
+          {meta.desc}
+        </div>
+      )}
     </div>
   );
 }
@@ -98,19 +107,19 @@ export default function ScoreDashboard({ result }: Props) {
   const { overall_score, letter_grade, sub_scores, processing_time_seconds, filename } = result;
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+    <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">ATS Score Report</h2>
-          <p className="text-sm text-slate-500">{filename} · {processing_time_seconds}s analysis</p>
+          <h2 className="text-xl font-black text-foreground">ATS Score Report</h2>
+          <p className="text-sm text-muted-foreground mt-0.5">{filename} · {processing_time_seconds}s analysis</p>
         </div>
         <div className="text-right">
-          <p className="text-xs text-slate-400">Improvement potential</p>
-          <p className="text-sm font-semibold text-blue-600">+{Math.round(100 - overall_score)} points possible</p>
+          <p className="text-[10px] text-muted-foreground/50 uppercase tracking-widest">Improvement potential</p>
+          <p className="text-sm font-bold text-violet-400">+{Math.round(100 - overall_score)} points possible</p>
         </div>
       </div>
       <div className="flex flex-col md:flex-row items-center gap-8">
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <ScoreRing score={overall_score} grade={letter_grade} />
         </div>
         <div className="flex-1 w-full space-y-4">

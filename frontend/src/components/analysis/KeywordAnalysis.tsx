@@ -49,9 +49,9 @@ export default function KeywordAnalysis({ keywords }: Props) {
   const missingCount = (total_jd_keywords || 0) - (matched_count || 0);
 
   return (
-    <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
+    <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl overflow-hidden">
       {/* Header */}
-      <div className="px-5 py-4 border-b border-border">
+      <div className="px-5 py-4 border-b border-white/[0.05]">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <h2 className="text-base font-bold text-foreground flex items-center gap-2">
             <Search className="h-4 w-4 text-primary" />
@@ -93,7 +93,7 @@ export default function KeywordAnalysis({ keywords }: Props) {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-border">
+      <div className="flex border-b border-white/[0.05]">
         {(["matched", "missing"] as const).map(tab => (
           <button
             key={tab}
@@ -124,7 +124,7 @@ export default function KeywordAnalysis({ keywords }: Props) {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-80 overflow-y-auto pr-1">
               {matched.map((kw: any, i: number) => (
-                <div key={i} className="flex items-center gap-2 p-2.5 bg-muted/40 hover:bg-muted/60 rounded-lg transition-colors group">
+                <div key={i} className="flex items-center gap-2 p-2.5 bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.04] rounded-lg transition-colors group">
                   <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${importanceDotClass(kw.jd_importance)}`} />
                   <span className="font-medium text-foreground text-sm flex-1 truncate">{kw.keyword}</span>
                   <div className="flex items-center gap-1.5 flex-shrink-0 opacity-60 group-hover:opacity-100">
@@ -167,7 +167,7 @@ export default function KeywordAnalysis({ keywords }: Props) {
             </div>
             <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
               {missing.map((kw: any, i: number) => (
-                <div key={i} className="p-3 bg-muted/40 hover:bg-muted/60 rounded-lg transition-colors">
+                <div key={i} className="p-3 bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.04] rounded-lg transition-colors">
                   <div className="flex items-center gap-2">
                     <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${importanceDotClass(kw.jd_importance)}`} />
                     <span className="font-semibold text-foreground text-sm flex-1">{kw.keyword}</span>

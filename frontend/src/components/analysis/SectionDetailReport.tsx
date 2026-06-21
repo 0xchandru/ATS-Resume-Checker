@@ -50,7 +50,7 @@ function SectionCard({ section, sectionFeedback }: { section: any; sectionFeedba
   return (
     <div className={`rounded-xl border overflow-hidden transition-all ${health === "bad" ? "border-red-500/30" : health === "warn" ? "border-amber-500/30" : "border-border"}`}>
       <button
-        className="w-full flex items-center gap-3 px-4 py-3.5 bg-card hover:bg-muted/40 transition-colors text-left"
+        className="w-full flex items-center gap-3 px-4 py-3.5 bg-white/[0.01] hover:bg-white/[0.04] transition-colors text-left"
         onClick={() => setOpen(!open)}
       >
         <span className="text-base w-6 text-center">{meta.emoji}</span>
@@ -80,19 +80,19 @@ function SectionCard({ section, sectionFeedback }: { section: any; sectionFeedba
       </button>
 
       {open && (
-        <div className="px-4 pb-4 bg-muted/20 space-y-3 border-t border-border">
+        <div className="px-4 pb-4 bg-white/[0.01] space-y-3 border-t border-white/[0.05]">
           {/* Word count metric + warning */}
           <div className="flex items-center gap-4 pt-3">
-            <div className="bg-card rounded-lg px-3 py-2 border border-border text-center">
-              <p className="text-base font-bold text-foreground">{section.word_count || 0}</p>
+            <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2 text-center">
+              <p className="text-base font-black text-foreground tabular-nums">{section.word_count || 0}</p>
               <p className="text-xs text-muted-foreground">words</p>
             </div>
-            <div className="bg-card rounded-lg px-3 py-2 border border-border text-center">
-              <p className="text-base font-bold text-foreground">{Math.round((section.confidence || 0) * 100)}%</p>
+            <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2 text-center">
+              <p className="text-base font-black text-foreground tabular-nums">{Math.round((section.confidence || 0) * 100)}%</p>
               <p className="text-xs text-muted-foreground">confidence</p>
             </div>
             {section.keyword_density != null && (
-              <div className="bg-card rounded-lg px-3 py-2 border border-border text-center">
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2 text-center">
                 <p className="text-base font-bold" style={{ color: scoreToColor(Math.round(section.keyword_density * 100)) }}>
                   {Math.round(section.keyword_density * 100)}%
                 </p>
@@ -120,7 +120,7 @@ function SectionCard({ section, sectionFeedback }: { section: any; sectionFeedba
             </div>
           ))}
           {otherFeedback.map((f, i) => (
-            <div key={i} className="flex items-start gap-2 p-3 bg-muted/60 border border-border rounded-lg">
+            <div key={i} className="flex items-start gap-2 p-3 bg-violet-500/8 border border-violet-500/15 rounded-lg">
               <Info className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
               <div>
                 <p className="text-sm text-foreground/90">{f.message}</p>
@@ -175,8 +175,8 @@ export default function SectionDetailReport({ sections, keywords: _kw, feedback 
   }
 
   return (
-    <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+    <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl overflow-hidden">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
         <h2 className="text-base font-bold text-foreground flex items-center gap-2">
           <span className="text-primary">§</span> Section-by-Section Report
         </h2>

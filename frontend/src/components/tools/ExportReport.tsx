@@ -30,12 +30,16 @@ export default function ExportReport({ result }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-      <div className="flex items-center justify-between mb-4">
+    <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl p-6">
+      <div className="flex items-start justify-between mb-5">
         <div>
-          <h2 className="text-lg font-bold text-slate-900">Export Report</h2>
-          <p className="text-sm text-slate-500">
-            {result.filename} · Score: <span className="font-semibold" style={{ color: scoreToColor(result.overall_score) }}>{result.overall_score}</span> ({result.letter_grade})
+          <h2 className="text-lg font-black text-foreground">Export Report</h2>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            {result.filename} · Score:{" "}
+            <span className="font-bold" style={{ color: scoreToColor(result.overall_score) }}>
+              {result.overall_score}
+            </span>{" "}
+            ({result.letter_grade})
           </p>
         </div>
       </div>
@@ -44,31 +48,31 @@ export default function ExportReport({ result }: Props) {
         <button
           onClick={handleExport}
           disabled={exporting}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-60 transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-500 text-white rounded-xl text-sm font-bold hover:opacity-90 disabled:opacity-60 transition-opacity shadow-md shadow-violet-500/20"
         >
           <Download className="h-4 w-4" />
           {exporting ? "Exporting..." : "Download JSON"}
         </button>
         <button
           onClick={() => window.print()}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-medium hover:bg-slate-200 transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.04] border border-white/[0.07] text-foreground/80 rounded-xl text-sm font-semibold hover:bg-white/[0.07] transition-colors"
         >
           <Printer className="h-4 w-4" />
           Print Report
         </button>
         <button
           onClick={handleCopyLink}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-medium hover:bg-slate-200 transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.04] border border-white/[0.07] text-foreground/80 rounded-xl text-sm font-semibold hover:bg-white/[0.07] transition-colors"
         >
-          {copied ? <CheckCircle2 className="h-4 w-4 text-emerald-500" /> : <Share2 className="h-4 w-4" />}
+          {copied ? <CheckCircle2 className="h-4 w-4 text-emerald-400" /> : <Share2 className="h-4 w-4" />}
           {copied ? "Copied!" : "Copy Link"}
         </button>
       </div>
 
       {result.resume_preview && (
-        <div className="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-200">
-          <p className="text-xs font-semibold text-slate-500 mb-1">Resume Preview (first 600 chars)</p>
-          <p className="text-xs text-slate-600 font-mono leading-relaxed whitespace-pre-wrap">{result.resume_preview}</p>
+        <div className="mt-5 p-4 bg-white/[0.02] border border-white/[0.05] rounded-xl">
+          <p className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest mb-2">Resume Preview (first 600 chars)</p>
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed whitespace-pre-wrap">{result.resume_preview}</p>
         </div>
       )}
     </div>

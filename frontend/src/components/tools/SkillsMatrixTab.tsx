@@ -15,7 +15,6 @@ export default function SkillsMatrixTab({ keywords }: Props) {
 
   const { matched = [], missing = [] } = keywords;
 
-  // Normalize all skills into a single array for the table
   const allSkills = [
     ...matched.map((k: any) => ({
       name: k.canonical || k.keyword || k.term || "",
@@ -41,10 +40,8 @@ export default function SkillsMatrixTab({ keywords }: Props) {
     }))
   ];
 
-  // Filter
   const filtered = allSkills.filter(s => s.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  // Sort
   const sorted = [...filtered].sort((a, b) => {
     let diff = 0;
     if (sortField === "name") diff = a.name.localeCompare(b.name);
@@ -55,52 +52,46 @@ export default function SkillsMatrixTab({ keywords }: Props) {
     else if (sortField === "match_type") diff = a.match_type.localeCompare(b.match_type);
     else if (sortField === "kb_source") diff = a.kb_source.localeCompare(b.kb_source);
     else if (sortField === "match_confidence") diff = a.match_confidence - b.match_confidence;
-
     return sortAsc ? diff : -diff;
   });
 
   const handleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortAsc(!sortAsc);
-    } else {
-      setSortField(field);
-      setSortAsc(false); // default descending for new sorts
-    }
+    if (sortField === field) setSortAsc(!sortAsc);
+    else { setSortField(field); setSortAsc(false); }
   };
 
   const getCategoryBadge = (cat: string) => {
     const isSoft = cat === "soft_skill" || cat === "transversal" || cat === "social";
     const isOther = cat === "other_skill" || cat === "other";
-    if (isSoft) return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-purple-500/10 text-purple-500 border border-purple-500/20">Soft</span>;
-    if (isOther) return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-slate-500/10 text-slate-500 border border-slate-500/20">Other</span>;
-    return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20">Hard</span>;
+    if (isSoft) return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-purple-500/15 text-purple-400 border border-purple-500/25">Soft</span>;
+    if (isOther) return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-white/[0.06] text-muted-foreground border border-white/[0.08]">Other</span>;
+    return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-blue-500/15 text-blue-400 border border-blue-500/25">Hard</span>;
   };
 
   const getMatchTypeBadge = (type: string) => {
     switch (type) {
       case "exact_match":
-        return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">Exact</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">Exact</span>;
       case "normalized_match":
-        return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20">Alias</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-blue-500/15 text-blue-400 border border-blue-500/25">Alias</span>;
       case "inferred_match":
-        return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20">Inferred</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-amber-500/15 text-amber-400 border border-amber-500/25">Inferred</span>;
       case "unsupported_claim":
-        return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-red-500/10 text-red-500 border border-red-500/20">Unsupported</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-red-500/15 text-red-400 border border-red-500/25">Unsupported</span>;
       default:
-        return <span className="text-muted-foreground">-</span>;
+        return <span className="text-muted-foreground text-xs">–</span>;
     }
   };
 
   return (
-    <div className="p-6 bg-card rounded-b-2xl border border-t-0 border-border">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
+    <div className="p-6">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-5 gap-4">
         <div>
           <h2 className="text-xl font-black text-foreground">Skills Matrix</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            Detailed breakdown of all extracted skills and their frequencies.
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Full breakdown of all extracted skills and their frequencies.
           </p>
         </div>
-        
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
@@ -108,99 +99,89 @@ export default function SkillsMatrixTab({ keywords }: Props) {
             placeholder="Search skills..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-9 pr-4 py-2 bg-muted/50 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 w-full md:w-64 transition-all"
+            className="pl-9 pr-4 py-2 bg-white/[0.04] border border-white/[0.07] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/40 w-full md:w-64 transition-all text-foreground placeholder:text-muted-foreground"
           />
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-border">
+      <div className="overflow-x-auto rounded-xl border border-white/[0.06]">
         <table className="w-full text-sm text-left">
-          <thead className="bg-muted/50 text-muted-foreground uppercase text-[10px] font-bold tracking-wider">
+          <thead className="bg-white/[0.02] border-b border-white/[0.06]">
             <tr>
-              <th className="px-6 py-4 cursor-pointer hover:bg-muted/80 transition-colors" onClick={() => handleSort("name")}>
-                <div className="flex items-center gap-1.5">Skill <ArrowUpDown className="h-3 w-3" /></div>
-              </th>
-              <th className="px-6 py-4 cursor-pointer hover:bg-muted/80 transition-colors" onClick={() => handleSort("category")}>
-                <div className="flex items-center gap-1.5">Type <ArrowUpDown className="h-3 w-3" /></div>
-              </th>
-              <th className="px-6 py-4 cursor-pointer hover:bg-muted/80 transition-colors" onClick={() => handleSort("status")}>
-                <div className="flex items-center gap-1.5">Status <ArrowUpDown className="h-3 w-3" /></div>
-              </th>
-              <th className="px-6 py-4 cursor-pointer hover:bg-muted/80 transition-colors" onClick={() => handleSort("match_type")}>
-                <div className="flex items-center gap-1.5">Match Type <ArrowUpDown className="h-3 w-3" /></div>
-              </th>
-              <th className="px-6 py-4 text-center cursor-pointer hover:bg-muted/80 transition-colors" onClick={() => handleSort("jd_count")}>
-                <div className="flex items-center justify-center gap-1.5">JD Count <ArrowUpDown className="h-3 w-3" /></div>
-              </th>
-              <th className="px-6 py-4 text-center cursor-pointer hover:bg-muted/80 transition-colors" onClick={() => handleSort("resume_count")}>
-                <div className="flex items-center justify-center gap-1.5">Resume Count <ArrowUpDown className="h-3 w-3" /></div>
-              </th>
-              <th className="px-6 py-4 cursor-pointer hover:bg-muted/80 transition-colors" onClick={() => handleSort("kb_source")}>
-                <div className="flex items-center gap-1.5">KB Source <ArrowUpDown className="h-3 w-3" /></div>
-              </th>
-              <th className="px-6 py-4 cursor-pointer hover:bg-muted/80 transition-colors" onClick={() => handleSort("match_confidence")}>
-                <div className="flex items-center gap-1.5">Confidence <ArrowUpDown className="h-3 w-3" /></div>
-              </th>
+              {[
+                { field: "name" as SortField, label: "Skill" },
+                { field: "category" as SortField, label: "Type" },
+                { field: "status" as SortField, label: "Status" },
+                { field: "match_type" as SortField, label: "Match Type" },
+                { field: "jd_count" as SortField, label: "JD Count", center: true },
+                { field: "resume_count" as SortField, label: "Resume Count", center: true },
+                { field: "kb_source" as SortField, label: "KB Source" },
+                { field: "match_confidence" as SortField, label: "Confidence" },
+              ].map(({ field, label, center }) => (
+                <th
+                  key={field}
+                  className="px-5 py-3.5 cursor-pointer hover:bg-white/[0.03] transition-colors text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest"
+                  onClick={() => handleSort(field)}
+                >
+                  <div className={`flex items-center gap-1.5 ${center ? "justify-center" : ""}`}>
+                    {label} <ArrowUpDown className="h-3 w-3 opacity-50" />
+                  </div>
+                </th>
+              ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-border/50">
+          <tbody className="divide-y divide-white/[0.04]">
             {sorted.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-6 py-12 text-center text-muted-foreground">
+                <td colSpan={8} className="px-6 py-12 text-center text-muted-foreground text-sm">
                   No skills found matching your search.
                 </td>
               </tr>
             ) : (
               sorted.map((s, i) => (
-                <tr key={i} className="bg-card hover:bg-muted/20 transition-colors">
-                  <td className="px-6 py-4 font-medium text-foreground">
-                    {s.name}
-                  </td>
-                  <td className="px-6 py-4">
-                    {getCategoryBadge(s.category)}
-                  </td>
-                  <td className="px-6 py-4">
+                <tr key={i} className="hover:bg-white/[0.02] transition-colors">
+                  <td className="px-5 py-3.5 font-semibold text-foreground/90">{s.name}</td>
+                  <td className="px-5 py-3.5">{getCategoryBadge(s.category)}</td>
+                  <td className="px-5 py-3.5">
                     {s.status === "Found" ? (
-                      <span className="flex items-center gap-1.5 text-emerald-500 font-semibold">
-                        <Check className="h-4 w-4" /> Found
+                      <span className="flex items-center gap-1.5 text-emerald-400 font-bold text-xs">
+                        <Check className="h-3.5 w-3.5" /> Found
                       </span>
                     ) : (
-                      <span className="flex items-center gap-1.5 text-red-500 font-semibold">
-                        <X className="h-4 w-4" /> Missing
+                      <span className="flex items-center gap-1.5 text-red-400 font-bold text-xs">
+                        <X className="h-3.5 w-3.5" /> Missing
                       </span>
                     )}
                   </td>
-                  <td className="px-6 py-4">
-                    {getMatchTypeBadge(s.match_type)}
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <span className="inline-flex items-center justify-center min-w-[2rem] h-8 bg-muted rounded font-mono font-bold text-foreground">
+                  <td className="px-5 py-3.5">{getMatchTypeBadge(s.match_type)}</td>
+                  <td className="px-5 py-3.5 text-center">
+                    <span className="inline-flex items-center justify-center min-w-[2rem] h-7 bg-white/[0.04] border border-white/[0.07] rounded-lg font-mono font-bold text-foreground/80 text-xs px-2">
                       {s.jd_count}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-center">
-                    <span className={`inline-flex items-center justify-center min-w-[2rem] h-8 rounded font-mono font-bold ${
-                      s.resume_count > 0 
-                        ? s.resume_count >= s.jd_count 
-                          ? "bg-emerald-500/10 text-emerald-500" 
-                          : "bg-amber-500/10 text-amber-500"
-                        : "bg-red-500/10 text-red-500"
+                  <td className="px-5 py-3.5 text-center">
+                    <span className={`inline-flex items-center justify-center min-w-[2rem] h-7 rounded-lg font-mono font-bold text-xs px-2 ${
+                      s.resume_count > 0
+                        ? s.resume_count >= s.jd_count
+                          ? "bg-emerald-500/15 text-emerald-400"
+                          : "bg-amber-500/15 text-amber-400"
+                        : "bg-red-500/12 text-red-400"
                     }`}>
                       {s.resume_count}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-xs font-semibold px-2 py-1 bg-muted rounded-md text-muted-foreground capitalize">
+                  <td className="px-5 py-3.5">
+                    <span className="text-xs font-semibold px-2 py-1 bg-white/[0.04] border border-white/[0.07] rounded-lg text-muted-foreground capitalize">
                       {s.kb_source.replace("_", " ")}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-5 py-3.5">
                     {s.match_confidence > 0 ? (
-                      <span className="text-xs font-bold text-foreground">
+                      <span className="text-xs font-bold text-foreground/80 tabular-nums">
                         {Math.round(s.match_confidence * 100)}%
                       </span>
                     ) : (
-                      <span className="text-xs text-muted-foreground">-</span>
+                      <span className="text-xs text-muted-foreground/50">–</span>
                     )}
                   </td>
                 </tr>

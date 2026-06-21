@@ -123,9 +123,9 @@ export default function SidebarScore({ result, onNewScan, onRescan, isRescanning
   const matchColor = scoreToColor(matchRate);
 
   return (
-    <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-md">
+    <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
       {/* Header */}
-      <div className="px-5 pt-5 pb-4 border-b border-border">
+      <div className="px-5 pt-5 pb-4 border-b border-white/[0.06]">
         <div className="flex flex-col items-center gap-3">
           <ScoreRing score={overall_score} grade={letter_grade} />
           <div className="text-center">
@@ -157,7 +157,7 @@ export default function SidebarScore({ result, onNewScan, onRescan, isRescanning
       </div>
 
       {/* Factor bars */}
-      <div className="px-5 py-4 border-b border-border space-y-3.5">
+      <div className="px-5 py-4 border-b border-white/[0.06] space-y-3.5">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Resume Factors</p>
         {FACTORS.map(({ key, label, icon }) => {
           const data = sub_scores?.[key];
@@ -168,7 +168,7 @@ export default function SidebarScore({ result, onNewScan, onRescan, isRescanning
       </div>
 
       {/* Improvement potential */}
-      <div className="px-5 py-3 border-b border-border">
+      <div className="px-5 py-3 border-b border-white/[0.06]">
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">Improvement potential</span>
           <span className="text-xs font-bold text-primary">
@@ -182,7 +182,7 @@ export default function SidebarScore({ result, onNewScan, onRescan, isRescanning
         <button
           onClick={onRescan}
           disabled={isRescanning}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-500 text-white rounded-xl text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-60 shadow-md shadow-violet-500/20"
         >
           <RefreshCw className={`h-4 w-4 ${isRescanning ? "animate-spin" : ""}`} />
           {isRescanning ? "Rescanning…" : "Rescan Resume"}

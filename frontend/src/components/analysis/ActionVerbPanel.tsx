@@ -28,10 +28,10 @@ export default function ActionVerbPanel({ actionVerbs }: Props) {
   const circ = 2 * Math.PI * 30;
 
   return (
-    <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
-      <div className="px-5 py-4 border-b border-border">
-        <h2 className="text-base font-bold text-foreground flex items-center gap-2">
-          <Zap className="h-4 w-4 text-amber-500" /> Action Verb Analysis
+    <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl overflow-hidden">
+      <div className="px-5 py-4 border-b border-white/[0.05]">
+        <h2 className="text-sm font-black text-foreground/70 uppercase tracking-wider flex items-center gap-2">
+          <Zap className="h-4 w-4 text-amber-400" /> Action Verb Analysis
         </h2>
       </div>
 
@@ -39,7 +39,7 @@ export default function ActionVerbPanel({ actionVerbs }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Pie chart */}
           <div>
-            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-center mb-3">Verb Categories</p>
+            <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest text-center mb-3">Verb Categories</p>
             <div className="h-44">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -48,9 +48,9 @@ export default function ActionVerbPanel({ actionVerbs }: Props) {
                   </Pie>
                   <Tooltip
                     formatter={(value, name) => [`${value} verbs`, name]}
-                    contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "10px" }}
-                    labelStyle={{ color: "hsl(var(--foreground))" }}
-                    itemStyle={{ color: "hsl(var(--muted-foreground))" }}
+                    contentStyle={{ backgroundColor: "#11121a", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "10px" }}
+                    labelStyle={{ color: "rgba(255,255,255,0.9)" }}
+                    itemStyle={{ color: "rgba(255,255,255,0.6)" }}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -58,7 +58,7 @@ export default function ActionVerbPanel({ actionVerbs }: Props) {
             <div className="flex flex-wrap justify-center gap-2">
               {pieData.map(d => (
                 <div key={d.name} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: d.color }} />
+                  <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: d.color }} />
                   {d.name} ({d.value})
                 </div>
               ))}
@@ -69,7 +69,7 @@ export default function ActionVerbPanel({ actionVerbs }: Props) {
           <div className="flex flex-col items-center justify-center gap-3">
             <div className="relative">
               <svg width="88" height="88" viewBox="0 0 88 88">
-                <circle cx="44" cy="44" r="30" fill="none" stroke="hsl(var(--muted))" strokeWidth="8" />
+                <circle cx="44" cy="44" r="30" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
                 <circle cx="44" cy="44" r="30" fill="none" stroke={ratioColor} strokeWidth="8"
                   strokeLinecap="round"
                   strokeDasharray={circ}
@@ -79,17 +79,17 @@ export default function ActionVerbPanel({ actionVerbs }: Props) {
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <p className="text-xl font-black" style={{ color: ratioColor }}>{ratioPercent}%</p>
+                <p className="text-xl font-black tabular-nums" style={{ color: ratioColor }}>{ratioPercent}%</p>
               </div>
             </div>
             <div className="text-center">
-              <p className="text-sm font-semibold text-foreground">Strong Verb Ratio</p>
+              <p className="text-sm font-semibold text-foreground/80">Strong Verb Ratio</p>
               {ratioPercent < 60 && (
-                <p className="text-xs text-amber-500 mt-1">Target: 60%+</p>
+                <p className="text-xs text-amber-400 mt-0.5">Target: 60%+</p>
               )}
             </div>
             {!seniority_verb_alignment && alignment_note && (
-              <p className="text-xs text-red-400 text-center bg-red-500/10 border border-red-500/20 p-2.5 rounded-lg">{alignment_note}</p>
+              <p className="text-xs text-red-400 text-center bg-red-500/8 border border-red-500/15 p-2.5 rounded-xl leading-relaxed">{alignment_note}</p>
             )}
           </div>
 
@@ -97,10 +97,10 @@ export default function ActionVerbPanel({ actionVerbs }: Props) {
           <div className="space-y-4">
             {weak_verbs.length > 0 && (
               <div>
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Weak Verbs</p>
+                <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest mb-2">Weak Verbs</p>
                 <div className="space-y-1.5 max-h-28 overflow-y-auto">
                   {weak_verbs.map((wv: any, i: number) => (
-                    <div key={i} className="p-2.5 bg-red-500/10 border border-red-500/20 rounded-lg">
+                    <div key={i} className="p-2.5 bg-red-500/8 border border-red-500/15 rounded-lg">
                       <p className="text-xs font-bold text-red-400 capitalize">{wv.verb}</p>
                       {wv.context && <p className="text-xs text-muted-foreground mt-0.5 truncate">"{wv.context}"</p>}
                     </div>
@@ -110,12 +110,12 @@ export default function ActionVerbPanel({ actionVerbs }: Props) {
             )}
             {suggestions.length > 0 && (
               <div>
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Suggestions</p>
+                <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest mb-2">Suggestions</p>
                 <div className="space-y-1.5">
                   {suggestions.map((s: string, i: number) => (
-                    <div key={i} className="flex items-start gap-2 p-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
-                      <span className="text-emerald-500 mt-0.5 flex-shrink-0 text-xs">→</span>
-                      <p className="text-xs text-foreground/90 leading-relaxed">{s}</p>
+                    <div key={i} className="flex items-start gap-2 p-2.5 bg-emerald-500/8 border border-emerald-500/15 rounded-lg">
+                      <span className="text-emerald-400 mt-0.5 shrink-0 text-xs">→</span>
+                      <p className="text-xs text-foreground/80 leading-relaxed">{s}</p>
                     </div>
                   ))}
                 </div>

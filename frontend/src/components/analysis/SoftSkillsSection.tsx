@@ -1,4 +1,4 @@
-import { CheckCircle2, XCircle, Lightbulb } from "lucide-react";
+import { CheckCircle2, XCircle, Lightbulb, ArrowRight } from "lucide-react";
 
 interface Props {
   keywords: any;
@@ -8,7 +8,6 @@ interface Props {
   };
 }
 
-// Common soft skill keywords — used as fallback when backend doesn't provide categories
 const SOFT_SKILL_KEYWORDS = new Set([
   "communication", "leadership", "teamwork", "team player", "problem solving", "problem-solving",
   "critical thinking", "adaptability", "time management", "collaboration", "interpersonal",
@@ -22,7 +21,6 @@ const SOFT_SKILL_KEYWORDS = new Set([
   "analytical thinking", "problem solving skills", "strong analytical",
 ]);
 
-// Helper to extract keyword string from any skill object
 function getSkillKeyword(skill: any): string {
   if (typeof skill === "string") return skill;
   if (!skill || typeof skill !== "object") return "";
@@ -40,17 +38,11 @@ function isSoftSkill(skill: any): boolean {
   const keyword = getSkillKeyword(skill);
   if (!keyword) return false;
   const lower = keyword.toLowerCase();
-  
-  // Check backend category first
   const cat = skill?.category?.toLowerCase?.() || "";
-  if (cat === "soft_skill" || cat === "transversal" || cat === "social" || cat === "competency") {
-    return true;
-  }
-  
-  // Fallback to keyword matching
-  return SOFT_SKILL_KEYWORDS.has(lower) || 
-    lower.includes("communicat") || 
-    lower.includes("leadership") || 
+  if (cat === "soft_skill" || cat === "transversal" || cat === "social" || cat === "competency") return true;
+  return SOFT_SKILL_KEYWORDS.has(lower) ||
+    lower.includes("communicat") ||
+    lower.includes("leadership") ||
     (lower.includes("team") && !lower.includes("system")) ||
     (lower.includes("management") && !lower.includes("system") && !lower.includes("database") && !lower.includes("network")) ||
     lower.includes("interpersonal") ||
@@ -62,57 +54,65 @@ function isSoftSkill(skill: any): boolean {
     lower.includes("reporting");
 }
 
+const IMPORTANCE_STYLE: Record<string, string> = {
+  critical: "bg-red-500/15 text-red-400 border-red-500/25",
+  high: "bg-amber-500/15 text-amber-400 border-amber-500/25",
+  medium: "bg-blue-500/15 text-blue-400 border-blue-500/25",
+};
+
 export default function SoftSkillsSection({ keywords, softSkillData }: Props) {
   if (!keywords) return null;
 
   const { matched = [], missing = [] } = keywords;
 
-  // If backend provides pre-categorized soft skills, use those; otherwise detect locally
   const matchedSoft = softSkillData?.matched || matched.filter((m: any) => isSoftSkill(m));
   const missingSoft = softSkillData?.missing || missing.filter((m: any) => isSoftSkill(m));
-
   const totalSoft = matchedSoft.length + missingSoft.length;
 
   return (
     <div id="soft-skills" className="scroll-mt-6">
-      <div className="flex items-center gap-3 mb-4">
-        <h2 className="text-2xl font-black text-foreground">Soft Skills</h2>
+      <div className="flex items-center gap-3 mb-3">
+        <h2 className="text-xl font-black text-foreground">Soft Skills</h2>
         {totalSoft > 0 && (
-          <span className="text-xs text-muted-foreground font-medium bg-muted px-2.5 py-1 rounded-lg">
-            {matchedSoft.length} of {totalSoft} matched
+          <span className="text-xs font-semibold px-2.5 py-1 bg-white/[0.04] border border-white/[0.07] text-muted-foreground rounded-full">
+            {matchedSoft.length}/{totalSoft} matched
           </span>
         )}
       </div>
 
       <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-        Soft skills demonstrate your work style and interpersonal abilities. While less weighted than hard skills in ATS scoring, recruiters actively look for these during manual review.
+        Soft skills demonstrate your work style. Less ATS-weighted than hard skills, but reviewed closely by hiring managers. Show them through examples, not just labels.
       </p>
 
       {totalSoft === 0 ? (
-        <div className="bg-muted/30 rounded-xl p-6 text-center">
-          <Lightbulb className="h-8 w-8 text-muted-foreground/40 mx-auto mb-3" />
-          <p className="text-sm text-muted-foreground">
+        <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl p-8 text-center">
+          <Lightbulb className="h-8 w-8 text-muted-foreground/30 mx-auto mb-3" />
+          <p className="text-sm text-muted-foreground max-w-md mx-auto">
             No soft skills were explicitly detected in the job description. Focus on naturally incorporating communication, leadership, and teamwork language into your experience bullets.
           </p>
         </div>
       ) : (
         <div className="space-y-4">
-          {/* Matched soft skills */}
           {matchedSoft.length > 0 && (
             <div>
-              <h4 className="text-sm font-bold text-emerald-500 mb-3 flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4" />
+              <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <CheckCircle2 className="h-3.5 w-3.5" />
                 Found in Resume ({matchedSoft.length})
               </h4>
-              <div className="bg-muted/30 rounded-xl p-4 space-y-2">
+              <div className="bg-white/[0.02] border border-white/[0.05] rounded-xl divide-y divide-white/[0.04]">
                 {matchedSoft.map((kw: any, i: number) => {
                   const count = kw.resume_occurrence_count || kw.jd_occurrence_count;
                   return (
-                    <div key={i} className="flex items-center gap-3 py-2 border-b border-border/50 last:border-0">
-                      <CheckCircle2 className="h-4 w-4 text-emerald-500 flex-shrink-0" />
-                      <span className="text-sm font-medium text-foreground">{getSkillKeyword(kw) || kw.keyword} {count > 1 ? <span className="text-muted-foreground ml-1">({count})</span> : null}</span>
-                      <span className="text-xs text-muted-foreground ml-auto">
-                        Matched via {kw.match_layer || kw.match_type || "keyword"}
+                    <div key={i} className="flex items-center gap-3 px-4 py-3">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+                      <span className="text-sm font-medium text-foreground/90 flex-1 min-w-0 truncate">
+                        {getSkillKeyword(kw) || kw.keyword}
+                      </span>
+                      {count > 1 && (
+                        <span className="text-xs text-muted-foreground shrink-0">×{count}</span>
+                      )}
+                      <span className="text-xs text-muted-foreground/60 shrink-0 hidden sm:block">
+                        {kw.match_layer || kw.match_type || "keyword"}
                       </span>
                     </div>
                   );
@@ -121,30 +121,37 @@ export default function SoftSkillsSection({ keywords, softSkillData }: Props) {
             </div>
           )}
 
-          {/* Missing soft skills */}
           {missingSoft.length > 0 && (
             <div>
-              <h4 className="text-sm font-bold text-red-500 mb-3 flex items-center gap-2">
-                <XCircle className="h-4 w-4" />
+              <h4 className="text-xs font-bold text-red-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <XCircle className="h-3.5 w-3.5" />
                 Missing from Resume ({missingSoft.length})
               </h4>
-              <div className="bg-muted/30 rounded-xl p-4 space-y-2">
+              <div className="bg-white/[0.02] border border-white/[0.05] rounded-xl divide-y divide-white/[0.04]">
                 {missingSoft.map((kw: any, i: number) => {
                   const count = kw.jd_occurrence_count || 1;
+                  const importance = (kw.jd_importance || "").toLowerCase();
                   return (
-                    <div key={i} className="flex items-start gap-3 py-2 border-b border-border/50 last:border-0">
-                      <XCircle className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
+                    <div key={i} className="flex items-start gap-3 px-4 py-3">
+                      <XCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
                       <div className="flex-1 min-w-0">
-                        <span className="text-sm font-medium text-foreground">{getSkillKeyword(kw) || kw.keyword} {count > 1 ? <span className="text-muted-foreground ml-1">({count})</span> : null}</span>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-sm font-medium text-foreground/90 truncate">
+                            {getSkillKeyword(kw) || kw.keyword}
+                          </span>
+                          {count > 1 && <span className="text-xs text-muted-foreground">×{count}</span>}
+                        </div>
                         {kw.suggestion && (
                           <p className="text-xs text-muted-foreground mt-1">→ {kw.suggestion}</p>
                         )}
                       </div>
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${
-                        kw.jd_importance === "critical" ? "bg-red-500/20 text-red-400" :
-                        kw.jd_importance === "high" ? "bg-amber-500/20 text-amber-400" :
-                        "bg-muted text-muted-foreground"
-                      }`}>{kw.jd_importance || "relevant"}</span>
+                      {importance && (
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border shrink-0 capitalize ${
+                          IMPORTANCE_STYLE[importance] || "bg-white/[0.05] text-muted-foreground border-white/[0.08]"
+                        }`}>
+                          {kw.jd_importance}
+                        </span>
+                      )}
                     </div>
                   );
                 })}
@@ -152,11 +159,11 @@ export default function SoftSkillsSection({ keywords, softSkillData }: Props) {
             </div>
           )}
 
-          {/* Tips */}
-          <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
-            <p className="text-sm text-foreground">
-              <strong>💡 Pro tip:</strong> Don't list soft skills in isolation. Demonstrate them through your experience bullets.
-              Instead of "Strong communication skills", write "Presented quarterly security reports to C-suite executives, driving a 40% increase in security budget."
+          {/* Pro tip */}
+          <div className="flex items-start gap-3 p-4 bg-violet-500/8 border border-violet-500/15 rounded-xl">
+            <ArrowRight className="h-4 w-4 text-violet-400 mt-0.5 shrink-0" />
+            <p className="text-sm text-foreground/80 leading-relaxed">
+              <strong className="text-foreground">Pro tip:</strong> Don't list soft skills in isolation. Instead of "Strong communication skills", write "Presented quarterly security reports to C-suite, driving a 40% increase in security budget."
             </p>
           </div>
         </div>

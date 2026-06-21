@@ -11,31 +11,35 @@ export default function CybersecurityPanel({ cyber }: Props) {
   const scoreColor = security_score >= 70 ? "#10b981" : security_score >= 50 ? "#f59e0b" : "#ef4444";
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 border-l-4 border-l-emerald-500">
+    <div className="bg-white/[0.02] border border-white/[0.05] border-l-4 border-l-emerald-500/60 rounded-2xl p-6">
       <div className="flex items-center gap-3 mb-5">
-        <Shield className="h-6 w-6 text-emerald-600" />
+        <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+          <Shield className="h-5 w-5 text-emerald-400" />
+        </div>
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Cybersecurity Analysis</h2>
-          <p className="text-sm text-slate-500">Cybersecurity vertical detected — specialized analysis active</p>
+          <h2 className="text-xl font-black text-foreground">Cybersecurity Analysis</h2>
+          <p className="text-sm text-muted-foreground">Cybersecurity vertical detected — specialized analysis active</p>
         </div>
         <div className="ml-auto text-center">
-          <p className="text-2xl font-bold" style={{ color: scoreColor }}>{security_score}</p>
-          <p className="text-xs text-slate-500">Security Score</p>
+          <p className="text-2xl font-black tabular-nums" style={{ color: scoreColor }}>{security_score}</p>
+          <p className="text-[10px] text-muted-foreground/60 uppercase tracking-wider">Security Score</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Skills Found */}
         <div>
-          <h3 className="text-sm font-semibold text-emerald-700 mb-2 flex items-center gap-1">
-            <ShieldCheck className="h-4 w-4" /> Skills Found ({ranked_skills_found.length})
+          <h3 className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <ShieldCheck className="h-3.5 w-3.5" /> Skills Found ({ranked_skills_found.length})
           </h3>
-          <div className="space-y-1.5 max-h-48 overflow-y-auto">
+          <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
             {ranked_skills_found.map((s: any, i: number) => (
-              <div key={i} className="flex items-center gap-2 p-2 bg-emerald-50 border border-emerald-200 rounded-lg">
-                <span className="text-xs font-bold text-emerald-600 w-6 text-center">#{s.rank}</span>
-                <span className="text-sm text-slate-700 flex-1">{s.skill}</span>
-                {s.precision_level && <span className="text-xs bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded">{s.precision_level}</span>}
+              <div key={i} className="flex items-center gap-2 p-2.5 bg-emerald-500/8 border border-emerald-500/15 rounded-lg">
+                <span className="text-[10px] font-black text-emerald-400 w-6 text-center tabular-nums">#{s.rank}</span>
+                <span className="text-sm text-foreground/85 flex-1">{s.skill}</span>
+                {s.precision_level && (
+                  <span className="text-[10px] bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 px-1.5 py-0.5 rounded font-bold">{s.precision_level}</span>
+                )}
               </div>
             ))}
           </div>
@@ -43,15 +47,17 @@ export default function CybersecurityPanel({ cyber }: Props) {
 
         {/* Skills Missing */}
         <div>
-          <h3 className="text-sm font-semibold text-red-600 mb-2 flex items-center gap-1">
-            <ShieldAlert className="h-4 w-4" /> Skills Missing ({ranked_skills_missing.length})
+          <h3 className="text-xs font-bold text-red-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <ShieldAlert className="h-3.5 w-3.5" /> Skills Missing ({ranked_skills_missing.length})
           </h3>
-          <div className="space-y-1.5 max-h-48 overflow-y-auto">
+          <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
             {ranked_skills_missing.slice(0, 10).map((s: any, i: number) => (
-              <div key={i} className="flex items-center gap-2 p-2 bg-red-50 border border-red-200 rounded-lg">
-                <span className="text-xs font-bold text-red-500 w-6 text-center">#{s.rank}</span>
-                <span className="text-sm text-slate-700 flex-1">{s.skill}</span>
-                {s.precision_level && <span className="text-xs bg-red-100 text-red-600 px-1.5 py-0.5 rounded">{s.precision_level}</span>}
+              <div key={i} className="flex items-center gap-2 p-2.5 bg-red-500/8 border border-red-500/15 rounded-lg">
+                <span className="text-[10px] font-black text-red-400 w-6 text-center tabular-nums">#{s.rank}</span>
+                <span className="text-sm text-foreground/85 flex-1">{s.skill}</span>
+                {s.precision_level && (
+                  <span className="text-[10px] bg-red-500/15 border border-red-500/25 text-red-400 px-1.5 py-0.5 rounded font-bold">{s.precision_level}</span>
+                )}
               </div>
             ))}
           </div>
@@ -59,28 +65,28 @@ export default function CybersecurityPanel({ cyber }: Props) {
 
         {/* Certs */}
         <div>
-          <h3 className="text-sm font-semibold text-slate-700 mb-2">Certifications Detected ({detected_certs.length})</h3>
+          <h3 className="text-xs font-bold text-foreground/60 uppercase tracking-wider mb-2">Certifications Detected ({detected_certs.length})</h3>
           {detected_certs.length > 0 ? (
             <div className="flex flex-wrap gap-1.5">
               {detected_certs.map((c: string, i: number) => (
-                <span key={i} className="text-xs px-2 py-1 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-full font-medium">{c}</span>
+                <span key={i} className="text-xs px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full font-semibold">{c}</span>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-slate-400">No certifications detected</p>
+            <p className="text-sm text-muted-foreground">No certifications detected</p>
           )}
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold text-slate-700 mb-2">Missing Key Certifications</h3>
+          <h3 className="text-xs font-bold text-foreground/60 uppercase tracking-wider mb-2">Missing Key Certifications</h3>
           {missing_critical_certs.length > 0 ? (
             <div className="flex flex-wrap gap-1.5">
               {missing_critical_certs.map((c: string, i: number) => (
-                <span key={i} className="text-xs px-2 py-1 bg-red-50 border border-red-200 text-red-700 rounded-full font-medium">{c}</span>
+                <span key={i} className="text-xs px-2.5 py-1 bg-red-500/8 border border-red-500/15 text-red-400 rounded-full font-semibold">{c}</span>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-emerald-600">All key certifications present</p>
+            <p className="text-sm text-emerald-400/70 font-medium">All key certifications present</p>
           )}
         </div>
       </div>
