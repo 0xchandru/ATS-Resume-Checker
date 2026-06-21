@@ -135,8 +135,8 @@ async def analyze_resume(scan_id: str, db: Session = Depends(get_db)):
         "skill_prediction": skill_prediction,
         "cybersecurity_analysis": cyber,
         "feedback": feedback,
-        "resume_preview": resume_text[:600],
-        "jd_preview": jd_text[:300],
+        "resume_preview": resume_text[:5000],
+        "jd_preview": jd_text[:8000],
     }
 
     existing = db.query(ScanResult).filter(ScanResult.scan_id == scan_id).first()

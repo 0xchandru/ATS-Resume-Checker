@@ -1,0 +1,69 @@
+Job Title - Junior Information Security Analyst
+
+Position Summary
+
+We are looking for a Junior Information Security Analyst to support the Information Security Manager (ISM) and CISO in managing the organization's security operations, cloud security, regulatory compliance, risk management, and audit activities. The role will be responsible for monitoring security alerts, maintaining compliance documentation, tracking risks and vulnerabilities, supporting cloud security initiatives, and assisting in the implementation of security controls aligned with regulatory and organizational requirements.
+
+Key Responsibilities
+
+Security Operations & Monitoring
+
+Analyze and investigate SIEM alerts, SOC notifications, and security incidents.
+Perform initial incident triage, documentation, and escalation of critical security events.
+Monitor security dashboards, threat advisories, and security monitoring tools.
+Regulatory Compliance & Audit Support
+
+Review RBI, CERT-In, and other regulatory security advisories and notifications.
+Assist in implementing security controls and remediation actions based on regulatory recommendations and audit findings.
+Prepare and maintain audit evidence, compliance documentation, trackers, and management reports.
+Support internal, external, customer, and regulatory audits.
+Risk, Vulnerability & Patch Management
+
+Maintain and periodically update the Information Security Risk Register.
+Track identified risks, mitigation plans, and remediation activities.
+Coordinate vulnerability assessments, review findings, and monitor closure of vulnerabilities.
+Support monthly and emergency patch management activities and maintain patch compliance reports.
+GCP Cloud Security & Linux Administration
+
+Support security monitoring and governance activities within Google Cloud Platform (GCP).
+Assist in IAM reviews, access control management, security configuration reviews, and cloud security assessments.
+Support Linux server administration, security hardening, patching, log analysis, and vulnerability remediation activities.
+Governance & Security Control Implementation
+
+Assist in maintaining information security policies, procedures, standards, and guidelines.
+Support implementation of security controls across infrastructure, cloud, and endpoint environments.
+Coordinate with infrastructure, application, cloud, and SOC teams to address security findings and compliance gaps.
+Support to ISM & CISO
+
+Prepare security dashboards, compliance reports, risk reports, and management presentations.
+Support vendor security reviews, governance activities, and security awareness initiatives.
+Assist the ISM and CISO in day-to-day security, compliance, and audit-related activities.
+Required Skills & Knowledge
+
+Understanding of Information Security, Cybersecurity, and Security Operations concepts.
+Familiarity with SIEM tools, SOC operations, and incident management processes.
+Knowledge of Google Cloud Platform (GCP) and cloud security principles.
+Knowledge of Vulnerability Management, Patch Management, and Security Hardening practices.
+Working knowledge of Linux administration and troubleshooting.
+Understanding of Risk Management, Risk Registers, and remediation tracking.
+Awareness of RBI Cybersecurity Framework, CERT-In directives, and ISO 27001 requirements.
+Basic networking knowledge including TCP/IP, DNS, Firewalls, VPNs, and access controls.
+Good documentation, analytical, and communication skills.
+Qualifications & Experience
+
+Bachelor's Degree in Information Technology, Computer Science, Cybersecurity, or a related discipline.
+1–3 years of experience in Information Security, SOC Operations, Compliance, Cloud Security, or IT Infrastructure.
+Relevant certifications such as ISC2 CC, Security+, ISO 27001 Foundation, or Google Cloud certifications will be an advantage.
+Reporting To
+
+Information Security Manager (ISM)
+Chief Information Security Officer (CISO)
+Key Deliverables
+
+SIEM and SOC alert analysis reports.
+RBI and CERT-In compliance tracking and remediation support.
+Information Security Risk Register maintenance.
+Vulnerability assessment and patch compliance reports.
+Audit evidence and compliance documentation.
+GCP cloud security monitoring and review reports.
+Security dashboards and management reports.

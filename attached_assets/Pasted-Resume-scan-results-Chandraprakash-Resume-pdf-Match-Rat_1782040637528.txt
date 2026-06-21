@@ -1,0 +1,222 @@
+Resume scan results
+
+Chandraprakash_Resume.pdf
+
+Match Rate
+
+52
+
+Fair
+
+Upload & rescan
+✨ AI Optimize
+
+Searchability
+✓
+
+Hard Skills
+15 issues to fix
+
+Evidence Quality
+✓
+
+Soft Skills
+✓
+
+Recruiter Tips
+1 issue to fix
+
+Formatting
+2 issues to fix
+
+Guide me
+Resume Report
+Job Description
+Track
+Print
+⚡
+ATS-Specific Tips
+
+Analyzed in 0.7s with 5-layer AI pipeline
+
+Searchability
+IMPORTANT
+An ATS (Applicant Tracking System) is a software used by 90% of companies and recruiters to search for resumes and manage the hiring process. Below is how well your resume appears in an ATS and a recruiter search.
+
+Tip: Fix the red Xs to ensure your resume is easily searchable by recruiters and parsed correctly by the ATS.
+
+Contact Information
+You provided your physical address. Recruiters use your address to validate your location for job matches.
+
+You provided your email. Recruiters use your email to contact you for job matches.
+
+You provided your phone number.
+
+Summary
+We found a summary section on your resume. Good job! The summary provides a quick overview of the candidate's qualifications, helping hiring managers promptly grasp the value the candidate can offer in the position.
+
+Section Headings
+We found the education section in your resume.
+
+We found the work experience section in your resume.
+
+We found the skills section in your resume.
+
+Job Title Match
+Your resume keywords align well with the job description. This helps ensure you're found when recruiters search by job title.
+
+Hard Skills
+38 of 80 matched
+Tip: Match the skills in your resume to the exact spelling in the job description. Prioritize skills that appear most frequently in the job description.
+
+Skills Comparison
+Highlighted Skills
+siem
+linux
+log analysis
+soc
+security
+DNS
+triage
+GCP
+Cloud Security
+Security Hardening
+monitoring security
+the Information Security Risk Register
+SOC Operations
+security assessments
+event
+cloud security initiatives
+security findings
+security awareness initiatives
+security controls
+dashboard
+Information Security Manager
+security dashboards
+TCP/IP, DNS
+Cybersecurity
+Linux administration
+Administration Support security
+ISM
+Security Operations concepts
+endpoint
+Chief Information Security
+Resume:
+CHANDRAPRAKASH C
++919786475035 — chandraprakash.soc@gmail.com — Dindigul,TamilNadu — OpentoRelocation(Hyderabad)
+Portfolio — LinkedIn — GitHub — TryHackMe(Top1%)
+PROFESSIONAL SUMMARY
+B.Sc.CSfreshertargetingaJuniorSOCAnalystrole. RankedTop1%globallyonTryHackMe(3M+users)with
+SOC Level 1 certification, validating hands-on SIEM monitoring, log analysis, threat intelligence, incident
+triage, and case documentation competency. Operated a multi-VM SOC lab performing initial alert identifi-
+cation, basic triage, and first-level validation of security events (phishing, malware, suspicious logins) per
+p
+
+Job Description:
+Job Title - Junior Information Security Analyst
+
+Position Summary
+
+We are looking for a Junior Information Security Analyst to support the Information Security Manager (ISM) and CISO in managing the organization's security operations, cloud security, regulatory compliance, risk management, and a
+
+Copy 42 missing skills
+Add these to your resume to improve match rate
+Soft Skills
+0 of 2 matched
+Soft skills demonstrate your work style and interpersonal abilities. While less weighted than hard skills in ATS scoring, recruiters actively look for these during manual review.
+
+Missing from Resume (2)
+management reports
+→ Add 'management reports' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+access control management
+→ Add 'access control management' to your skills or experience section — it's a MUST-HAVE requirement for this role.
+
+critical
+💡 Pro tip: Don't list soft skills in isolation. Demonstrate them through your experience bullets. Instead of "Strong communication skills", write "Presented quarterly security reports to C-suite executives, driving a 40% increase in security budget."
+
+Recruiter Tips
+20 improvements suggested
+These tips go beyond ATS compliance — they reflect what recruiters and hiring managers actually look for when reviewing resumes manually.
+
+Measurable Results
+7 of 7 experience bullets contain quantified impact. Great job!
+
+Action Verb Quality
+Only 5% of your verbs are strong. Replace generic verbs like "worked" with impactful alternatives.
+
+Resume Length
+Your resume is 365 words (1 page). Good length!
+
+File Format
+Your resume is in a compatible format. PDF and DOCX are the most ATS-friendly formats.
+
+Critical Issues (20)
+JD signals c_suite level. Resume signals junior level (7 level gap). Emphasize scope, team size, strategic impact, and leadership to bridge the gap.
+
+→ Add metrics: team size managed, project budget, users impacted
+
+'Vulnerability assessment' is critical for this role and missing from your resume.
+
+→ Add 'Vulnerability assessment' to your skills or experience if applicable.
+
+'vpn' is critical for this role and missing from your resume.
+
+→ Add 'vpn' to your skills or experience if applicable.
+
+'Risk Registers' is critical for this role and missing from your resume.
+
+→ Add 'Risk Registers' to your skills or experience if applicable.
+
+'degree' is critical for this role and missing from your resume.
+
+→ Add 'degree' to your skills or experience if applicable.
+
+Formatting
+2 issues to fix
+Layout
+Multi-column layout detected. Most ATS systems cannot parse multi-column resumes correctly.
+
+No tables detected. Good for ATS compatibility.
+
+No embedded images detected. ATS can parse all text content.
+
+Resume is 1 page. Good length.
+
+Font Check
+9 fonts detected. Too many fonts — use 1-2 fonts for a clean, professional look.
+
+Fonts used: XIVJXX+CharterBT-RomanXIVJXX+CharterBT-RomanFFJOOI+CMSY10FFJOOI+CMSY10SHPBEC+CharterBT-Italic
+
+Page Setup
+Header/footer content detected. Some ATS systems skip content in headers/footers — keep critical info in the body.
+
+365 words total. Good content length.
+
+Detailed Checks
+multiple fonts
+
+9 fonts detected. Reduce to 1–2 for ATS compatibility.
+
+warning
+multi column layout
+
+Multi-column layout detected. Ensure it reads correctly left-to-right, as some older ATS parsers may struggle.
+
+warning
+no tables
+
+No tables detected. ATS can parse all content.
+
+pass
+no images
+
+No embedded images found.
+
+pass
+header footer content
+
+Content in document header/footer. Some ATS skip header/footer. Duplicate important info in the body.
+
+info

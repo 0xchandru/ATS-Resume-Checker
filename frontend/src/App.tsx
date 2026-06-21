@@ -319,7 +319,7 @@ export default function App() {
 
               {resultsTab === "job_description" && (
                 <JobDescriptionTab
-                  jdText={currentResult.jd_preview || currentJD}
+                  jdText={currentJD || currentResult.jd_preview}
                   keywords={currentResult.keywords}
                   onRescanWithNewJD={handleRescan}
                   isRescanning={isRescanning}
