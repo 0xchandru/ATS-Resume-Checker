@@ -1,49 +1,23 @@
 #!/bin/bash
-# ATS Resume Checker - Unified Setup & Run Script
-# This script installs all dependencies and starts the frontend and backend.
+# ATS Resume Checker - Unified Run Script for Replit
 
 set -e
 
-# Colors for output
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-echo -e "${BLUE}=== ATS Resume Checker Setup & Launcher ===${NC}"
+echo -e "${BLUE}=== ATS Resume Checker ===${NC}"
 
-# 1. Setup Backend
-echo -e "\n${BLUE}[1/3] Setting up Python backend...${NC}"
+# Download spaCy model if needed
+echo "Checking spaCy model..."
+python3 -m spacy download en_core_web_sm --quiet 2>/dev/null || true
 
-if [ ! -d ".venv" ]; then
-    echo "Creating virtual environment..."
-    python3 -m venv .venv
-fi
+# Start backend in background
+echo -e "${BLUE}Starting backend on port 8787...${NC}"
+python3 -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8787 &
+BACKEND_PID=$!
 
-echo "Activating virtual environment and installing requirements..."
-source .venv/bin/activate
-cd backend
-pip install --upgrade pip --quiet
-pip install -r requirements.txt --quiet
-
-echo "Downloading spaCy model (if needed)..."
-python -m spacy download en_core_web_sm --quiet 2>/dev/null || true
-cd ..
-# 2. Setup Root and Frontend Node Modules
-echo -e "\n${BLUE}[2/3] Setting up Node.js dependencies...${NC}"
-
-# Install root dependencies (concurrently)
-echo "Installing root dependencies..."
-npm install --quiet
-
-# Install frontend dependencies
-echo "Installing frontend dependencies..."
-cd frontend
-npm install --quiet
-cd ..
-
-# 3. Start the Application
-echo -e "\n${GREEN}[3/3] Setup complete! Starting the application...${NC}"
-echo -e "Press Ctrl+C to stop both servers at any time.\n"
-
-# Run the concurrently script defined in package.json
-npm run dev
+# Start frontend
+echo -e "${BLUE}Starting frontend on port 5000...${NC}"
+cd frontend && npm run dev

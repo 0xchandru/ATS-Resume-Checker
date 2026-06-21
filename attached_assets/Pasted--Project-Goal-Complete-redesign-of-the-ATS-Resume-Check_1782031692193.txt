@@ -1,0 +1,64 @@
+# Project Goal
+Complete redesign of the ATS Resume Checker to match Jobscan's premium, professional layout. Implement a dark-first theme with a light mode toggle, a Jobscan-style sidebar + main content layout, tabbed results, and significant backend algorithm improvements to exceed the quality of platforms like Naukri and LinkedIn.
+
+# UI Design & Layout Idea
+1. **Core Architecture**: Move away from a centered top-nav layout to a **fixed left sidebar + scrollable main content** layout, mimicking professional tools like Jobscan.
+2. **Theme**: Deep navy dark mode by default with electric blue primary accents. Glassmorphism cards (backdrop-blur) and smooth theme transitions.
+3. **Left Sidebar (`ResultsSidebar.tsx`)**: 
+   - Large, glowing "Match Rate" donut chart.
+   - "Upload & Rescan" primary button.
+   - "✨ AI Optimize" secondary button.
+   - 5 clickable Category Progress Bars with issue counts: Searchability, Hard Skills, Soft Skills, Recruiter Tips, Formatting.
+4. **Main Content (`ResultsTabs.tsx`)**:
+   - Tabbed view: **Resume Report** | **Job Description**.
+5. **Resume Report Sections**:
+   - `SearchabilitySection.tsx`: Checks for Contact Info, Professional Summary, standard Section Headings, and Job Title match. Shows ✅/❌ for each.
+   - `HardSkillsSection.tsx`: Skills comparison with rounded chips. A "Highlighted Skills" tab showing side-by-side Resume vs JD text with matched skills highlighted in green and missing in red.
+   - `SoftSkillsSection.tsx`: Dedicated analysis for soft skills (communication, leadership, etc.).
+   - `RecruiterTipsSection.tsx`: Actionable tips on measurable results (quantified bullets), action verb quality, resume length, and file format.
+   - `FormattingSection.tsx`: Checks for multi-column layouts, tables, fonts, and page setup.
+6. **Job Description Tab (`JobDescriptionTab.tsx`)**:
+   - Full JD text with highlighted matched/missing keywords.
+   - An "Edit" button to update the JD text and trigger a rescan.
+
+# Backend Alterations Needed
+1. **Keyword Extraction & Matching (`extractor.py`, `matcher.py`)**:
+   - Implement hard vs. soft skill classification using a predefined set of soft skills.
+   - Match hard skills and soft skills separately and return them in distinct lists.
+2. **New Engines (`searchability_checker.py`, `recruiter_tips.py`)**:
+   - Create logic to check for the presence of email, phone, and standard section headers.
+   - Create logic to calculate the percentage of experience bullets containing quantified metrics (numbers, %, $, etc.).
+   - Evaluate resume word count and action verb strength.
+3. **Scoring Engine (`scorer.py`)**:
+   - Refactor the scoring system to output 5 specific category scores that map directly to the frontend sidebar: `searchability`, `hard_skills`, `soft_skills`, `recruiter_tips`, and `formatting`.
+   - Include an `issues_to_fix` count for each category.
+4. **API Router (`analyze.py`)**:
+   - Update the `/analyze` endpoint to return the new structured data (category scores, separated hard/soft skills, searchability results, recruiter tips).
+
+# Implementation Plan & Complete Task List
+Please execute the following tasks step-by-step:
+
+## Phase 1: Foundation & CSS
+- [ ] Update `index.html` with premium typography (Inter font weights 300-900) and default `<html class="dark">`.
+- [ ] Overhaul `index.css` to define dark-first variables, Jobscan-style blue accents, glassmorphism utilities (`.glass-card`), and smooth transitions.
+- [ ] Refactor `App.tsx` and `Layout.tsx` to establish the new fixed sidebar + main content architecture.
+
+## Phase 2: Backend Algorithm Upgrades
+- [ ] Update `extractor.py` and `matcher.py` to classify and separate hard skills from soft skills.
+- [ ] Create `searchability_checker.py` to evaluate contact info and section headings.
+- [ ] Create `recruiter_tips.py` to analyze bullet quantification, verb strength, and word count.
+- [ ] Refactor `scorer.py` to calculate the 5 Jobscan category scores (Searchability, Hard Skills, Soft Skills, Recruiter Tips, Formatting) and calculate `issues_to_fix` for each.
+- [ ] Update `routers/analyze.py` to return this new comprehensive JSON structure.
+
+## Phase 3: Frontend Components (Jobscan-Style)
+- [ ] Create `ResultsSidebar.tsx` with the animated Match Rate donut and the 5 category progress bars.
+- [ ] Create `ResultsTabs.tsx` for toggling between the Report and JD.
+- [ ] Create `SearchabilitySection.tsx` (✅/❌ lists for summary, headings, contact info).
+- [ ] Create `HardSkillsSection.tsx` (skill chips + side-by-side text highlighting).
+- [ ] Create `SoftSkillsSection.tsx` (dedicated soft skill matching).
+- [ ] Create `RecruiterTipsSection.tsx` (quantification metrics, verb quality).
+- [ ] Create `FormattingSection.tsx` (layout, fonts, tables).
+- [ ] Create `JobDescriptionTab.tsx` (highlighted JD text + edit functionality).
+- [ ] Wire all components in `App.tsx` to consume the new backend response.
+
+Please proceed with Phase 1 and update the backend and frontend components to match this specification exactly.
