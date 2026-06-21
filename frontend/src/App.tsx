@@ -11,6 +11,7 @@ import RecruiterTipsSection from "./components/analysis/RecruiterTipsSection";
 import FormattingSection from "./components/analysis/FormattingSection";
 import JobDescriptionTab from "./components/tools/JobDescriptionTab";
 import AIVerdict, { type AIEvaluation } from "./components/verdict/AIVerdict";
+import RoleFitVerdict from "./components/verdict/RoleFitVerdict";
 import HistoryPanel from "./components/history/HistoryPanel";
 import AuthPanel from "./components/layout/AuthPanel";
 import { getHistory, uploadAndAnalyze, runAIEvaluation } from "./utils/api";
@@ -41,6 +42,26 @@ export interface AnalysisResult {
     formatting: CategoryScore;
   };
   keywords: any;
+  role_fit?: {
+    fit_level: string;
+    fit_label: string;
+    fit_color: string;
+    fit_score: number;
+    summary: string;
+    honest_assessment: {
+      what_matches: string[];
+      what_doesnt: string[];
+      truly_missing: any[];
+      noise_filtered: any[];
+    };
+    recommendations: string[];
+    seniority_statement: string;
+    evidence_grade: string;
+  };
+  seniority_analysis?: any;
+  evidence_quality?: any;
+  skill_concepts?: any;
+  noise_filtered?: any[];
   career_intelligence: any;
   action_verbs: any;
   sections: any;
@@ -227,6 +248,8 @@ export default function App() {
             <div className="bg-card rounded-b-2xl border border-t-0 border-border shadow-sm">
               {resultsTab === "report" && (
                 <div className="p-6 space-y-10">
+                  <RoleFitVerdict result={currentResult} />
+
                   {/* ATS Tips Banner */}
                   <div className="flex items-center justify-between p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
                     <div className="flex items-center gap-3">
@@ -253,6 +276,7 @@ export default function App() {
                     keywords={currentResult.keywords}
                     resumeText={currentResult.resume_preview}
                     jdText={currentResult.jd_preview}
+                    roleFit={currentResult.role_fit}
                   />
 
                   {/* Divider */}

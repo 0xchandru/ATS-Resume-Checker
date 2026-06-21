@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { AnalysisResult } from "../../App";
-import { RefreshCw, PlusCircle, Sparkles, HelpCircle } from "lucide-react";
+import { RefreshCw, Sparkles, HelpCircle } from "lucide-react";
+import SeniorityBadge from "../verdict/SeniorityBadge";
 
 interface Props {
   result: AnalysisResult;
@@ -161,9 +162,20 @@ export default function ResultsSidebar({
     i.severity === "critical" || i.severity === "warning"
   )?.length || 0);
 
+  const evidenceScore = result.evidence_quality?.overall_score
+    ? Math.round(result.evidence_quality.overall_score * 100)
+    : 50;
+
   const categories = [
     { label: "Searchability", score: searchabilityScore, issues: searchabilityIssues, id: "searchability" },
     { label: "Hard Skills", score: hardSkillsScore, issues: hardSkillsIssues, id: "hard-skills" },
+    {
+      label: "Evidence Quality",
+      score: evidenceScore,
+      issues: result.evidence_quality?.overall_grade === "Low" ? 1 : 0,
+      id: "evidence",
+      color: evidenceScore >= 70 ? "#10b981" : evidenceScore >= 45 ? "#f59e0b" : "#ef4444",
+    },
     { label: "Soft Skills", score: softSkillsScore, issues: softSkillsIssues, id: "soft-skills" },
     { label: "Recruiter Tips", score: recruiterScore, issues: recruiterIssues, id: "recruiter-tips" },
     { label: "Formatting", score: formattingScore, issues: formattingIssues, id: "formatting" },
@@ -182,6 +194,17 @@ export default function ResultsSidebar({
         <p className="text-sm font-bold text-foreground mb-3">Match Rate</p>
         <ScoreRing score={overall_score} grade={letter_grade} />
       </div>
+
+      {/* Seniority Badge */}
+      {result.seniority_analysis && (
+        <div className="px-5 py-3 border-b border-border">
+          <SeniorityBadge
+            jdLevel={result.seniority_analysis.jd_level?.level ?? "unknown"}
+            resumeLevel={result.seniority_analysis.resume_level?.level ?? "unknown"}
+            gapSeverity={result.seniority_analysis.gap?.gap_severity ?? "none"}
+          />
+        </div>
+      )}
 
       {/* Action Buttons */}
       <div className="px-5 py-4 border-b border-border space-y-2.5">

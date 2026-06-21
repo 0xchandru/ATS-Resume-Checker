@@ -71,17 +71,29 @@ function HighlightedPanel({
   );
 }
 
-export default function HardSkillsSection({ keywords, resumeText, jdText }: Props) {
+interface ExtendedProps extends Props {
+  roleFit?: {
+    honest_assessment?: {
+      truly_missing?: any[];
+      noise_filtered?: any[];
+    };
+  };
+}
+
+export default function HardSkillsSection({ keywords, resumeText, jdText, roleFit }: ExtendedProps) {
   if (!keywords) return null;
 
   const { matched = [], missing = [], matched_count, total_jd_keywords, match_rate } = keywords;
   const [activeTab, setActiveTab] = useState<"comparison" | "highlighted">("comparison");
 
+  const trulyMissing: any[] = roleFit?.honest_assessment?.truly_missing ?? missing;
+  const noiseFiltered: any[] = roleFit?.honest_assessment?.noise_filtered ?? [];
+
   const matchedSet = useMemo(() => new Set<string>(matched.map((m: any) => m.keyword.toLowerCase())), [matched]);
-  const missingSet = useMemo(() => new Set<string>(missing.map((m: any) => m.keyword.toLowerCase())), [missing]);
+  const missingSet = useMemo(() => new Set<string>(trulyMissing.map((m: any) => (m.keyword || m).toLowerCase())), [trulyMissing]);
 
   const matchPercent = Math.round((match_rate || 0) * 100);
-  const { copied: copiedAll, copy: copyAll } = useCopy(() => missing.map((m: any) => m.keyword).join(", "));
+  const { copied: copiedAll, copy: copyAll } = useCopy(() => trulyMissing.map((m: any) => m.keyword || m).join(", "));
 
   // Separate hard skills (technical keywords)
   const allSkills = [...matched.map((m: any) => ({ ...m, isMatched: true })), ...missing.map((m: any) => ({ ...m, isMatched: false }))];
@@ -148,14 +160,14 @@ export default function HardSkillsSection({ keywords, resumeText, jdText }: Prop
           </div>
 
           {/* Copy missing */}
-          {missing.length > 0 && (
+          {trulyMissing.length > 0 && (
             <div className="flex items-center gap-3">
               <button
                 onClick={copyAll}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-semibold hover:brightness-110 transition-all"
               >
                 {copiedAll ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                {copiedAll ? "Copied!" : `Copy ${missing.length} missing skills`}
+                {copiedAll ? "Copied!" : `Copy ${trulyMissing.length} missing skills`}
               </button>
               <span className="text-xs text-muted-foreground">Add these to your resume to improve match rate</span>
             </div>
@@ -188,17 +200,36 @@ export default function HardSkillsSection({ keywords, resumeText, jdText }: Prop
             </div>
           </div>
 
-          {/* All missing skills */}
-          {missing.length > 0 && (
+          {/* Truly missing skills */}
+          {trulyMissing.length > 0 && (
             <div>
-              <h4 className="text-sm font-bold text-red-500 mb-2">✗ Missing Skills ({missing.length})</h4>
+              <h4 className="text-sm font-bold text-red-500 mb-2">✗ Missing Skills ({trulyMissing.length})</h4>
               <div className="flex flex-wrap gap-2">
-                {missing.map((kw: any, i: number) => (
+                {trulyMissing.map((kw: any, i: number) => (
                   <span key={i} className="px-3 py-1.5 bg-red-500/10 text-red-400 border border-red-500/25 rounded-lg text-sm font-medium">
-                    {kw.keyword}
+                    {kw.keyword || kw}
                   </span>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Noise filtered — JD fragments ignored as noise */}
+          {noiseFiltered.length > 0 && (
+            <div className="mt-4">
+              <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+                Filtered as noise ({noiseFiltered.length} JD fragments ignored)
+              </h4>
+              <div className="flex flex-wrap gap-1.5">
+                {noiseFiltered.map((kw: any, i: number) => (
+                  <span key={i} className="px-2 py-1 bg-muted text-muted-foreground border border-border rounded-md text-xs line-through opacity-60">
+                    {kw.keyword || kw}
+                  </span>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground mt-2 opacity-70">
+                These terms were removed from your match target — they're filler or generic words that don't reflect real skills.
+              </p>
             </div>
           )}
         </div>
