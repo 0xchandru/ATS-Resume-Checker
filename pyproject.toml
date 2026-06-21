@@ -6,6 +6,7 @@ requires-python = ">=3.12"
 dependencies = [
     "aiofiles==23.2.1",
     "fastapi==0.111.0",
+    "keybert",
     "numpy==1.26.4",
     "openai>=2.43.0",
     "pdfplumber==0.11.0",
@@ -531,7 +532,7 @@ karbonn = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 kats = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 kbnf = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 kedro-datasets = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
-keybert = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
+keybert = [{ url = "https://pypi.org/simple/keybert/" }]
 keytotext = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 khoj = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 kiui = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
@@ -874,7 +875,7 @@ semantic-kernel = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'
 semantic-router = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 senselab = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 sent2vec = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
-sentence-transformers = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
+sentence-transformers = [{ url = "https://pypi.org/simple/sentence-transformers/" }]
 sequence-model-train = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 serotiny = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
 sevenn = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]

@@ -1,0 +1,413 @@
+You are a senior team consisting of a Product Manager, UX Designer, Staff Software Engineer, ATS Expert, Resume Parsing Expert, and AI Engineer.
+
+Analyze the ENTIRE existing codebase before making any changes.
+
+Your goal is NOT to patch the current application.
+
+Your goal is to completely redesign, refactor, and rebuild the platform into a modern ATS Optimization Platform that is visually comparable to SkillSyncer and Jobscan while introducing superior analysis, cleaner UX, faster performance, and enterprise-grade architecture.
+
+Phase 1: Full Codebase Audit
+
+First:
+
+Analyze the complete project structure.
+Analyze every page.
+Analyze every component.
+Analyze frontend architecture.
+Analyze backend architecture.
+Analyze database schema.
+Analyze API endpoints.
+Analyze resume parser flow.
+Analyze ATS scoring logic.
+Analyze keyword extraction logic.
+Analyze report generation logic.
+Identify:
+Technical debt
+Poor UI patterns
+Duplicate code
+Performance bottlenecks
+Scalability issues
+Security issues
+ATS scoring inaccuracies
+
+Generate an internal improvement plan before modifying anything.
+
+Core Product Vision
+
+Transform this into a professional ATS Optimization Platform.
+
+The product should feel like:
+
+SkillSyncer
+Jobscan
+Resume Worded
+
+but more modern and cleaner.
+
+The platform should look like a premium SaaS product.
+
+No generic dashboard templates.
+
+No amateur UI.
+
+No clutter.
+
+Complete UI/UX Redesign
+
+Redesign ALL pages.
+
+Redesign ALL layouts.
+
+Redesign ALL components.
+
+Redesign ALL workflows.
+
+Requirements:
+
+Modern SaaS design
+Consistent spacing system
+Responsive design
+Smooth animations
+Skeleton loaders
+Modern cards
+Better typography
+Better visual hierarchy
+Better color system
+Accessibility support
+Mobile-first responsiveness
+
+The UI should immediately feel premium.
+
+New Landing Page
+
+Create a modern homepage containing:
+
+Hero Section
+ATS Score Preview
+Resume Match Preview
+Interactive Demo
+CTA Buttons
+Features Section
+ATS Score Analysis
+Resume Parsing
+Keyword Optimization
+Missing Skills Detection
+Resume vs Job Description Comparison
+Section Analysis
+Recruiter Readiness Score
+How It Works
+
+3-step process:
+
+Upload Resume
+Paste Job Description
+Get ATS Report
+Testimonials Section
+FAQ Section
+Pricing Placeholder
+Footer
+Resume Upload Experience
+
+Completely redesign upload flow.
+
+Requirements:
+
+Drag and drop upload
+PDF support
+DOCX support
+Instant parsing
+Upload progress
+Parsing progress
+Error handling
+
+After upload:
+
+Display parsed resume content immediately.
+
+Sections:
+
+Contact Information
+Summary
+Skills
+Experience
+Education
+Projects
+Certifications
+Job Description Analyzer
+
+Create dedicated JD analysis engine.
+
+Extract:
+
+Skills
+Tools
+Certifications
+Education Requirements
+Experience Requirements
+Responsibilities
+Soft Skills
+Keywords
+
+Display extracted items in clean cards.
+
+ATS Match Report
+
+Build a professional report page.
+
+Overall ATS Score
+
+Large score card:
+
+ATS Match %
+Recruiter Readiness %
+Keyword Coverage %
+Skills Coverage %
+Resume vs JD Visual Comparison
+
+Side-by-side comparison.
+
+Highlight:
+
+Green:
+Matched keywords
+
+Red:
+Missing keywords
+
+Yellow:
+Partially matched keywords
+
+Real-time visual comparison.
+
+Skills Gap Analysis
+
+Create dedicated section.
+
+Display:
+
+Matched Skills
+
+Missing Skills
+
+Recommended Skills
+
+Priority Skills
+
+Nice-to-Have Skills
+
+Group by:
+
+Technical Skills
+Security Skills
+Cloud Skills
+Programming Skills
+Soft Skills
+Certifications
+Keyword Optimization Engine
+
+Build advanced keyword analysis.
+
+Show:
+
+Found Keywords
+Missing Keywords
+Overused Keywords
+Underused Keywords
+Keyword Density
+
+Provide actionable recommendations.
+
+Section-by-Section ATS Analysis
+
+Analyze:
+
+Header
+Summary
+Experience
+Projects
+Education
+Certifications
+Skills
+
+Each section gets:
+
+Score
+Issues
+Recommendations
+Resume Quality Checks
+
+Detect:
+
+Missing contact information
+Weak summary
+Missing skills section
+Poor formatting
+ATS compatibility issues
+Missing certifications
+Missing measurable achievements
+Weak action verbs
+Recruiter Readiness Analysis
+
+Create separate score.
+
+Evaluate:
+
+Impact statements
+Quantified achievements
+Keyword relevance
+Experience quality
+Technical relevance
+
+Provide improvement recommendations.
+
+Advanced ATS Checks
+
+Analyze:
+
+Tables
+Headers/Footers
+Images
+Icons
+Multi-column layouts
+Fonts
+Parsing risks
+
+Generate ATS compatibility warnings.
+
+Resume Parsing Improvements
+
+Improve parser accuracy.
+
+Support:
+
+PDF
+DOCX
+
+Extract:
+
+Name
+Email
+Phone
+LinkedIn
+GitHub
+Skills
+Experience
+Education
+Certifications
+Projects
+
+Handle:
+
+Multi-column resumes
+Different layouts
+ATS-friendly resumes
+Modern resumes
+Performance Improvements
+
+Requirements:
+
+Faster parsing
+Faster analysis
+Optimized queries
+Code splitting
+Lazy loading
+Caching
+Debounced searches
+Backend Refactor
+
+Refactor backend completely.
+
+Requirements:
+
+Modular architecture
+Service layer
+Validation layer
+Error handling layer
+Logging system
+Clean API structure
+
+Implement:
+
+Input validation
+Rate limiting
+Secure uploads
+File sanitization
+Analytics Dashboard
+
+Create dashboard containing:
+
+Total Resumes Analyzed
+Average ATS Score
+Most Missing Skills
+Top Keywords
+User Activity
+Report Export
+
+Add:
+
+PDF Export
+Print Report
+Share Report
+
+Export should preserve report design.
+
+AI Recommendation Engine
+
+Generate recommendations:
+
+Missing skills
+Missing certifications
+Better summary suggestions
+Better project suggestions
+Better keyword suggestions
+
+Recommendations must be contextual.
+
+Visual Design Requirements
+
+Use:
+
+Modern SaaS styling
+Professional typography
+Consistent spacing
+Premium card layouts
+Smooth hover effects
+Modern charts
+Better empty states
+Better loading states
+
+Avoid:
+
+Generic templates
+Cluttered dashboards
+Old UI patterns
+Poor mobile responsiveness
+Code Quality Requirements
+
+Requirements:
+
+Production-grade code
+Scalable architecture
+Clean folder structure
+Reusable components
+Type safety
+No duplicate logic
+Proper comments only where necessary
+Final Deliverables
+
+After implementation provide:
+
+Complete architecture explanation.
+Folder structure explanation.
+UI improvements summary.
+Backend improvements summary.
+ATS scoring methodology.
+Resume parsing methodology.
+Performance improvements summary.
+Security improvements summary.
+Future scalability recommendations.
+
+Do not make incremental changes.
+Do not remove datasets.
+
+Perform a complete redesign and modernization of the platform while preserving existing core functionality and improving every area that can be improved.
