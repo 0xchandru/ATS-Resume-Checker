@@ -10,6 +10,7 @@ import SoftSkillsSection from "./components/analysis/SoftSkillsSection";
 import RecruiterTipsSection from "./components/analysis/RecruiterTipsSection";
 import FormattingSection from "./components/analysis/FormattingSection";
 import JobDescriptionTab from "./components/tools/JobDescriptionTab";
+import RoleFitVerdict from "./components/verdict/RoleFitVerdict";
 import AIVerdict, { type AIEvaluation } from "./components/verdict/AIVerdict";
 import HistoryPanel from "./components/history/HistoryPanel";
 import AuthPanel from "./components/layout/AuthPanel";
@@ -32,24 +33,55 @@ export interface AnalysisResult {
   processing_time_seconds: number;
   overall_score: number;
   letter_grade: string;
-  sub_scores: Record<string, any>;
-  category_scores?: {
-    searchability: CategoryScore;
-    hard_skills: CategoryScore;
-    soft_skills: CategoryScore;
-    recruiter_tips: CategoryScore;
-    formatting: CategoryScore;
+  role_fit?: {
+    fit_level: string;
+    fit_label: string;
+    fit_color: string;
+    fit_score: number;
+    summary: string;
+    honest_assessment: {
+      what_matches: string[];
+      what_doesnt: string[];
+      truly_missing: any[];
+      noise_filtered: any[];
+    };
+    recommendations: string[];
+    seniority_statement: string;
+    evidence_grade: string;
   };
-  keywords: any;
+  seniority_analysis?: any;
+  evidence_quality?: any;
+  skill_concepts?: any;
+  noise_filtered?: any[];
+  sub_scores: {
+    keyword_match: { score: number; details: string };
+    semantic_relevance: { score: number; details: string; cosine_similarity: number };
+    section_completeness: { score: number; details: string };
+    format_compliance: { score: number; details: string };
+    impact_quantification: { score: number; details: string; quantified_bullets: number; total_experience_bullets: number };
+  };
+  category_scores?: {
+    searchability: { score: number; issues_to_fix: number; passed_checks: number; total_checks: number };
+    hard_skills: { score: number; issues_to_fix: number; matched_count: number; missing_count: number };
+    soft_skills: { score: number; issues_to_fix: number; matched_count: number; missing_count: number };
+    recruiter_tips: { score: number; issues_to_fix: number; quantification_score: number; strong_verb_ratio: number };
+    formatting: { score: number; issues_to_fix: number };
+  };
+  keywords: {
+    matched: any[];
+    missing: any[];
+    match_rate: number;
+  };
   career_intelligence: any;
   action_verbs: any;
   sections: any;
   formatting: any;
   skill_prediction: any;
-  cybersecurity_analysis: any | null;
-  feedback: any[];
+  cybersecurity_analysis: any;
+  feedback: any;
   resume_preview: string;
   jd_preview: string;
+  evaluation?: AIEvaluation;
 }
 
 export default function App() {
@@ -242,6 +274,9 @@ export default function App() {
                     </div>
                   </div>
 
+                  {/* Role Fit Verdict */}
+                  <RoleFitVerdict result={currentResult} />
+
                   {/* Searchability */}
                   <SearchabilitySection result={currentResult} />
 
@@ -253,6 +288,7 @@ export default function App() {
                     keywords={currentResult.keywords}
                     resumeText={currentResult.resume_preview}
                     jdText={currentResult.jd_preview}
+                    result={currentResult}
                   />
 
                   {/* Divider */}

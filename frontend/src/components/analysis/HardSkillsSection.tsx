@@ -71,20 +71,27 @@ function HighlightedPanel({
   );
 }
 
-export default function HardSkillsSection({ keywords, resumeText, jdText }: Props) {
+export default function HardSkillsSection({ keywords, resumeText, jdText, result }: Props & { result?: any }) {
   if (!keywords) return null;
 
-  const { matched = [], missing = [], matched_count, total_jd_keywords, match_rate } = keywords;
+  const { matched = [], matched_count, total_jd_keywords, match_rate } = keywords;
   const [activeTab, setActiveTab] = useState<"comparison" | "highlighted">("comparison");
 
+  // Use truly missing skills from the role fit assessment if available
+  const trulyMissing = result?.role_fit?.honest_assessment?.truly_missing || keywords.missing || [];
+  const noiseFiltered = result?.role_fit?.honest_assessment?.noise_filtered || [];
+
   const matchedSet = useMemo(() => new Set<string>(matched.map((m: any) => m.keyword.toLowerCase())), [matched]);
-  const missingSet = useMemo(() => new Set<string>(missing.map((m: any) => m.keyword.toLowerCase())), [missing]);
+  const missingSet = useMemo(() => new Set<string>(trulyMissing.map((m: any) => m.skill?.toLowerCase() || m.keyword?.toLowerCase())), [trulyMissing]);
 
   const matchPercent = Math.round((match_rate || 0) * 100);
-  const { copied: copiedAll, copy: copyAll } = useCopy(() => missing.map((m: any) => m.keyword).join(", "));
+  const { copied: copiedAll, copy: copyAll } = useCopy(() => trulyMissing.map((m: any) => m.skill || m.keyword).join(", "));
 
   // Separate hard skills (technical keywords)
-  const allSkills = [...matched.map((m: any) => ({ ...m, isMatched: true })), ...missing.map((m: any) => ({ ...m, isMatched: false }))];
+  const allSkills = [
+    ...matched.map((m: any) => ({ ...m, isMatched: true })), 
+    ...trulyMissing.map((m: any) => ({ ...m, keyword: m.skill || m.keyword, isMatched: false }))
+  ];
 
   return (
     <div id="hard-skills" className="scroll-mt-6">
@@ -148,14 +155,14 @@ export default function HardSkillsSection({ keywords, resumeText, jdText }: Prop
           </div>
 
           {/* Copy missing */}
-          {missing.length > 0 && (
+          {trulyMissing.length > 0 && (
             <div className="flex items-center gap-3">
               <button
                 onClick={copyAll}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-semibold hover:brightness-110 transition-all"
               >
                 {copiedAll ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                {copiedAll ? "Copied!" : `Copy ${missing.length} missing skills`}
+                {copiedAll ? "Copied!" : `Copy ${trulyMissing.length} missing skills`}
               </button>
               <span className="text-xs text-muted-foreground">Add these to your resume to improve match rate</span>
             </div>
@@ -189,18 +196,33 @@ export default function HardSkillsSection({ keywords, resumeText, jdText }: Prop
           </div>
 
           {/* All missing skills */}
-          {missing.length > 0 && (
+          {trulyMissing.length > 0 && (
             <div>
-              <h4 className="text-sm font-bold text-red-500 mb-2">✗ Missing Skills ({missing.length})</h4>
+              <h4 className="text-sm font-bold text-red-500 mb-2">✗ Missing Skills ({trulyMissing.length})</h4>
               <div className="flex flex-wrap gap-2">
-                {missing.map((kw: any, i: number) => (
+                {trulyMissing.map((kw: any, i: number) => (
                   <span key={i} className="px-3 py-1.5 bg-red-500/10 text-red-400 border border-red-500/25 rounded-lg text-sm font-medium">
-                    {kw.keyword}
+                    {kw.skill || kw.keyword}
                   </span>
                 ))}
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Noise Filtered Indicator */}
+      {noiseFiltered.length > 0 && (
+        <div className="mt-6 pt-4 border-t border-border">
+          <div className="flex items-start gap-3 text-muted-foreground bg-muted/20 p-3 rounded-xl">
+            <Search className="h-4 w-4 mt-0.5 opacity-50" />
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-1 opacity-70">Filtered for Accuracy</p>
+              <p className="text-xs opacity-80 leading-relaxed">
+                The ATS Intelligence Engine ignored {noiseFiltered.length} generic phrases from the JD (e.g., "{noiseFiltered[0]?.skill || 'various tasks'}", "{noiseFiltered[1]?.skill || 'team player'}") to prevent keyword inflation and provide an honest assessment of your actual skills.
+              </p>
+            </div>
+          </div>
         </div>
       )}
     </div>
