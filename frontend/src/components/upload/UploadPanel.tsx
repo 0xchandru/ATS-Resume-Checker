@@ -221,7 +221,7 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col min-h-[300px] lg:min-h-0">
+          <div className="flex flex-col">
             <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center justify-between flex-shrink-0">
               <span>Job Description</span>
               <button
@@ -234,12 +234,12 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
                 Format & Clean
               </button>
             </label>
-            <div className="flex-1 border border-white/[0.07] rounded-xl overflow-hidden bg-background/30 focus-within:ring-2 focus-within:ring-violet-500/30 focus-within:border-transparent transition-all">
+            <div className="border border-white/[0.07] rounded-xl overflow-hidden bg-background/30 focus-within:ring-2 focus-within:ring-violet-500/30 focus-within:border-transparent transition-all">
               <RichTextEditor
                 value={jd}
                 onChange={setJd}
                 placeholder="Paste the full job description here. Include responsibilities, requirements, and qualifications for the best ATS match..."
-                minHeight="100%"
+                minHeight="420px"
               />
             </div>
           </div>
@@ -322,13 +322,13 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
             <div className="flex-1 h-px bg-white/[0.06]" />
           </div>
 
-          <div className="flex-1 flex flex-col min-h-[200px] lg:min-h-0">
-            <div className="flex-1 border border-white/[0.07] rounded-xl overflow-hidden bg-background/30 focus-within:ring-2 focus-within:ring-violet-500/30 focus-within:border-transparent transition-all">
+          <div className="flex flex-col">
+            <div className="border border-white/[0.07] rounded-xl overflow-hidden bg-background/30 focus-within:ring-2 focus-within:ring-violet-500/30 focus-within:border-transparent transition-all">
               <RichTextEditor
                 value={resumeText}
                 onChange={setResumeText}
                 placeholder={file ? "Resume parsed. Review or edit the text below if needed." : "Alternatively, paste your full resume text here..."}
-                minHeight="100%"
+                minHeight="300px"
               />
             </div>
             <p className="text-[10px] text-muted-foreground mt-1.5 text-right">
