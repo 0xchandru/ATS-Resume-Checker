@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, CheckCircle2, XCircle, AlertTriangle, Info } from "lucide-react";
-import { scoreToColor } from "../utils/formatters";
+import { scoreToColor } from "../../utils/formatters";
 
 interface Props {
   sections: any;

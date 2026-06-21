@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Upload, FileText, AlertCircle, CheckCircle2, Loader2, Zap, BarChart3, Database } from "lucide-react";
-import { uploadAndAnalyze } from "../utils/api";
-import { AnalysisResult } from "../App";
+import { uploadAndAnalyze } from "../../utils/api";
+import { AnalysisResult } from "../../App";
 
 interface Props {
   onAnalysisComplete: (result: AnalysisResult, file: File, jd: string, scanName?: string) => void;

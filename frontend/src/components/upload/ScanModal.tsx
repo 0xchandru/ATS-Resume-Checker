@@ -3,8 +3,8 @@ import {
   X, Upload, FileText, AlertCircle, CheckCircle2, Loader2,
   Briefcase, FileSearch, Tag, Building2
 } from "lucide-react";
-import { uploadAndAnalyze } from "../utils/api";
-import { AnalysisResult } from "../App";
+import { uploadAndAnalyze } from "../../utils/api";
+import { AnalysisResult } from "../../App";
 
 interface Props {
   open: boolean;

@@ -1,6 +1,6 @@
 import re
 import logging
-from typing import Dict, List
+from typing import Dict, List, Optional
 from backend.app.config import SCORING_WEIGHTS, GRADE_THRESHOLDS, LAYER_MULTIPLIERS
 
 logger = logging.getLogger(__name__)
@@ -42,6 +42,183 @@ _VERB_RE = re.compile(
 )
 
 
+# ═══════════════════════════════════════════════════════════════════════════
+# Enhanced scoring with seniority caps, evidence quality, and concept matching
+# ═══════════════════════════════════════════════════════════════════════════
+
+def calculate_score_v2(
+    match_result: Dict,
+    sections: Dict,
+    formatting: Dict,
+    career: Dict,
+    resume_text: str,
+    jd_text: str,
+    seniority_gap: Optional[Dict] = None,
+    evidence_quality: Optional[Dict] = None,
+) -> Dict:
+    """
+    Enhanced 7-dimension scoring model.
+
+    Dimensions (weights):
+        1. Hard Skills Match     (0.25) — Concept-level matching
+        2. Domain Alignment      (0.15) — Semantic relevance to JD domain
+        3. Evidence Quality      (0.15) — How well skills are substantiated
+        4. Seniority Fit         (0.15) — Level match between candidate and role
+        5. ATS Parseability      (0.15) — Format compliance
+        6. Section Completeness  (0.08) — Required resume sections present
+        7. Impact Quantification (0.07) — Quantified achievements in bullets
+
+    Score caps based on seniority gap:
+        - Gap >= 3 levels → Score capped at 35
+        - Gap == 2 levels → Score capped at 55
+        - Gap == 1 level  → Score capped at 75
+        - Match           → No cap
+    """
+    kw_score = _keyword_score(match_result)
+    sem_score = _semantic_score(resume_text, jd_text)
+    sec_score = _section_score(sections)
+    fmt_score = _format_score(formatting)
+    impact_score = _impact_score(sections, resume_text)
+
+    # New dimensions
+    evidence_score_val = _evidence_dimension_score(evidence_quality)
+    seniority_score_val = _seniority_dimension_score(seniority_gap)
+
+    # Parseability multiplier
+    parseability_multiplier = _parseability_multiplier(formatting)
+
+    # 7-dimension weighted sum
+    weighted = (
+        kw_score              * 0.25  # Hard skills match
+        + sem_score["score"]  * 0.15  # Domain alignment
+        + evidence_score_val  * 0.15  # Evidence quality
+        + seniority_score_val * 0.15  # Seniority fit
+        + fmt_score["score"]  * 0.15  # ATS parseability
+        + sec_score["score"]  * 0.08  # Section completeness
+        + impact_score["score"] * 0.07  # Impact quantification
+    )
+
+    # Apply parseability multiplier
+    weighted = weighted * parseability_multiplier
+
+    # Apply seniority score cap
+    score_cap = 100
+    if seniority_gap:
+        score_cap = seniority_gap.get("score_cap", 100)
+
+    overall = round(min(score_cap, max(0, weighted)), 1)
+    grade = _get_grade(overall)
+
+    return {
+        "overall_score": overall,
+        "letter_grade": grade,
+        "parseability_multiplier": round(parseability_multiplier, 2),
+        "score_cap": score_cap,
+        "score_cap_reason": seniority_gap.get("plain_statement", "") if seniority_gap and score_cap < 100 else "",
+        "sub_scores": {
+            "keyword_match": {
+                "score": round(kw_score, 1),
+                "weight": 0.25,
+                "weighted_contribution": round(kw_score * 0.25, 2),
+                "details": f"{match_result['matched_count']} of {match_result['total_jd_keywords']} JD keywords matched",
+                "match_breakdown": match_result.get("breakdown", {}),
+            },
+            "semantic_relevance": {
+                "score": round(sem_score["score"], 1),
+                "weight": 0.15,
+                "weighted_contribution": round(sem_score["score"] * 0.15, 2),
+                "cosine_similarity": round(sem_score["cosine"], 3),
+                "details": sem_score["details"],
+            },
+            "evidence_quality": {
+                "score": round(evidence_score_val, 1),
+                "weight": 0.15,
+                "weighted_contribution": round(evidence_score_val * 0.15, 2),
+                "grade": evidence_quality.get("overall_grade", "Unknown") if evidence_quality else "N/A",
+                "details": _evidence_details(evidence_quality),
+            },
+            "seniority_fit": {
+                "score": round(seniority_score_val, 1),
+                "weight": 0.15,
+                "weighted_contribution": round(seniority_score_val * 0.15, 2),
+                "details": seniority_gap.get("plain_statement", "Seniority not analyzed") if seniority_gap else "N/A",
+                "gap_severity": seniority_gap.get("gap_severity", "unknown") if seniority_gap else "unknown",
+            },
+            "format_compliance": {
+                "score": round(fmt_score["score"], 1),
+                "weight": 0.15,
+                "weighted_contribution": round(fmt_score["score"] * 0.15, 2),
+                "details": fmt_score["details"],
+                "parseability_multiplier": round(parseability_multiplier, 2),
+            },
+            "section_completeness": {
+                "score": round(sec_score["score"], 1),
+                "weight": 0.08,
+                "weighted_contribution": round(sec_score["score"] * 0.08, 2),
+                "detected_count": sec_score["detected_count"],
+                "expected_count": sec_score["expected_count"],
+                "details": sec_score["details"],
+            },
+            "impact_quantification": {
+                "score": round(impact_score["score"], 1),
+                "weight": 0.07,
+                "weighted_contribution": round(impact_score["score"] * 0.07, 2),
+                "quantified_bullets": impact_score["quantified_bullets"],
+                "total_experience_bullets": impact_score["total_bullets"],
+                "details": impact_score["details"],
+            },
+        },
+    }
+
+
+def _evidence_dimension_score(evidence_quality: Optional[Dict]) -> float:
+    """Convert evidence quality data into a 0-100 score."""
+    if not evidence_quality:
+        return 50.0  # Neutral default
+
+    overall = evidence_quality.get("overall_score", 0.5)
+    return min(100.0, overall * 100)
+
+
+def _seniority_dimension_score(seniority_gap: Optional[Dict]) -> float:
+    """Convert seniority gap data into a 0-100 score."""
+    if not seniority_gap:
+        return 50.0  # Neutral default
+
+    gap = seniority_gap.get("gap_levels", 0)
+    if gap == 0:
+        return 100.0
+    elif gap == 1:
+        return 65.0
+    elif gap == 2:
+        return 35.0
+    else:
+        return 10.0
+
+
+def _evidence_details(evidence_quality: Optional[Dict]) -> str:
+    """Generate details string for evidence quality."""
+    if not evidence_quality:
+        return "Evidence quality not analyzed"
+
+    grade = evidence_quality.get("overall_grade", "Unknown")
+    breakdown = evidence_quality.get("breakdown", {})
+    prod = len(breakdown.get("production", []))
+    proj = len(breakdown.get("project", []))
+    cert = len(breakdown.get("certification", []))
+    lab = len(breakdown.get("lab_training", []))
+    kw = len(breakdown.get("keyword_only", []))
+
+    parts = []
+    if prod: parts.append(f"{prod} production")
+    if proj: parts.append(f"{proj} project")
+    if cert: parts.append(f"{cert} cert")
+    if lab: parts.append(f"{lab} lab/training")
+    if kw: parts.append(f"{kw} keyword-only")
+
+    return f"Evidence grade: {grade} ({', '.join(parts) if parts else 'no breakdown'})"
+
+
 def calculate_score(
     match_result: Dict,
     sections: Dict,
@@ -50,18 +227,13 @@ def calculate_score(
     resume_text: str,
     jd_text: str,
 ) -> Dict:
+    """Original 5-dimension scorer — kept for backward compatibility."""
     kw_score = _keyword_score(match_result)
     sem_score = _semantic_score(resume_text, jd_text)
     sec_score = _section_score(sections)
     fmt_score = _format_score(formatting)
     impact_score = _impact_score(sections, resume_text)
 
-    # ═══════════════════════════════════════════════════════════════════
-    # CRITICAL: Format penalty is now a MULTIPLIER, not an additive deduction.
-    # If ATS can't parse the resume, keyword matching results are unreliable.
-    # A multi-column LaTeX PDF that Workday can't read should dramatically
-    # reduce the overall score, regardless of how good the content is.
-    # ═══════════════════════════════════════════════════════════════════
     parseability_multiplier = _parseability_multiplier(formatting)
 
     weighted = (
@@ -72,7 +244,6 @@ def calculate_score(
         + impact_score["score"] * SCORING_WEIGHTS["impact_quantification"]
     )
 
-    # Apply parseability multiplier — unparseable resume = dramatically lower score
     weighted = weighted * parseability_multiplier
 
     overall = round(min(100, max(0, weighted)), 1)

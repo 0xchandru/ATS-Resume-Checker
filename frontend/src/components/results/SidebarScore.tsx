@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { AnalysisResult } from "../App";
+import { AnalysisResult } from "../../App";
 import { RefreshCw, PlusCircle, Search, Award, Cpu, AlignLeft, Target } from "lucide-react";
-import { scoreToColor } from "../utils/formatters";
+import { scoreToColor } from "../../utils/formatters";
 
 interface Props {
   result: AnalysisResult;

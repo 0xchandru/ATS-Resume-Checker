@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import { History, Eye, GitCompare, Loader2 } from "lucide-react";
-import { getHistoryItem, compareScans } from "../utils/api";
-import { scoreToColor, formatDate } from "../utils/formatters";
+import { getHistoryItem, compareScans } from "../../utils/api";
+import { scoreToColor, formatDate } from "../../utils/formatters";
 
 interface Props {
   history: any[];

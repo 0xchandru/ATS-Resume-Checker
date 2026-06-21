@@ -1,7 +1,7 @@
 import { Download, Printer, Share2, CheckCircle2 } from "lucide-react";
-import { exportReport } from "../utils/api";
-import { AnalysisResult } from "../App";
-import { scoreToColor } from "../utils/formatters";
+import { exportReport } from "../../utils/api";
+import { AnalysisResult } from "../../App";
+import { scoreToColor } from "../../utils/formatters";
 import { useState } from "react";
 
 interface Props {

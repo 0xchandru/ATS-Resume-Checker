@@ -1,5 +1,5 @@
 import { Building2, GraduationCap, TrendingUp, AlertTriangle, CheckCircle2, Info } from "lucide-react";
-import { tierBadgeClass } from "../utils/formatters";
+import { tierBadgeClass } from "../../utils/formatters";
 
 interface Props {
   career: any;

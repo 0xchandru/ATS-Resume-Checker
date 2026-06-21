@@ -2,7 +2,7 @@ import re
 import json
 import logging
 from typing import Dict, List, Optional
-from backend.app.engine.extractor import normalize
+from backend.app.engine.extraction.extractor import normalize
 from sqlalchemy import text as sa_text
 from backend.app.database import engine
 

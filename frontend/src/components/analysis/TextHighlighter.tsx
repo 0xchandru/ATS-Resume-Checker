@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { AnalysisResult } from "../App";
+import { AnalysisResult } from "../../App";
 import { Edit3, FileText, Briefcase, Copy, Check, RefreshCw, ChevronDown, ChevronUp } from "lucide-react";
 
 interface Props {

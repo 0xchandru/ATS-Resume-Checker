@@ -7,7 +7,11 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from backend.app.database import get_db
 from backend.app.models import ScanRecord, ScanResult
-from backend.app.engine import parser, extractor, matcher, scorer, section_detector, format_checker, career_analyzer, feedback_engine
+from backend.app.engine.parsing import parser, section_detector, format_checker
+from backend.app.engine.extraction import extractor
+from backend.app.engine.matching import matcher
+from backend.app.engine.scoring import scorer
+from backend.app.engine.intelligence import career_analyzer, feedback_engine
 
 router = APIRouter()
 logger = logging.getLogger(__name__)

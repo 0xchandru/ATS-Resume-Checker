@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { AnalysisResult } from "../App";
-import { scoreToColor } from "../utils/formatters";
+import { AnalysisResult } from "../../App";
+import { scoreToColor } from "../../utils/formatters";
 
 interface Props {
   result: AnalysisResult;

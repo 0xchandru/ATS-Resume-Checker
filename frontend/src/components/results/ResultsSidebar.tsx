@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { AnalysisResult } from "../App";
+import { AnalysisResult } from "../../App";
 import { RefreshCw, PlusCircle, Sparkles, HelpCircle } from "lucide-react";
 
 interface Props {

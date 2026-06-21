@@ -1,5 +1,5 @@
 import { CheckCircle2, XCircle, Info, Zap } from "lucide-react";
-import { AnalysisResult } from "../App";
+import { AnalysisResult } from "../../App";
 
 interface Props {
   result: AnalysisResult;

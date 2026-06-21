@@ -1,7 +1,7 @@
 import re
 import logging
 from typing import List, Dict, Tuple
-from backend.app.engine.extractor import normalize
+from backend.app.engine.extraction.extractor import normalize
 from sqlalchemy import text
 from backend.app.database import engine
 from backend.app.config import SEMANTIC_THRESHOLD

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Copy, Check, Search } from "lucide-react";
-import { matchLayerBadgeClass, importanceDotClass } from "../utils/formatters";
+import { matchLayerBadgeClass, importanceDotClass } from "../../utils/formatters";
 
 interface Props {
   keywords: any;

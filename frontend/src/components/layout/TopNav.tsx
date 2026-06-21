@@ -1,5 +1,5 @@
 import { Zap, LogOut, User, Settings, ShieldCheck } from "lucide-react";
-import { Theme } from "../App";
+import { Theme } from "../../App";
 
 interface Props {
   theme: Theme;

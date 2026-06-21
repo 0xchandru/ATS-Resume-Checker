@@ -1,4 +1,4 @@
-import { View, Theme } from "../App";
+import { View, Theme } from "../../App";
 import { Home, FileText, History, PlusCircle, Sun, Moon, User, Settings, LogOut, ShieldCheck, Zap, Menu, X } from "lucide-react";
 import { useState } from "react";
 

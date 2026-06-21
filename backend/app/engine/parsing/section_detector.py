@@ -2,7 +2,7 @@ import re
 import logging
 from typing import List, Dict
 from sqlalchemy import text
-from backend.app.database import engine
+from backend.app.database import engine  # noqa: unchanged — still at backend.app level
 
 logger = logging.getLogger(__name__)
 
