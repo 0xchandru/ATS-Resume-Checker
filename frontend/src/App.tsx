@@ -253,6 +253,9 @@ export default function App() {
               onPrint={() => window.print()}
               analysis={currentResult}
               jd={currentJD}
+              onResumeUpdate={(html, text) =>
+                setCurrentResult(prev => prev ? { ...prev, resume_html: html, resume_full: text } : prev)
+              }
             />
 
             {/* Tab Content */}

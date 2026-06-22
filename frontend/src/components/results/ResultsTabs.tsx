@@ -9,6 +9,7 @@ interface Props {
   onPrint?: () => void;
   analysis?: any;
   jd?: string;
+  onResumeUpdate?: (resumeHtml: string, resumeText: string) => void;
 }
 
 const TABS: { id: Tab; label: string; icon?: any }[] = [
@@ -20,7 +21,7 @@ const TABS: { id: Tab; label: string; icon?: any }[] = [
   { id: "smart_editor", label: "Smart Editor", icon: Sparkles },
 ];
 
-export default function ResultsTabs({ activeTab, onTabChange, onPrint, analysis, jd }: Props) {
+export default function ResultsTabs({ activeTab, onTabChange, onPrint, analysis, jd, onResumeUpdate }: Props) {
   return (
     <div className="flex flex-col w-full">
       <div className="flex items-center justify-between border-b border-white/[0.06] bg-card rounded-t-2xl overflow-x-auto">
@@ -57,7 +58,7 @@ export default function ResultsTabs({ activeTab, onTabChange, onPrint, analysis,
       </div>
 
       {activeTab === "smart_editor" && (
-        <SmartEditorTab analysis={analysis} jd={jd || ""} />
+        <SmartEditorTab analysis={analysis} jd={jd || ""} onResumeUpdate={onResumeUpdate} />
       )}
     </div>
   );
