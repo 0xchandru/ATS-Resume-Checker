@@ -77,27 +77,32 @@ function parseResumeHtml(html: string): Section[] {
       else { cur.items.push(clean); }
     };
 
-    for (const node of Array.from(doc.body.children)) {
+    const walkNode = (node: Element) => {
       const tag = node.tagName.toLowerCase();
+
       if (tag === "h1" || tag === "h2") {
         pushSection();
         const title = node.textContent?.trim() || "Section";
         cur = { title, type: detectSectionType(title), items: [], entries: [] };
-      } else if (tag === "h3") {
+
+      } else if (tag === "h3" || tag === "h4") {
         if (!cur) cur = { title: node.textContent?.trim() || "Section", type: "generic", items: [], entries: [] };
         else {
           pushEntry();
+          const txt = node.textContent?.trim() || "";
           if (["education","experience","projects"].includes(cur.type))
-            curEntry = { heading: node.textContent?.trim() || "", bullets: [] };
+            curEntry = { heading: txt, bullets: [] };
           else if (cur.type === "skills")
-            cur.items.push((node.textContent?.trim() || "") + ":");  // mark as group label
-          else addText(node.textContent?.trim() || "");
+            cur.items.push(txt + ":");
+          else addText(txt);
         }
+
       } else if (tag === "ul" || tag === "ol") {
-        for (const li of Array.from(node.querySelectorAll("li"))) {
+        // Only direct <li> children to avoid double-processing nested lists
+        for (const li of Array.from(node.children)) {
+          if (li.tagName.toLowerCase() !== "li") continue;
           const text = li.textContent?.trim(); if (!text || text.length < 2) continue;
           if (cur?.type === "skills") {
-            // "Category: skill1, skill2, skill3" → label + individual chips
             const colon = text.indexOf(":");
             if (colon > 0 && colon < text.length - 1 && !text.substring(0, colon).includes(",")) {
               cur.items.push(text.substring(0, colon).trim() + ":");
@@ -109,10 +114,20 @@ function parseResumeHtml(html: string): Section[] {
           } else if (curEntry) curEntry.bullets.push(text);
           else if (cur) cur.items.push(text);
         }
-      } else if (tag === "p" || tag === "div" || tag === "span") {
+
+      } else if (tag === "p" || tag === "span") {
+        addText(node.textContent?.trim() || "");
+
+      } else if (tag === "div" || tag === "section" || tag === "article" || tag === "main") {
+        // Recurse into container elements — do NOT collapse their content
+        for (const child of Array.from(node.children)) walkNode(child as Element);
+
+      } else if (tag === "strong" || tag === "b" || tag === "em" || tag === "i") {
         addText(node.textContent?.trim() || "");
       }
-    }
+    };
+
+    for (const child of Array.from(doc.body.children)) walkNode(child as Element);
     pushSection();
     return sections.filter(s => s.title && (s.items.length > 0 || s.entries.length > 0));
   } catch { return []; }
