@@ -95,8 +95,10 @@ export interface AnalysisResult {
   feedback: any;
   resume_preview: string;
   resume_full?: string;
+  resume_html?: string;
   jd_preview: string;
   jd_full?: string;
+  jd_html?: string;
   soft_skills?: any;
   other_skills?: any;
   evaluation?: AIEvaluation;
@@ -343,6 +345,7 @@ export default function App() {
 
               {resultsTab === "job_description" && (
                 <JobDescriptionTab
+                  jdHtml={currentResult.jd_html}
                   jdText={currentResult.jd_full || currentResult.jd_preview || currentJD}
                   keywords={currentResult.keywords}
                   onRescanWithNewJD={handleRescan}
@@ -363,6 +366,7 @@ export default function App() {
 
               {resultsTab === "resume_preview" && (
                 <ResumePreviewTab 
+                  resumeHtml={currentResult.resume_html}
                   resumeText={currentResult.resume_full || currentResult.resume_preview || ""}
                   keywords={currentResult.keywords}
                 />

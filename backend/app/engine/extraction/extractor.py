@@ -238,6 +238,33 @@ _STOPWORDS: Set[str] = {
     "defense",  # alone; "defense in depth", "cyber defense" survive as multi-word
     "framework",  # alone; "NIST framework", "security framework" survive
     "continuity",  # alone; "business continuity" survives as multi-word
+
+    # ── Common English words frequently mis-extracted as "skills" ──
+    # These appear in JD text but are not skills on their own.
+    # Multi-word phrases containing them still pass the stopword-ratio
+    # check when paired with a real skill token
+    # (e.g. "threat detection", "data analysis", "security policy").
+    "common",                          # "common tools" context
+    "note", "notes",                   # "take note" / "please note"
+    "future",                          # "future initiatives"
+    "action", "actions",               # "action items" / "take action"
+    "region", "regions",               # geography, not a skill
+    "scale",                           # "at scale" context
+    "output", "outputs",               # "produce output" context
+    "entry",                           # "entry level" — not a skill
+    "decision", "decisions",           # "decision making" survives as multi-word
+    "data",                            # alone; "data analysis/science/engineering" survive
+    "global",                          # "global team" context
+    "means",                           # "that means" context
+    "alongside",                       # connector word
+    "matters",                         # "your work matters"
+    "handoff",                         # operational hand-off, not a standalone skill
+    "handover",                        # same
+    "expand", "expanding", "expansion",
+    "utilization",                     # "resource utilization" context
+    "profile",                         # alone; "profile building" survives
+    "utilize", "utilizes",             # generic verb
+    "curious",                         # personality trait; not a technical skill
 }
 
 _MIN_KEYWORD_LENGTH = 2

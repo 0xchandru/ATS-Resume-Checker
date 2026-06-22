@@ -3,15 +3,18 @@ import { Edit3, RefreshCw } from "lucide-react";
 import RichTextEditor from "../common/RichTextEditor";
 
 interface Props {
+  jdHtml?: string;
   jdText: string;
   keywords: any;
   onRescanWithNewJD?: (jd: string) => void;
   isRescanning?: boolean;
 }
 
-export default function JobDescriptionTab({ jdText, keywords, onRescanWithNewJD, isRescanning }: Props) {
+export default function JobDescriptionTab({ jdHtml, jdText, keywords, onRescanWithNewJD, isRescanning }: Props) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(jdText);
+
+  const displayContent = jdHtml || jdText;
 
   return (
     <div className="p-6">
@@ -68,7 +71,7 @@ export default function JobDescriptionTab({ jdText, keywords, onRescanWithNewJD,
       )}
 
       <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl overflow-hidden">
-        <RichTextEditor value={jdText} readOnly={true} minHeight="400px" />
+        <RichTextEditor value={displayContent} readOnly={true} minHeight="400px" />
       </div>
     </div>
   );

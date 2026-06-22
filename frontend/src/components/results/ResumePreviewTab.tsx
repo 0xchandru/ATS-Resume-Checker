@@ -2,12 +2,14 @@ import { CheckCircle2, FileText } from "lucide-react";
 import RichTextEditor from "../common/RichTextEditor";
 
 interface Props {
+  resumeHtml?: string;
   resumeText: string;
   keywords: any;
 }
 
-export default function ResumePreviewTab({ resumeText, keywords }: Props) {
+export default function ResumePreviewTab({ resumeHtml, resumeText, keywords }: Props) {
   const { matched = [] } = keywords || {};
+  const displayContent = resumeHtml || resumeText;
 
   return (
     <div className="p-6 md:p-8 space-y-6">
@@ -23,8 +25,8 @@ export default function ResumePreviewTab({ resumeText, keywords }: Props) {
       </div>
 
       <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl overflow-hidden">
-        {resumeText ? (
-          <RichTextEditor value={resumeText} readOnly={true} minHeight="500px" />
+        {displayContent ? (
+          <RichTextEditor value={displayContent} readOnly={true} minHeight="500px" />
         ) : (
           <div className="flex flex-col items-center justify-center p-12 text-center">
             <FileText className="w-8 h-8 text-muted-foreground/30 mb-3" />
