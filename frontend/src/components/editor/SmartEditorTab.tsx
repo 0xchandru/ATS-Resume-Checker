@@ -78,6 +78,7 @@ export default function SmartEditorTab({
   analysis, jd, scanId, onResumeUpdate, onScoreUpdate, onRescoringChange
 }: Props) {
   const [resumeHtml, setResumeHtml] = useState("");
+  const [editorKey, setEditorKey] = useState(0);
   const [liveScore, setLiveScore] = useState<ScoreSnapshot | null>(null);
   const [baseScore, setBaseScore] = useState(0);
   const [isRescoring, setIsRescoring] = useState(false);
@@ -93,6 +94,7 @@ export default function SmartEditorTab({
     if (!analysis) return;
     const html = analysis.resume_html || analysis.resume_full || "";
     setResumeHtml(html);
+    setEditorKey(k => k + 1);
     setBaseScore(analysis.overall_score || 0);
     setLiveScore({
       overall_score: analysis.overall_score || 0,
@@ -165,7 +167,9 @@ export default function SmartEditorTab({
       const data = await res.json();
       if (data.optimized_text) {
         const newHtml = data.optimized_text.split("\n").map((l: string) => `<p>${l || "<br/>"}</p>`).join("");
+        firstEditRef.current = false;
         setResumeHtml(newHtml);
+        setEditorKey(k => k + 1);
         onResumeUpdate?.(newHtml, data.optimized_text);
         triggerRescore(newHtml);
         showToast("Resume optimized — score updating…");
@@ -192,7 +196,9 @@ export default function SmartEditorTab({
       const data = await res.json();
       if (data.cleaned_text) {
         const newHtml = data.cleaned_text.split("\n").map((l: string) => `<p>${l || "<br/>"}</p>`).join("");
+        firstEditRef.current = false;
         setResumeHtml(newHtml);
+        setEditorKey(k => k + 1);
         onResumeUpdate?.(newHtml, data.cleaned_text);
         triggerRescore(newHtml);
         const n = data.change_count || 0;
@@ -327,6 +333,7 @@ export default function SmartEditorTab({
       {/* ── Big editor area ── */}
       <div className="flex-1 min-h-0 overflow-hidden">
         <ResumeEditor
+          key={editorKey}
           value={resumeHtml}
           onChange={handleEditorChange}
           placeholder="Your resume content loads here. Edit anything — the score in the header updates automatically."
