@@ -264,6 +264,7 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
         "resume_html": parsed.get("rich_text", ""),
         "soft_skills": soft_skills,
         "other_skills": other_skills,
+        "extracted_links": parsed.get("links", []),
     }
 
     existing = db.query(ScanResult).filter(ScanResult.scan_id == scan_id).first()

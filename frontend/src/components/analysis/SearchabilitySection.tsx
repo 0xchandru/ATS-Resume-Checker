@@ -1,4 +1,4 @@
-import { CheckCircle2, XCircle, Info, Zap } from "lucide-react";
+import { CheckCircle2, XCircle, Info, Zap, Link2, ExternalLink } from "lucide-react";
 import { AnalysisResult } from "../../App";
 
 interface Props {
@@ -18,10 +18,11 @@ function CheckRow({ passed, description }: { passed: boolean; description: strin
   );
 }
 
-function CheckGroup({ title, tooltip, items }: {
+function CheckGroup({ title, tooltip, items, children }: {
   title: string;
   tooltip?: string;
   items: { passed: boolean; description: string }[];
+  children?: React.ReactNode;
 }) {
   const passCount = items.filter(i => i.passed).length;
   return (
@@ -46,12 +47,41 @@ function CheckGroup({ title, tooltip, items }: {
           <CheckRow key={i} {...item} />
         ))}
       </div>
+      {children}
     </div>
   );
 }
 
+function LinkBadge({ text, url }: { text: string; url: string }) {
+  const domain = (() => {
+    try { return new URL(url).hostname.replace("www.", ""); } catch { return url; }
+  })();
+
+  const color = (() => {
+    if (/linkedin/i.test(url)) return "text-blue-400 border-blue-500/20 bg-blue-500/8";
+    if (/github/i.test(url)) return "text-purple-400 border-purple-500/20 bg-purple-500/8";
+    if (/tryhackme/i.test(url)) return "text-red-400 border-red-500/20 bg-red-500/8";
+    return "text-indigo-400 border-indigo-500/20 bg-indigo-500/8";
+  })();
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={url}
+      data-testid={`link-badge-${text.toLowerCase().replace(/\s+/g, "-")}`}
+      className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg border ${color} hover:opacity-80 transition-opacity`}
+    >
+      <Link2 className="h-3 w-3 shrink-0" />
+      <span>{text || domain}</span>
+      <ExternalLink className="h-2.5 w-2.5 shrink-0 opacity-60" />
+    </a>
+  );
+}
+
 export default function SearchabilitySection({ result }: Props) {
-  const { sections, keywords } = result;
+  const { sections, keywords, extracted_links } = result;
   const detected = sections?.detected || [];
   const detectedNames = new Set(detected.map((s: any) => s.name));
 
@@ -64,6 +94,11 @@ export default function SearchabilitySection({ result }: Props) {
   const hasSkills = detectedNames.has("skills");
   const matchRate = keywords?.match_rate ? Math.round(keywords.match_rate * 100) : 0;
   const hasJobTitleMatch = matchRate >= 30;
+
+  // Deduplicate extracted links by URL
+  const uniqueLinks = extracted_links
+    ? [...new Map(extracted_links.map(l => [l.url, l])).values()]
+    : [];
 
   const allChecks = [hasEmail, hasPhone, hasAddress, hasEducation, hasExperience, hasSummary, hasSkills, hasJobTitleMatch];
   const passedTotal = allChecks.filter(Boolean).length;
@@ -89,6 +124,27 @@ export default function SearchabilitySection({ result }: Props) {
           <strong className="text-foreground">Tip:</strong> Fix the red items to ensure your resume is correctly parsed and easily found by recruiters.
         </p>
       </div>
+
+      {/* Extracted hyperlinks panel */}
+      {uniqueLinks.length > 0 && (
+        <div className="mb-5 p-4 bg-indigo-500/5 border border-indigo-500/15 rounded-xl">
+          <div className="flex items-center gap-2 mb-3">
+            <Link2 className="h-4 w-4 text-indigo-400" />
+            <h4 className="text-sm font-bold text-foreground">Hyperlinks Extracted from Resume</h4>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+              {uniqueLinks.length} found
+            </span>
+          </div>
+          <p className="text-xs text-muted-foreground mb-3">
+            These clickable links were detected inside your PDF and are included in the ATS analysis.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {uniqueLinks.map((lnk, i) => (
+              <LinkBadge key={i} text={lnk.text} url={lnk.url} />
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="space-y-0">
         <CheckGroup
