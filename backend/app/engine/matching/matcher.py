@@ -123,22 +123,32 @@ def match_all_layers(
     kb_lookup: Dict[str, Dict] = {}
 
     if jd_norm_list:
-        batch_size = 500
+        batch_size = 200
         for i in range(0, len(jd_norm_list), batch_size):
             batch = jd_norm_list[i:i + batch_size]
-            placeholders = ", ".join([f"'{t.replace(chr(39), '')}'" for t in batch])
+            # Safe parameterized IN clause
+            params = {f"t{j}": v for j, v in enumerate(batch)}
+            placeholders = ", ".join([f":t{j}" for j in range(len(batch))])
             with engine.connect() as conn:
-                alias_rows = conn.execute(
-                    text(f"SELECT alias_normalized, canonical_name FROM kb_skill_aliases WHERE alias_normalized IN ({placeholders})")
-                ).fetchall()
-                for row in alias_rows:
-                    alias_lookup[row[0]] = row[1]
+                try:
+                    alias_rows = conn.execute(
+                        text(f"SELECT alias_normalized, canonical_name FROM kb_skill_aliases WHERE alias_normalized IN ({placeholders})"),
+                        params,
+                    ).fetchall()
+                    for row in alias_rows:
+                        alias_lookup[row[0]] = row[1]
+                except Exception as e:
+                    logger.debug("Alias batch query failed: %s", e)
 
-                kb_rows = conn.execute(
-                    text(f"SELECT normalized, canonical_name, category, domain FROM kb_skills WHERE normalized IN ({placeholders})")
-                ).fetchall()
-                for row in kb_rows:
-                    kb_lookup[row[0]] = {"canonical_name": row[1], "category": row[2], "domain": row[3]}
+                try:
+                    kb_rows = conn.execute(
+                        text(f"SELECT normalized, canonical_name, category, domain FROM kb_skills WHERE normalized IN ({placeholders})"),
+                        params,
+                    ).fetchall()
+                    for row in kb_rows:
+                        kb_lookup[row[0]] = {"canonical_name": row[1], "category": row[2], "domain": row[3]}
+                except Exception as e:
+                    logger.debug("KB batch query failed: %s", e)
 
     matched = []
     missing = []

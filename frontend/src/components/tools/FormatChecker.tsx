@@ -51,8 +51,8 @@ export default function FormatChecker({ formatting }: Props) {
         {fonts_used.length > 0 && (
           <div className="flex flex-wrap gap-1.5 items-center">
             <span className="text-xs text-muted-foreground/60">Fonts detected:</span>
-            {fonts_used.slice(0, 5).map((f: string) => (
-              <code key={f} className="text-xs px-2 py-0.5 bg-white/[0.05] border border-white/[0.08] rounded-lg font-mono text-foreground/80">{f}</code>
+            {[...new Set(fonts_used)].slice(0, 5).map((f: string, i: number) => (
+              <code key={`${f}-${i}`} className="text-xs px-2 py-0.5 bg-white/[0.05] border border-white/[0.08] rounded-lg font-mono text-foreground/80">{f}</code>
             ))}
           </div>
         )}

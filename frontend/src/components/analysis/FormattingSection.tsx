@@ -118,8 +118,8 @@ export default function FormattingSection({ formatting }: Props) {
           <div className="flex items-start gap-3 py-2.5">
             <Info className="h-4 w-4 text-blue-400 mt-0.5 shrink-0" />
             <p className="text-sm text-foreground/80">
-              Fonts: {fonts_used.slice(0, 5).map((f: string) => (
-                <code key={f} className="text-xs px-1.5 py-0.5 bg-white/[0.06] border border-white/[0.08] rounded font-mono text-foreground/90 mx-0.5">{f}</code>
+              Fonts: {[...new Set(fonts_used)].slice(0, 5).map((f: string, i: number) => (
+                <code key={`${f}-${i}`} className="text-xs px-1.5 py-0.5 bg-white/[0.06] border border-white/[0.08] rounded font-mono text-foreground/90 mx-0.5">{f}</code>
               ))}
             </p>
           </div>
