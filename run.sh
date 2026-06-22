@@ -3,7 +3,8 @@
 
 echo "=== ATS Resume Checker ==="
 
-PYTHON=".pythonlibs/bin/python3"
+# Use system Python3
+PYTHON="python3"
 
 # Kill any stale processes on our ports
 pkill -f "uvicorn backend.app.main" 2>/dev/null || true

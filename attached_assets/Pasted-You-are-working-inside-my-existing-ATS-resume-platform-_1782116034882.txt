@@ -1,0 +1,100 @@
+You are working inside my existing ATS resume platform codebase.
+
+I have added the full Resume-Matcher repository inside the folder:
+Resume-Matcher
+
+Your task is to analyze the entire Resume-Matcher codebase and compare it with my current platform codebase. Do a full architecture and implementation review. If any Resume-Matcher logic, functions, modules, UI patterns, parsing methods, scoring methods, or export flows are better than mine, use them as reference and refactor my code accordingly.
+
+Important constraints:
+- Do NOT remove or replace my datasets.
+- Keep my datasets fully intact and actively use them.
+- Only improve my code by integrating better logic from Resume-Matcher where it makes sense.
+- Do not hardcode shortcuts that bypass the datasets.
+- Do not break the current platform structure unless necessary for a better implementation.
+- Treat my platform as the main product and Resume-Matcher as a reference implementation.
+
+Main goal:
+Make the ATS platform materially better in parsing, matching, editing, scoring, and export quality.
+
+Tasks:
+
+1) Full code comparison and refactor
+- Analyze the entire Resume-Matcher folder and compare it against my current code.
+- Identify which parts are stronger in Resume-Matcher and which parts are weaker.
+- Refactor my code by adopting stronger patterns, better parsing logic, better scoring logic, and cleaner UI behavior.
+- Do not blindly copy code. Adapt and integrate intelligently.
+- Keep the system modular, maintainable, and production-ready.
+
+2) Fix resume link parsing bug
+- My resume parsing is showing links in one line incorrectly.
+- The first link is being reused for other links in the same line even when I separate them using characters like -, |, or spaces.
+- Fix the parsing logic so each link is extracted and assigned correctly.
+- Each visible anchor text must map to its own correct URL.
+- Do not let the first URL overwrite the others.
+- Verify this across multiline and single-line link patterns.
+
+3) Fix Smart Editor summary editing
+- In the Smart Editor, the Summary section is being split into separate lines, and each line gets its own edit widget.
+- This is bad UX.
+- Detect the full summary as one logical block.
+- Show the entire Summary in one widget with one edit icon.
+- Allow editing the complete summary at once.
+- Preserve line breaks only if they are meaningful.
+- Make the editor smart enough to group summary text properly instead of treating every line as a separate editable item.
+
+4) ATS-friendly PDF export from Smart Editor
+- Add or fix export to ATS-friendly PDF from the Smart Editor.
+- The exported PDF must preserve clean structure, readable formatting, and ATS-safe text flow.
+- Avoid layout artifacts that hurt ATS parsing.
+- Make sure the export reflects the edited resume accurately.
+
+5) Diagnose the score mismatch problem
+- There is a serious mismatch between uploaded resumes and rescanned resumes.
+- When I upload a Skillsyncer-parsed resume and rescan it, it shows a score of 69.
+- When I upload my own parser’s output of the same resume, it shows only 58.
+- But when I copy my platform-parsed resume and upload it again, it also shows 69.
+- This strongly suggests the problem is not the parser alone.
+- Investigate the full upload → parse → normalize → match → score pipeline.
+- Find the exact reason why my platform-produced parsed resume is getting a lower score only on first pass.
+- Check for differences in:
+  - text normalization
+  - section detection
+  - field mapping
+  - whitespace cleanup
+  - bullet handling
+  - keyword tokenization
+  - scoring inputs
+  - data serialization
+  - loss of content during upload/rescan
+- Make the scoring deterministic and consistent.
+- The same resume content must produce the same score regardless of whether it came from upload, reparse, or rescan.
+- Fix the root cause, not just the visible score.
+
+6) Matching and scoring consistency
+- Make sure the ATS score is based on the same canonical normalized resume representation every time.
+- Use one unified parsing and matching pipeline.
+- Ensure scoring is not accidentally influenced by formatting differences, hidden metadata, or broken section extraction.
+- Make the matcher robust against minor text formatting differences.
+
+7) Quality bar
+- The final system should feel like a polished ATS product, not a prototype.
+- Keep the UI clean and professional.
+- Keep parsing accurate.
+- Keep scoring stable.
+- Keep editing smooth.
+- Keep export reliable.
+
+Deliverables:
+- Refactored codebase with better logic from Resume-Matcher where useful
+- Fixed resume link parsing
+- Fixed Smart Editor summary editing as one block
+- ATS-friendly PDF export from Smart Editor
+- Root-cause fix for score mismatch between upload and rescan
+- Consistent scoring pipeline with stable results
+- Do not remove any of my datasets
+
+Before changing code:
+- Inspect both codebases carefully
+- Identify the best modules to reuse
+- Find where my current implementation diverges from Resume-Matcher
+- Then patch the platform cleanly and completely

@@ -6,7 +6,7 @@ cd "$SCRIPT_DIR/.."
 
 echo "=== ATS Resume Checker Backend ==="
 
-PYTHON=".pythonlibs/bin/python3"
+PYTHON="python3"
 
 echo "Using Python: $PYTHON"
 
