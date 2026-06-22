@@ -45,7 +45,7 @@ Thumbs.db
 .github/instructions/nx.instructions.md
 
 # Environments
-*.env*
+*.env
 .venv/
 *.venv/
 
