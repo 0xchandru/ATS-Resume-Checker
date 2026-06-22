@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { AnalysisResult } from "../../App";
 import {
   Sparkles, Edit3, ChevronDown, ChevronRight,
-  AlertTriangle, CheckCircle2, Loader2, Copy, Key
+  AlertTriangle, CheckCircle2, Loader2, Copy
 } from "lucide-react";
 import { apiFetch } from "../../utils/api";
 
@@ -82,25 +82,13 @@ export default function SmartEditorTab({ analysis, jd }: Props) {
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [optimizedText, setOptimizedText] = useState("");
   const [error, setError] = useState("");
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem("openai_api_key") || "");
-  const [showKeyInput, setShowKeyInput] = useState(false);
-  const [keyDraft, setKeyDraft] = useState("");
 
   const resumeHtml = (analysis as any).resume_html || "";
   const resumeText = analysis.resume_full || "";
 
   const sections = useMemo(() => {
-    const parsed = resumeHtml ? parseResumeHtml(resumeHtml) : parsePlainText(resumeText);
-    return parsed;
+    return resumeHtml ? parseResumeHtml(resumeHtml) : parsePlainText(resumeText);
   }, [resumeHtml, resumeText]);
-
-  const missingSkills = useMemo(() => {
-    const all: any[] = analysis.keywords?.missing || [];
-    return all.filter((s) => {
-      const imp = (s.importance || s.priority || "medium").toLowerCase();
-      return imp === "critical" || imp === "high";
-    });
-  }, [analysis.keywords]);
 
   const allMissingSkills = useMemo(() => {
     return analysis.keywords?.missing || [];
@@ -159,7 +147,7 @@ export default function SmartEditorTab({ analysis, jd }: Props) {
   };
 
   const handleOptimize = async (bullet: string) => {
-    if (!selectedSkill || !apiKey) return;
+    if (!selectedSkill) return;
     setIsOptimizing(true);
     setError("");
     setOptimizedText("");
@@ -171,23 +159,15 @@ export default function SmartEditorTab({ analysis, jd }: Props) {
           bullet_text: bullet,
           missing_skill: selectedSkill,
           jd_context: jd.substring(0, 500),
-          api_key: apiKey,
         }),
       });
       const data = await res.json();
       setOptimizedText(data.rewritten_bullet);
     } catch (err: any) {
-      setError(err?.message || "Optimization failed. Check your API key.");
+      setError(err?.message || "Optimisation failed. Please try again.");
     } finally {
       setIsOptimizing(false);
     }
-  };
-
-  const saveKey = () => {
-    localStorage.setItem("openai_api_key", keyDraft);
-    setApiKey(keyDraft);
-    setShowKeyInput(false);
-    setKeyDraft("");
   };
 
   const editingBullet =
@@ -284,7 +264,7 @@ export default function SmartEditorTab({ analysis, jd }: Props) {
       {/* ── Main editor ── */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <div className="p-4 border-b border-white/[0.06] flex items-center justify-between gap-3 shrink-0">
+        <div className="p-4 border-b border-white/[0.06] flex items-center gap-3 shrink-0">
           <div>
             <h2 className="text-sm font-black text-foreground flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-violet-400" />
@@ -294,38 +274,7 @@ export default function SmartEditorTab({ analysis, jd }: Props) {
               Select a missing skill → hover a bullet → click Edit to optimise with AI
             </p>
           </div>
-          <button
-            onClick={() => { setShowKeyInput((v) => !v); setKeyDraft(apiKey); }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors shrink-0 ${
-              apiKey
-                ? "text-emerald-400 bg-emerald-500/8 border-emerald-500/20"
-                : "text-amber-400 bg-amber-500/10 border-amber-500/20"
-            }`}
-          >
-            <Key className="w-3 h-3" />
-            {apiKey ? "API Key ✓" : "Set API Key"}
-          </button>
         </div>
-
-        {/* API Key panel */}
-        {showKeyInput && (
-          <div className="px-4 py-3 border-b border-white/[0.06] bg-white/[0.02] flex items-center gap-3">
-            <input
-              type="password"
-              placeholder="OpenAI API key (sk-…)"
-              value={keyDraft}
-              onChange={(e) => setKeyDraft(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && saveKey()}
-              className="flex-1 bg-transparent border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm outline-none text-foreground placeholder:text-muted-foreground focus:border-violet-500/40"
-            />
-            <button
-              onClick={saveKey}
-              className="px-4 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-xs font-bold rounded-lg hover:opacity-90 transition-opacity"
-            >
-              Save
-            </button>
-          </div>
-        )}
 
         {/* Sections */}
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
@@ -425,11 +374,6 @@ export default function SmartEditorTab({ analysis, jd }: Props) {
                                 <p className="text-xs text-amber-400 flex items-center gap-1.5">
                                   <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
                                   Select a missing skill from the left panel first
-                                </p>
-                              ) : !apiKey ? (
-                                <p className="text-xs text-amber-400 flex items-center gap-1.5">
-                                  <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-                                  Set your OpenAI API key using the button above
                                 </p>
                               ) : (
                                 <>

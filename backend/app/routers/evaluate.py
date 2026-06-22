@@ -1,16 +1,17 @@
-import os
 import json
 import logging
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-import openai
+from backend.app.ai_client import get_ai_client, ai_model
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
+
 class EvaluateRequest(BaseModel):
     resume_text: str
     jd_text: str
+
 
 SYSTEM_PROMPT = """You are a brutally honest ATS resume evaluator with deep knowledge of how real enterprise ATS systems work (Workday, Taleo, iCIMS, SuccessFactors, Greenhouse, LinkedIn Recruiter, Naukri, Indeed, Foundit).
 
@@ -33,7 +34,7 @@ as equally critical to required. In your problems and missing_requirements, alwa
 
 RULE 3 — ATS PARSEABILITY IS THE FIRST GATE.
 Before any keyword matching matters, the ATS must successfully parse the document. Flag:
-- Multi-column PDF layout: Workday/Taleo/iCIMS read left-to-right across the page width, scrambling two-column content. This is CRITICAL. A resume with perfect keywords that can't be parsed scores 0.
+- Multi-column PDF layout: Workday/Taleo/iCIMS read left-to-right across the page width, scrambling two-column content. This is CRITICAL.
 - Tables: parsed as a single merged text blob, destroying structure.
 - LaTeX-generated PDFs: often embed text as character sequences that break copy-paste and OCR.
 - Font explosion (>3 fonts): minor issue on enterprise ATS but signals design over substance.
@@ -61,6 +62,7 @@ RULE 8 — FRESHER/ENTRY-LEVEL CONTEXT.
 
 You must respond with ONLY valid JSON — no markdown, no code fences, no explanation outside the JSON.
 """
+
 
 def USER_TEMPLATE(resume_text: str, jd_text: str) -> str:
     return f"""
@@ -121,6 +123,7 @@ Then evaluate and return exactly this JSON structure (no markdown, no code fence
 }}
 """
 
+
 @router.post("/evaluate")
 async def evaluate_resume(request: EvaluateRequest):
     if not request.resume_text or len(request.resume_text.strip()) < 50:
@@ -128,70 +131,61 @@ async def evaluate_resume(request: EvaluateRequest):
     if not request.jd_text or len(request.jd_text.strip()) < 50:
         raise HTTPException(status_code=400, detail="jd_text must be at least 50 characters")
 
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        raise HTTPException(status_code=503, detail="OPENAI_API_KEY not configured")
+    try:
+        client = get_ai_client()
+    except RuntimeError as e:
+        raise HTTPException(status_code=503, detail=str(e))
 
-    client = openai.OpenAI(api_key=api_key)
+    model = ai_model()
+    logger.info("Starting AI evaluation with model=%s", model)
 
     try:
-        logger.info("Starting LLM evaluation")
         completion = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=model,
             max_tokens=2500,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": USER_TEMPLATE(request.resume_text, request.jd_text)}
+                {"role": "user", "content": USER_TEMPLATE(request.resume_text, request.jd_text)},
             ],
-            response_format={"type": "json_object"}
         )
-        
+
         raw_content = completion.choices[0].message.content or "{}"
+        # Strip markdown fences if the model wraps output
+        raw_content = raw_content.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+
         try:
             parsed = json.loads(raw_content)
         except Exception:
-            logger.error("LLM returned invalid JSON")
-            raise HTTPException(status_code=502, detail="LLM returned invalid JSON")
-        
+            logger.error("AI returned invalid JSON: %s", raw_content[:300])
+            raise HTTPException(status_code=502, detail="AI returned invalid JSON")
+
         return parsed
 
+    except HTTPException:
+        raise
     except Exception as e:
         error_msg = str(e)
-        logger.error(f"LLM evaluation failed: {error_msg}")
-        
-        if "insufficient_quota" in error_msg or "429" in error_msg:
-            logger.warning("OpenAI quota exceeded. Returning mock fallback evaluation.")
+        logger.error("AI evaluation failed: %s", error_msg)
+
+        if "429" in error_msg or "quota" in error_msg.lower() or "rate" in error_msg.lower():
             return {
-              "verdict": "Your OpenAI API key has run out of quota, so this is a mock evaluation fallback.",
-              "biggest_blocker": "API Quota Exceeded — Please check your OpenAI billing details to get real AI feedback.",
-              "candidate_level": "Unknown",
-              "jd_seniority": "Unknown",
-              "scores": {
-                "content_match": 50,
-                "ats_parseability": 50,
-                "formatting_risk": "Medium",
-                "evidence_quality": "Medium"
-              },
-              "strengths": [
-                "The core ATS extraction engine is functioning perfectly and successfully extracted your sections."
-              ],
-              "problems": [
-                {
-                  "severity": "Critical",
-                  "type": "API",
-                  "issue": "Your OpenAI API account has insufficient quota to generate the AI evaluation report.",
-                  "fix": "Go to platform.openai.com and add credits to your account, or update the OPENAI_API_KEY in the .env file.",
-                  "required_vs_preferred": "N/A"
-                }
-              ],
-              "missing_requirements": [],
-              "fix_plan": [
-                "1. Log into your OpenAI account and check billing.",
-                "2. Ensure you have positive credits (the free tier often expires).",
-                "3. Try the AI Evaluation again once funded."
-              ],
-              "recommendation": "Apply after resolving API quota",
-              "recommendation_reason": "We couldn't generate a real AI evaluation because the OpenAI API returned a 429 Insufficient Quota error. The standard ATS score is still valid."
+                "verdict": "AI evaluation unavailable — rate limit or quota reached.",
+                "biggest_blocker": "API rate limit hit. Try again in a moment.",
+                "candidate_level": "Unknown",
+                "jd_seniority": "Unknown",
+                "scores": {"content_match": 50, "ats_parseability": 50, "formatting_risk": "Medium", "evidence_quality": "Medium"},
+                "strengths": ["ATS extraction engine ran successfully."],
+                "problems": [{
+                    "severity": "High",
+                    "type": "API",
+                    "issue": "NVIDIA API rate limit or quota reached.",
+                    "fix": "Wait a moment and try again, or check your NVIDIA account quota.",
+                    "required_vs_preferred": "N/A"
+                }],
+                "missing_requirements": [],
+                "fix_plan": ["Wait for rate limit to reset, then retry AI evaluation."],
+                "recommendation": "Apply after resolving API quota",
+                "recommendation_reason": "Could not generate AI evaluation due to API rate limits. The standard ATS score is still valid."
             }
-            
-        raise HTTPException(status_code=502, detail=f"LLM evaluation failed: {error_msg}")
+
+        raise HTTPException(status_code=502, detail=f"AI evaluation failed: {error_msg}")
