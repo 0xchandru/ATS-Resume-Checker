@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Layout from "./components/layout/Layout";
+import LandingPage from "./pages/LandingPage";
 import UploadPanel from "./components/upload/UploadPanel";
 import ResultsSidebar from "./components/results/ResultsSidebar";
 import ResultsTabs from "./components/results/ResultsTabs";
@@ -20,7 +21,7 @@ import HistoryPanel from "./components/history/HistoryPanel";
 import ScoreHistoryChart, { type ScoreEntry } from "./components/results/ScoreHistoryChart";
 import { getHistory, uploadAndAnalyze, runAIEvaluation } from "./utils/api";
 
-export type View = "upload" | "results" | "history" | "compare";
+export type View = "home" | "upload" | "results" | "history" | "compare";
 export type Theme = "dark" | "light";
 
 export interface CategoryScore {
@@ -129,7 +130,10 @@ export default function App() {
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [currentJD, setCurrentJD] = useState<string>("");
   const [history, setHistory] = useState<any[]>([]);
-  const [activeView, setActiveView] = useState<View>("upload");
+  const [activeView, setActiveView] = useState<View>(() => {
+    const seen = localStorage.getItem("ats-seen");
+    return seen ? "upload" : "home";
+  });
   const [compareResult, setCompareResult] = useState<any | null>(null);
   const [scoreHistory, setScoreHistory] = useState<ScoreEntry[]>([]);
   const [theme, setTheme] = useState<Theme>(() =>
@@ -224,12 +228,18 @@ export default function App() {
   };
 
   const handleNewScan = () => {
+    localStorage.setItem("ats-seen", "1");
     setActiveView("upload");
     setCurrentFile(null);
     setCurrentJD("");
     setCurrentResult(null);
     setAiEvaluation(null);
     setAiError(null);
+  };
+
+  const handleLaunchFromLanding = () => {
+    localStorage.setItem("ats-seen", "1");
+    setActiveView("upload");
   };
 
   const handleScrollToCategory = (category: string) => {
@@ -278,6 +288,15 @@ export default function App() {
 
   // In Smart Editor mode: hide left sidebar and go full width so the editor fills the screen
   const isEditorMode = resultsTab === "smart_editor";
+
+  if (activeView === "home") {
+    return (
+      <div className={theme === "light" ? "light" : ""}>
+        <div className="fixed inset-0 pointer-events-none radial-glow z-0" />
+        <LandingPage onLaunch={handleLaunchFromLanding} />
+      </div>
+    );
+  }
 
   return (
     <Layout
@@ -362,6 +381,7 @@ export default function App() {
                       resumeFull={currentResult.resume_full || currentResult.resume_preview}
                       jdFull={currentResult.jd_full || currentResult.jd_preview}
                       result={currentResult}
+                      onOpenSmartEditor={() => setResultsTab("smart_editor")}
                     />
 
                     <hr className="border-border" />

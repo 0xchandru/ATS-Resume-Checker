@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import {
   Upload, FileText, AlertCircle, CheckCircle2, Loader2,
-  Building2, Briefcase, Sparkles, Zap, X
+  Building2, Briefcase, Sparkles, Zap, X, ChevronRight
 } from "lucide-react";
 import { uploadAndAnalyze, parseResume } from "../../utils/api";
 import { AnalysisResult } from "../../App";
@@ -24,6 +24,7 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
   const [isDragging, setIsDragging] = useState(false);
   const [fileError, setFileError] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analyzeStage, setAnalyzeStage] = useState("");
   const [error, setError] = useState("");
   const [isParsing, setIsParsing] = useState(false);
   const [isFormattingJD, setIsFormattingJD] = useState(false);
@@ -83,29 +84,52 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
   }, []);
 
   const hasResume = !!file || resumeText.trim().length > 50;
-  const canAnalyze = hasResume && jd.trim().length >= 50 && !isAnalyzing && !isParsing;
+  const hasJD = jd.replace(/<[^>]*>/g, "").trim().length >= 50;
+  const canAnalyze = hasResume && hasJD && !isAnalyzing && !isParsing;
+
+  const step1Done = hasJD;
+  const step2Done = hasResume;
+  const step3Ready = step1Done && step2Done;
 
   const effectiveScanName =
     (jobTitle.trim() && companyName.trim() ? `${jobTitle.trim()} — ${companyName.trim()}` : "") ||
     jobTitle.trim() || companyName.trim();
 
+  const ANALYZE_STAGES = [
+    "Parsing resume structure…",
+    "Extracting keywords…",
+    "Running semantic analysis…",
+    "Scoring ATS compatibility…",
+    "Generating insights…",
+  ];
+
   const handleAnalyze = async () => {
     if (!canAnalyze) return;
     setIsAnalyzing(true);
+    setAnalyzeStage(ANALYZE_STAGES[0]);
     setError("");
+
+    let stageIdx = 0;
+    const stageInterval = setInterval(() => {
+      stageIdx = Math.min(stageIdx + 1, ANALYZE_STAGES.length - 1);
+      setAnalyzeStage(ANALYZE_STAGES[stageIdx]);
+    }, 1400);
+
     let uploadFile = file;
     if (!uploadFile && resumeText.trim()) {
       const blob = new Blob([resumeText.trim()], { type: "text/plain" });
       uploadFile = new File([blob], "resume.txt", { type: "text/plain" });
     }
-    if (!uploadFile) return;
+    if (!uploadFile) { clearInterval(stageInterval); setIsAnalyzing(false); return; }
     try {
       const result = await uploadAndAnalyze(uploadFile, jd, resumeText, () => {}, effectiveScanName || undefined);
       onAnalysisComplete(result, uploadFile, jd, effectiveScanName || undefined);
     } catch (err: any) {
       setError(err?.message || "Analysis failed. Please try again.");
     } finally {
+      clearInterval(stageInterval);
       setIsAnalyzing(false);
+      setAnalyzeStage("");
     }
   };
 
@@ -116,42 +140,73 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
     <div className="w-full max-w-[1400px] mx-auto h-full min-h-[calc(100vh-4rem)] flex flex-col pb-6 px-4 sm:px-6 lg:px-8">
 
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-5 flex-shrink-0 gap-4 mt-5 lg:mt-6">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-2 h-2 rounded-full bg-violet-500 pulse-dot" />
-            <span className="text-xs font-semibold text-violet-400 uppercase tracking-widest">AI-Powered Analysis</span>
+      <div className="flex flex-col gap-4 mb-5 flex-shrink-0 mt-5 lg:mt-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-2 h-2 rounded-full bg-violet-500 pulse-dot" />
+              <span className="text-xs font-semibold text-violet-400 uppercase tracking-widest">AI-Powered Analysis</span>
+            </div>
+            <h1 className="text-2xl font-black text-foreground tracking-tight">Create New Scan</h1>
+            <p className="text-sm text-muted-foreground mt-0.5">Paste your job description and upload your resume for instant ATS analysis.</p>
           </div>
-          <h1 className="text-2xl font-black text-foreground tracking-tight">Create New Scan</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">Paste your job description and upload your resume for instant ATS analysis.</p>
+          <button
+            onClick={handleAnalyze}
+            disabled={!canAnalyze}
+            data-testid="btn-analyze"
+            className={`px-7 py-3.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 min-w-[180px] shrink-0 ${
+              canAnalyze
+                ? "bg-gradient-to-r from-violet-600 to-indigo-500 text-white hover:opacity-90 hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-violet-500/25"
+                : "bg-muted text-muted-foreground cursor-not-allowed"
+            }`}
+          >
+            {isAnalyzing ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Analyzing…
+              </>
+            ) : isParsing ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Parsing…
+              </>
+            ) : (
+              <>
+                <Zap className="h-4 w-4" />
+                Analyze Resume
+              </>
+            )}
+          </button>
         </div>
-        <button
-          onClick={handleAnalyze}
-          disabled={!canAnalyze}
-          data-testid="btn-analyze"
-          className={`px-7 py-3.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 min-w-[180px] shrink-0 ${
-            canAnalyze
-              ? "bg-gradient-to-r from-violet-600 to-indigo-500 text-white hover:opacity-90 hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-violet-500/25"
-              : "bg-muted text-muted-foreground cursor-not-allowed"
-          }`}
-        >
-          {isAnalyzing ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Analyzing…
-            </>
-          ) : isParsing ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Parsing…
-            </>
-          ) : (
-            <>
-              <Zap className="h-4 w-4" />
-              Analyze Resume
-            </>
-          )}
-        </button>
+
+        {/* Step Progress */}
+        <div className="flex items-center gap-2">
+          {[
+            { n: 1, label: "Job Description", done: step1Done },
+            { n: 2, label: "Resume", done: step2Done },
+            { n: 3, label: "Analyze", done: isAnalyzing },
+          ].map(({ n, label, done }, i) => (
+            <div key={n} className="flex items-center gap-2">
+              <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold transition-all ${
+                done
+                  ? "bg-emerald-500/10 border-emerald-500/25 text-emerald-400"
+                  : n === 3 && step3Ready
+                  ? "bg-violet-500/10 border-violet-500/25 text-violet-400"
+                  : "bg-white/[0.03] border-white/[0.07] text-muted-foreground"
+              }`}>
+                {done && n < 3 ? (
+                  <CheckCircle2 className="h-3 w-3" />
+                ) : (
+                  <span className={`w-4 h-4 rounded-full text-[9px] flex items-center justify-center font-black ${
+                    done || (n === 3 && step3Ready) ? "bg-current text-background opacity-90" : "bg-white/[0.06]"
+                  }`}>{n}</span>
+                )}
+                {label}
+              </div>
+              {i < 2 && <ChevronRight className="h-3 w-3 text-muted-foreground/30 shrink-0" />}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Main Body */}
@@ -337,9 +392,17 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
 
       {/* Analysis progress */}
       {isAnalyzing && (
-        <div className="mt-4 p-4 bg-violet-500/10 border border-violet-500/20 rounded-xl flex items-center gap-3">
-          <Loader2 className="h-4 w-4 text-violet-400 animate-spin shrink-0" />
-          <p className="text-sm font-semibold text-violet-300">Analyzing your resume against the job description…</p>
+        <div className="mt-4 p-4 bg-violet-500/10 border border-violet-500/20 rounded-xl">
+          <div className="flex items-center gap-3 mb-3">
+            <Loader2 className="h-4 w-4 text-violet-400 animate-spin shrink-0" />
+            <p className="text-sm font-semibold text-violet-300">{analyzeStage || "Analyzing…"}</p>
+          </div>
+          <div className="w-full h-1 bg-white/[0.06] rounded-full overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-violet-600 to-indigo-500 rounded-full analyze-progress-bar" />
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            Deep 10-layer analysis running · Usually takes 5–15 seconds
+          </p>
         </div>
       )}
     </div>

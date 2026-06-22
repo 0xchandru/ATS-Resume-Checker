@@ -13,7 +13,7 @@ interface LayoutProps {
 
 const navItems = [
   { id: "upload" as View, label: "New Scan", icon: PlusCircle, accent: true },
-  { id: "upload" as View, label: "Home", icon: Home },
+  { id: "home" as View, label: "Home", icon: Home },
   { id: "results" as View, label: "Results", icon: FileText },
   { id: "history" as View, label: "History", icon: History },
 ];
@@ -37,7 +37,7 @@ export default function Layout({ activeView, onViewChange, hasResult, children, 
 
         {/* Nav Icons */}
         <nav className="flex-1 flex flex-col items-center py-4 gap-1">
-          {navItems.map(({ id, label, icon: Icon, accent }, i) => {
+          {navItems.map(({ id, label, icon: Icon }, i) => {
             if (i === 0) {
               return (
                 <button
@@ -52,11 +52,7 @@ export default function Layout({ activeView, onViewChange, hasResult, children, 
               );
             }
             const disabled = id === "results" && !hasResult;
-            const isActive = activeView === id && !(i === 1 && activeView !== "upload");
-            const isHomeActive = i === 1 && activeView === "upload";
-            const isResultsActive = id === "results" && activeView === "results";
-            const isHistoryActive = id === "history" && activeView === "history";
-            const highlighted = isHomeActive || isResultsActive || isHistoryActive;
+            const highlighted = activeView === id;
 
             return (
               <button

@@ -401,3 +401,32 @@ html {
 .pulse-dot {
   animation: pulseDot 1.4s ease-in-out infinite;
 }
+
+/* ─── Analyze progress bar ───────────────────────────────── */
+@keyframes analyzeProgress {
+  0%   { width: 5%; }
+  20%  { width: 30%; }
+  50%  { width: 60%; }
+  80%  { width: 85%; }
+  100% { width: 92%; }
+}
+.analyze-progress-bar {
+  animation: analyzeProgress 8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ─── Landing page feature card hover ────────────────────── */
+@keyframes floatUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.landing-feature-card {
+  animation: floatUp 0.5s ease forwards;
+}
+
+/* ─── Gradient text ──────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #a78bfa 0%, #818cf8 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

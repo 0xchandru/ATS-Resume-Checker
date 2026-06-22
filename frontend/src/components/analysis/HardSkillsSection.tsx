@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Copy, Check, Search, ChevronDown, ChevronUp } from "lucide-react";
+import { Copy, Check, Search, ChevronDown, ChevronUp, Wand2, Zap } from "lucide-react";
 
 interface Props {
   keywords: any;
@@ -8,6 +8,7 @@ interface Props {
   resumeFull?: string;
   jdFull?: string;
   result?: any;
+  onOpenSmartEditor?: () => void;
 }
 
 function useCopy(textFn: () => string) {
@@ -105,7 +106,7 @@ function getSkillLabel(skill: any): string {
   );
 }
 
-export default function HardSkillsSection({ keywords, resumeText, jdText, resumeFull, jdFull, result }: Props) {
+export default function HardSkillsSection({ keywords, resumeText, jdText, resumeFull, jdFull, result, onOpenSmartEditor }: Props) {
   if (!keywords) return null;
 
   const { matched = [], match_rate } = keywords;
@@ -215,15 +216,50 @@ export default function HardSkillsSection({ keywords, resumeText, jdText, resume
           </div>
 
           {trulyMissing.length > 0 && (
-            <div className="flex items-center gap-3">
-              <button
-                onClick={copyAll}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-xs font-bold hover:opacity-90 transition-all shadow-md shadow-violet-500/20"
-              >
-                {copiedAll ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                {copiedAll ? "Copied!" : `Copy ${trulyMissing.length} missing skills`}
-              </button>
-              <span className="text-xs text-muted-foreground">Add these to your resume to improve your score</span>
+            <div className="p-4 rounded-xl bg-gradient-to-br from-violet-500/10 to-indigo-500/5 border border-violet-500/20">
+              <div className="flex items-center gap-2 mb-3">
+                <Zap className="h-4 w-4 text-violet-400" />
+                <span className="text-sm font-bold text-foreground">Auto-Optimize: Add Missing Keywords</span>
+              </div>
+              <p className="text-xs text-muted-foreground mb-3">
+                Copy the {trulyMissing.length} missing skills below, then use the Smart Editor to paste them
+                into your resume and watch your score update in real time.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {trulyMissing.slice(0, 12).map((kw: any, i: number) => (
+                  <span key={i} className="px-2.5 py-1 bg-red-500/10 text-red-400 border border-red-500/20 rounded-lg text-xs font-medium">
+                    {kw.skill || kw.keyword}
+                  </span>
+                ))}
+                {trulyMissing.length > 12 && (
+                  <span className="px-2.5 py-1 bg-white/[0.04] text-muted-foreground border border-white/[0.08] rounded-lg text-xs">
+                    +{trulyMissing.length - 12} more
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={copyAll}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-500 text-white text-xs font-bold hover:opacity-90 transition-all shadow-md shadow-violet-500/20"
+                >
+                  {copiedAll ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                  {copiedAll ? "Copied to Clipboard!" : `Copy All ${trulyMissing.length} Missing Skills`}
+                </button>
+                {onOpenSmartEditor && (
+                  <button
+                    onClick={onOpenSmartEditor}
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-violet-500/30 bg-violet-500/10 text-violet-400 text-xs font-bold hover:bg-violet-500/15 transition-all"
+                  >
+                    <Wand2 className="h-3.5 w-3.5" />
+                    Open Smart Editor
+                  </button>
+                )}
+              </div>
+              {copiedAll && (
+                <p className="text-xs text-emerald-400 mt-2 font-medium">
+                  ✓ Copied! Now open the Smart Editor tab and paste these skills into your resume.
+                </p>
+              )}
             </div>
           )}
         </div>

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { AnalysisResult } from "../../App";
-import { RefreshCw, Sparkles, PlusCircle } from "lucide-react";
+import { RefreshCw, Sparkles, PlusCircle, Zap } from "lucide-react";
 import SeniorityBadge from "../verdict/SeniorityBadge";
 import { motion } from "framer-motion";
 
@@ -145,6 +145,30 @@ function CategoryBar({
   );
 }
 
+function getQuickWins(result: AnalysisResult): string[] {
+  const wins: string[] = [];
+  const categories: Record<string, number> = {
+    keyword_match: result.keyword_match ?? 0,
+    semantic_match: result.semantic_match ?? 0,
+    evidence_strength: result.evidence_strength ?? 0,
+    seniority_fit: result.seniority_fit ?? 0,
+    parsing_quality: result.parsing_quality ?? 0,
+    formatting_quality: result.formatting_quality ?? 0,
+  };
+
+  if ((categories.keyword_match ?? 0) < 65) wins.push("Add missing hard skills to the Skills section");
+  if ((categories.evidence_strength ?? 0) < 65) wins.push("Quantify bullet points (e.g. 'increased revenue by 30%')");
+  if ((categories.formatting_quality ?? 0) < 65) wins.push("Fix formatting — use a standard single-column layout");
+  if ((categories.semantic_match ?? 0) < 55) wins.push("Mirror the job description's exact phrasing");
+  if ((categories.seniority_fit ?? 0) < 55) wins.push("Emphasize leadership or scope to match role seniority");
+  if ((categories.parsing_quality ?? 0) < 65) wins.push("Simplify formatting — avoid tables and text boxes");
+
+  const missingCount = result.keywords?.missing?.length || 0;
+  if (missingCount > 5 && wins.length < 3) wins.push(`Add ${missingCount} missing keywords via Smart Editor`);
+
+  return wins.slice(0, 3);
+}
+
 export default function ResultsSidebar({
   result,
   onNewScan,
@@ -157,6 +181,7 @@ export default function ResultsSidebar({
   isRescoring,
 }: Props) {
   const { overall_score, letter_grade, keywords } = result;
+  const quickWins = useMemo(() => getQuickWins(result), [result]);
 
   const matchRate = keywords?.match_rate ? Math.round(keywords.match_rate * 100) : 0;
   const matchedCount = keywords?.matched_count || keywords?.matched?.length || 0;
@@ -273,6 +298,26 @@ export default function ResultsSidebar({
           </motion.div>
         ))}
       </div>
+
+      {/* Quick Wins */}
+      {quickWins.length > 0 && (
+        <div className="px-4 py-4 border-t border-white/[0.05]">
+          <p className="text-[9px] font-bold uppercase tracking-widest text-violet-400 mb-3 flex items-center gap-1.5">
+            <Zap className="h-3 w-3" />
+            Quick Wins
+          </p>
+          <div className="space-y-2">
+            {quickWins.map((win, i) => (
+              <div key={i} className="flex items-start gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors group">
+                <div className="mt-0.5 w-4 h-4 rounded-full bg-violet-500/15 border border-violet-500/25 flex items-center justify-center shrink-0 text-violet-400 text-[9px] font-black">
+                  {i + 1}
+                </div>
+                <span className="leading-snug">{win}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* New Scan */}
       <div className="px-4 py-3 border-t border-white/[0.05]">
