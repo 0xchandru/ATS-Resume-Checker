@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useRef } from "react";
 import { AnalysisResult } from "../../App";
 import {
   Sparkles, Edit3, ChevronDown, ChevronRight,
-  AlertTriangle, CheckCircle2, Loader2, Copy, Check, X, RefreshCw
+  AlertTriangle, CheckCircle2, Loader2, Copy, Check, X, RefreshCw, Download
 } from "lucide-react";
 import { apiFetch } from "../../utils/api";
 import RichTextEditor from "../common/RichTextEditor";
@@ -72,7 +72,12 @@ function parseResumeHtml(html: string): Section[] {
     const addText = (text: string) => {
       if (!text || !cur) return;
       const clean = text.trim(); if (!clean) return;
-      if (cur.type === "summary") { cur.items.push(clean); }
+      if (cur.type === "summary") {
+        // Accumulate all summary paragraphs into one editable block so the
+        // user gets a single Edit widget for the whole professional summary.
+        if (cur.items.length === 0) cur.items.push(clean);
+        else cur.items[0] += " " + clean;
+      }
       else if (cur.type === "skills") { splitSkillLine(clean).forEach(c => cur!.items.push(c)); }
       else if (curEntry) { curEntry.bullets.push(clean); }
       else { cur.items.push(clean); }
@@ -143,7 +148,12 @@ function parsePlainText(text: string): Section[] {
     const isBullet = /^[•\-–—●*]\s/.test(line);
     const clean = line.replace(/^[•\-–—●*]\s*/, "").trim();
     if (!clean) continue;
-    if (cur.type === "summary") { cur.items.push(clean); continue; }
+    if (cur.type === "summary") {
+      // Accumulate into a single block — same intent as the HTML parser fix.
+      if (cur.items.length === 0) cur.items.push(clean);
+      else cur.items[0] += " " + clean;
+      continue;
+    }
     if (cur.type === "skills") {
       const colon = clean.indexOf(":");
       if (colon > 0 && !clean.substring(0, colon).includes(",")) {
@@ -238,6 +248,7 @@ export default function SmartEditorTab({
   const [error, setError] = useState("");
   const [appliedItems, setAppliedItems] = useState<Set<string>>(new Set());
   const [isRescoring, setIsRescoring] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const rescoreTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const allMissingSkills = useMemo(() => analysis.keywords?.missing || [], [analysis.keywords]);
@@ -279,6 +290,35 @@ export default function SmartEditorTab({
   const toggleSection = (idx: number) => setExpandedSections(prev => {
     const next = new Set(prev); next.has(idx) ? next.delete(idx) : next.add(idx); return next;
   });
+
+  const handleExportPdf = async () => {
+    setIsExporting(true);
+    try {
+      const html = reconstructHtml(sections);
+      const res = await apiFetch("/editor/export_pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ resume_html: html, filename: "resume" }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || "Export failed");
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "resume_ats.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err: any) {
+      setError(err?.message || "PDF export failed. Please try again.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const triggerRescore = useCallback((text: string) => {
     if (!scanId || !onScoreUpdate) return;
@@ -511,13 +551,18 @@ export default function SmartEditorTab({
 
   // ── Section renderers ──────────────────────────────────────────────────────
 
-  const renderSummary = (section: Section, sIdx: number) => (
-    <div className="px-4 pb-4 space-y-1">
-      {section.items.map((para, iIdx) => (
-        <ItemRow key={iIdx} text={para} sIdx={sIdx} eIdx={null} iIdx={iIdx} variant="paragraph" />
-      ))}
-    </div>
-  );
+  const renderSummary = (section: Section, sIdx: number) => {
+    // Show the whole summary as one single editable block.
+    // All paragraphs were merged into items[0] during parsing so there is
+    // always exactly one item (or zero if the section is empty).
+    const fullText = section.items.join(" ").trim();
+    if (!fullText) return null;
+    return (
+      <div className="px-4 pb-4">
+        <ItemRow text={fullText} sIdx={sIdx} eIdx={null} iIdx={0} variant="paragraph" />
+      </div>
+    );
+  };
 
   const renderSkills = (section: Section, sIdx: number) => {
     const chips = section.items.filter(Boolean);
@@ -709,6 +754,18 @@ export default function SmartEditorTab({
                 <span className="text-xs font-bold text-emerald-400">{appliedItems.size} edit{appliedItems.size > 1 ? "s" : ""} applied</span>
               </div>
             )}
+            <button
+              onClick={handleExportPdf}
+              disabled={isExporting || sections.length === 0}
+              data-testid="button-export-pdf"
+              title="Export ATS-friendly PDF"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 disabled:opacity-40 transition-colors"
+            >
+              {isExporting
+                ? <><Loader2 className="w-3 h-3 animate-spin" />Exporting…</>
+                : <><Download className="w-3 h-3" />Export PDF</>
+              }
+            </button>
           </div>
         </div>
 

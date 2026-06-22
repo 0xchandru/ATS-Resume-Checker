@@ -31,6 +31,21 @@ from typing import Optional
 _THREAD_POOL = ThreadPoolExecutor(max_workers=4)
 
 
+def _strip_links_block(text: str) -> str:
+    """Remove the [EXTRACTED LINKS] block that the parser appends to raw_text.
+
+    The parser appends extracted hyperlink URLs at the bottom of the raw text
+    so they can be displayed in the UI.  That block must NOT reach keyword
+    extraction or scoring: URL fragments look like keywords and inflate or
+    deflate scores relative to the copy-paste path (which never has this block).
+    """
+    for marker in ("\n\n[EXTRACTED LINKS]", "\n[EXTRACTED LINKS]", "[EXTRACTED LINKS]"):
+        idx = text.find(marker)
+        if idx != -1:
+            return text[:idx].rstrip()
+    return text
+
+
 def _strip_html(html: str) -> str:
     """Convert HTML from the rich-text editor to plain text.
 
@@ -77,7 +92,13 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
         logger.error("Parse error for %s: %s", scan_id, e)
         raise HTTPException(status_code=422, detail=f"Could not parse resume: {e}")
 
-    raw_resume_text = request.resume_text if (request and request.resume_text) else parsed["raw_text"]
+    if request and request.resume_text:
+        raw_resume_text = request.resume_text
+    else:
+        # Strip the [EXTRACTED LINKS] block before scoring so URL fragments
+        # don't pollute keyword extraction and cause a score mismatch vs the
+        # copy-paste / Smart-Editor path which never contains that block.
+        raw_resume_text = _strip_links_block(parsed["raw_text"])
     resume_text = _strip_html(raw_resume_text)
     jd_text = _strip_html(str(record.jd_text or ""))
     file_metadata = parsed["metadata"]
@@ -350,17 +371,28 @@ async def quick_score(scan_id: str, request: QuickScoreRequest, db: Session = De
     resume_seniority = analyze_resume_seniority(resume_text, career)
     seniority_gap = compute_seniority_gap(jd_seniority, resume_seniority)
 
-    dummy_formatting = {"score": 75, "issues": [], "has_tables": False, "has_columns": False, "has_headers": True}
+    # Re-use the formatting result from the original full analysis so that the
+    # quick rescore doesn't diverge from the file-based score due to a fake
+    # formatting stub.  Falls back to a neutral (no-issues) dict if no prior
+    # result is found.
+    stored_formatting: Dict = {"issues": []}
+    try:
+        existing_for_fmt = db.query(ScanResult).filter(ScanResult.scan_id == scan_id).first()
+        if existing_for_fmt and existing_for_fmt.result_json:
+            stored_formatting = json.loads(str(existing_for_fmt.result_json)).get("formatting", stored_formatting)
+    except Exception:
+        pass
+
     dummy_cert = {"matched": [], "missing": [], "bonus": [], "matched_count": 0, "missing_count": 0, "bonus_count": 0, "score": 100.0}
     dummy_edu = {"score": 80.0, "degree_level_match": "unknown", "recognized_universities": []}
 
     scoring = scorer.calculate_score_v2(
-        match_result, sections, dummy_formatting, career, resume_text, jd_text,
+        match_result, sections, stored_formatting, career, resume_text, jd_text,
         seniority_gap, evidence_quality, dummy_cert, dummy_edu,
     )
     action_verbs = feedback_engine.analyze_action_verbs(resume_text, sections)
     category_scores = scorer.compute_category_scores(
-        match_result, sections, dummy_formatting, career, resume_text, jd_text, action_verbs
+        match_result, sections, stored_formatting, career, resume_text, jd_text, action_verbs
     )
 
     def is_soft(m): return (m.get("category") or "").lower() in ("soft_skill", "transversal", "social", "competency")

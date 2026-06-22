@@ -198,15 +198,31 @@ def _build_link_rect_index(links: List[Dict]) -> Dict[int, List]:
 
 
 def _span_in_link(span_bbox, page_links: List[Dict]) -> str:
-    """Return the URL if the span's bounding box overlaps with any link on this page."""
+    """Return the URL of the link with the greatest overlap with this span's bounding box.
+
+    Using maximum-intersection-area matching prevents adjacent links on the
+    same line from all resolving to the first link's URL (the old first-match
+    bug).  Each span is now assigned to whichever link rectangle it overlaps
+    with the most.
+    """
     if not page_links:
         return ""
     sx0, sy0, sx1, sy1 = span_bbox
+    best_url = ""
+    best_area = 0.0
     for lnk in page_links:
         rx0, ry0, rx1, ry1 = lnk["rect"]
-        if sx0 < rx1 and sx1 > rx0 and sy0 < ry1 and sy1 > ry0:
-            return lnk["url"]
-    return ""
+        # Intersection rectangle
+        ix0 = max(sx0, rx0)
+        iy0 = max(sy0, ry0)
+        ix1 = min(sx1, rx1)
+        iy1 = min(sy1, ry1)
+        if ix1 > ix0 and iy1 > iy0:
+            area = (ix1 - ix0) * (iy1 - iy0)
+            if area > best_area:
+                best_area = area
+                best_url = lnk["url"]
+    return best_url
 
 
 # ─────────────────────────────────────────────────────────────────────────────
