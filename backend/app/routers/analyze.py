@@ -62,14 +62,32 @@ def _strip_html(html: str) -> str:
 # upload, manual input, quick_score, rescan, Smart Editor.
 # Any difference here causes score divergence — keep it identical everywhere.
 
+
+# ── Phase 1 inline fixups: applied to the whole text before line filtering ───
+# These handle sub-line artifacts that can't be caught by line-level patterns.
+_INLINE_FIXUPS = [
+    # email/URL domain directly followed by a capitalized word (no space):
+    #   foo@bar.comPortfolio  →  foo@bar.com Portfolio
+    #   mysite.ioAbout        →  mysite.io About
+    (re.compile(
+        r'(\.(com|net|org|io|me|uk|edu|co|app|dev|tech|ai|gov|mil|ca|au|in))([A-Z][a-z])',
+    ), r'\1 \3'),
+    # "Verify" stuck to the start of another word (PDF cert/link badge artifact):
+    #   VerifyGitHub → GitHub     VerifyLinkedIn → LinkedIn
+    (re.compile(r'\bVerify(?=[A-Z][a-zA-Z])'), ''),
+    # Common link-label words stuck to adjacent words:
+    #   GitHubMyProject → GitHub MyProject
+    (re.compile(r'\b(GitHub|LinkedIn|Portfolio|TryHackMe|HackTheBox|LeetCode)(?=[A-Z][a-z])'), r'\1 '),
+]
+
+# ── Phase 2 line-level artifact patterns ─────────────────────────────────────
 _ARTIFACT_PATTERNS = [
-    # PDF cert badge "Verify" / "VerifyVerify" artifacts
+    # PDF cert badge lines that are ONLY "Verify" repeated any number of times
     re.compile(r"^(Verify\s*)+$", re.IGNORECASE | re.MULTILINE),
-    # Repeated short words that are clearly UI artifacts
+    # Other pure UI-artifact lines
     re.compile(r"^(View|Click|Open|Download|Link|Badge|Credential)(\s+\1)*\s*$", re.IGNORECASE | re.MULTILINE),
-    # Lines that are only symbols/separators
+    # Lines that are only separators / symbols with no real text
     re.compile(r"^[\s\-–—_=|•·*]+$", re.MULTILINE),
-    # Duplicate contact header lines (email merged with word, e.g. "foo@bar.comPortfolio")
 ]
 
 
@@ -77,34 +95,41 @@ def _normalize_resume_text(raw: str) -> str:
     """
     Canonical normalization applied to ALL resume text before extraction/scoring.
 
-    - Strips HTML if present
-    - Removes PDF link/badge artifacts (VerifyVerify, etc.)
-    - Deduplicates consecutive identical lines
-    - Normalizes whitespace
-    - Strips the [EXTRACTED LINKS] block
+    Pass 1 – inline fixups (sub-line artifacts like email+word concatenation)
+    Pass 2 – strip HTML, links block
+    Pass 3 – line-level artifact removal
+    Pass 4 – near-duplicate line deduplication (whitespace-normalised comparison)
+    Pass 5 – whitespace collapse
     """
     text = _strip_html(raw)
     text = _strip_links_block(text)
 
-    # Remove artifact lines
+    # Pass 1 – inline fixups
+    for pat, repl in _INLINE_FIXUPS:
+        text = pat.sub(repl, text)
+
+    # Pass 2 – line-level artifact removal
     for pat in _ARTIFACT_PATTERNS:
         text = pat.sub("", text)
 
-    # Deduplicate consecutive identical lines (common in malformed PDFs)
+    # Pass 3 – deduplicate consecutive near-identical lines
+    # Comparison key: lowercase + all whitespace collapsed to single space.
+    # This catches duplicates that differ only in spacing/capitalisation.
     lines = text.split("\n")
     deduped: list = []
-    prev = None
+    prev_key: str = ""
     for line in lines:
         stripped = line.strip()
-        if stripped and stripped == prev:
+        key = re.sub(r"\s+", " ", stripped).lower()
+        if key and key == prev_key:
             continue
         deduped.append(line)
-        if stripped:
-            prev = stripped
+        if key:
+            prev_key = key
 
     text = "\n".join(deduped)
 
-    # Collapse 3+ blank lines to 2
+    # Pass 4 – collapse excess blank lines
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 

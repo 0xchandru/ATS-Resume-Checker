@@ -27,24 +27,71 @@ def _join_hyphenated_linebreaks(text: str) -> str:
     Join words that were hyphenated across line breaks in PDFs.
 
     PDFs break long words at line boundaries with a soft hyphen:
-      'Velocirap-\\ntor'        →  'Velociraptor'
-      'Malware-\\nBazaar'       →  'MalwareBazaar'
+      'Velocirap-\\ntor'          →  'Velociraptor'
+      'Malware-\\nBazaar'         →  'MalwareBazaar'
       'system admin-\\nistration' →  'system administration'
-      'case man-\\nagement'     →  'case management'
-      'identifi-\\ncation'      →  'identification'
+      'case man-\\nagement'       →  'case management'
+      'identifi-\\ncation'        →  'identification'
 
     We only join when the character immediately before the hyphen is a letter
     and the first character on the next line is also a letter — i.e., it is
     unambiguously a wrapped word, not a real compound hyphen followed by an
     independent sentence.
     """
-    # Pattern: letter + hyphen + optional whitespace + newline + optional
-    # leading spaces + letter  →  letter + letter (drop the hyphen)
     return re.sub(
         r'([A-Za-z])-[ \t]*\n[ \t]*([A-Za-z])',
         lambda m: m.group(1) + m.group(2),
         text,
     )
+
+
+# ── Inline text artifact patterns (mirrors analyze._INLINE_FIXUPS) ────────────
+# Applied to raw text in the parser so that rich_text HTML is also clean.
+_TEXT_INLINE_FIXUPS: List[tuple] = [
+    # email/URL domain directly followed by capitalised word — insert space:
+    #   foo@bar.comPortfolio  →  foo@bar.com Portfolio
+    (re.compile(
+        r'(\.(com|net|org|io|me|uk|edu|co|app|dev|tech|ai|gov|mil|ca|au|in))([A-Z][a-z])'
+    ), r'\1 \3'),
+    # "Verify" stuck to another word (PDF cert badge artifact):
+    #   VerifyGitHub → GitHub
+    (re.compile(r'\bVerify(?=[A-Z][a-zA-Z])'), ''),
+    # Common link labels stuck to adjacent words:
+    #   GitHubMyProject → GitHub MyProject
+    (re.compile(
+        r'\b(GitHub|LinkedIn|Portfolio|TryHackMe|HackTheBox|LeetCode)(?=[A-Z][a-z])'
+    ), r'\1 '),
+]
+
+
+def _clean_extracted_text(text: str) -> str:
+    """
+    Apply inline artifact fixups to raw extracted text.
+    Called on both pdfplumber and PyMuPDF raw text before storage.
+    """
+    for pat, repl in _TEXT_INLINE_FIXUPS:
+        text = pat.sub(repl, text)
+    # Remove lines that are only "Verify" repeated (cert badge lines)
+    text = re.sub(r'^(Verify\s*)+$', '', text, flags=re.IGNORECASE | re.MULTILINE)
+    # Collapse 3+ blank lines
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    return text.strip()
+
+
+def _clean_html_text_nodes(html: str) -> str:
+    """
+    Apply inline artifact fixups to the TEXT NODES of an HTML string —
+    i.e. only to content between tags, not to URLs or tag attributes.
+    """
+    parts = re.split(r'(<[^>]+>)', html)
+    for i in range(0, len(parts), 2):  # only text nodes (even indices)
+        node = parts[i]
+        for pat, repl in _TEXT_INLINE_FIXUPS:
+            node = pat.sub(repl, node)
+        # Remove pure "Verify" runs within a text node
+        node = re.sub(r'\bVerify(\s*Verify)*\b', '', node, flags=re.IGNORECASE)
+        parts[i] = node
+    return "".join(parts)
 
 
 # Separator characters that commonly appear between links on the same line.
@@ -402,9 +449,9 @@ def _parse_pdf(file_path: str) -> dict:
 
         raw_html = "".join(html_parts).replace("</ul><ul>", "")
 
-        # ── Join hyphenated line-breaks in the HTML text nodes ──────────────
-        # We do this on the text portions only (not inside tags)
+        # ── Join hyphenated line-breaks then clean artifacts in HTML text ───
         rich_text = _join_hyphens_in_html(raw_html)
+        rich_text = _clean_html_text_nodes(rich_text)
 
     except Exception as e:
         logger.warning("PyMuPDF semantic HTML extraction failed: %s", e)
@@ -439,6 +486,70 @@ def _join_hyphens_in_html(html: str) -> str:
 # pdfplumber extraction
 # ─────────────────────────────────────────────────────────────────────────────
 
+
+def _chars_to_spaced_text(chars: List[Dict]) -> str:
+    """
+    Convert pdfplumber character dicts to a plain text string, inserting
+    a space wherever the horizontal gap between characters exceeds ~30%
+    of the average character width.
+
+    This is the Resume-Matcher approach: build text from character positions
+    so that adjacent items on the same PDF line (e.g. an email address
+    immediately followed by a hyperlink label) get a space inserted between
+    them even when the PDF byte stream writes them without one.
+    """
+    if not chars:
+        return ""
+
+    # Sort by line then by x-position
+    LINE_TOL = 3.0  # px — chars within this vertical band share a line
+
+    # Group into lines by approximate y (top) value
+    sorted_chars = sorted(chars, key=lambda c: (c.get("top", 0), c.get("x0", 0)))
+    lines: List[List[Dict]] = []
+    current: List[Dict] = []
+    ref_top: float = -1.0
+
+    for ch in sorted_chars:
+        ch_top = ch.get("top", 0)
+        if ref_top < 0 or abs(ch_top - ref_top) > LINE_TOL:
+            if current:
+                lines.append(current)
+            current = [ch]
+            ref_top = ch_top
+        else:
+            current.append(ch)
+    if current:
+        lines.append(current)
+
+    text_lines: List[str] = []
+    for line in lines:
+        line = sorted(line, key=lambda c: c.get("x0", 0))
+        buf: List[str] = []
+        prev: Dict = {}
+        for ch in line:
+            char_text = ch.get("text", "")
+            if not char_text or char_text in ("\x00", "\n", "\r"):
+                continue
+            if prev:
+                gap = ch.get("x0", 0) - prev.get("x1", 0)
+                # Average width of the two adjacent chars
+                w_prev = prev.get("x1", 0) - prev.get("x0", 0)
+                w_cur = ch.get("x1", 0) - ch.get("x0", 0)
+                avg_w = (w_prev + w_cur) / 2.0 if (w_prev + w_cur) > 0 else 4.0
+                # Insert a space if gap is more than 30% of avg char width
+                # and we haven't already buffered a space
+                if gap > avg_w * 0.30 and (not buf or buf[-1] != " "):
+                    buf.append(" ")
+            buf.append(char_text)
+            prev = ch
+        line_str = "".join(buf).strip()
+        if line_str:
+            text_lines.append(line_str)
+
+    return "\n".join(text_lines)
+
+
 def _parse_pdf_pdfplumber(file_path: str, links: List[Dict] = None) -> dict:
     import pdfplumber
 
@@ -458,11 +569,22 @@ def _parse_pdf_pdfplumber(file_path: str, links: List[Dict] = None) -> dict:
         for page_num, page in enumerate(pdf.pages):
             page_height = page.height or 1000
 
-            # Use layout=True for better multi-column handling when available
-            try:
-                text = page.extract_text(layout=True) or ""
-            except TypeError:
-                text = page.extract_text() or ""
+            # ── Primary: build text from character positions (Resume-Matcher
+            #    approach) — properly inserts spaces at visual word gaps.
+            # ── Fallback: extract_text(layout=True) / extract_text()
+            page_chars = list(page.chars)
+            if page_chars:
+                try:
+                    text = _chars_to_spaced_text(page_chars)
+                except Exception:
+                    text = ""
+            else:
+                text = ""
+            if not text.strip():
+                try:
+                    text = page.extract_text(layout=True) or ""
+                except TypeError:
+                    text = page.extract_text() or ""
 
             all_text_parts.append(text)
 
@@ -492,8 +614,9 @@ def _parse_pdf_pdfplumber(file_path: str, links: List[Dict] = None) -> dict:
 
     raw_text = "\n".join(all_text_parts).strip()
 
-    # ── Critical: join hyphenated line-breaks ────────────────────────────────
+    # ── Join hyphenated line-breaks then clean inline artifacts ─────────────
     raw_text = _join_hyphenated_linebreaks(raw_text)
+    raw_text = _clean_extracted_text(raw_text)
 
     # ── Append extracted link URLs to raw_text ───────────────────────────────
     # This ensures the ATS engine can see the actual URLs (portfolio, github, etc.)
@@ -573,6 +696,7 @@ def _parse_pdf_pymupdf(file_path: str, links: List[Dict] = None) -> dict:
 
     raw_text = "\n".join(all_text_parts).strip()
     raw_text = _join_hyphenated_linebreaks(raw_text)
+    raw_text = _clean_extracted_text(raw_text)
 
     if links:
         seen_urls: set = set()
