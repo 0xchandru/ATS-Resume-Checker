@@ -15,15 +15,6 @@ interface Props {
 const ACCEPTED = [".pdf", ".docx"];
 const MAX_MB = 10;
 
-const STAGES = [
-  "Uploading resume…",
-  "Parsing document…",
-  "Extracting keywords…",
-  "Running ATS analysis…",
-  "Computing scores…",
-  "Finalizing report…",
-];
-
 export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [resumeText, setResumeText] = useState("");
@@ -33,19 +24,12 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
   const [isDragging, setIsDragging] = useState(false);
   const [fileError, setFileError] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [stageIdx, setStageIdx] = useState(0);
   const [error, setError] = useState("");
   const [isParsing, setIsParsing] = useState(false);
   const [isFormattingJD, setIsFormattingJD] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => { if (initialJD) setJd(initialJD); }, [initialJD]);
-
-  useEffect(() => {
-    if (!isAnalyzing) { setStageIdx(0); return; }
-    const t = setInterval(() => setStageIdx(i => Math.min(i + 1, STAGES.length - 1)), 2800);
-    return () => clearInterval(t);
-  }, [isAnalyzing]);
 
   const validateFile = (f: File) => {
     const ext = f.name.split(".").pop()?.toLowerCase();
@@ -122,7 +106,6 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
       setError(err?.message || "Analysis failed. Please try again.");
     } finally {
       setIsAnalyzing(false);
-      setStageIdx(0);
     }
   };
 
@@ -155,7 +138,7 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
           {isAnalyzing ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span className="truncate max-w-[140px]">{STAGES[stageIdx]}</span>
+              Analyzing…
             </>
           ) : isParsing ? (
             <>
@@ -356,16 +339,7 @@ export default function UploadPanel({ onAnalysisComplete, initialJD = "" }: Prop
       {isAnalyzing && (
         <div className="mt-4 p-4 bg-violet-500/10 border border-violet-500/20 rounded-xl flex items-center gap-3">
           <Loader2 className="h-4 w-4 text-violet-400 animate-spin shrink-0" />
-          <div className="flex-1">
-            <p className="text-sm font-semibold text-violet-300">{STAGES[stageIdx]}</p>
-            <div className="mt-1.5 h-1 bg-violet-500/20 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-violet-600 to-indigo-500 rounded-full transition-all duration-1000"
-                style={{ width: `${((stageIdx + 1) / STAGES.length) * 100}%` }}
-              />
-            </div>
-          </div>
-          <span className="text-xs text-muted-foreground font-mono">{Math.round(((stageIdx + 1) / STAGES.length) * 100)}%</span>
+          <p className="text-sm font-semibold text-violet-300">Analyzing your resume against the job description…</p>
         </div>
       )}
     </div>

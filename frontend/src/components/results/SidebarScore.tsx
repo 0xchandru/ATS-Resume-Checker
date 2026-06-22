@@ -31,13 +31,13 @@ function ScoreRing({ score, grade }: { score: number; grade: string }) {
   useEffect(() => {
     if (!ringRef.current) return;
     ringRef.current.style.strokeDashoffset = `${CIRC}`;
-    const t = setTimeout(() => {
+    const raf = requestAnimationFrame(() => requestAnimationFrame(() => {
       if (ringRef.current) {
         ringRef.current.style.transition = "stroke-dashoffset 1.3s cubic-bezier(.4,0,.2,1)";
         ringRef.current.style.strokeDashoffset = `${offset}`;
       }
-    }, 80);
-    return () => clearTimeout(t);
+    }));
+    return () => cancelAnimationFrame(raf);
   }, [score, offset]);
 
   return (
@@ -86,13 +86,13 @@ function FactorBar({ label, score, icon: Icon }: { label: string; score: number;
   useEffect(() => {
     if (!barRef.current) return;
     barRef.current.style.width = "0%";
-    const t = setTimeout(() => {
+    const raf = requestAnimationFrame(() => requestAnimationFrame(() => {
       if (barRef.current) {
         barRef.current.style.transition = "width 0.9s cubic-bezier(.4,0,.2,1)";
         barRef.current.style.width = `${score}%`;
       }
-    }, 200);
-    return () => clearTimeout(t);
+    }));
+    return () => cancelAnimationFrame(raf);
   }, [score]);
 
   return (

@@ -24,13 +24,13 @@ function ScoreRing({ score, grade }: { score: number; grade: string }) {
   useEffect(() => {
     if (!ringRef.current) return;
     ringRef.current.style.strokeDashoffset = `${CIRCUMFERENCE}`;
-    const timer = setTimeout(() => {
+    const raf = requestAnimationFrame(() => requestAnimationFrame(() => {
       if (ringRef.current) {
         ringRef.current.style.transition = "stroke-dashoffset 1.2s ease-out";
         ringRef.current.style.strokeDashoffset = `${target}`;
       }
-    }, 100);
-    return () => clearTimeout(timer);
+    }));
+    return () => cancelAnimationFrame(raf);
   }, [score, target]);
 
   return (
@@ -73,13 +73,13 @@ function SubScoreBar({ name, data }: { name: string; data: any }) {
   useEffect(() => {
     if (!barRef.current) return;
     barRef.current.style.width = "0%";
-    const timer = setTimeout(() => {
+    const raf = requestAnimationFrame(() => requestAnimationFrame(() => {
       if (barRef.current) {
         barRef.current.style.transition = "width 1s ease-out";
         barRef.current.style.width = `${data.score}%`;
       }
-    }, 200);
-    return () => clearTimeout(timer);
+    }));
+    return () => cancelAnimationFrame(raf);
   }, [data.score]);
 
   return (

@@ -46,13 +46,13 @@ function ScoreRing({ score, grade }: { score: number; grade: string }) {
   useEffect(() => {
     if (!ringRef.current) return;
     ringRef.current.style.strokeDashoffset = `${CIRC}`;
-    const t = setTimeout(() => {
+    const raf = requestAnimationFrame(() => requestAnimationFrame(() => {
       if (ringRef.current) {
         ringRef.current.style.transition = "stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)";
         ringRef.current.style.strokeDashoffset = `${offset}`;
       }
-    }, 100);
-    return () => clearTimeout(t);
+    }));
+    return () => cancelAnimationFrame(raf);
   }, [score, offset]);
 
   return (
@@ -253,7 +253,7 @@ export default function ResultsSidebar({
             key={c.id}
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.08 }}
+            transition={{ delay: 0 }}
           >
             <CategoryBar
               label={c.label}
