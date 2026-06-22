@@ -26,19 +26,10 @@ from backend.app.engine.intelligence import career_analyzer, feedback_engine
 from pydantic import BaseModel
 from typing import Optional
 
-# Shared thread-pool for running CPU-bound tasks in parallel without
-# blocking the FastAPI event loop.
 _THREAD_POOL = ThreadPoolExecutor(max_workers=4)
 
 
 def _strip_links_block(text: str) -> str:
-    """Remove the [EXTRACTED LINKS] block that the parser appends to raw_text.
-
-    The parser appends extracted hyperlink URLs at the bottom of the raw text
-    so they can be displayed in the UI.  That block must NOT reach keyword
-    extraction or scoring: URL fragments look like keywords and inflate or
-    deflate scores relative to the copy-paste path (which never has this block).
-    """
     for marker in ("\n\n[EXTRACTED LINKS]", "\n[EXTRACTED LINKS]", "[EXTRACTED LINKS]"):
         idx = text.find(marker)
         if idx != -1:
@@ -47,12 +38,6 @@ def _strip_links_block(text: str) -> str:
 
 
 def _strip_html(html: str) -> str:
-    """Convert HTML from the rich-text editor to plain text.
-
-    Preserves line structure so that section headers (h1-h6, p, li …)
-    each land on their own line — which is what the section detector,
-    keyword extractor and scoring modules all expect.
-    """
     if not html or not html.strip():
         return html or ""
     if not re.search(r"<[a-zA-Z]", html):
@@ -72,11 +57,84 @@ def _strip_html(html: str) -> str:
     return text.strip()
 
 
+# ─── Canonical text normalization pipeline ────────────────────────────────────
+# This is the SINGLE normalization path used by EVERY entry point:
+# upload, manual input, quick_score, rescan, Smart Editor.
+# Any difference here causes score divergence — keep it identical everywhere.
+
+_ARTIFACT_PATTERNS = [
+    # PDF cert badge "Verify" / "VerifyVerify" artifacts
+    re.compile(r"^(Verify\s*)+$", re.IGNORECASE | re.MULTILINE),
+    # Repeated short words that are clearly UI artifacts
+    re.compile(r"^(View|Click|Open|Download|Link|Badge|Credential)(\s+\1)*\s*$", re.IGNORECASE | re.MULTILINE),
+    # Lines that are only symbols/separators
+    re.compile(r"^[\s\-–—_=|•·*]+$", re.MULTILINE),
+    # Duplicate contact header lines (email merged with word, e.g. "foo@bar.comPortfolio")
+]
+
+
+def _normalize_resume_text(raw: str) -> str:
+    """
+    Canonical normalization applied to ALL resume text before extraction/scoring.
+
+    - Strips HTML if present
+    - Removes PDF link/badge artifacts (VerifyVerify, etc.)
+    - Deduplicates consecutive identical lines
+    - Normalizes whitespace
+    - Strips the [EXTRACTED LINKS] block
+    """
+    text = _strip_html(raw)
+    text = _strip_links_block(text)
+
+    # Remove artifact lines
+    for pat in _ARTIFACT_PATTERNS:
+        text = pat.sub("", text)
+
+    # Deduplicate consecutive identical lines (common in malformed PDFs)
+    lines = text.split("\n")
+    deduped: list = []
+    prev = None
+    for line in lines:
+        stripped = line.strip()
+        if stripped and stripped == prev:
+            continue
+        deduped.append(line)
+        if stripped:
+            prev = stripped
+
+    text = "\n".join(deduped)
+
+    # Collapse 3+ blank lines to 2
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
 class AnalyzeRequest(BaseModel):
     resume_text: Optional[str] = None
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
+
+
+def _make_safe_cert(resume_text: str, jd_text: str):
+    def _run():
+        try:
+            return match_certifications(resume_text, jd_text)
+        except Exception as e:
+            logger.warning("Certification matching failed: %s", e)
+            return {"matched": [], "missing": [], "bonus": [], "matched_count": 0, "missing_count": 0, "bonus_count": 0, "score": 100.0}
+    return _run
+
+
+def _make_safe_edu(resume_text: str, jd_text: str):
+    def _run():
+        try:
+            return match_education(resume_text, jd_text)
+        except Exception as e:
+            logger.warning("Education matching failed: %s", e)
+            return {"score": 80.0, "degree_level_match": "unknown", "recognized_universities": []}
+    return _run
+
 
 @router.post("/analyze/{scan_id}")
 async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None, db: Session = Depends(get_db)):
@@ -95,32 +153,28 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
     if request and request.resume_text:
         raw_resume_text = request.resume_text
     else:
-        # Strip the [EXTRACTED LINKS] block before scoring so URL fragments
-        # don't pollute keyword extraction and cause a score mismatch vs the
-        # copy-paste / Smart-Editor path which never contains that block.
         raw_resume_text = _strip_links_block(parsed["raw_text"])
-    resume_text = _strip_html(raw_resume_text)
-    jd_text = _strip_html(str(record.jd_text or ""))
+
+    # ── Canonical normalization — identical to quick_score path ──
+    resume_text = _normalize_resume_text(raw_resume_text)
+    jd_text = _normalize_resume_text(str(record.jd_text or ""))
+
     file_metadata = parsed["metadata"]
     file_metadata["page_count"] = parsed["page_count"]
     file_metadata["file_type"] = parsed["file_type"]
 
     loop = asyncio.get_event_loop()
 
-    # --- 1. Base Extraction  (JD + resume in parallel) ---
     raw_jd_kws, resume_kws = await asyncio.gather(
         loop.run_in_executor(_THREAD_POOL, extractor.extract_jd_keywords, jd_text),
         loop.run_in_executor(_THREAD_POOL, extractor.extract_resume_keywords, resume_text),
     )
 
-    # --- 2. New Normalization Engine (Filter Noise) ---
     skill_concepts, noise_filtered = normalize_and_group_skills(raw_jd_kws)
     jd_kws_clean = list(skill_concepts.values())
 
-    # --- 3. Base Matching ---
     base_match_result = matcher.match_all_layers(resume_kws, jd_kws_clean, resume_text, jd_text)
 
-    # --- 4. Semantic Grouping + Section Detection + Format Check (in parallel) ---
     enhanced_matches, sections, formatting = await asyncio.gather(
         loop.run_in_executor(
             _THREAD_POOL, group_aware_match, jd_kws_clean, resume_kws, base_match_result.get("matched", [])
@@ -160,7 +214,6 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
                    if (m.get("keyword", "") if isinstance(m, dict) else m).lower() not in matched_kws]
     match_result["missing"] = missing_kws
 
-    # --- 5. Evidence Scoring ---
     matched_skill_names = [m.get("resume_keyword", "") for m in enhanced_matches]
     evidence_quality = score_all_evidence(matched_skill_names, resume_text, sections)
 
@@ -170,45 +223,26 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
             if evidence_quality["skills"][skill_name].get("evidence_type") == "keyword_only":
                 m["match_type"] = "unsupported_claim"
 
-    # --- 6. Seniority Analysis ---
     career = career_analyzer.analyze_career_signals(resume_text, jd_text, match_result)
     jd_seniority = analyze_jd_seniority(jd_text)
     resume_seniority = analyze_resume_seniority(resume_text, career)
     seniority_gap = compute_seniority_gap(jd_seniority, resume_seniority)
 
-    # --- 7. Cert + Education matching in parallel ---
-    def _safe_cert():
-        try:
-            return match_certifications(resume_text, jd_text)
-        except Exception as e:
-            logger.warning("Certification matching failed: %s", e)
-            return {"matched": [], "missing": [], "bonus": [], "matched_count": 0, "missing_count": 0, "bonus_count": 0, "score": 100.0}
-
-    def _safe_edu():
-        try:
-            return match_education(resume_text, jd_text)
-        except Exception as e:
-            logger.warning("Education matching failed: %s", e)
-            return {"score": 80.0, "degree_level_match": "unknown", "recognized_universities": []}
-
     cert_match, edu_match = await asyncio.gather(
-        loop.run_in_executor(_THREAD_POOL, _safe_cert),
-        loop.run_in_executor(_THREAD_POOL, _safe_edu),
+        loop.run_in_executor(_THREAD_POOL, _make_safe_cert(resume_text, jd_text)),
+        loop.run_in_executor(_THREAD_POOL, _make_safe_edu(resume_text, jd_text)),
     )
 
-    # --- 10. Enhanced Scoring Model ---
     scoring = scorer.calculate_score_v2(
-        match_result, sections, formatting, career, resume_text, jd_text, 
+        match_result, sections, formatting, career, resume_text, jd_text,
         seniority_gap, evidence_quality, cert_match, edu_match
     )
 
-    # --- 11. Role-Fit Verdict ---
     role_fit = generate_role_fit_verdict(
-        scoring["overall_score"], seniority_gap, evidence_quality, 
+        scoring["overall_score"], seniority_gap, evidence_quality,
         skill_concepts, noise_filtered, match_result, career
     )
 
-    # Additional standard analyses
     action_verbs = feedback_engine.analyze_action_verbs(resume_text, sections)
     feedback = feedback_engine.generate_feedback(match_result, sections, formatting, career, scoring, action_verbs, resume_text, jd_text)
     cyber = feedback_engine.check_cybersecurity_vertical(match_result, resume_text)
@@ -220,20 +254,19 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
     processing_time = round(time.time() - t_start, 2)
     timestamp = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
-    # Extract soft skills early
     def is_soft(m):
         cat = m.get("category") or ""
         return cat.lower() in ("soft_skill", "transversal", "social", "competency")
-        
+
     def is_other(m):
         cat = m.get("category") or ""
         return cat.lower() in ("other_skill", "other")
-    
+
     soft_skills = {
         "matched": [m for m in match_result.get("matched", []) if is_soft(m)],
         "missing": [m for m in match_result.get("missing", []) if is_soft(m)]
     }
-    
+
     other_skills = {
         "matched": [m for m in match_result.get("matched", []) if is_other(m)],
         "missing": [m for m in match_result.get("missing", []) if is_other(m)]
@@ -247,7 +280,6 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
         "processing_time_seconds": processing_time,
         "overall_score": scoring["overall_score"],
         "letter_grade": scoring["letter_grade"],
-        # ── 7 top-level scoring dimensions ──
         "parsing_quality": scoring.get("parsing_quality", 0),
         "formatting_quality": scoring.get("formatting_quality", 0),
         "keyword_match": scoring.get("keyword_match", 0),
@@ -255,7 +287,6 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
         "evidence_strength": scoring.get("evidence_strength", 0),
         "seniority_fit": scoring.get("seniority_fit", 0),
         "overall_fit": scoring.get("overall_fit", 0),
-        # ── Detailed breakdowns ──
         "sub_scores": scoring["sub_scores"],
         "category_scores": category_scores,
         "keywords": match_result,
@@ -292,7 +323,7 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
     if existing:
         existing.overall_score = scoring["overall_score"]
         existing.letter_grade = scoring["letter_grade"]
-        existing.result_json = json.dumps(result)  # type: ignore
+        existing.result_json = json.dumps(result)
     else:
         db_result = ScanResult(
             scan_id=scan_id,
@@ -302,7 +333,7 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
         )
         db.add(db_result)
 
-    record.status = "complete"  # type: ignore
+    record.status = "complete"
     db.commit()
 
     logger.info("Analysis complete for %s: score=%.1f, grade=%s, time=%.2fs",
@@ -310,18 +341,28 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
 
     return result
 
+
 class QuickScoreRequest(BaseModel):
     resume_text: str
 
+
 @router.post("/quick_score/{scan_id}")
 async def quick_score(scan_id: str, request: QuickScoreRequest, db: Session = Depends(get_db)):
-    """Lightweight rescore after Smart Editor edits — skips file-parse, cert, format-check and AI steps."""
+    """
+    Full rescore after Smart Editor edits.
+
+    Uses the IDENTICAL normalization and scoring pipeline as /analyze
+    so that editing in the Smart Editor produces consistent scores.
+    The only skipped step is file re-parse (file content didn't change)
+    and format_check (PDF structure didn't change — we reuse stored result).
+    """
     record = db.query(ScanRecord).filter(ScanRecord.scan_id == scan_id).first()
     if not record:
         raise HTTPException(status_code=404, detail=f"Scan {scan_id} not found")
 
-    resume_text = _strip_html(request.resume_text)
-    jd_text = _strip_html(str(record.jd_text or ""))
+    # ── Canonical normalization — identical to /analyze path ──
+    resume_text = _normalize_resume_text(request.resume_text)
+    jd_text = _normalize_resume_text(str(record.jd_text or ""))
 
     loop = asyncio.get_event_loop()
 
@@ -371,10 +412,7 @@ async def quick_score(scan_id: str, request: QuickScoreRequest, db: Session = De
     resume_seniority = analyze_resume_seniority(resume_text, career)
     seniority_gap = compute_seniority_gap(jd_seniority, resume_seniority)
 
-    # Re-use the formatting result from the original full analysis so that the
-    # quick rescore doesn't diverge from the file-based score due to a fake
-    # formatting stub.  Falls back to a neutral (no-issues) dict if no prior
-    # result is found.
+    # Reuse stored formatting (PDF structure doesn't change during text edits)
     stored_formatting: Dict = {"issues": []}
     try:
         existing_for_fmt = db.query(ScanResult).filter(ScanResult.scan_id == scan_id).first()
@@ -383,12 +421,15 @@ async def quick_score(scan_id: str, request: QuickScoreRequest, db: Session = De
     except Exception:
         pass
 
-    dummy_cert = {"matched": [], "missing": [], "bonus": [], "matched_count": 0, "missing_count": 0, "bonus_count": 0, "score": 100.0}
-    dummy_edu = {"score": 80.0, "degree_level_match": "unknown", "recognized_universities": []}
+    # ── Real cert + edu matching (same as /analyze) ──
+    cert_match, edu_match = await asyncio.gather(
+        loop.run_in_executor(_THREAD_POOL, _make_safe_cert(resume_text, jd_text)),
+        loop.run_in_executor(_THREAD_POOL, _make_safe_edu(resume_text, jd_text)),
+    )
 
     scoring = scorer.calculate_score_v2(
         match_result, sections, stored_formatting, career, resume_text, jd_text,
-        seniority_gap, evidence_quality, dummy_cert, dummy_edu,
+        seniority_gap, evidence_quality, cert_match, edu_match,
     )
     action_verbs = feedback_engine.analyze_action_verbs(resume_text, sections)
     category_scores = scorer.compute_category_scores(
@@ -410,6 +451,8 @@ async def quick_score(scan_id: str, request: QuickScoreRequest, db: Session = De
         "sub_scores": scoring["sub_scores"],
         "category_scores": category_scores,
         "keywords": match_result,
+        "certifications": cert_match,
+        "education": edu_match,
         "soft_skills": {
             "matched": [m for m in match_result.get("matched", []) if is_soft(m)],
             "missing": [m for m in match_result.get("missing", []) if is_soft(m)],

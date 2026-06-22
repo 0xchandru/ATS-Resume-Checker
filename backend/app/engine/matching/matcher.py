@@ -184,11 +184,16 @@ def match_all_layers(
                 matched.append(_build_match(jd_kw, jd_norm, "kb_lookup", 0.98, canonical, info["category"], info["domain"], jd_text=jd_text, resume_text=resume_text))
                 continue
 
-        # ── Layer 3.5: Substring Containment ───────────────────────────
-        if len(jd_norm) > 4 and (jd_norm in resume_text.lower() or original_jd.lower() in resume_text.lower()):
-            breakdown["exact"] += 1
-            matched.append(_build_match(jd_kw, jd_norm, "exact", 0.95, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
-            continue
+        # ── Layer 3.5: Substring Containment (word-boundary) ───────────
+        # Use \b word boundaries to prevent "go" matching "Google",
+        # "c" matching "cisco", etc.
+        if len(jd_norm) > 4:
+            _boundary_pat = r'(?<!\w)' + re.escape(jd_norm) + r'(?!\w)'
+            _orig_pat = r'(?<!\w)' + re.escape(original_jd.lower()) + r'(?!\w)'
+            if re.search(_boundary_pat, resume_text.lower()) or re.search(_orig_pat, resume_text.lower()):
+                breakdown["exact"] += 1
+                matched.append(_build_match(jd_kw, jd_norm, "exact", 0.95, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
+                continue
 
         # ── Layer 3.6: Stem / Root Matching ────────────────────────────
         # Handles: "management" ↔ "manage", "developing" ↔ "development"
