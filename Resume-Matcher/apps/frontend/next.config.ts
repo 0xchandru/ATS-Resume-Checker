@@ -12,8 +12,13 @@ const REQUEST_TIMEOUT_MS = Number.isFinite(parsedTimeoutMs)
   ? Math.min(1_800_000, Math.max(30_000, parsedTimeoutMs))
   : 240_000;
 
+// Allow Replit dev proxy domain (set via REPLIT_DEV_DOMAIN env var)
+const replitDomain = process.env.REPLIT_DEV_DOMAIN;
+const allowedDevOrigins = replitDomain ? [replitDomain, `*.${replitDomain}`] : [];
+
 const nextConfig: NextConfig = {
   output: 'standalone',
+  allowedDevOrigins,
   experimental: {
     proxyTimeout: REQUEST_TIMEOUT_MS,
     // Tree-shake barrel imports — saves ~200-800ms cold start per route

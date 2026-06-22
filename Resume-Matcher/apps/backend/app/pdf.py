@@ -7,17 +7,29 @@ import logging
 import os
 import sys
 from pathlib import Path
-from typing import Awaitable, NoReturn, Optional
+from typing import TYPE_CHECKING, Awaitable, NoReturn, Optional
 
-from playwright.async_api import (
-    Browser,
-    Error as PlaywrightError,
-    Page,
-    Playwright,
-    async_playwright,
-)
+if TYPE_CHECKING:
+    from playwright.async_api import Browser, Page, Playwright
 
 logger = logging.getLogger(__name__)
+
+# Lazy imports resolved on first use — playwright browser binaries may not be
+# present (e.g. Replit sandbox), so we defer import until actually needed.
+def _import_playwright():
+    try:
+        from playwright.async_api import (  # noqa: PLC0415
+            Browser,
+            Error as PlaywrightError,
+            Page,
+            Playwright,
+            async_playwright,
+        )
+        return Browser, PlaywrightError, Page, Playwright, async_playwright
+    except ImportError as e:
+        raise PDFRenderError(
+            "Playwright is not installed. Run: python -m playwright install chromium"
+        ) from e
 
 # Explicit, bounded navigation/selector timeout. Chosen over Playwright's
 # implicit 30s default so a slow-but-working render (large resume, cold cache,
@@ -56,6 +68,7 @@ async def init_pdf_renderer() -> None:
         # Double-check after acquiring lock
         if _browser is not None:
             return
+        _, _, _, _, async_playwright = _import_playwright()
         _playwright = await async_playwright().start()
         _browser = await _launch_browser(_playwright)
 
@@ -121,6 +134,7 @@ def _find_chromium_executable() -> Optional[str]:
 
 
 async def _launch_browser(playwright: Playwright) -> Browser:
+    _, PlaywrightError, _, _, _ = _import_playwright()
     try:
         return await playwright.chromium.launch()
     except PlaywrightError as e:
@@ -203,6 +217,7 @@ def _render_resume_pdf_sync(
     pdf_margins: dict,
 ) -> bytes:
     async def _run() -> bytes:
+        _, _, _, _, async_playwright = _import_playwright()
         async with async_playwright() as playwright:
             browser = await _launch_browser(playwright)
             try:
@@ -226,7 +241,7 @@ async def _render_resume_pdf_in_thread(
     )
 
 
-def _raise_playwright_error(error: PlaywrightError, url: str) -> NoReturn:
+def _raise_playwright_error(error: Exception, url: str) -> NoReturn:
     error_msg = str(error)
     if "Executable doesn't exist" in error_msg:
         exe = sys.executable.replace("\\", "/")
@@ -298,6 +313,8 @@ async def render_resume_pdf(
 
     pdf_format = _resolve_pdf_format(page_size)
     pdf_margins = _resolve_pdf_margins(margins)
+
+    _, PlaywrightError, _, _, _ = _import_playwright()
 
     if _browser is not None:
         try:

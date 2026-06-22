@@ -6,7 +6,7 @@ integrations = ["javascript_openai_ai_integrations:2.0.0"]
 
 [nix]
 channel = "stable-25_05"
-packages = ["freetype", "glibcLocales", "gumbo", "harfbuzz", "jbig2dec", "libjpeg_turbo", "libxcrypt", "mupdf", "openjpeg", "rapidfuzz-cpp", "swig", "taskflow", "xcbuild"]
+packages = ["cargo", "freetype", "glibcLocales", "gumbo", "harfbuzz", "jbig2dec", "libiconv", "libjpeg_turbo", "libxcrypt", "mupdf", "openjpeg", "openssl", "pkg-config", "rapidfuzz-cpp", "rustc", "swig", "taskflow", "xcbuild"]
 
 [workflows]
 runButton = "Project"
@@ -60,3 +60,11 @@ externalPort = 80
 deploymentTarget = "autoscale"
 run = ["node", "./dist/index.cjs"]
 build = ["npm", "run", "build"]
+
+[userenv]
+
+[userenv.shared]
+LLM_PROVIDER = "openai_compatible"
+LLM_MODEL = "meta/llama-3.1-8b-instruct"
+LLM_API_BASE = "https://integrate.api.nvidia.com/v1"
+BACKEND_ORIGIN = "http://127.0.0.1:8000"
