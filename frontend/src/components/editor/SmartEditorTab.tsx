@@ -89,13 +89,24 @@ function parseResumeHtml(html: string): Section[] {
           pushEntry();
           if (["education","experience","projects"].includes(cur.type))
             curEntry = { heading: node.textContent?.trim() || "", bullets: [] };
+          else if (cur.type === "skills")
+            cur.items.push((node.textContent?.trim() || "") + ":");  // mark as group label
           else addText(node.textContent?.trim() || "");
         }
       } else if (tag === "ul" || tag === "ol") {
         for (const li of Array.from(node.querySelectorAll("li"))) {
           const text = li.textContent?.trim(); if (!text || text.length < 2) continue;
-          if (cur?.type === "skills") splitSkillLine(text).forEach(c => cur!.items.push(c));
-          else if (curEntry) curEntry.bullets.push(text);
+          if (cur?.type === "skills") {
+            // "Category: skill1, skill2, skill3" → label + individual chips
+            const colon = text.indexOf(":");
+            if (colon > 0 && colon < text.length - 1 && !text.substring(0, colon).includes(",")) {
+              cur.items.push(text.substring(0, colon).trim() + ":");
+              text.substring(colon + 1).split(",").map(s => s.trim()).filter(s => s.length > 0 && s.length < 60)
+                .forEach(s => cur!.items.push(s));
+            } else {
+              splitSkillLine(text).forEach(c => cur!.items.push(c));
+            }
+          } else if (curEntry) curEntry.bullets.push(text);
           else if (cur) cur.items.push(text);
         }
       } else if (tag === "p" || tag === "div" || tag === "span") {
@@ -128,7 +139,19 @@ function parsePlainText(text: string): Section[] {
     const clean = line.replace(/^[•\-–—●*]\s*/, "").trim();
     if (!clean) continue;
     if (cur.type === "summary") { cur.items.push(clean); continue; }
-    if (cur.type === "skills") { splitSkillLine(clean).forEach(c => cur!.items.push(c)); continue; }
+    if (cur.type === "skills") {
+      // "Category: skill1, skill2" or "Category:" → label + chips
+      const colon = clean.indexOf(":");
+      if (colon > 0 && !clean.substring(0, colon).includes(",")) {
+        cur.items.push(clean.substring(0, colon).trim() + ":");
+        const rest = clean.substring(colon + 1).trim();
+        if (rest) rest.split(",").map(s => s.trim()).filter(s => s.length > 0 && s.length < 60)
+          .forEach(c => cur!.items.push(c));
+      } else {
+        splitSkillLine(clean).forEach(c => cur!.items.push(c));
+      }
+      continue;
+    }
     const supportsEntries = ["education","experience","projects"].includes(cur.type);
     if (supportsEntries) {
       if (!isBullet && isSubHeading(line)) { pushEntry(); curEntry = { heading: line, bullets: [] }; }
