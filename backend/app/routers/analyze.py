@@ -288,6 +288,106 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
 
     return result
 
+class QuickScoreRequest(BaseModel):
+    resume_text: str
+
+@router.post("/quick_score/{scan_id}")
+async def quick_score(scan_id: str, request: QuickScoreRequest, db: Session = Depends(get_db)):
+    """Lightweight rescore after Smart Editor edits — skips file-parse, cert, format-check and AI steps."""
+    record = db.query(ScanRecord).filter(ScanRecord.scan_id == scan_id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail=f"Scan {scan_id} not found")
+
+    resume_text = _strip_html(request.resume_text)
+    jd_text = _strip_html(str(record.jd_text or ""))
+
+    loop = asyncio.get_event_loop()
+
+    raw_jd_kws, resume_kws = await asyncio.gather(
+        loop.run_in_executor(_THREAD_POOL, extractor.extract_jd_keywords, jd_text),
+        loop.run_in_executor(_THREAD_POOL, extractor.extract_resume_keywords, resume_text),
+    )
+
+    skill_concepts, _ = normalize_and_group_skills(raw_jd_kws)
+    jd_kws_clean = list(skill_concepts.values())
+
+    base_match_result = matcher.match_all_layers(resume_kws, jd_kws_clean, resume_text, jd_text)
+
+    enhanced_matches, sections = await asyncio.gather(
+        loop.run_in_executor(_THREAD_POOL, group_aware_match, jd_kws_clean, resume_kws, base_match_result.get("matched", [])),
+        loop.run_in_executor(_THREAD_POOL, section_detector.detect_sections, resume_text, {}),
+    )
+
+    match_result = base_match_result.copy()
+    seen = set()
+    deduped = []
+    for m in enhanced_matches:
+        kw = str(m.get("keyword", "")).lower()
+        if kw not in seen:
+            seen.add(kw)
+            deduped.append(m)
+
+    match_result["matched"] = deduped
+    total_jd = max(1, len(jd_kws_clean))
+    match_result["match_rate"] = min(1.0, len(deduped) / total_jd)
+    match_result["matched_count"] = len(deduped)
+
+    matched_kws = set()
+    for m in enhanced_matches:
+        jk = m.get("jd_keyword", "")
+        if isinstance(jk, dict):
+            jk = jk.get("keyword", "") or jk.get("term", "")
+        matched_kws.add(str(jk).lower())
+    match_result["missing"] = [m for m in base_match_result.get("missing", [])
+                                if (m.get("keyword", "") if isinstance(m, dict) else m).lower() not in matched_kws]
+
+    matched_skill_names = [m.get("resume_keyword", "") for m in enhanced_matches]
+    evidence_quality = score_all_evidence(matched_skill_names, resume_text, sections)
+
+    career = career_analyzer.analyze_career_signals(resume_text, jd_text, match_result)
+    jd_seniority = analyze_jd_seniority(jd_text)
+    resume_seniority = analyze_resume_seniority(resume_text, career)
+    seniority_gap = compute_seniority_gap(jd_seniority, resume_seniority)
+
+    dummy_formatting = {"score": 75, "issues": [], "has_tables": False, "has_columns": False, "has_headers": True}
+    dummy_cert = {"matched": [], "missing": [], "bonus": [], "matched_count": 0, "missing_count": 0, "bonus_count": 0, "score": 100.0}
+    dummy_edu = {"score": 80.0, "degree_level_match": "unknown", "recognized_universities": []}
+
+    scoring = scorer.calculate_score_v2(
+        match_result, sections, dummy_formatting, career, resume_text, jd_text,
+        seniority_gap, evidence_quality, dummy_cert, dummy_edu,
+    )
+    action_verbs = feedback_engine.analyze_action_verbs(resume_text, sections)
+    category_scores = scorer.compute_category_scores(
+        match_result, sections, dummy_formatting, career, resume_text, jd_text, action_verbs
+    )
+
+    def is_soft(m): return (m.get("category") or "").lower() in ("soft_skill", "transversal", "social", "competency")
+    def is_other(m): return (m.get("category") or "").lower() in ("other_skill", "other")
+
+    return {
+        "overall_score": scoring["overall_score"],
+        "letter_grade": scoring["letter_grade"],
+        "keyword_match": scoring.get("keyword_match", 0),
+        "semantic_match": scoring.get("semantic_match", 0),
+        "evidence_strength": scoring.get("evidence_strength", 0),
+        "seniority_fit": scoring.get("seniority_fit", 0),
+        "parsing_quality": scoring.get("parsing_quality", 0),
+        "formatting_quality": scoring.get("formatting_quality", 0),
+        "sub_scores": scoring["sub_scores"],
+        "category_scores": category_scores,
+        "keywords": match_result,
+        "soft_skills": {
+            "matched": [m for m in match_result.get("matched", []) if is_soft(m)],
+            "missing": [m for m in match_result.get("missing", []) if is_soft(m)],
+        },
+        "other_skills": {
+            "matched": [m for m in match_result.get("matched", []) if is_other(m)],
+            "missing": [m for m in match_result.get("missing", []) if is_other(m)],
+        },
+    }
+
+
 def _build_skill_prediction(career: Dict) -> Dict:
     onet = career.get("onet_matched_occupation", {})
     predictions = []

@@ -9,7 +9,10 @@ interface Props {
   onPrint?: () => void;
   analysis?: any;
   jd?: string;
+  scanId?: string;
   onResumeUpdate?: (resumeHtml: string, resumeText: string) => void;
+  onScoreUpdate?: (scores: any) => void;
+  onRescoringChange?: (v: boolean) => void;
 }
 
 const TABS: { id: Tab; label: string; icon?: any }[] = [
@@ -21,7 +24,7 @@ const TABS: { id: Tab; label: string; icon?: any }[] = [
   { id: "smart_editor", label: "Smart Editor", icon: Sparkles },
 ];
 
-export default function ResultsTabs({ activeTab, onTabChange, onPrint, analysis, jd, onResumeUpdate }: Props) {
+export default function ResultsTabs({ activeTab, onTabChange, onPrint, analysis, jd, scanId, onResumeUpdate, onScoreUpdate, onRescoringChange }: Props) {
   return (
     <div className="flex flex-col w-full">
       <div className="flex items-center justify-between border-b border-white/[0.06] bg-card rounded-t-2xl overflow-x-auto">
@@ -58,7 +61,14 @@ export default function ResultsTabs({ activeTab, onTabChange, onPrint, analysis,
       </div>
 
       {activeTab === "smart_editor" && (
-        <SmartEditorTab analysis={analysis} jd={jd || ""} onResumeUpdate={onResumeUpdate} />
+        <SmartEditorTab
+          analysis={analysis}
+          jd={jd || ""}
+          scanId={scanId}
+          onResumeUpdate={onResumeUpdate}
+          onScoreUpdate={onScoreUpdate}
+          onRescoringChange={onRescoringChange}
+        />
       )}
     </div>
   );

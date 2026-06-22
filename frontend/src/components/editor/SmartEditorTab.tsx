@@ -1,15 +1,19 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 import { AnalysisResult } from "../../App";
 import {
   Sparkles, Edit3, ChevronDown, ChevronRight,
-  AlertTriangle, CheckCircle2, Loader2, Copy, Check, X
+  AlertTriangle, CheckCircle2, Loader2, Copy, Check, X, RefreshCw
 } from "lucide-react";
 import { apiFetch } from "../../utils/api";
+import RichTextEditor from "../common/RichTextEditor";
 
 interface Props {
   analysis: AnalysisResult;
   jd: string;
+  scanId?: string;
   onResumeUpdate?: (resumeHtml: string, resumeText: string) => void;
+  onScoreUpdate?: (scores: any) => void;
+  onRescoringChange?: (v: boolean) => void;
 }
 
 // ─── Data model ────────────────────────────────────────────────────────────────
@@ -17,11 +21,9 @@ interface Props {
 type SectionType = "summary" | "skills" | "education" | "experience" | "projects" | "certifications" | "generic";
 
 interface SubEntry { heading: string; bullets: string[] }
-interface Section {
-  title: string; type: SectionType;
-  items: string[];   // paragraphs / chips / flat bullets
-  entries: SubEntry[]; // nested entries (experience / education / projects)
-}
+interface Section { title: string; type: SectionType; items: string[]; entries: SubEntry[] }
+
+// iIdx === -1 means "edit the entry heading itself"
 interface EditingItem { sIdx: number; eIdx: number | null; iIdx: number }
 
 // ─── Section parsing ───────────────────────────────────────────────────────────
@@ -48,8 +50,7 @@ function isSubHeading(line: string): boolean {
   const stripped = line.replace(/^[•\-–—●*]\s*/, "");
   if (stripped !== line) return false;
   if (line === line.toUpperCase() && line.length < 80) return true;
-  const firstChar = line[0];
-  const seemsTitle = firstChar === firstChar.toUpperCase() && !line.endsWith(".");
+  const seemsTitle = line[0] === line[0].toUpperCase() && !line.endsWith(".");
   const hasDate = /\d{4}|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|present/i.test(line);
   return seemsTitle && (hasDate || line.split(" ").length <= 10);
 }
@@ -79,12 +80,10 @@ function parseResumeHtml(html: string): Section[] {
 
     const walkNode = (node: Element) => {
       const tag = node.tagName.toLowerCase();
-
       if (tag === "h1" || tag === "h2") {
         pushSection();
         const title = node.textContent?.trim() || "Section";
         cur = { title, type: detectSectionType(title), items: [], entries: [] };
-
       } else if (tag === "h3" || tag === "h4") {
         if (!cur) cur = { title: node.textContent?.trim() || "Section", type: "generic", items: [], entries: [] };
         else {
@@ -92,13 +91,10 @@ function parseResumeHtml(html: string): Section[] {
           const txt = node.textContent?.trim() || "";
           if (["education","experience","projects"].includes(cur.type))
             curEntry = { heading: txt, bullets: [] };
-          else if (cur.type === "skills")
-            cur.items.push(txt + ":");
+          else if (cur.type === "skills") cur.items.push(txt + ":");
           else addText(txt);
         }
-
       } else if (tag === "ul" || tag === "ol") {
-        // Only direct <li> children to avoid double-processing nested lists
         for (const li of Array.from(node.children)) {
           if (li.tagName.toLowerCase() !== "li") continue;
           const text = li.textContent?.trim(); if (!text || text.length < 2) continue;
@@ -108,20 +104,14 @@ function parseResumeHtml(html: string): Section[] {
               cur.items.push(text.substring(0, colon).trim() + ":");
               text.substring(colon + 1).split(",").map(s => s.trim()).filter(s => s.length > 0 && s.length < 60)
                 .forEach(s => cur!.items.push(s));
-            } else {
-              splitSkillLine(text).forEach(c => cur!.items.push(c));
-            }
+            } else { splitSkillLine(text).forEach(c => cur!.items.push(c)); }
           } else if (curEntry) curEntry.bullets.push(text);
           else if (cur) cur.items.push(text);
         }
-
       } else if (tag === "p" || tag === "span") {
         addText(node.textContent?.trim() || "");
-
       } else if (tag === "div" || tag === "section" || tag === "article" || tag === "main") {
-        // Recurse into container elements — do NOT collapse their content
         for (const child of Array.from(node.children)) walkNode(child as Element);
-
       } else if (tag === "strong" || tag === "b" || tag === "em" || tag === "i") {
         addText(node.textContent?.trim() || "");
       }
@@ -155,16 +145,13 @@ function parsePlainText(text: string): Section[] {
     if (!clean) continue;
     if (cur.type === "summary") { cur.items.push(clean); continue; }
     if (cur.type === "skills") {
-      // "Category: skill1, skill2" or "Category:" → label + chips
       const colon = clean.indexOf(":");
       if (colon > 0 && !clean.substring(0, colon).includes(",")) {
         cur.items.push(clean.substring(0, colon).trim() + ":");
         const rest = clean.substring(colon + 1).trim();
         if (rest) rest.split(",").map(s => s.trim()).filter(s => s.length > 0 && s.length < 60)
           .forEach(c => cur!.items.push(c));
-      } else {
-        splitSkillLine(clean).forEach(c => cur!.items.push(c));
-      }
+      } else { splitSkillLine(clean).forEach(c => cur!.items.push(c)); }
       continue;
     }
     const supportsEntries = ["education","experience","projects"].includes(cur.type);
@@ -178,7 +165,7 @@ function parsePlainText(text: string): Section[] {
   return sections.filter(s => s.title && (s.items.length > 0 || s.entries.length > 0));
 }
 
-// ─── HTML reconstruction (so edits propagate to rest of app) ──────────────────
+// ─── Reconstruction ────────────────────────────────────────────────────────────
 
 function reconstructHtml(sections: Section[]): string {
   return sections.map(sec => {
@@ -213,27 +200,45 @@ function reconstructText(sections: Section[]): string {
   }).join("\n\n");
 }
 
+// Strip HTML to plain text for saving
+function htmlToPlain(html: string): string {
+  return html
+    .replace(/<\/?(p|li|div|br)[^>]*>/gi, " ")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 // ─── Component ─────────────────────────────────────────────────────────────────
 
-export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) {
+export default function SmartEditorTab({
+  analysis, jd, scanId,
+  onResumeUpdate, onScoreUpdate, onRescoringChange,
+}: Props) {
   const resumeHtml = (analysis as any).resume_html || "";
   const resumeText = analysis.resume_full || "";
 
   const parsed = useMemo(
     () => resumeHtml ? parseResumeHtml(resumeHtml) : parsePlainText(resumeText),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []  // parse once — we own the state from here
+    []
   );
 
   const [sections, setSections] = useState<Section[]>(parsed);
-  const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set([0,1,2,3,4,5]));
+  const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set([0,1,2,3,4,5,6,7]));
   const [editingItem, setEditingItem] = useState<EditingItem | null>(null);
-  const [manualText, setManualText] = useState("");
+  const [manualHtml, setManualHtml] = useState("");
   const [selectedSkill, setSelectedSkill] = useState("");
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [optimizedText, setOptimizedText] = useState("");
   const [error, setError] = useState("");
   const [appliedItems, setAppliedItems] = useState<Set<string>>(new Set());
+  const [isRescoring, setIsRescoring] = useState(false);
+  const rescoreTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const allMissingSkills = useMemo(() => analysis.keywords?.missing || [], [analysis.keywords]);
 
@@ -247,13 +252,11 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
     const result: string[] = [];
     const kw = analysis.keywords;
     const matchRate = kw?.match_rate || 0;
-    const keywordOnly = kw?.matched?.filter((m: any) => m.match_type === "unsupported_claim").length || 0;
     const missing = kw?.missing?.length || 0;
     const ev = (analysis as any).evidence_strength || 0;
     if (matchRate < 0.5) result.push(`Keyword match ${Math.round(matchRate * 100)}% — add more JD terms`);
-    if (keywordOnly > 10) result.push(`${keywordOnly} skills without proof — add metrics`);
     if (missing > 5) result.push(`${missing} JD skills missing — see left panel`);
-    if (ev < 40) result.push("Low evidence strength — quantify achievements (%, $, time)");
+    if (ev < 40) result.push("Low evidence strength — quantify achievements");
     return result;
   }, [analysis]);
 
@@ -277,37 +280,71 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
     const next = new Set(prev); next.has(idx) ? next.delete(idx) : next.add(idx); return next;
   });
 
-  // ── Apply an edit to the sections state and propagate up ───────────────────
+  const triggerRescore = useCallback((text: string) => {
+    if (!scanId || !onScoreUpdate) return;
+    if (rescoreTimer.current) clearTimeout(rescoreTimer.current);
+    setIsRescoring(true);
+    onRescoringChange?.(true);
+    rescoreTimer.current = setTimeout(async () => {
+      try {
+        const res = await apiFetch(`/quick_score/${scanId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ resume_text: text }),
+        });
+        const scores = await res.json();
+        onScoreUpdate(scores);
+      } catch { /* ignore rescore errors silently */ } finally {
+        setIsRescoring(false);
+        onRescoringChange?.(false);
+      }
+    }, 800);
+  }, [scanId, onScoreUpdate, onRescoringChange]);
+
+  // ── Apply an edit ──────────────────────────────────────────────────────────
   const applyEdit = useCallback((sIdx: number, eIdx: number | null, iIdx: number, newText: string) => {
+    const clean = newText.trim();
+    if (!clean) return;
+
     setSections(prev => {
       const next = prev.map((s, si) => {
         if (si !== sIdx) return s;
         if (eIdx !== null) {
-          const entries = s.entries.map((e, ei) => ei !== eIdx ? e : {
-            ...e, bullets: e.bullets.map((b, bi) => bi !== iIdx ? b : newText)
+          const entries = s.entries.map((e, ei) => {
+            if (ei !== eIdx) return e;
+            if (iIdx === -1) return { ...e, heading: clean };  // heading edit
+            return { ...e, bullets: e.bullets.map((b, bi) => bi !== iIdx ? b : clean) };
           });
           return { ...s, entries };
         }
-        return { ...s, items: s.items.map((item, ii) => ii !== iIdx ? item : newText) };
+        return { ...s, items: s.items.map((item, ii) => ii !== iIdx ? item : clean) };
       });
+
       const html = reconstructHtml(next);
       const text = reconstructText(next);
       onResumeUpdate?.(html, text);
+      triggerRescore(text);
       return next;
     });
 
-    const key = `${sIdx}-${eIdx}-${iIdx}`;
-    setAppliedItems(prev => new Set(prev).add(key));
+    setAppliedItems(prev => new Set(prev).add(`${sIdx}-${eIdx}-${iIdx}`));
     setEditingItem(null);
-    setManualText("");
+    setManualHtml("");
     setOptimizedText("");
     setError("");
-  }, [onResumeUpdate]);
+    setSelectedSkill("");
+  }, [onResumeUpdate, triggerRescore]);
 
-  // ── Open edit panel ────────────────────────────────────────────────────────
   const openEdit = (sIdx: number, eIdx: number | null, iIdx: number, currentText: string) => {
     setEditingItem({ sIdx, eIdx, iIdx });
-    setManualText(currentText);
+    setManualHtml(`<p>${currentText}</p>`);
+    setOptimizedText("");
+    setError("");
+  };
+
+  const closeEdit = () => {
+    setEditingItem(null);
+    setManualHtml("");
     setOptimizedText("");
     setError("");
   };
@@ -321,13 +358,13 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
   // ── AI optimise ────────────────────────────────────────────────────────────
   const handleOptimize = async () => {
     if (!selectedSkill || !editingItem) return;
-    const bullet = manualText;
+    const bulletText = htmlToPlain(manualHtml);
     setIsOptimizing(true); setError(""); setOptimizedText("");
     try {
       const res = await apiFetch("/editor/optimize_bullet", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ bullet_text: bullet, missing_skill: selectedSkill, jd_context: jd.substring(0, 500) }),
+        body: JSON.stringify({ bullet_text: bulletText, missing_skill: selectedSkill, jd_context: jd.substring(0, 500) }),
       });
       const data = await res.json();
       setOptimizedText(data.rewritten_bullet || "");
@@ -338,26 +375,27 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
 
   // ── Inline edit panel ──────────────────────────────────────────────────────
   const EditPanel = ({ sIdx, eIdx, iIdx }: { sIdx: number; eIdx: number | null; iIdx: number }) => (
-    <div className="ml-4 mt-1.5 mb-2 border border-violet-500/20 rounded-xl overflow-hidden bg-gradient-to-br from-violet-500/5 to-indigo-500/4">
-      {/* Manual edit */}
+    <div className="mx-1 mt-1.5 mb-2 border border-violet-500/20 rounded-xl overflow-hidden bg-gradient-to-br from-violet-500/5 to-indigo-500/4">
+      {/* Rich text editor */}
       <div className="p-3 border-b border-white/[0.06]">
-        <p className="text-[10px] font-black text-violet-400 uppercase tracking-wider mb-2">Edit Text</p>
-        <textarea
-          value={manualText}
-          onChange={e => setManualText(e.target.value)}
-          rows={3}
-          className="w-full bg-background/40 border border-white/[0.08] rounded-lg px-3 py-2 text-sm text-foreground resize-none outline-none focus:border-violet-500/40 focus:ring-1 focus:ring-violet-500/20 leading-relaxed"
-        />
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-[10px] font-black text-violet-400 uppercase tracking-wider">Edit</p>
+          <button onClick={closeEdit} className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-white/[0.06] transition-colors">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+        <div className="rounded-xl overflow-hidden border border-white/[0.08]">
+          <RichTextEditor
+            value={manualHtml}
+            onChange={setManualHtml}
+            minHeight="110px"
+            placeholder="Edit text here…"
+          />
+        </div>
         <div className="flex items-center justify-end gap-2 mt-2">
           <button
-            onClick={() => { setEditingItem(null); setManualText(""); setOptimizedText(""); setError(""); }}
-            className="flex items-center gap-1 px-2.5 py-1.5 text-xs text-muted-foreground bg-white/[0.04] border border-white/[0.06] rounded-lg hover:bg-white/[0.07] transition-colors"
-          >
-            <X className="w-3 h-3" /> Cancel
-          </button>
-          <button
-            onClick={() => applyEdit(sIdx, eIdx, iIdx, manualText.trim())}
-            disabled={!manualText.trim()}
+            onClick={() => applyEdit(sIdx, eIdx, iIdx, htmlToPlain(manualHtml))}
+            disabled={!manualHtml.trim() || htmlToPlain(manualHtml).length < 1}
             className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-white bg-violet-600 rounded-lg hover:bg-violet-500 disabled:opacity-40 transition-colors"
           >
             <Check className="w-3 h-3" /> Apply Edit
@@ -365,38 +403,41 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
         </div>
       </div>
 
-      {/* AI optimise */}
+      {/* AI skill weaving */}
       <div className="p-3">
         <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-wider mb-2">AI Skill Weaving</p>
-        {allMissingSkills.length === 0 ? (
-          <p className="text-xs text-muted-foreground italic">No missing skills detected.</p>
-        ) : (
-          <div className="flex flex-wrap gap-1 mb-2">
-            {allMissingSkills.slice(0, 12).map((s: any, i: number) => {
-              const kw = typeof s === "string" ? s : s.keyword || s.term || "";
-              if (!kw) return null;
-              return (
-                <button key={i} onClick={() => setSelectedSkill(kw)}
-                  className={`px-2 py-0.5 text-[11px] font-semibold rounded-md border transition-all ${
-                    selectedSkill === kw
-                      ? "bg-violet-600 text-white border-violet-400"
-                      : "bg-white/[0.04] text-muted-foreground border-white/[0.07] hover:bg-white/[0.07]"
-                  }`}
-                >{kw}</button>
-              );
-            })}
-          </div>
-        )}
+        {allMissingSkills.length === 0
+          ? <p className="text-xs text-muted-foreground italic">No missing skills detected.</p>
+          : (
+            <div className="flex flex-wrap gap-1 mb-2">
+              {allMissingSkills.slice(0, 14).map((s: any, i: number) => {
+                const kw = typeof s === "string" ? s : s.keyword || s.term || "";
+                if (!kw) return null;
+                return (
+                  <button key={i} onClick={() => setSelectedSkill(kw)}
+                    className={`px-2 py-0.5 text-[11px] font-semibold rounded-md border transition-all ${
+                      selectedSkill === kw
+                        ? "bg-violet-600 text-white border-violet-400"
+                        : "bg-white/[0.04] text-muted-foreground border-white/[0.07] hover:bg-white/[0.07]"
+                    }`}
+                  >{kw}</button>
+                );
+              })}
+            </div>
+          )
+        }
         <div className="flex items-center gap-2">
           <button
             onClick={handleOptimize}
-            disabled={!selectedSkill || isOptimizing || !manualText.trim()}
+            disabled={!selectedSkill || isOptimizing || htmlToPlain(manualHtml).length < 2}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-gradient-to-r from-violet-600 to-indigo-500 text-white rounded-lg hover:opacity-90 disabled:opacity-40 transition-opacity"
           >
             {isOptimizing ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
             {isOptimizing ? "Weaving…" : "Weave Skill"}
           </button>
-          {!selectedSkill && <p className="text-[11px] text-muted-foreground">Select a skill chip above first</p>}
+          {!selectedSkill && allMissingSkills.length > 0 && (
+            <p className="text-[11px] text-muted-foreground">Select a skill chip above first</p>
+          )}
         </div>
 
         {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
@@ -407,7 +448,7 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
             <div className="text-sm bg-emerald-500/5 border border-emerald-500/20 p-2.5 rounded-lg text-foreground/90 leading-relaxed">
               {optimizedText}
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <button
                 onClick={() => applyEdit(sIdx, eIdx, iIdx, optimizedText)}
                 className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition-colors"
@@ -415,7 +456,7 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
                 <Check className="w-3 h-3" /> Apply AI Rewrite
               </button>
               <button
-                onClick={() => { setManualText(optimizedText); setOptimizedText(""); }}
+                onClick={() => { setManualHtml(`<p>${optimizedText}</p>`); setOptimizedText(""); }}
                 className="flex items-center gap-1 px-2.5 py-1.5 text-xs text-muted-foreground bg-white/[0.04] border border-white/[0.06] rounded-lg hover:bg-white/[0.07] transition-colors"
               >
                 <Edit3 className="w-3 h-3" /> Edit First
@@ -433,7 +474,7 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
     </div>
   );
 
-  // ── Shared: item row with Edit button ──────────────────────────────────────
+  // ── Item row with Edit button ──────────────────────────────────────────────
   const ItemRow = ({
     text, sIdx, eIdx, iIdx, variant = "bullet"
   }: { text: string; sIdx: number; eIdx: number | null; iIdx: number; variant?: "bullet" | "paragraph" | "chip" }) => {
@@ -441,26 +482,24 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
     const applied = wasApplied(sIdx, eIdx, iIdx);
     return (
       <div>
-        <div className={`group flex items-start gap-2.5 rounded-xl border transition-all ${
-          variant === "chip" ? "px-0 py-0 border-transparent" : "p-2 "
-        } ${active ? "border-violet-500/30 bg-violet-500/5" : "border-transparent hover:border-white/[0.08] hover:bg-white/[0.025]"}`}>
+        <div className={`group flex items-start gap-2.5 rounded-xl border transition-all
+          ${variant === "chip" ? "px-0 py-0 border-transparent inline-flex" : "p-2"}
+          ${active ? "border-violet-500/30 bg-violet-500/5" : "border-transparent hover:border-white/[0.08] hover:bg-white/[0.025]"}`}
+        >
           {variant === "bullet" && <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/25 mt-[0.45rem] shrink-0" />}
           {variant === "paragraph"
-            ? <p className="flex-1 text-sm text-foreground/80 leading-relaxed">{text}</p>
+            ? <p className="flex-1 text-sm text-foreground/80 leading-relaxed">{applied ? <span className="text-emerald-400">{text}</span> : text}</p>
             : variant === "chip"
             ? <span className={`px-2.5 py-1 text-xs font-medium rounded-lg border ${applied ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-300" : "bg-white/[0.04] border-white/[0.08] text-foreground/70"}`}>{text}</span>
             : <span className="flex-1 text-sm text-foreground/80 leading-relaxed">{applied ? <span className="text-emerald-400">{text}</span> : text}</span>
           }
           <button
-            onClick={() => active
-              ? (setEditingItem(null), setManualText(""), setOptimizedText(""), setError(""))
-              : openEdit(sIdx, eIdx, iIdx, text)
-            }
-            className={`shrink-0 flex items-center gap-1 px-2 py-1 text-[10px] font-bold rounded-lg border transition-all ${
-              applied
+            onClick={() => active ? closeEdit() : openEdit(sIdx, eIdx, iIdx, text)}
+            className={`shrink-0 flex items-center gap-1 px-2 py-1 text-[10px] font-bold rounded-lg border transition-all
+              ${applied
                 ? "opacity-100 text-emerald-400 bg-emerald-500/10 border-emerald-500/20"
                 : "opacity-0 group-hover:opacity-100 text-violet-400 bg-violet-500/10 border-violet-500/20 hover:bg-violet-500/18"
-            } ${variant === "chip" ? "ml-0.5" : "ml-1"}`}
+              } ${variant === "chip" ? "ml-1" : "ml-1 mt-0.5"}`}
           >
             {applied ? <><Check className="w-2.5 h-2.5" />Edited</> : <><Edit3 className="w-2.5 h-2.5" />Edit</>}
           </button>
@@ -473,7 +512,7 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
   // ── Section renderers ──────────────────────────────────────────────────────
 
   const renderSummary = (section: Section, sIdx: number) => (
-    <div className="px-4 pb-4 space-y-2">
+    <div className="px-4 pb-4 space-y-1">
       {section.items.map((para, iIdx) => (
         <ItemRow key={iIdx} text={para} sIdx={sIdx} eIdx={null} iIdx={iIdx} variant="paragraph" />
       ))}
@@ -494,7 +533,6 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
       }
     });
     if (cur && cur.chips.length > 0) groups.push(cur);
-
     return (
       <div className="px-4 pb-4 space-y-3">
         {groups.map((g, gi) => (
@@ -512,7 +550,7 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
   };
 
   const renderEntries = (section: Section, sIdx: number) => (
-    <div className="px-4 pb-4 space-y-4">
+    <div className="px-4 pb-4 space-y-3">
       {section.items.length > 0 && (
         <div className="space-y-1">
           {section.items.map((item, iIdx) => (
@@ -521,10 +559,32 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
         </div>
       )}
       {section.entries.map((entry, eIdx) => (
-        <div key={eIdx} className="border border-white/[0.06] rounded-xl overflow-hidden">
-          <div className="px-3 py-2.5 bg-white/[0.02] border-b border-white/[0.06]">
-            <p className="text-sm font-semibold text-foreground/90">{entry.heading}</p>
+        <div key={eIdx} className="border border-white/[0.07] rounded-xl overflow-hidden">
+          {/* Entry heading with edit button */}
+          <div className={`group flex items-center justify-between gap-2 px-3 py-2.5 border-b border-white/[0.06] transition-all
+            ${isEditing(sIdx, eIdx, -1) ? "bg-violet-500/8 border-violet-500/20" : "bg-white/[0.02] hover:bg-white/[0.035]"}`}
+          >
+            <p className="text-sm font-semibold text-foreground/90 flex-1 min-w-0 truncate">
+              {wasApplied(sIdx, eIdx, -1) ? <span className="text-emerald-400">{entry.heading}</span> : entry.heading}
+            </p>
+            <button
+              onClick={() => isEditing(sIdx, eIdx, -1) ? closeEdit() : openEdit(sIdx, eIdx, -1, entry.heading)}
+              className={`shrink-0 flex items-center gap-1 px-2 py-1 text-[10px] font-bold rounded-lg border transition-all
+                ${wasApplied(sIdx, eIdx, -1)
+                  ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20"
+                  : "opacity-0 group-hover:opacity-100 text-violet-400 bg-violet-500/10 border-violet-500/20 hover:bg-violet-500/18"
+                }`}
+            >
+              {wasApplied(sIdx, eIdx, -1)
+                ? <><Check className="w-2.5 h-2.5" />Edited</>
+                : <><Edit3 className="w-2.5 h-2.5" />Edit</>}
+            </button>
           </div>
+
+          {/* Heading edit panel */}
+          {isEditing(sIdx, eIdx, -1) && <EditPanel sIdx={sIdx} eIdx={eIdx} iIdx={-1} />}
+
+          {/* Bullets */}
           {entry.bullets.length > 0 && (
             <div className="px-3 py-2 space-y-1">
               {entry.bullets.map((b, iIdx) => (
@@ -547,12 +607,12 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
 
   const renderSection = (section: Section, sIdx: number) => {
     switch (section.type) {
-      case "summary":      return renderSummary(section, sIdx);
-      case "skills":       return renderSkills(section, sIdx);
+      case "summary":   return renderSummary(section, sIdx);
+      case "skills":    return renderSkills(section, sIdx);
       case "education":
       case "experience":
-      case "projects":     return renderEntries(section, sIdx);
-      default:             return renderGeneric(section, sIdx);
+      case "projects":  return renderEntries(section, sIdx);
+      default:          return renderGeneric(section, sIdx);
     }
   };
 
@@ -569,7 +629,7 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
             Missing Skills
           </h3>
           {allMissingSkills.length === 0
-            ? <p className="text-xs text-muted-foreground italic">All key skills found! 🎉</p>
+            ? <p className="text-xs text-muted-foreground italic">All key skills found!</p>
             : (
               <div className="flex flex-wrap gap-1.5">
                 {allMissingSkills.map((s: any, i: number) => {
@@ -624,34 +684,41 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
         )}
       </div>
 
-      {/* Main editor */}
+      {/* Main editor area */}
       <div className="flex-1 flex flex-col min-w-0">
-        <div className="p-4 border-b border-white/[0.06] shrink-0 flex items-center justify-between">
+        <div className="p-4 border-b border-white/[0.06] shrink-0 flex items-center justify-between gap-4">
           <div>
             <h2 className="text-sm font-black text-foreground flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-violet-400" />
               Smart Resume Editor
             </h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Click <strong>Edit</strong> on any item — type manually or weave in a missing skill with AI. Changes apply across all tabs.
+              Hover any item and click <strong>Edit</strong> — type manually or weave in a skill with AI.
             </p>
           </div>
-          {appliedItems.size > 0 && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg shrink-0">
-              <Check className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-xs font-bold text-emerald-400">{appliedItems.size} edit{appliedItems.size > 1 ? "s" : ""} applied</span>
-            </div>
-          )}
+          <div className="flex items-center gap-2 shrink-0">
+            {isRescoring && (
+              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 rounded-lg">
+                <RefreshCw className="w-3.5 h-3.5 text-violet-400 animate-spin" />
+                <span className="text-xs font-bold text-violet-400">Rescoring…</span>
+              </div>
+            )}
+            {appliedItems.size > 0 && !isRescoring && (
+              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="text-xs font-bold text-emerald-400">{appliedItems.size} edit{appliedItems.size > 1 ? "s" : ""} applied</span>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
           {sections.length === 0 && (
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <p className="text-muted-foreground text-sm">No sections detected.</p>
-              <p className="text-xs text-muted-foreground/60 mt-1">Upload a resume with section headings to use the Smart Editor.</p>
+              <p className="text-xs text-muted-foreground/60 mt-1">Upload a resume with section headings.</p>
             </div>
           )}
-
           {sections.map((section, sIdx) => {
             const isExpanded = expandedSections.has(sIdx);
             const problems = getSectionProblems(section.title);
@@ -674,7 +741,6 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
                     </div>
                   )}
                 </button>
-
                 {isExpanded && problems.length > 0 && (
                   <div className="px-4 pb-2 flex flex-wrap gap-1.5">
                     {problems.map((p, pi) => (
@@ -684,7 +750,6 @@ export default function SmartEditorTab({ analysis, jd, onResumeUpdate }: Props) 
                     ))}
                   </div>
                 )}
-
                 {isExpanded && renderSection(section, sIdx)}
               </div>
             );

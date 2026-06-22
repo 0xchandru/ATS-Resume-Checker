@@ -13,6 +13,7 @@ interface Props {
   onRunAI: () => void;
   aiLoading: boolean;
   onScrollToCategory?: (category: string) => void;
+  isRescoring?: boolean;
 }
 
 const CIRC = 2 * Math.PI * 56;
@@ -38,7 +39,7 @@ function scoreToLabel(score: number): string {
   return "Low Match";
 }
 
-function ScoreRing({ score, grade }: { score: number; grade: string }) {
+function ScoreRing({ score, grade, isRescoring }: { score: number; grade: string; isRescoring?: boolean }) {
   const ringRef = useRef<SVGCircleElement>(null);
   const color = scoreToColor(score);
   const offset = CIRC * (1 - score / 100);
@@ -93,19 +94,26 @@ function ScoreRing({ score, grade }: { score: number; grade: string }) {
         />
       </svg>
       <div className="absolute text-center pointer-events-none">
-        <p className="text-5xl font-black leading-none tracking-tight" style={{ color }} data-testid="text-overall-score">
-          {Math.round(score)}
-        </p>
-        <p className="text-[9px] text-muted-foreground mt-1 font-bold tracking-widest uppercase">
-          {scoreToLabel(score)}
-        </p>
-        <div className="mt-1 px-2 py-0.5 rounded-full text-[9px] font-black border" style={{
-          background: `${color}18`,
-          color,
-          borderColor: `${color}35`,
-        }}>
-          {grade}
-        </div>
+        {isRescoring ? (
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-8 h-8 rounded-full border-2 border-violet-500/40 border-t-violet-400 animate-spin" />
+            <p className="text-[9px] text-violet-400 font-bold tracking-widest uppercase mt-1">Scoring…</p>
+          </div>
+        ) : (
+          <>
+            <p className="text-5xl font-black leading-none tracking-tight" style={{ color }} data-testid="text-overall-score">
+              {Math.round(score)}
+            </p>
+            <p className="text-[9px] text-muted-foreground mt-1 font-bold tracking-widest uppercase">
+              {scoreToLabel(score)}
+            </p>
+            <div className="mt-1 px-2 py-0.5 rounded-full text-[9px] font-black border" style={{
+              background: `${color}18`, color, borderColor: `${color}35`,
+            }}>
+              {grade}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -146,6 +154,7 @@ export default function ResultsSidebar({
   onRunAI,
   aiLoading,
   onScrollToCategory,
+  isRescoring,
 }: Props) {
   const { overall_score, letter_grade, keywords } = result;
 
