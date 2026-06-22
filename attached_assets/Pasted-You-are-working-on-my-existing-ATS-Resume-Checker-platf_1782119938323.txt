@@ -1,0 +1,87 @@
+You are working on my existing ATS Resume Checker platform.
+
+I have added the full Resume-Matcher project inside my codebase. Use the entire Resume-Matcher project as a reference source and extract any better parsing, matching, scoring, editing, or export logic from it. Study the full project carefully and use the best parts to improve my platform. My goal is to make my ATS-Resume-Checker better than Skillsyncer in accuracy, UX, and report quality.
+
+Do not remove my existing datasets. Use all my datasets fully. Improve the platform around them.
+
+Main objectives:
+- Analyze the entire Resume-Matcher project code and compare it with my current platform code.
+- Reuse or adapt any better logic from Resume-Matcher where it improves the product.
+- Refactor my code cleanly and completely where needed.
+- Make the entire ATS-Resume-Checker better than Skillsyncer in parsing, matching, scoring, editing, and reporting.
+- Do everything necessary to improve scan quality, consistency, and user experience.
+
+Critical bug to fix:
+The report is still different for upload versus manual input of the same parsed resume. Fix this completely.
+The same resume content must always produce the same score and report, no matter whether it comes from:
+- file upload
+- manual input
+- pasted parsed resume
+- Smart Resume Editor
+- rescan
+
+This means you must build one canonical evaluation pipeline used everywhere:
+- normalize the resume once
+- parse it once
+- match it once
+- score it once
+- render the report from the same unified data
+
+Do not allow hidden differences caused by:
+- whitespace
+- line breaks
+- bullet formatting
+- HTML or rich text wrappers
+- section ordering
+- serialization format
+- parser source
+- upload path vs manual input path
+
+Smart Resume Editor:
+- Replace the current limited editing experience with a large rich text editor containing the full resume content in one place.
+- The editor must be able to handle the entire resume at once, not line-by-line fragments.
+- When I change anything in the editor, the ATS score and report must update instantly on the platform.
+- The evaluation should rerun immediately after edits and render updated results without extra manual steps.
+- Add better AI features inside Smart Resume Editor, including AI Optimize and smarter AI rewrite/help features.
+- Make the editor feel like a premium resume workstation.
+
+Resume parsing and matching:
+- Improve section detection, heading detection, subheading detection, and content splitting.
+- Handle summaries, skills, experience, projects, certificates, education, and custom sections properly.
+- Improve keyword matching so it is more intelligent than exact-word matching.
+- Support partial matches, substring matches, pattern matches, and related keyword analysis.
+- Use my datasets fully in the matching and scoring process.
+
+Certificates:
+- Analyze certificates separately and correctly.
+- Do not mix certificate logic into skills logic only.
+- Match certificates against the certificate dataset and JD intelligently.
+
+Cover letter:
+- Improve the cover letter feature so it is rich text, readable, and exportable.
+- Add a proper Export as PDF button.
+- Make it look professional and complete.
+
+Project quality:
+- Add a .env.example file with all required environment variables.
+- Add a README.md file with complete setup instructions, feature guide, and usage guide.
+- Document installation, environment setup, local development, AI configuration, dataset usage, and deployment notes.
+- Keep the codebase clean, modular, and production-ready.
+
+Important implementation rules:
+- Use the entire Resume-Matcher project as a reference.
+- Do not delete or ignore my datasets.
+- Make the scans better, the reports better, and the editor better.
+- Fix the upload vs manual input mismatch at the root cause.
+- Make the system deterministic and consistent.
+- Make the final ATS platform feel stronger and more polished than Skillsyncer.
+
+Deliverables:
+- Better ATS platform code
+- Unified evaluation pipeline
+- Fixed upload/manual score mismatch
+- Better Smart Resume Editor with live instant evaluation
+- Better AI Optimize features
+- Better scans and reports
+- .env.example file
+- README.md with full setup and feature documentation
