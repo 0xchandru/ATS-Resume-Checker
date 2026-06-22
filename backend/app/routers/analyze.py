@@ -1,8 +1,10 @@
 import re
 import time
 import json
+import asyncio
 import logging
 from html import unescape
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from typing import Dict
 from fastapi import APIRouter, HTTPException, Depends
@@ -23,6 +25,10 @@ from backend.app.engine.scoring.role_fit_engine import generate_role_fit_verdict
 from backend.app.engine.intelligence import career_analyzer, feedback_engine
 from pydantic import BaseModel
 from typing import Optional
+
+# Shared thread-pool for running CPU-bound tasks in parallel without
+# blocking the FastAPI event loop.
+_THREAD_POOL = ThreadPoolExecutor(max_workers=4)
 
 
 def _strip_html(html: str) -> str:
@@ -78,21 +84,35 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
     file_metadata["page_count"] = parsed["page_count"]
     file_metadata["file_type"] = parsed["file_type"]
 
-    # --- 1. Base Extraction ---
-    raw_jd_kws = extractor.extract_jd_keywords(jd_text)
-    resume_kws = extractor.extract_resume_keywords(resume_text)
-    
+    loop = asyncio.get_event_loop()
+
+    # --- 1. Base Extraction  (JD + resume in parallel) ---
+    raw_jd_kws, resume_kws = await asyncio.gather(
+        loop.run_in_executor(_THREAD_POOL, extractor.extract_jd_keywords, jd_text),
+        loop.run_in_executor(_THREAD_POOL, extractor.extract_resume_keywords, resume_text),
+    )
+
     # --- 2. New Normalization Engine (Filter Noise) ---
     skill_concepts, noise_filtered = normalize_and_group_skills(raw_jd_kws)
     jd_kws_clean = list(skill_concepts.values())
 
     # --- 3. Base Matching ---
     base_match_result = matcher.match_all_layers(resume_kws, jd_kws_clean, resume_text, jd_text)
-    
-    # --- 4. Semantic Grouping ---
-    enhanced_matches = group_aware_match(jd_kws_clean, resume_kws, base_match_result.get("matched", []))
+
+    # --- 4. Semantic Grouping + Section Detection + Format Check (in parallel) ---
+    enhanced_matches, sections, formatting = await asyncio.gather(
+        loop.run_in_executor(
+            _THREAD_POOL, group_aware_match, jd_kws_clean, resume_kws, base_match_result.get("matched", [])
+        ),
+        loop.run_in_executor(
+            _THREAD_POOL, section_detector.detect_sections, resume_text, file_metadata
+        ),
+        loop.run_in_executor(
+            _THREAD_POOL, format_checker.check_formatting, str(record.file_path), file_metadata
+        ),
+    )
+
     match_result = base_match_result.copy()
-    # Deduplicate matches by keyword to get accurate count
     unique_matched_kws = set()
     deduped_matches = []
     for m in enhanced_matches:
@@ -100,16 +120,14 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
         if kw not in unique_matched_kws:
             unique_matched_kws.add(kw)
             deduped_matches.append(m)
-            
+
     match_result["matched"] = deduped_matches
-    
-    # Recalculate match rate
+
     total_jd = max(1, len(jd_kws_clean))
     matched_count = len(deduped_matches)
     match_result["match_rate"] = min(1.0, matched_count / total_jd)
     match_result["matched_count"] = matched_count
-    
-    # Deduplicate missing skills
+
     matched_kws = set()
     for m in enhanced_matches:
         jk = m.get("jd_keyword", "")
@@ -117,44 +135,45 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
             jk = jk.get("keyword", "") or jk.get("term", "")
         matched_kws.add(str(jk).lower())
 
-    missing_kws = [m for m in base_match_result.get("missing", []) 
+    missing_kws = [m for m in base_match_result.get("missing", [])
                    if (m.get("keyword", "") if isinstance(m, dict) else m).lower() not in matched_kws]
     match_result["missing"] = missing_kws
 
-    # --- 5. Parsing & Structure ---
-    sections = section_detector.detect_sections(resume_text, file_metadata)
-    formatting = format_checker.check_formatting(str(record.file_path), file_metadata)
-    
-    # --- 6. Evidence Scoring ---
+    # --- 5. Evidence Scoring ---
     matched_skill_names = [m.get("resume_keyword", "") for m in enhanced_matches]
     evidence_quality = score_all_evidence(matched_skill_names, resume_text, sections)
-    
-    # Update match_type to unsupported_claim if evidence is keyword_only
+
     for m in match_result["matched"]:
         skill_name = m.get("resume_keyword", "")
         if skill_name in evidence_quality.get("skills", {}):
             if evidence_quality["skills"][skill_name].get("evidence_type") == "keyword_only":
                 m["match_type"] = "unsupported_claim"
-    
-    # --- 7. Seniority Analysis ---
+
+    # --- 6. Seniority Analysis ---
     career = career_analyzer.analyze_career_signals(resume_text, jd_text, match_result)
     jd_seniority = analyze_jd_seniority(jd_text)
     resume_seniority = analyze_resume_seniority(resume_text, career)
     seniority_gap = compute_seniority_gap(jd_seniority, resume_seniority)
 
-    # --- 8. Certification Matching ---
-    try:
-        cert_match = match_certifications(resume_text, jd_text)
-    except Exception as e:
-        logger.warning("Certification matching failed: %s", e)
-        cert_match = {"matched": [], "missing": [], "bonus": [], "matched_count": 0, "missing_count": 0, "bonus_count": 0, "score": 100.0}
+    # --- 7. Cert + Education matching in parallel ---
+    def _safe_cert():
+        try:
+            return match_certifications(resume_text, jd_text)
+        except Exception as e:
+            logger.warning("Certification matching failed: %s", e)
+            return {"matched": [], "missing": [], "bonus": [], "matched_count": 0, "missing_count": 0, "bonus_count": 0, "score": 100.0}
 
-    # --- 9. Education Matching ---
-    try:
-        edu_match = match_education(resume_text, jd_text)
-    except Exception as e:
-        logger.warning("Education matching failed: %s", e)
-        edu_match = {"score": 80.0, "degree_level_match": "unknown", "recognized_universities": []}
+    def _safe_edu():
+        try:
+            return match_education(resume_text, jd_text)
+        except Exception as e:
+            logger.warning("Education matching failed: %s", e)
+            return {"score": 80.0, "degree_level_match": "unknown", "recognized_universities": []}
+
+    cert_match, edu_match = await asyncio.gather(
+        loop.run_in_executor(_THREAD_POOL, _safe_cert),
+        loop.run_in_executor(_THREAD_POOL, _safe_edu),
+    )
 
     # --- 10. Enhanced Scoring Model ---
     scoring = scorer.calculate_score_v2(

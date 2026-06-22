@@ -1,0 +1,222 @@
+ACTUAL RESUME:
+CHANDRAPRAKASH C
++91 97864 75035 — chandraprakash.soc@gmail.com — Dindigul, Tamil Nadu — Open to Relocation (Hyderabad)
+Portfolio — LinkedIn — GitHub — TryHackMe (Top 1%)
+PROFESSIONAL SUMMARY
+B.Sc. CS fresher targeting a Junior SOC Analyst role. Ranked Top 1% globally on TryHackMe (3M+ users) with
+SOC Level 1 certification, validating hands-on SIEM monitoring, log analysis, threat intelligence, incident
+triage, and case documentation competency. Operated a multi-VM SOC lab performing initial alert identifi-
+cation, basic triage, and first-level validation of security events (phishing, malware, suspicious logins) per
+playbooks and SOPs; escalated incidents to L1/L2 and raised ITSM / case management tickets in Jira with full
+incident documentation. Certified by IBM and Google. Available for rotational shifts including nights.
+TECHNICAL SKILLS
+SIEM & Log Analysis
+Incident Response
+Threat Intelligence
+Network & Systems
+Core Strengths
+Security Foundations
+Splunk (SPL, dashboards, alerts), Microsoft Sentinel, Windows Event Logs, Linux Syslog,
+system logs, Sysmon
+Alert monitoring, triage, true/false positive classification, incident management, case man-
+agement, playbooks & SOP-based response, L0→L1/L2 escalation, Jira ITSM ticketing, docu-
+mentation & reporting
+IOC enrichment, threat intelligence, MITRE ATT&CK, VirusTotal, AbuseIPDB, Malware-
+Bazaar, Shodan, GSEC concepts
+TCP/IP, DNS, HTTP/S, ports & protocols, operating systems, Windows/Linux, system admin-
+istration, IT support, endpoint security, antivirus, Wireshark, Zeek, Nmap, EDR (Velocirap-
+tor), firewall log analysis, Python, Bash, PowerShell, scripting, Shuffle SOAR
+Cybersecurity, Computer Science, analytical ability, analytical thinking, problem-solving, col-
+laboration, thoroughness, accuracy, attention to detail, written communication
+CompTIA Security+ concepts, security systems, security monitoring, incident response, doc-
+umentation, programming
+EDUCATION
+B.Sc. Computer Science
+G.T.N Arts College, Dindigul (Madurai Kamaraj University)
+HSC — Computer Science
+Government Higher Secondary School, Tiruppur, Tamil Nadu
+CERTIFICATIONS
+• SOC Level 1 — TryHackMe
+• IBM Cybersecurity Analyst Professional Certificate — Coursera/IBM
+• Google Cybersecurity Professional Certificate — Coursera/Google
+PROJECTS & PROFESSIONAL EXPERIENCE
+SOC Monitoring Lab — L0/L1 Analyst Simulation
+06/2023 – 05/2026
+CGPA: 8.01 / 10.0
+05/2023
+68%
+Verify
+Verify
+Verify
+06/2026
+06/2026
+04/2025
+GitHub
+Linux Mint · Ubuntu Server · Windows VM · Splunk · Wazuh · Zeek · Sysmon · Shuffle SOAR · Jira
+• Monitored security alerts across 10+ attack scenarios using Splunk and Wazuh SIEM dashboards; performed
+initial alert identification and basic validation per predefined guidelines, classifying each event as true/false
+positive and producing daily/weekly security monitoring reports.
+• Triaged security events including phishing, malware alerts, and suspicious logins per MITRE ATT&CK-
+aligned playbooks and SOPs; escalated verified incidents to the L1 queue; raised ITSM / case management
+tickets in Jira with IOC timelines and asset details; dispatched stakeholder notifications for all ticket updates.
+• Investigated endpoint/network behaviour via Sysmon, Zeek, PowerShell logs, and Wireshark; detected C2
+beaconing (T1071) and scheduled-task persistence (T1053); automated IOC enrichment via Shuffle SOAR
+with VirusTotal and AbuseIPDB to reduce triage time.
+ThreatLens — Threat Intelligence Aggregator
+GitHub
+Python · FastAPI · VirusTotal · AbuseIPDB · AlienVault OTX · URLhaus · GreyNoise
+• Engineered a multi-source IOC enrichment platform querying 5 threat intel APIs in parallel with MITRE
+ATT&CK-mapped risk scores, returning structured results in under 2 seconds to accelerate L0 alert triage and
+SOAR playbook integration.
+SecOps Console — SOC Analyst Dashboard
+GitHub
+React · Node.js · PostgreSQL · WebSockets
+• Developed a SOC dashboard with real-time alert queues, incident tracking, L0→L1 escalation workflows, and
+audit-trail logging for incident documentation.
+
+
+
+PARSED RESUME IN MY PLATFORM:
+CHANDRAPRAKASH C
+
++91 97864 75035 — chandraprakash.soc@gmail.com — Dindigul, Tamil Nadu — Open to Relocation (Hyderabad)
+
+Portfolio — LinkedIn — GitHub — TryHackMe (Top 1%)
+
+PROFESSIONAL SUMMARY
+
+B.Sc. CS fresher targeting a Junior SOC Analyst role. Ranked Top 1% globally on TryHackMe (3M+ users) with
+
+SOC Level 1 certification, validating hands-on SIEM monitoring, log analysis, threat intelligence, incident
+
+triage, and case documentation competency. Operated a multi-VM SOC lab performing initial alert identifi-
+
+cation, basic triage, and first-level validation of security events (phishing, malware, suspicious logins) per
+
+playbooks and SOPs; escalated incidents to L1/L2 and raised ITSM / case management tickets in Jira with full
+
+incident documentation. Certified by IBM and Google. Available for rotational shifts including nights.
+
+TECHNICAL SKILLS
+
+SIEM & Log Analysis
+
+Splunk (SPL, dashboards, alerts), Microsoft Sentinel, Windows Event Logs, Linux Syslog,
+
+system logs, Sysmon
+
+Incident Response
+
+Alert monitoring, triage, true/false positive classification, incident management, case man-
+
+agement, playbooks & SOP-based response, L0→L1/L2 escalation, Jira ITSM ticketing, docu-
+
+mentation & reporting
+
+Threat Intelligence
+
+IOC enrichment, threat intelligence, MITRE ATT&CK, VirusTotal, AbuseIPDB, Malware-
+
+Bazaar, Shodan, GSEC concepts
+
+Network & Systems
+
+TCP/IP, DNS, HTTP/S, ports & protocols, operating systems, Windows/Linux, system admin-
+
+istration, IT support, endpoint security, antivirus, Wireshark, Zeek, Nmap, EDR (Velocirap-
+
+tor), firewall log analysis, Python, Bash, PowerShell, scripting, Shuffle SOAR
+
+Core Strengths
+
+Cybersecurity, Computer Science, analytical ability, analytical thinking, problem-solving, col-
+
+laboration, thoroughness, accuracy, attention to detail, written communication
+
+Security Foundations
+
+CompTIA Security+ concepts, security systems, security monitoring, incident response, doc-
+
+umentation, programming
+
+EDUCATION
+
+B.Sc. Computer Science
+
+06/2023 – 05/2026
+
+G.T.N Arts College, Dindigul (Madurai Kamaraj University)
+
+CGPA: 8.01 / 10.0
+
+HSC — Computer Science
+
+05/2023
+
+Government Higher Secondary School, Tiruppur, Tamil Nadu
+
+68%
+
+CERTIFICATIONS
+
+
+
+
+
+SOC Level 1 — TryHackMe Verify 06/2026
+
+
+
+IBM Cybersecurity Analyst Professional Certificate — Coursera/IBM Verify 06/2026
+
+
+
+Google Cybersecurity Professional Certificate — Coursera/Google Verify 04/2025
+
+PROJECTS & PROFESSIONAL EXPERIENCE
+
+SOC Monitoring Lab — L0/L1 Analyst Simulation
+
+GitHub
+
+Linux Mint · Ubuntu Server · Windows VM · Splunk · Wazuh · Zeek · Sysmon · Shuffle SOAR · Jira
+
+
+
+
+
+Monitored security alerts across 10+ attack scenarios using Splunk and Wazuh SIEM dashboards; performed initial alert identification and basic validation per predefined guidelines, classifying each event as true/false positive and producing daily/weekly security monitoring reports.
+
+
+
+Triaged security events including phishing, malware alerts, and suspicious logins per MITRE ATT&CK- aligned playbooks and SOPs; escalated verified incidents to the L1 queue; raised ITSM / case management tickets in Jira with IOC timelines and asset details; dispatched stakeholder notifications for all ticket updates.
+
+
+
+Investigated endpoint/network behaviour via Sysmon, Zeek, PowerShell logs, and Wireshark; detected C2 beaconing (T1071) and scheduled-task persistence (T1053); automated IOC enrichment via Shuffle SOAR with VirusTotal and AbuseIPDB to reduce triage time.
+
+ThreatLens — Threat Intelligence Aggregator
+
+GitHub
+
+Python · FastAPI · VirusTotal · AbuseIPDB · AlienVault OTX · URLhaus · GreyNoise
+
+
+
+
+
+Engineered a multi-source IOC enrichment platform querying 5 threat intel APIs in parallel with MITRE ATT&CK-mapped risk scores, returning structured results in under 2 seconds to accelerate L0 alert triage and SOAR playbook integration. SecOps Console — SOC Analyst Dashboard GitHub React · Node.js · PostgreSQL · WebSockets
+
+
+
+Developed a SOC dashboard with real-time alert queues, incident tracking, L0→L1 escalation workflows, and audit-trail logging for incident documentation.
+
+
+
+
+
+Analyse these if any mismatch fix that.
+
+
+I want faster parsing and faster report showing because not it's loading a bar at same time for all type of analysis so make that fast.
+In my parser it parsing my third project SecOps Console — SOC Analyst Dashboard as a point of second project.

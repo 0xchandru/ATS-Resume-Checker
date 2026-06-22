@@ -352,10 +352,10 @@ def extract_keywords(text_input: str, top_n: int = 200) -> List[Dict]:
     except Exception as e:
         logger.debug("YAKE extraction failed: %s", e)
 
-    # Method 5: KeyBERT semantic keyword extraction
+    # Method 5: KeyBERT semantic keyword extraction (uses shared cached model)
     try:
-        from keybert import KeyBERT
-        kbm = KeyBERT(model="all-MiniLM-L6-v2")
+        from backend.app.engine.embeddings import get_keybert
+        kbm = get_keybert()
         kb_kws = kbm.extract_keywords(
             text_input[:10000],
             keyphrase_ngram_range=(1, 3),

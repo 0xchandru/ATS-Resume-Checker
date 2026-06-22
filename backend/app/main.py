@@ -45,6 +45,22 @@ async def lifespan(app: FastAPI):
         logger.info("spaCy model ready")
     except Exception as e:
         logger.warning("spaCy preload failed (will load on first request): %s", e)
+    # Pre-warm sentence-transformer + KeyBERT so the first analysis request
+    # doesn't pay the 5-10 s model-load penalty.  Both models share one
+    # SentenceTransformer instance, so total load time equals one model load.
+    try:
+        from backend.app.engine.embeddings import get_sentence_transformer, get_keybert
+        import threading
+        def _warm_models():
+            try:
+                get_sentence_transformer()
+                get_keybert()
+                logger.info("sentence-transformer + KeyBERT pre-warmed")
+            except Exception as exc:
+                logger.warning("Model pre-warm failed (will load on first request): %s", exc)
+        threading.Thread(target=_warm_models, daemon=True, name="model-warmup").start()
+    except Exception as e:
+        logger.warning("Could not start model warmup thread: %s", e)
     logger.info("Backend ready on port %s", os.environ.get("PORT", "8787"))
     yield
     logger.info("Backend shutting down")

@@ -79,6 +79,26 @@ def _parse_pdf(file_path: str) -> dict:
                     
                 in_list = False
                 for line_text in block_html:
+                    clean_no_tags = line_text.replace("<strong>", "").replace("</strong>", "").replace("<em>", "").replace("</em>", "").strip()
+                    is_all_caps_bold = len(clean_no_tags) < 80 and "<strong>" in line_text and clean_no_tags.isupper()
+
+                    # A line is "title-like" when it looks like a project/section header:
+                    # • contains an em-dash separator (e.g. "SecOps Console — SOC Analyst Dashboard")
+                    # • contains a tech-stack separator " · "
+                    # • is itself flagged as a heading by font size
+                    # • is a short all-caps bold phrase
+                    is_title_like = (
+                        len(clean_no_tags) < 120 and (
+                            "\u2014" in clean_no_tags   # em-dash  —
+                            or " \u2013 " in clean_no_tags  # en-dash  –
+                            or " — " in clean_no_tags
+                            or " – " in clean_no_tags
+                            or " · " in clean_no_tags
+                            or is_heading
+                            or is_all_caps_bold
+                        )
+                    )
+
                     if line_text.startswith("&#x2022;") or line_text.startswith("•") or line_text.startswith("- "):
                         if not in_list:
                             html_parts.append("<ul>")
@@ -87,13 +107,19 @@ def _parse_pdf(file_path: str) -> dict:
                         html_parts.append(f"<li>{clean_text}</li>")
                     else:
                         if in_list:
-                            # Append to the previous list item
-                            last_li = html_parts.pop()
-                            html_parts.append(last_li[:-5] + " " + line_text + "</li>")
+                            if is_title_like:
+                                # Close the current list — this line starts a new project/section
+                                html_parts.append("</ul>")
+                                in_list = False
+                                if is_heading or is_all_caps_bold:
+                                    html_parts.append(f"<h2>{line_text}</h2>")
+                                else:
+                                    html_parts.append(f"<h3>{line_text}</h3>")
+                            else:
+                                # Genuine continuation of the previous bullet point
+                                last_li = html_parts.pop()
+                                html_parts.append(last_li[:-5] + " " + line_text + "</li>")
                         else:
-                            clean_no_tags = line_text.replace("<strong>", "").replace("</strong>", "").replace("<em>", "").replace("</em>", "").strip()
-                            is_all_caps_bold = len(clean_no_tags) < 80 and "<strong>" in line_text and clean_no_tags.isupper()
-                            
                             if is_heading or is_all_caps_bold:
                                 html_parts.append(f"<h2>{line_text}</h2>")
                             else:
