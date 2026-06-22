@@ -231,7 +231,7 @@ export default function App() {
       {activeView === "results" && currentResult && (
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Left Sidebar — Jobscan style */}
-          <aside className="w-full lg:w-64 lg:sticky lg:top-6 shrink-0">
+          <aside className="w-full lg:w-64 lg:sticky lg:top-6 shrink-0 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
             <ResultsSidebar
               result={currentResult}
               onNewScan={handleNewScan}
