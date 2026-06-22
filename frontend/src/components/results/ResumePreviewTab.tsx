@@ -1,5 +1,4 @@
 import { CheckCircle2, FileText } from "lucide-react";
-import RichTextEditor from "../common/RichTextEditor";
 
 interface Props {
   resumeHtml?: string;
@@ -26,7 +25,11 @@ export default function ResumePreviewTab({ resumeHtml, resumeText, keywords }: P
 
       <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl overflow-hidden">
         {displayContent ? (
-          <RichTextEditor value={displayContent} readOnly={true} minHeight="500px" />
+          <div
+            className="prose prose-sm dark:prose-invert prose-headings:font-bold prose-a:text-primary max-w-none px-6 py-5 overflow-y-auto"
+            style={{ minHeight: "500px" }}
+            dangerouslySetInnerHTML={{ __html: displayContent }}
+          />
         ) : (
           <div className="flex flex-col items-center justify-center p-12 text-center">
             <FileText className="w-8 h-8 text-muted-foreground/30 mb-3" />

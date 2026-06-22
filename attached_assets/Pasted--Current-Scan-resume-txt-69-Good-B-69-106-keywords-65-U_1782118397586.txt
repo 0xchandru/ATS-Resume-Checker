@@ -1,0 +1,378 @@
+
+
+
+Current Scan
+
+resume.txt
+
+69
+
+Good
+
+B
+69/106 keywords · 65%
+Upload & Rescan
+AI Optimize
+Resume Level
+entry
+→
+Role Requires
+junior
+Score Breakdown
+
+
+Parsing Quality
+79%
+
+Keyword Match
+73%
+
+Semantic Match
+50%
+
+Evidence Strength
+33%
+
+Seniority Fit
+65%
+
+Formatting
+100%
+Start new scan
+Resume Report
+Job Description
+Skills Matrix
+Cover Letter
+Resume Preview
+Smart Editor
+Print
+Skills Matrix
+Full breakdown of all extracted skills and their frequencies.
+
+Search skills...
+Skill
+Type
+Status
+Match Type
+JD Count
+Resume Count
+KB Source
+Confidence
+security	Other	
+Found
+Exact	18	12	statistical	100%
+incident	Other	
+Found
+Exact	9	9	statistical	100%
+log	Other	
+Found
+Exact	8	10	statistical	100%
+port	Other	
+Found
+Exact	7	5	statistical	100%
+alert	Other	
+Found
+Exact	7	8	statistical	100%
+monitor	Other	
+Found
+Exact	6	6	statistical	100%
+basic	Other	
+Found
+Exact	5	2	statistical	100%
+triage	Other	
+Found
+Exact	5	6	statistical	100%
+network	Other	
+Found
+Exact	5	2	statistical	100%
+response	Other	
+Found
+Exact	5	3	statistical	100%
+Certification	Other	
+Found
+Exact	5	2	statistical	100%
+threat	Other	
+Found
+Exact	4	6	statistical	100%
+foundation	Other	
+Found
+Exact	4	1	statistical	100%
+detection	Other	
+Missing
+–	4	0	statistical	–
+concept	Other	
+Found
+Exact	3	2	statistical	100%
+analyst	Other	
+Found
+Exact	3	4	statistical	100%
+analysis	Other	
+Found
+Exact	3	3	statistical	100%
+intrusion	Other	
+Missing
+–	3	0	statistical	–
+EDR	Other	
+Found
+Exact	2	1	statistical	100%
+SIEM	Other	
+Found
+Exact	2	3	statistical	100%
+track	Other	
+Found
+Exact	2	1	statistical	100%
+daily	Other	
+Found
+Exact	2	1	statistical	100%
+Junior	Other	
+Found
+Exact	2	1	statistical	100%
+initial	Other	
+Found
+Exact	2	2	statistical	100%
+malware	Other	
+Found
+Exact	2	3	statistical	100%
+comptia	Other	
+Found
+Exact	2	1	statistical	100%
+Computer	Other	
+Found
+Exact	2	3	statistical	100%
+operating	Other	
+Found
+Exact	2	1	statistical	100%
+education	Other	
+Found
+Exact	2	1	statistical	100%
+ticketing	Other	
+Found
+Exact	2	1	statistical	100%
+Hyderabad	Other	
+Found
+Exact	2	1	statistical	100%
+playbooks	Other	
+Found
+Exact	2	3	statistical	100%
+investigate	Other	
+Found
+Exact	2	1	statistical	100%
+intelligence	Other	
+Found
+Exact	2	4	statistical	100%
+innovation	Soft	
+Missing
+–	2	0	alias	–
+clients	Other	
+Missing
+–	2	0	statistical	–
+entry-level	Other	
+Missing
+–	2	0	statistical	–
+information	Other	
+Missing
+–	2	0	statistical	–
+compromise	Other	
+Missing
+–	2	0	statistical	–
+schwab	Other	
+Missing
+–	2	0	statistical	–
+ibm	Other	
+Found
+Exact	1	3	statistical	100%
+sop	Hard	
+Found
+Alias	1	1	alias	100%
+tcp	Hard	
+Found
+Inferred	1	1	alias	100%
+gsec	Other	
+Found
+Inferred	1	1	statistical	100%
+event	Other	
+Found
+Exact	1	4	statistical	100%
+hands	Other	
+Found
+Exact	1	1	statistical	100%
+audit	Other	
+Found
+Exact	1	1	statistical	100%
+linux	Other	
+Found
+Exact	1	3	statistical	100%
+mitre	Other	
+Found
+Exact	1	3	statistical	100%
+query	Other	
+Found
+Exact	1	1	statistical	100%
+source	Hard	
+Found
+Exact	1	1	alias	100%
+detail	Other	
+Found
+Exact	1	2	statistical	100%
+python	Hard	
+Found
+Alias	1	1	alias	100%
+problem	Other	
+Found
+Exact	1	1	statistical	100%
+science	Hard	
+Found
+Alias	1	3	alias	100%
+windows	Other	
+Found
+Exact	1	3	statistical	100%
+console	Other	
+Found
+Exact	1	1	statistical	100%
+strength	Other	
+Found
+Exact	1	1	statistical	100%
+positive	Other	
+Found
+Exact	1	2	statistical	100%
+accuracy	Other	
+Found
+Exact	1	1	statistical	100%
+validity	Other	
+Found
+Inferred	1	1	statistical	100%
+sentinel	Other	
+Found
+Exact	1	1	statistical	100%
+SOC role	Other	
+Found
+Inferred	1	1	statistical	100%
+microsoft	Other	
+Found
+Exact	1	1	statistical	100%
+attention	Other	
+Found
+Exact	1	1	statistical	100%
+technical	Other	
+Found
+Exact	1	1	statistical	100%
+scripting	Other	
+Found
+Exact	1	1	statistical	100%
+guideline	Other	
+Found
+Exact	1	1	statistical	100%
+analytical	Other	
+Found
+Exact	1	2	statistical	100%
+powershell	Hard	
+Found
+Alias	1	1	alias	100%
+programming	Other	
+Found
+Exact	1	1	statistical	100%
+thoroughness	Other	
+Found
+Exact	1	1	statistical	100%
+all SOC policies	Other	
+Found
+Inferred	1	1	statistical	100%
+(e.g., firewalls	Other	
+Found
+Inferred	1	1	statistical	100%
+24/7 rotating shifts	Other	
+Found
+Inferred	1	1	statistical	100%
+collaboration	Other	
+Found
+Inferred	1	1	statistical	85%
+email	Hard	
+Found
+–	1	1	semantic engine	92%
+policy	Other	
+Missing
+–	1	0	statistical	–
+requisition	Other	
+Missing
+–	1	0	statistical	–
+curiosity	Soft	
+Missing
+–	1	0	alias	–
+compliance	Other	
+Missing
+–	1	0	statistical	–
+agreement	Other	
+Missing
+–	1	0	statistical	–
+practice	Other	
+Missing
+–	1	0	statistical	–
+routing	Other	
+Missing
+–	1	0	statistical	–
+itil	Other	
+Missing
+–	1	0	statistical	–
+giac	Other	
+Missing
+–	1	0	statistical	–
+scanner	Other	
+Missing
+–	1	0	statistical	–
+parse	Other	
+Missing
+–	1	0	statistical	–
+cysa+	Other	
+Missing
+–	1	0	statistical	–
+technique	Other	
+Missing
+–	1	0	statistical	–
+QRadar	Other	
+Missing
+–	1	0	statistical	–
+briefing	Other	
+Missing
+–	1	0	statistical	–
+containment	Other	
+Missing
+–	1	0	statistical	–
+ids	Other	
+Missing
+–	1	0	statistical	–
+recording findings	Other	
+Missing
+–	1	0	statistical	–
+cloud environments	Other	
+Missing
+–	1	0	statistical	–
+India	Other	
+Missing
+–	1	0	statistical	–
+abnormality	Other	
+Missing
+–	1	0	statistical	–
+ips	Hard	
+Missing
+–	1	0	alias	–
+talented people	Other	
+Missing
+–	1	0	statistical	–
+Fortune 500	Other	
+Missing
+–	1	0	statistical	–
+charles	Other	
+Missing
+–	1	0	statistical	–
+situational awareness	Other	
+Missing
+–	1	0	statistical	–
+severity	Other	
+Missing
+–	1	0	statistical	–
+iocs	Other	
+Missing
+–	1	0	statistical	–
+Guided by honesty	Other	
+Missing
+–	1	0	statistical	–

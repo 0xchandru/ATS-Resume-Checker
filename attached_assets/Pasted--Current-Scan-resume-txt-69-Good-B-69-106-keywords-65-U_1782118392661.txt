@@ -1,0 +1,112 @@
+
+
+
+Current Scan
+
+resume.txt
+
+69
+
+Good
+
+B
+69/106 keywords · 65%
+Upload & Rescan
+AI Optimize
+Resume Level
+entry
+→
+Role Requires
+junior
+Score Breakdown
+
+
+Parsing Quality
+79%
+
+Keyword Match
+73%
+
+Semantic Match
+50%
+
+Evidence Strength
+33%
+
+Seniority Fit
+65%
+
+Formatting
+100%
+Start new scan
+Resume Report
+Job Description
+Skills Matrix
+Cover Letter
+Resume Preview
+Smart Editor
+Print
+Matched in resume
+Missing from resume
+Update scan information
+Hyderabad, Telangana
+
+Requisition ID 2026-122850 Category Technology Position type Regular
+
+
+
+
+Your opportunity
+
+At Charles Schwab, our purpose is simple: we champion client’s goals with passion and integrity. Guided by honesty, mutual respect and a commitment to doing what’s right, we bring innovation, education, and service together to help shape financial futures. Our people are the foundation of our success – they approach their work with curiosity and collaboration, coming together to create solutions that make a meaningful impact for clients and communities. As we expand into India, we are bringing this same culture of inclusion, learning, and opportunity to new talent. Joining us means becoming part of a global team where your work matters and your future can take shape.
+
+Our Hyderabad location is central to Schwab’s growth, bringing together talented people and technology to drive innovation, scale and efficiency. Here, you will work alongside teams who create solutions that support millions of clients every day. The work you do is more than daily operations – it’s a chance to experiment, learn, and build within a values-driven, supportive environment. This is a unique opportunity to be part of our early growth phase and shape something new, backed by the stability and strength of a Fortune 500 company. Your impact begins on day one, and your contributions will help define our future in the region
+
+The Junior SOC Analyst serves as the first line of defense in the Security Operations Center. This entry-level role is responsible for continuous monitoring of security systems and the initial triage of potential incidents. Junior analysts follow established playbooks and standard operating procedures to investigate alerts. They operate primarily within well-defined guidelines, building foundational skills in threat detection and incident response.
+
+Key Responsibilities:
+
+Real-Time Monitoring: Monitor SIEM consoles, intrusion detection systems, and endpoint security tools continuously to identify anomalous or malicious activity across networks, endpoints, and cloud environments.
+
+Alert Triage: Triage incoming security alerts by determining severity and validity. Quickly filter out false positives and identify true security incidents. Follow documented playbooks to decide initial containment steps or further investigation.
+
+Log Analysis: Collect and analyze logs from multiple sources (e.g., firewalls, IDS/IPS, EDR, antivirus, email security, and system logs) to investigate alerts and find indicators of compromise.
+
+Documentation: Document all actions taken during alert triage and incident handling in the incident management or ticketing system, ensuring accuracy and thoroughness in recording findings, steps taken, and handoff notes.
+
+Threat Intelligence Utilization:
+
+threat intelligence feeds and known Indicators of Compromise (IOCs) to enrich alert analysis. Keep track of emerging threats (common malware, phishing campaigns, etc.) and use this knowledge to improve triage decisions.
+
+Shift Handover: Participate in shift handoff briefings at the start and end of shifts to communicate ongoing incidents, ensure continuity, and maintain situational awareness between 24/7 rotating shifts.
+
+Compliance & SOP Adherence: Adhere to all SOC policies, security standards, and service-level agreements for incident response (e.g., required response times). Ensure that daily actions and documentation meet any regulatory or audit requirements relevant to the financial industry
+
+What you have
+
+Required Qualifications:
+
+Education & Experience: Bachelor’s degree in Cybersecurity, Computer Science, Information
+
+Technology or a related field, or equivalent work experience. Approximately 0–2 years of experience in a security operations, IT support, or network/system administration role (entry-level candidates with strong fundamental knowledge are acceptable).
+
+Technical Foundations: Basic understanding of computer networks (TCP/IP, ports, routing) and operating systems (Windows/Linux). Familiarity with common cyber-attack types (malware, phishing, network intrusion) and fundamental concepts of incident response.
+
+Hands-On Skills: Exposure to security monitoring tools such as Security Information and Event
+
+Management (SIEM) platforms (e.g., Splunk, IBM QRadar, Microsoft Sentinel) and basic knowledge of Endpoint Detection & Response (EDR) tools or intrusion detection systems. Ability to perform basic log queries and understand security alerts’ output
+
+Analytical Ability: Demonstrated problem-solving skills and attention to detail. Comfortable following procedures to analyze data and identify abnormalities.
+
+Certification: CompTIA Security+ certification (highly preferred, or ability to obtain within 6–12 months of hire). This certification indicates a solid foundation in cybersecurity concepts suitable for an entry level SOC role.
+
+Preferred Qualifications:
+
+Additional Skills: Basic scripting or programming experience (e.g., Python, PowerShell) to automate simple tasks or parse logs is a plus.
+
+Knowledge of Security Tools: Familiarity with any ticketing or case management system for tracking incidents. Experience with network monitoring tools or vulnerability scanners is a bonus.
+
+Exposure to Best Practices: Awareness of cybersecurity frameworks or standards (like MITRE ATT&CK for understanding attack techniques, or ITIL for service management) at a conceptual level.
+
+Extra Certifications: Completion of the CompTIA Cybersecurity Analyst (CySA+) or GIAC GSEC certifications is a plus, as these indicate an expanding skill set in security monitoring and analysis beyond the basics.
+

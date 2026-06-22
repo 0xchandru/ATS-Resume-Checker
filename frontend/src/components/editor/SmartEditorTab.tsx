@@ -232,11 +232,14 @@ export default function SmartEditorTab({
   const resumeHtml = (analysis as any).resume_html || "";
   const resumeText = analysis.resume_full || "";
 
-  const parsed = useMemo(
-    () => resumeHtml ? parseResumeHtml(resumeHtml) : parsePlainText(resumeText),
+  const parsed = useMemo(() => {
+    if (resumeHtml) {
+      const fromHtml = parseResumeHtml(resumeHtml);
+      if (fromHtml.length > 0) return fromHtml;
+    }
+    return parsePlainText(resumeText);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  }, []);
 
   const [sections, setSections] = useState<Section[]>(parsed);
   const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set([0,1,2,3,4,5,6,7]));

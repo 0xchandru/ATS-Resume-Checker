@@ -14,9 +14,9 @@ logger = logging.getLogger(__name__)
 NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 
 # Model to use across all AI features.
-# Default: GLM-4 (ZhipuAI) hosted on NVIDIA NIM.
+# Default: Llama-3.1-8B (Meta) hosted on NVIDIA NIM.
 # Override at runtime by setting the NVIDIA_MODEL env var.
-NVIDIA_MODEL = os.environ.get("NVIDIA_MODEL", "zhipuai/glm-4-9b-chat")
+NVIDIA_MODEL = os.environ.get("NVIDIA_MODEL", "meta/llama-3.1-8b-instruct")
 
 _client: openai.OpenAI | None = None
 

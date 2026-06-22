@@ -17,6 +17,7 @@ import ResumePreviewTab from "./components/results/ResumePreviewTab";
 import RoleFitVerdict from "./components/verdict/RoleFitVerdict";
 import AIVerdict, { type AIEvaluation } from "./components/verdict/AIVerdict";
 import HistoryPanel from "./components/history/HistoryPanel";
+import ScoreHistoryChart, { type ScoreEntry } from "./components/results/ScoreHistoryChart";
 import { getHistory, uploadAndAnalyze, runAIEvaluation } from "./utils/api";
 
 export type View = "upload" | "results" | "history" | "compare";
@@ -130,6 +131,7 @@ export default function App() {
   const [history, setHistory] = useState<any[]>([]);
   const [activeView, setActiveView] = useState<View>("upload");
   const [compareResult, setCompareResult] = useState<any | null>(null);
+  const [scoreHistory, setScoreHistory] = useState<ScoreEntry[]>([]);
   const [theme, setTheme] = useState<Theme>(() =>
     (localStorage.getItem("ats-theme") as Theme) || "dark"
   );
@@ -161,6 +163,7 @@ export default function App() {
     setAiError(null);
     setResultsTab("report");
     setActiveView("results");
+    setScoreHistory([{ ts: Date.now(), score: result.overall_score, label: file.name }]);
     refreshHistory();
   };
 
@@ -175,6 +178,7 @@ export default function App() {
       if (newJD) setCurrentJD(newJD);
       setAiEvaluation(null);
       setAiError(null);
+      setScoreHistory(prev => [...prev, { ts: Date.now(), score: result.overall_score, label: "Rescan" }]);
       refreshHistory();
     } catch (e: any) {
       setRescanError(e.message || "Rescan failed");
@@ -281,11 +285,25 @@ export default function App() {
               onResumeUpdate={(html, text) =>
                 setCurrentResult(prev => prev ? { ...prev, resume_html: html, resume_full: text } : prev)
               }
+              onScoreUpdate={(scores) => {
+                if (scores?.overall_score != null) {
+                  setScoreHistory(prev => [...prev, {
+                    ts: Date.now(),
+                    score: scores.overall_score,
+                    label: "Smart Editor rescore",
+                  }]);
+                }
+              }}
             />
 
             <div className="bg-card rounded-b-2xl border border-t-0 border-border shadow-sm">
               {resultsTab === "report" && (
                 <div className="p-6 space-y-10">
+                  {/* Score History Chart — shown once there are 2+ scans */}
+                  {scoreHistory.length >= 2 && (
+                    <ScoreHistoryChart history={scoreHistory} />
+                  )}
+
                   {/* ATS Tips Banner */}
                   <div className="flex items-center justify-between p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
                     <div className="flex items-center gap-3">
@@ -295,7 +313,7 @@ export default function App() {
                       <div>
                         <p className="text-sm font-bold text-foreground">ATS-Specific Tips</p>
                         <p className="text-xs text-muted-foreground">
-                          Analyzed in {currentResult.processing_time_seconds?.toFixed(1)}s · 5-layer AI pipeline · GLM-powered intelligence
+                          Analyzed in {currentResult.processing_time_seconds?.toFixed(1)}s · 5-layer AI pipeline · LLM-powered intelligence
                         </p>
                       </div>
                     </div>

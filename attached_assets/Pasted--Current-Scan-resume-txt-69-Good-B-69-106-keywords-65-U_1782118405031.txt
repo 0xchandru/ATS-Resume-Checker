@@ -1,0 +1,53 @@
+
+
+
+Current Scan
+
+resume.txt
+
+69
+
+Good
+
+B
+69/106 keywords · 65%
+Upload & Rescan
+AI Optimize
+Resume Level
+entry
+→
+Role Requires
+junior
+Score Breakdown
+
+
+Parsing Quality
+79%
+
+Keyword Match
+73%
+
+Semantic Match
+50%
+
+Evidence Strength
+33%
+
+Seniority Fit
+65%
+
+Formatting
+100%
+Start new scan
+Resume Report
+Job Description
+Skills Matrix
+Cover Letter
+Resume Preview
+Smart Editor
+Print
+Resume Preview
+This is how your resume was parsed by our ATS engine.
+
+69 keywords found
+<h2><strong>CHANDRAPRAKASH C</strong></h2><p><a target="_blank" rel="noopener noreferrer nofollow" href="mailto:chandraprakash.soc@gmail.com"><u>+91 97864 75035 — chandraprakash.soc@gmail.com — Dindigul, Tamil Nadu — Open to Relocation (Hyderabad)</u></a></p><p><a target="_blank" rel="noopener noreferrer nofollow" href="https://tryhackme.com/p/0xchandru"><u>Portfolio — LinkedIn — GitHub — TryHackMe (Top 1%)</u></a></p><h2><strong>PROFESSIONAL SUMMARY</strong></h2><p>B.Sc. CS fresher targeting a<strong> Junior SOC Analyst</strong> role. Ranked<strong> Top 1% globally on TryHackMe</strong> (3M+ users) with</p><p><strong>SOC Level 1 certification</strong>, validating hands-on<strong> SIEM monitoring, log analysis, threat intelligence, incident</strong></p><p><strong>triage, and case documentation</strong> competency. Operated a multi-VM SOC lab performing<strong> initial alert identifi-</strong></p><p><strong>cation, basic triage, and first-level validation</strong> of security events (<strong>phishing, malware, suspicious logins</strong>) per</p><p><strong>playbooks and SOPs</strong>; escalated incidents to L1/L2 and raised<strong> ITSM / case management tickets in Jira</strong> with full</p><p>incident documentation. Certified by<strong> IBM</strong> and<strong> Google</strong>. Available for rotational shifts including nights.</p><h2><strong>TECHNICAL SKILLS</strong></h2><p><strong>SIEM & Log Analysis</strong></p><p>Splunk (SPL, dashboards, alerts), Microsoft Sentinel, Windows Event Logs, Linux Syslog,</p><p>system logs, Sysmon</p><p><strong>Incident Response</strong></p><p>Alert monitoring, triage, true/false positive classification, incident management, case man-</p><p>agement, playbooks & SOP-based response, L0<em>→</em>L1/L2 escalation, Jira ITSM ticketing, docu-</p><p>mentation & reporting</p><p><strong>Threat Intelligence</strong></p><p>IOC enrichment, threat intelligence, MITRE ATT&CK, VirusTotal, AbuseIPDB, Malware-</p><p>Bazaar, Shodan, GSEC concepts</p><p><strong>Network & Systems</strong></p><p>TCP/IP, DNS, HTTP/S, ports & protocols, operating systems, Windows/Linux, system admin-</p><p>istration, IT support, endpoint security, antivirus, Wireshark, Zeek, Nmap, EDR (Velocirap-</p><p>tor), firewall log analysis, Python, Bash, PowerShell, scripting, Shuffle SOAR</p><p><strong>Core Strengths</strong></p><p>Cybersecurity, Computer Science, analytical ability, analytical thinking, problem-solving, col-</p><p>laboration, thoroughness, accuracy, attention to detail, written communication</p><p><strong>Security Foundations</strong></p><p>CompTIA Security+ concepts, security systems, security monitoring, incident response, doc-</p><p>umentation, programming</p><h2><strong>EDUCATION</strong></h2><p><strong>B.Sc. Computer Science</strong></p><p><em>06/2023 – 05/2026</em></p><p>G.T.N Arts College, Dindigul (Madurai Kamaraj University)</p><p><em>CGPA: 8.01 / 10.0</em></p><p><strong>HSC — Computer Science</strong></p><p><em>05/2023</em></p><p>Government Higher Secondary School, Tiruppur, Tamil Nadu</p><p><em>68%</em></p><h2><strong>CERTIFICATIONS</strong></h2><ul><li><p><strong>SOC Level 1</strong> — TryHackMe <a target="_blank" rel="noopener noreferrer nofollow" href="https://tryhackme.com/certificate/THM-WUPYOBHE0K"><u>Verify</u></a> <em>06/2026</em></p></li><li><p><strong>IBM Cybersecurity Analyst Professional Certificate</strong> — Coursera/IBM <a target="_blank" rel="noopener noreferrer nofollow" href="https://www.coursera.org/account/accomplishments/specialization/US4R3ZXUCFTD"><u>Verify</u></a> <em>06/2026</em></p></li><li><p><strong>Google Cybersecurity Professional Certificate</strong> — Coursera/Google <a target="_blank" rel="noopener noreferrer nofollow" href="https://www.coursera.org/account/accomplishments/professional-cert/TGJE3FRTFS2N"><u>Verify</u></a> <em>04/2025</em></p></li></ul><h2><strong>PROJECTS & PROFESSIONAL EXPERIENCE</strong></h2><p><strong>SOC Monitoring Lab — L0/L1 Analyst Simulation</strong></p><p><a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/0xchandru/soc-homelab"><u>GitHub</u></a></p><p><em>Linux Mint · Ubuntu Server · Windows VM · Splunk · Wazuh · Zeek · Sysmon · Shuffle SOAR · Jira</em></p><ul><li><p><strong>Monitored</strong> security alerts across<strong> 10+ attack scenarios</strong> using<strong> Splunk</strong> and<strong> Wazuh SIEM</strong> dashboards; performed <strong>initial alert identification and basic validation</strong> per predefined guidelines, classifying each event as true/false positive and producing daily/weekly<strong> security monitoring reports</strong>.</p></li><li><p><strong>Triaged</strong> security events including<strong> phishing, malware alerts, and suspicious logins</strong> per MITRE ATT&CK- aligned<strong> playbooks and SOPs</strong>; escalated verified incidents to the<strong> L1 queue</strong>; raised<strong> ITSM / case management</strong> <strong>tickets in Jira</strong> with IOC timelines and asset details; dispatched stakeholder notifications for all ticket updates.</p></li><li><p><strong>Investigated</strong> endpoint/network behaviour via<strong> Sysmon, Zeek, PowerShell logs, and Wireshark</strong>; detected C2 beaconing (T1071) and scheduled-task persistence (T1053); automated IOC enrichment via<strong> Shuffle SOAR</strong> with<strong> VirusTotal</strong> and<strong> AbuseIPDB</strong> to reduce triage time.</p></li></ul><p><strong>ThreatLens — Threat Intelligence Aggregator</strong></p><p><a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/0xchandru/threatlens"><u>GitHub</u></a></p><p><em>Python · FastAPI · VirusTotal · AbuseIPDB · AlienVault OTX · URLhaus · GreyNoise</em></p><ul><li><p>Engineered a multi-source<strong> IOC enrichment platform</strong> querying 5 threat intel APIs in parallel with MITRE ATT&CK-mapped risk scores, returning structured results in under 2 seconds to accelerate<strong> L0 alert triage</strong> and SOAR playbook integration.</p></li></ul><h3><strong>SecOps Console — SOC Analyst Dashboard</strong></h3><p><a target="_blank" rel="noopener noreferrer nofollow" href="https://github.com/0xchandru/secops"><u>GitHub</u></a></p><p><em>React · Node.js · PostgreSQL · WebSockets</em></p><ul><li><p><strong>Developed</strong> a SOC dashboard with real-time alert queues, incident tracking, L0<em>→</em>L1 escalation workflows, and audit-trail logging for incident documentation.</p></li></ul><p></p>

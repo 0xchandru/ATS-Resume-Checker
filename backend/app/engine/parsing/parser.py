@@ -299,6 +299,51 @@ def _parse_pdf(file_path: str) -> dict:
                         line_html.append(text)
 
                     line_text = "".join(line_html).strip()
+
+                    # ── Link-row reconstruction ─────────────────────────────
+                    # When a PDF uses a single annotation rect for the whole
+                    # link row, _span_in_link assigns every span to the same
+                    # URL. Detect this by checking if 2+ pre-extracted links
+                    # sit on this line (by y-overlap) and rebuild the HTML
+                    # with individual <a> tags for each link.
+                    if line_text and page_links and line.get("spans"):
+                        all_bboxes = [
+                            s.get("bbox", (0, 0, 0, 0))
+                            for s in line.get("spans", [])
+                            if s.get("text", "").strip()
+                        ]
+                        if all_bboxes:
+                            ly0 = min(bb[1] for bb in all_bboxes)
+                            ly1 = max(bb[3] for bb in all_bboxes)
+                            margin = max((ly1 - ly0) * 0.6, 3.0)
+                            row_links = [
+                                lnk for lnk in page_links
+                                if lnk.get("rect") and lnk.get("text") and lnk.get("url")
+                                and lnk["rect"][1] <= ly1 + margin
+                                and lnk["rect"][3] >= ly0 - margin
+                            ]
+                            if len(row_links) > 1:
+                                row_links.sort(key=lambda l: l.get("position", 0))
+                                parts: list = []
+                                for i, lnk in enumerate(row_links):
+                                    lnk_text = (lnk["text"]
+                                                .replace("&", "&amp;")
+                                                .replace("<", "&lt;")
+                                                .replace(">", "&gt;"))
+                                    sep = lnk.get("separator", "")
+                                    parts.append(
+                                        f'<a href="{lnk["url"]}" '
+                                        f'style="color:#6366f1;text-decoration:underline;">'
+                                        f'{lnk_text}</a>'
+                                    )
+                                    if sep and i < len(row_links) - 1:
+                                        parts.append(
+                                            sep.replace("&", "&amp;")
+                                               .replace("<", "&lt;")
+                                               .replace(">", "&gt;")
+                                        )
+                                line_text = "".join(parts)
+
                     if line_text:
                         block_html.append(line_text)
 
@@ -702,16 +747,17 @@ def _parse_txt(file_path: str) -> dict:
 
     rich_text_parts = []
     for line in raw_text.split("\n"):
-        if line.strip():
-            if line.isupper() and len(line) < 50:
-                rich_text_parts.append(f"<h2>{line}</h2>")
-            elif line.startswith("- ") or line.startswith("* "):
-                rich_text_parts.append(f"<ul><li>{line[2:]}</li></ul>")
+        stripped = line.strip()
+        if stripped:
+            if stripped.isupper() and len(stripped) < 50:
+                rich_text_parts.append(f"<h2>{stripped}</h2>")
+            elif stripped.startswith("- ") or stripped.startswith("* "):
+                rich_text_parts.append(f"<ul><li>{stripped[2:]}</li></ul>")
             else:
                 # Linkify bare URLs
                 line_html = url_pattern.sub(
                     lambda m: f'<a href="{m.group()}" style="color:#6366f1;">{m.group()}</a>',
-                    line.replace("<", "&lt;").replace(">", "&gt;"),
+                    stripped.replace("<", "&lt;").replace(">", "&gt;"),
                 )
                 rich_text_parts.append(f"<p>{line_html}</p>")
 

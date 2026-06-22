@@ -1,0 +1,562 @@
+
+
+
+Current Scan
+
+resume.txt
+
+69
+
+Good
+
+B
+69/106 keywords · 65%
+Upload & Rescan
+AI Optimize
+Resume Level
+entry
+→
+Role Requires
+junior
+Score Breakdown
+
+
+Parsing Quality
+79%
+
+Keyword Match
+73%
+
+Semantic Match
+50%
+
+Evidence Strength
+33%
+
+Seniority Fit
+65%
+
+Formatting
+100%
+Start new scan
+Resume Report
+Job Description
+Skills Matrix
+Cover Letter
+Resume Preview
+Smart Editor
+Print
+⚡
+ATS-Specific Tips
+
+Analyzed in 1.4s · 5-layer AI pipeline · GLM-powered intelligence
+
+AI Verdict
+
+Stretch Fit
+Stretch
+55/100
+This resume is a STRETCH FIT for this role (score: 55). There are meaningful skills present, but significant gaps exist. Strengths: Production experience with: Top, Top, Top. Gaps: Missing critical skills: innovation, policy, clients.
+
+What Matches
+
+Production experience with: Top, Top, Top
+69 JD keywords found in resume
+What's Missing
+
+Missing critical skills: innovation, policy, clients
+72 skills listed without substantiating context (keyword-only)
+Recommendations
+
+Add context to 72 keyword-only skills — describe how you used them with quantified outcomes
+Address missing critical skills: innovation, policy, clients
+Searchability
+IMPORTANT
+8/8 checks passed
+ATS systems are used by 90%+ of companies to screen resumes. Fix any red issues below to improve your search visibility.
+
+Tip: Fix the red items to ensure your resume is correctly parsed and easily found by recruiters.
+
+Hyperlinks Extracted from Resume
+7 links
+Line 1
+separated · 7 links
+tryhackme.com
+tryhackme.com
+coursera.org
+coursera.org
+github.com
+github.com
+github.com
+—
+https://tryhackme.com/p/0xchandru
+—
+https://tryhackme.com/certificate/THM-WUPYOBHE0K
+—
+https://www.coursera.org/account/accomplishments/specialization/US4R3ZXUCFTD
+—
+https://www.coursera.org/account/accomplishments/professional-cert/TGJE3FRTFS2N
+—
+https://github.com/0xchandru/soc-homelab
+—
+https://github.com/0xchandru/threatlens
+—
+https://github.com/0xchandru/secops
+These URLs are included in the keyword analysis. Profiles and portfolios may contain additional context for ATS scoring.
+
+Contact Information
+3/3
+Physical address or location provided. Helps validate location for job matches.
+
+Email address detected. Primary contact method for recruiters.
+
+Phone number detected.
+
+Professional Summary
+1/1
+Summary section detected. Gives hiring managers a quick overview of your value.
+
+Section Headings
+3/3
+Education section found.
+
+Work experience section found.
+
+Skills section found.
+
+Job Title Match
+1/1
+Good keyword alignment (65%). Your resume keywords match this role.
+
+Hard Skills
+7 matched
+15 missing
+65% match
+Tip: Match skills in your resume to the exact spelling in the job description. Prioritize frequently-mentioned skills.
+
+Skills Comparison
+Highlighted Skills
+sop
+Alias
+tcp
+Inferred
+source
+Exact
+python
+Alias
+science
+Alias
+powershell
+Alias
+email
+innovation
+policy
+clients
+entry-level
+requisition
+curiosity
+detection
+compliance
+agreement
+practice
+information
+routing
+itil
+giac
+scanner
+Resume
+CHANDRAPRAKASH C
+
++91 97864 75035 — chandraprakash.soc@gmail.com — Dindigul, Tamil Nadu — Open to Relocation (Hyderabad)
+
+Portfolio — LinkedIn — GitHub — TryHackMe (Top 1%)
+
+PROFESSIONAL SUMMARY
+
+B.Sc. CS fresher targeting a Junior SOC Analyst role. Ranked Top 1% globally on TryHackMe (3M+ users) with
+
+SOC Level 1 certification, validating hands-on SIEM monitoring, log analysis, threat intelligence, incident
+
+triage, and case documentation competency. Operated a multi-VM SOC lab performing initial alert identifi-
+
+cation, basic triage, and first-level validation of security events (phishing, m...
+
+Show full content
+Job Description
+Hyderabad, Telangana
+
+Requisition ID 2026-122850 Category Technology Position type Regular
+
+Your opportunity
+
+At Charles Schwab, our purpose is simple: we champion client’s goals with passion and integrity. Guided by honesty, mutual respect and a commitment to doing what’s right, we bring innovation, education, and service together to help shape financial futures. Our people are the foundation of our success – they approach their work with curiosity and collaboration, coming together to create solutions that make a meaningful impact for clients and communities. As we expand into India, we are ...
+
+Show full content
+Copy 15 missing skills
+Add these to your resume to improve your score
+Certifications
+No certifications detected in resume or job description. Adding relevant industry certifications can significantly strengthen your application.
+
+Soft Skills
+0/2 matched
+Soft skills demonstrate your work style. Less ATS-weighted than hard skills, but reviewed closely by hiring managers. Show them through examples, not just labels.
+
+Missing from Resume (2)
+innovation
+×2
+→ Consider adding 'Innovation' if you have relevant experience — it's mentioned in the job description.
+
+high
+curiosity
+→ Consider adding 'Demonstrate Curiosity' if you have relevant experience — it's mentioned in the job description.
+
+high
+Pro tip: Don't list soft skills in isolation. Instead of "Strong communication skills", write "Presented quarterly security reports to C-suite, driving a 40% increase in security budget."
+
+Other Skills
+62/96 matched
+General terminology, operational concepts, or frameworks from the job description that don't fit into core hard or soft skills.
+
+Found in Resume (62)
+ibm
+×3
+exact
+log
+×10
+exact
+EDR
+exact
+SIEM
+×3
+exact
+port
+×5
+exact
+gsec
+partial
+basic
+×2
+exact
+track
+exact
+event
+×4
+exact
+hands
+exact
+audit
+exact
+linux
+×3
+exact
+daily
+exact
+mitre
+×3
+exact
+alert
+×8
+exact
+query
+exact
+detail
+×2
+exact
+Junior
+exact
+threat
+×6
+exact
+triage
+×6
+exact
+problem
+exact
+monitor
+×6
+exact
+initial
+×2
+exact
+concept
+×2
+exact
+network
+×2
+exact
+analyst
+×4
+exact
+windows
+×3
+exact
+console
+exact
+malware
+×3
+exact
+comptia
+exact
+analysis
+×3
+exact
+response
+×3
+exact
+security
+×12
+exact
+strength
+exact
+positive
+×2
+exact
+incident
+×9
+exact
+accuracy
+exact
+Computer
+×3
+exact
+validity
+partial
+sentinel
+exact
+SOC role
+partial
+microsoft
+exact
+operating
+exact
+attention
+exact
+education
+exact
+technical
+exact
+scripting
+exact
+ticketing
+exact
+Hyderabad
+exact
+guideline
+exact
+playbooks
+×3
+exact
+foundation
+exact
+analytical
+×2
+exact
+programming
+exact
+investigate
+exact
+intelligence
+×4
+exact
+thoroughness
+exact
+Certification
+×2
+exact
+all SOC policies
+partial
+(e.g., firewalls
+partial
+24/7 rotating shifts
+partial
+collaboration
+fuzzy
+Missing from Resume (34)
+policy
+→ Consider adding 'policy' if you have relevant experience — it's mentioned in the job description.
+
+high
+clients
+×2
+→ Consider adding 'clients' if you have relevant experience — it's mentioned in the job description.
+
+high
+entry-level
+×2
+→ Consider adding 'entry-level' if you have relevant experience — it's mentioned in the job description.
+
+high
+requisition
+→ Consider adding 'requisition' if you have relevant experience — it's mentioned in the job description.
+
+high
+detection
+×4
+→ Consider adding 'detection' if you have relevant experience — it's mentioned in the job description.
+
+high
+compliance
+→ Mention 'compliance' if applicable to strengthen keyword alignment.
+
+medium
+agreement
+→ Mention 'agreement' if applicable to strengthen keyword alignment.
+
+medium
+practice
+→ Consider adding 'practice' if you have relevant experience — it's mentioned in the job description.
+
+medium
+information
+×2
+→ Mention 'information' if applicable to strengthen keyword alignment.
+
+medium
+routing
+→ Mention 'routing' if applicable to strengthen keyword alignment.
+
+medium
+itil
+→ Consider adding 'itil' if you have relevant experience — it's mentioned in the job description.
+
+medium
+giac
+→ Consider adding 'giac' if you have relevant experience — it's mentioned in the job description.
+
+medium
+scanner
+→ Consider adding 'scanner' if you have relevant experience — it's mentioned in the job description.
+
+medium
+parse
+→ Consider adding 'parse' if you have relevant experience — it's mentioned in the job description.
+
+medium
+cysa+
+→ Consider adding 'cysa+' if you have relevant experience — it's mentioned in the job description.
+
+medium
+technique
+→ Consider adding 'technique' if you have relevant experience — it's mentioned in the job description.
+
+medium
+QRadar
+→ Mention 'QRadar' if applicable to strengthen keyword alignment.
+
+medium
+briefing
+→ Mention 'briefing' if applicable to strengthen keyword alignment.
+
+low
+compromise
+×2
+→ Mention 'compromise' if applicable to strengthen keyword alignment.
+
+low
+schwab
+×2
+→ Mention 'schwab' if applicable to strengthen keyword alignment.
+
+low
+containment
+→ Mention 'containment' if applicable to strengthen keyword alignment.
+
+low
+ids
+→ Mention 'ids' if applicable to strengthen keyword alignment.
+
+low
+recording findings
+→ Mention 'recording findings' if applicable to strengthen keyword alignment.
+
+low
+cloud environments
+→ Mention 'cloud environments' if applicable to strengthen keyword alignment.
+
+low
+India
+→ Mention 'India' if applicable to strengthen keyword alignment.
+
+low
+abnormality
+→ Mention 'abnormality' if applicable to strengthen keyword alignment.
+
+low
+talented people
+→ Mention 'talented people' if applicable to strengthen keyword alignment.
+
+low
+Fortune 500
+→ Mention 'Fortune 500' if applicable to strengthen keyword alignment.
+
+low
+charles
+→ Mention 'charles' if applicable to strengthen keyword alignment.
+
+low
+situational awareness
+→ Mention 'situational awareness' if applicable to strengthen keyword alignment.
+
+low
+severity
+→ Mention 'severity' if applicable to strengthen keyword alignment.
+
+low
+intrusion
+×3
+→ Mention 'intrusion' if applicable to strengthen keyword alignment.
+
+low
+iocs
+→ Mention 'iocs' if applicable to strengthen keyword alignment.
+
+low
+Guided by honesty
+→ Mention 'Guided by honesty' if applicable to strengthen keyword alignment.
+
+low
+Recruiter Tips
+2/4 passing
+Beyond ATS compliance — what recruiters and hiring managers actually look for when reviewing manually.
+
+Measurable Results
+5 of 5 bullets contain quantified impact. Great job!
+
+Action Verb Quality
+Only 36% strong verbs. Replace "worked" with impactful alternatives.
+
+Resume Length
+516 words (1p). Good length.
+
+File Format
+Save as PDF or DOCX for maximum ATS compatibility.
+
+Formatting
+Layout
+Single-column layout. ATS can parse this correctly.
+
+No tables detected. Good ATS compatibility.
+
+No embedded images. All content is readable by ATS.
+
+1 page. Good length.
+
+Font Check
+0 fonts detected. Acceptable font usage.
+
+Page Setup
+No header/footer issues.
+
+516 words total. Good content length.
+
+Detailed Checks
+no tables
+
+No tables or text boxes detected.
+
+pass
+no images
+
+No images detected.
+
+pass
