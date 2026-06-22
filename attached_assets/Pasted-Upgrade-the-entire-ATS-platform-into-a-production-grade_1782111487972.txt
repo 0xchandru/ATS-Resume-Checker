@@ -1,0 +1,104 @@
+Upgrade the entire ATS platform into a production-grade, world-class resume intelligence system.
+
+Important branding rule:
+Do NOT hardcode or explicitly expose the internal project name “SecOps Console — SOC Analyst Dashboard” anywhere in the code, UI, metadata, routes, or generated text. Keep the implementation generic, modular, and professional. The product should behave like a premium ATS/resume analysis platform, not like a lab/demo project.
+
+Core requirements:
+
+1) Resume parsing and structure detection
+- Build a strong resume parsing pipeline that extracts all resume content accurately.
+- Use heading detection, subheading detection, layout-aware splitting, and smart section segmentation.
+- Split resume content by logical blocks such as Summary, Skills, Experience, Projects, Certifications, Education, Tools, Achievements, and any custom sections.
+- Handle messy resumes, merged sections, inconsistent formatting, and bullet-heavy layouts.
+- Use intelligent fallback logic when headings are missing or unclear.
+
+2) AI optimization using GLM 5.1
+- Use the NVIDIA GLM 5.1 API for the entire platform’s AI layer.
+- Do not use OpenAI APIs for optimization, rewriting, matching, or analysis.
+- GLM 5.1 should power:
+  - ATS scoring
+  - keyword matching
+  - resume vs JD comparison
+  - section analysis
+  - gap detection
+  - resume improvement suggestions
+  - cover letter generation
+  - certificate relevance analysis
+  - smart rewrite suggestions
+- Keep the AI outputs structured, reliable, and easy to render in the UI.
+
+3) World-class matching engine
+- Build a highly intelligent search and matching engine for resume ↔ job description ↔ dataset matching.
+- It must not rely only on exact word matches.
+- It must support:
+  - exact keyword matching
+  - partial word matching
+  - substring matching
+  - pattern matching
+  - root/stem-like matching
+  - semantic similarity
+  - dataset synonym mapping
+  - fuzzy matching for near matches
+- This engine should work better than a basic Skillsyncer-style exact matcher.
+- When a keyword does not match exactly, still analyze whether it matches inside a larger word, pattern, acronym, variant, or related term.
+
+4) Skills analysis
+- Compare the resume Skills section against the JD and the dataset.
+- Detect direct matches, partial matches, related skills, missing skills, and overused/unverified skills.
+- Show matched skills, missing skills, and recommended skills to add.
+- Make the skill matching smart enough to understand variants and embedded terms.
+
+5) Certificate analysis
+- Certificates must be analyzed separately, not mixed into skills only.
+- Compare certificate names and certificate-related keywords against the certificate dataset and the JD.
+- If a certificate key appears in the dataset, analyze it in the Certificates section.
+- Recognize certifications such as CompTIA, CySA+, Security+, CEH, Google Cybersecurity, IBM Cybersecurity, and similar variants.
+- Show certificate relevance, confidence, and job alignment.
+- Certificates should contribute to the ATS analysis only where relevant and not be blindly counted as skills.
+
+6) Cover letter feature upgrade
+- The current cover letter is too small and too plain.
+- Redesign it as a rich-text cover letter editor/viewer.
+- Show the cover letter content in a rich text format with proper headings, spacing, paragraphs, emphasis, and readability.
+- Add a clear “Export as PDF” button for the cover letter.
+- The cover letter should look professional and polished, not like a tiny plain text block.
+- Make the cover letter feel like a premium feature, not an afterthought.
+- Allow clean rendering in the UI and export-ready formatting.
+
+7) ATS report quality
+- Improve the analysis report so it feels premium, accurate, and recruiter-friendly.
+- Include:
+  - overall ATS score
+  - section-wise breakdown
+  - keyword match summary
+  - skills match summary
+  - certificate match summary
+  - missing keywords
+  - improvement suggestions
+  - confidence indicators
+  - resume strengths
+  - resume weaknesses
+- Make the report visually clean and easier to understand.
+
+8) UI and UX
+- Make the interface modern, responsive, and professional.
+- Improve readability, spacing, hierarchy, and layout consistency.
+- The user should be able to upload a resume, paste a JD, instantly analyze, view parsed content, inspect matched terms, and export the cover letter cleanly.
+- Keep the platform polished and serious, not toy-like.
+
+9) Implementation quality
+- Refactor the code cleanly.
+- Keep components modular.
+- Avoid hardcoded logic where dataset-driven or model-driven logic is better.
+- Make sure the resume parser, matcher, and AI analysis work together in a robust pipeline.
+- Use the existing architecture where possible, but upgrade it heavily.
+- Focus on accuracy, scalability, and clean output.
+
+Deliverables:
+- Improved resume parser with section splitting by headings and subheadings
+- GLM 5.1-powered AI analysis across the whole platform
+- Strong matching engine with exact + partial + substring + pattern + semantic matching
+- Separate certificate analysis logic
+- Rich text cover letter UI
+- Export cover letter as PDF
+- Cleaner, more premium ATS dashboard experience
