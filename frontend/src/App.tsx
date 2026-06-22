@@ -136,6 +136,7 @@ export default function App() {
     (localStorage.getItem("ats-theme") as Theme) || "dark"
   );
   const [isRescanning, setIsRescanning] = useState(false);
+  const [isRescoring, setIsRescoring] = useState(false);
   const [rescanError, setRescanError] = useState("");
   const [resultsTab, setResultsTab] = useState<"report" | "job_description" | "skills_matrix" | "smart_editor" | "cover_letter" | "resume_preview">("report");
 
@@ -236,12 +237,47 @@ export default function App() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // Check if certifications section has any data worth showing
+  // When Smart Editor rescores, merge ALL updated fields into currentResult
+  // so every part of the platform (sidebar ring, skills sections, etc.) re-renders.
+  const handleScoreUpdate = useCallback((scores: any) => {
+    if (!scores) return;
+    setCurrentResult(prev => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        overall_score: scores.overall_score ?? prev.overall_score,
+        letter_grade: scores.letter_grade ?? prev.letter_grade,
+        keyword_match: scores.keyword_match ?? prev.keyword_match,
+        semantic_match: scores.semantic_match ?? prev.semantic_match,
+        evidence_strength: scores.evidence_strength ?? prev.evidence_strength,
+        seniority_fit: scores.seniority_fit ?? prev.seniority_fit,
+        parsing_quality: scores.parsing_quality ?? prev.parsing_quality,
+        formatting_quality: scores.formatting_quality ?? prev.formatting_quality,
+        sub_scores: scores.sub_scores ?? prev.sub_scores,
+        category_scores: scores.category_scores ?? prev.category_scores,
+        keywords: scores.keywords ?? prev.keywords,
+        certifications: scores.certifications ?? prev.certifications,
+        soft_skills: scores.soft_skills ?? prev.soft_skills,
+        other_skills: scores.other_skills ?? prev.other_skills,
+      };
+    });
+    if (scores.overall_score != null) {
+      setScoreHistory(prev => [...prev, {
+        ts: Date.now(),
+        score: scores.overall_score,
+        label: "Smart Editor",
+      }]);
+    }
+  }, []);
+
   const hasCertData = currentResult?.certifications && (
     (currentResult.certifications.matched?.length ?? 0) > 0 ||
     (currentResult.certifications.missing?.length ?? 0) > 0 ||
     (currentResult.certifications.bonus?.length ?? 0) > 0
   );
+
+  // In Smart Editor mode: hide left sidebar and go full width so the editor fills the screen
+  const isEditorMode = resultsTab === "smart_editor";
 
   return (
     <Layout
@@ -259,167 +295,152 @@ export default function App() {
       )}
 
       {activeView === "results" && currentResult && (
-        <div className="flex flex-col lg:flex-row gap-6 items-start">
-          {/* Left Sidebar */}
-          <aside className="w-full lg:w-64 lg:sticky lg:top-6 shrink-0 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
-            <ResultsSidebar
-              result={currentResult}
-              onNewScan={handleNewScan}
-              onRescan={() => setActiveView("upload")}
-              isRescanning={isRescanning}
-              rescanError={rescanError}
-              onRunAI={handleRunAI}
-              aiLoading={aiLoading}
-              onScrollToCategory={handleScrollToCategory}
-            />
-          </aside>
+        <div className={`flex gap-6 items-start ${isEditorMode ? "" : "flex-col lg:flex-row"}`}>
+          {/* Left Sidebar — hidden in Smart Editor mode so editor fills full width */}
+          {!isEditorMode && (
+            <aside className="w-full lg:w-64 lg:sticky lg:top-6 shrink-0 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+              <ResultsSidebar
+                result={currentResult}
+                onNewScan={handleNewScan}
+                onRescan={() => setActiveView("upload")}
+                isRescanning={isRescanning}
+                rescanError={rescanError}
+                onRunAI={handleRunAI}
+                aiLoading={aiLoading}
+                onScrollToCategory={handleScrollToCategory}
+                isRescoring={isRescoring}
+              />
+            </aside>
+          )}
 
           {/* Main Content */}
-          <div className="flex-1 min-w-0">
+          <div className={isEditorMode ? "w-full" : "flex-1 min-w-0"}>
             <ResultsTabs
               activeTab={resultsTab}
               onTabChange={setResultsTab}
               onPrint={() => window.print()}
               analysis={currentResult}
               jd={currentJD}
+              scanId={currentResult.scan_id}
               onResumeUpdate={(html, text) =>
                 setCurrentResult(prev => prev ? { ...prev, resume_html: html, resume_full: text } : prev)
               }
-              onScoreUpdate={(scores) => {
-                if (scores?.overall_score != null) {
-                  setScoreHistory(prev => [...prev, {
-                    ts: Date.now(),
-                    score: scores.overall_score,
-                    label: "Smart Editor rescore",
-                  }]);
-                }
-              }}
+              onScoreUpdate={handleScoreUpdate}
+              onRescoringChange={setIsRescoring}
             />
 
-            <div className="bg-card rounded-b-2xl border border-t-0 border-border shadow-sm">
-              {resultsTab === "report" && (
-                <div className="p-6 space-y-10">
-                  {/* Score History Chart — shown once there are 2+ scans */}
-                  {scoreHistory.length >= 2 && (
-                    <ScoreHistoryChart history={scoreHistory} />
-                  )}
+            {!isEditorMode && (
+              <div className="bg-card rounded-b-2xl border border-t-0 border-border shadow-sm">
+                {resultsTab === "report" && (
+                  <div className="p-6 space-y-10">
+                    {scoreHistory.length >= 2 && (
+                      <ScoreHistoryChart history={scoreHistory} />
+                    )}
 
-                  {/* ATS Tips Banner */}
-                  <div className="flex items-center justify-between p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-500/20">
-                        <span className="text-amber-500 text-lg">⚡</span>
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-foreground">ATS-Specific Tips</p>
-                        <p className="text-xs text-muted-foreground">
-                          Analyzed in {currentResult.processing_time_seconds?.toFixed(1)}s · 5-layer AI pipeline · LLM-powered intelligence
-                        </p>
+                    <div className="flex items-center justify-between p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-500/20">
+                          <span className="text-amber-500 text-lg">⚡</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-foreground">ATS-Specific Tips</p>
+                          <p className="text-xs text-muted-foreground">
+                            Analyzed in {currentResult.processing_time_seconds?.toFixed(1)}s · 5-layer AI pipeline · LLM-powered intelligence
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Role Fit Verdict */}
-                  <RoleFitVerdict result={currentResult} />
+                    <RoleFitVerdict result={currentResult} />
+                    <SearchabilitySection result={currentResult} />
+                    <hr className="border-border" />
 
-                  {/* Searchability */}
-                  <SearchabilitySection result={currentResult} />
-
-                  <hr className="border-border" />
-
-                  {/* Hard Skills */}
-                  <HardSkillsSection
-                    keywords={currentResult.keywords}
-                    resumeText={currentResult.resume_preview}
-                    jdText={currentResult.jd_preview}
-                    resumeFull={currentResult.resume_full || currentResult.resume_preview}
-                    jdFull={currentResult.jd_full || currentResult.jd_preview}
-                    result={currentResult}
-                  />
-
-                  <hr className="border-border" />
-
-                  {/* Certifications — only when there's cert data */}
-                  {(hasCertData || (currentResult.certifications && currentResult.certifications.score !== undefined)) && (
-                    <>
-                      <CertificationsSection certifications={currentResult.certifications} />
-                      <hr className="border-border" />
-                    </>
-                  )}
-
-                  <div>
-                    <SoftSkillsSection
+                    <HardSkillsSection
                       keywords={currentResult.keywords}
-                      softSkillData={currentResult.soft_skills}
+                      resumeText={currentResult.resume_preview}
+                      jdText={currentResult.jd_preview}
+                      resumeFull={currentResult.resume_full || currentResult.resume_preview}
+                      jdFull={currentResult.jd_full || currentResult.jd_preview}
+                      result={currentResult}
                     />
 
-                    <hr className="border-border my-10" />
+                    <hr className="border-border" />
 
-                    <OtherSkillsSection
-                      keywords={currentResult.keywords}
-                      otherSkillData={currentResult.other_skills}
-                    />
-                  </div>
+                    {(hasCertData || (currentResult.certifications && currentResult.certifications.score !== undefined)) && (
+                      <>
+                        <CertificationsSection certifications={currentResult.certifications} />
+                        <hr className="border-border" />
+                      </>
+                    )}
 
-                  <hr className="border-border" />
-
-                  {/* Recruiter Tips */}
-                  <RecruiterTipsSection
-                    feedback={currentResult.feedback}
-                    actionVerbs={currentResult.action_verbs}
-                    formatting={currentResult.formatting}
-                    subScores={currentResult.sub_scores}
-                  />
-
-                  <hr className="border-border" />
-
-                  {/* Formatting */}
-                  <FormattingSection formatting={currentResult.formatting} />
-
-                  {/* AI Verdict */}
-                  {(aiEvaluation || aiLoading || aiError) && (
-                    <>
-                      <hr className="border-border" />
-                      <AIVerdict
-                        evaluation={aiEvaluation}
-                        isLoading={aiLoading}
-                        error={aiError}
-                        onRun={handleRunAI}
+                    <div>
+                      <SoftSkillsSection
+                        keywords={currentResult.keywords}
+                        softSkillData={currentResult.soft_skills}
                       />
-                    </>
-                  )}
-                </div>
-              )}
+                      <hr className="border-border my-10" />
+                      <OtherSkillsSection
+                        keywords={currentResult.keywords}
+                        otherSkillData={currentResult.other_skills}
+                      />
+                    </div>
 
-              {resultsTab === "job_description" && (
-                <JobDescriptionTab
-                  jdHtml={currentResult.jd_html}
-                  jdText={currentResult.jd_full || currentResult.jd_preview || currentJD}
-                  keywords={currentResult.keywords}
-                  onRescanWithNewJD={handleRescan}
-                  isRescanning={isRescanning}
-                />
-              )}
+                    <hr className="border-border" />
 
-              {resultsTab === "skills_matrix" && (
-                <SkillsMatrixTab keywords={currentResult.keywords} />
-              )}
+                    <RecruiterTipsSection
+                      feedback={currentResult.feedback}
+                      actionVerbs={currentResult.action_verbs}
+                      formatting={currentResult.formatting}
+                      subScores={currentResult.sub_scores}
+                    />
 
-              {resultsTab === "cover_letter" && (
-                <CoverLetterTab
-                  resumeText={currentResult.resume_full || currentResult.resume_preview || ""}
-                  jdText={currentResult.jd_full || currentResult.jd_preview || currentJD}
-                />
-              )}
+                    <hr className="border-border" />
+                    <FormattingSection formatting={currentResult.formatting} />
 
-              {resultsTab === "resume_preview" && (
-                <ResumePreviewTab
-                  resumeHtml={currentResult.resume_html}
-                  resumeText={currentResult.resume_full || currentResult.resume_preview || ""}
-                  keywords={currentResult.keywords}
-                />
-              )}
-            </div>
+                    {(aiEvaluation || aiLoading || aiError) && (
+                      <>
+                        <hr className="border-border" />
+                        <AIVerdict
+                          evaluation={aiEvaluation}
+                          isLoading={aiLoading}
+                          error={aiError}
+                          onRun={handleRunAI}
+                        />
+                      </>
+                    )}
+                  </div>
+                )}
+
+                {resultsTab === "job_description" && (
+                  <JobDescriptionTab
+                    jdHtml={currentResult.jd_html}
+                    jdText={currentResult.jd_full || currentResult.jd_preview || currentJD}
+                    keywords={currentResult.keywords}
+                    onRescanWithNewJD={handleRescan}
+                    isRescanning={isRescanning}
+                  />
+                )}
+
+                {resultsTab === "skills_matrix" && (
+                  <SkillsMatrixTab keywords={currentResult.keywords} />
+                )}
+
+                {resultsTab === "cover_letter" && (
+                  <CoverLetterTab
+                    resumeText={currentResult.resume_full || currentResult.resume_preview || ""}
+                    jdText={currentResult.jd_full || currentResult.jd_preview || currentJD}
+                  />
+                )}
+
+                {resultsTab === "resume_preview" && (
+                  <ResumePreviewTab
+                    resumeHtml={currentResult.resume_html}
+                    resumeText={currentResult.resume_full || currentResult.resume_preview || ""}
+                    keywords={currentResult.keywords}
+                  />
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
