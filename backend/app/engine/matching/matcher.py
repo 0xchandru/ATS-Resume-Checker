@@ -1,6 +1,6 @@
 import re
 import logging
-from typing import List, Dict, Tuple, Optional, Sequence
+from typing import List, Dict, Tuple, Optional, Sequence, Set
 from backend.app.engine.extraction.extractor import normalize
 from sqlalchemy import text
 from backend.app.database import engine
@@ -8,8 +8,72 @@ from backend.app.config import SEMANTIC_THRESHOLD
 
 logger = logging.getLogger(__name__)
 
-
 from typing import Union
+
+# Common suffixes for lightweight stemming
+_SUFFIXES = (
+    "ations", "ation", "tions", "tion", "ments", "ment", "ings", "ing",
+    "ities", "ity", "ized", "izes", "ize", "ised", "ises", "ise",
+    "ated", "ates", "ate", "ness", "ful", "less", "ers", "ier",
+    "ed", "es", "er", "ly", "al", "s",
+)
+
+
+def _stem(word: str) -> str:
+    """Lightweight suffix stripping — returns the stem of a word."""
+    if len(word) <= 4:
+        return word
+    for suffix in _SUFFIXES:
+        if word.endswith(suffix) and len(word) - len(suffix) >= 3:
+            return word[: -len(suffix)]
+    return word
+
+
+def _get_stems(term: str) -> Set[str]:
+    """Return stems for all words in a normalized term."""
+    words = term.split()
+    return {_stem(w) for w in words if len(w) >= 3}
+
+
+def _decompose_compound(term: str) -> List[str]:
+    """
+    Split compound/hyphenated tech terms into meaningful parts.
+    e.g. 'cybersecurity' → ['cyber', 'security']
+         'full-stack' → ['full', 'stack']
+    """
+    # Already multi-word — no splitting needed
+    if " " in term:
+        return []
+
+    # Hyphenated or underscored
+    if "-" in term or "_" in term:
+        parts = re.split(r"[-_]", term)
+        return [p for p in parts if len(p) >= 3]
+
+    # Known compound splits for tech/security domain
+    COMPOUND_MAP = {
+        "cybersecurity": ["cyber", "security"],
+        "fullstack": ["full", "stack"],
+        "devops": ["dev", "ops"],
+        "devsecops": ["dev", "sec", "ops"],
+        "frontend": ["front", "end"],
+        "backend": ["back", "end"],
+        "cloudnative": ["cloud", "native"],
+        "opensource": ["open", "source"],
+        "blockchain": ["block", "chain"],
+        "machinelearning": ["machine", "learning"],
+        "deeplearning": ["deep", "learning"],
+        "naturallanguage": ["natural", "language"],
+        "dataanalysis": ["data", "analysis"],
+        "datascience": ["data", "science"],
+        "softwareengineering": ["software", "engineering"],
+        "networksecurity": ["network", "security"],
+        "informationsecurity": ["information", "security"],
+        "cloudsecurity": ["cloud", "security"],
+        "applicationdevelopment": ["application", "development"],
+        "webdevelopment": ["web", "development"],
+    }
+    return COMPOUND_MAP.get(term.lower(), [])
 
 
 def match_all_layers(
@@ -41,17 +105,23 @@ def match_all_layers(
 
     full_resume_tokens = set(_tokenize_text(resume_text))
     full_jd_tokens = set(_tokenize_text(jd_text))
-    
+
     resume_full_set = resume_norm_set | full_resume_tokens
 
+    # Pre-compute stems for all resume tokens (for batch stem matching)
+    resume_stems: Dict[str, Set[str]] = {}
+    for r_term in resume_full_set:
+        s = _get_stems(r_term)
+        if s:
+            resume_stems[r_term] = s
+
     # ═══════════════════════════════════════════════════════════════════
-    # Phase 2.1: Batch DB Queries (Eliminate N+1)
-    # Pre-fetch all aliases and KB info for the JD keywords in one go.
+    # Batch DB Queries — fetch alias + KB info for JD keywords in one go
     # ═══════════════════════════════════════════════════════════════════
     jd_norm_list = list(jd_norm_set)
-    alias_lookup = {}
-    kb_lookup = {}
-    
+    alias_lookup: Dict[str, str] = {}
+    kb_lookup: Dict[str, Dict] = {}
+
     if jd_norm_list:
         batch_size = 500
         for i in range(0, len(jd_norm_list), batch_size):
@@ -63,7 +133,7 @@ def match_all_layers(
                 ).fetchall()
                 for row in alias_rows:
                     alias_lookup[row[0]] = row[1]
-                    
+
                 kb_rows = conn.execute(
                     text(f"SELECT normalized, canonical_name, category, domain FROM kb_skills WHERE normalized IN ({placeholders})")
                 ).fetchall()
@@ -72,14 +142,14 @@ def match_all_layers(
 
     matched = []
     missing = []
-    breakdown = {"alias": 0, "exact": 0, "kb_lookup": 0, "fuzzy": 0, "semantic": 0}
+    breakdown = {"alias": 0, "exact": 0, "kb_lookup": 0, "partial": 0, "fuzzy": 0, "semantic": 0}
 
-    unmatched_jd = set()
+    unmatched_jd: Set[str] = set()
 
     for jd_norm, jd_kw in jd_terms.items():
         original_jd = jd_kw.get("term", jd_norm)
-        
-        # 1. Alias Layer
+
+        # ── Layer 1: Alias ──────────────────────────────────────────────
         if jd_norm in alias_lookup:
             canonical = alias_lookup[jd_norm]
             canonical_norm = normalize(canonical)
@@ -87,14 +157,14 @@ def match_all_layers(
                 breakdown["alias"] += 1
                 matched.append(_build_match(jd_kw, jd_norm, "alias", 1.0, canonical, jd_text=jd_text, resume_text=resume_text))
                 continue
-                
-        # 2. Exact Match Layer
+
+        # ── Layer 2: Exact ──────────────────────────────────────────────
         if jd_norm in resume_full_set:
             breakdown["exact"] += 1
             matched.append(_build_match(jd_kw, jd_norm, "exact", 1.0, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
             continue
 
-        # 3. KB Lookup Layer
+        # ── Layer 3: KB Lookup ──────────────────────────────────────────
         if jd_norm in kb_lookup:
             info = kb_lookup[jd_norm]
             canonical = info["canonical_name"]
@@ -104,28 +174,59 @@ def match_all_layers(
                 matched.append(_build_match(jd_kw, jd_norm, "kb_lookup", 0.98, canonical, info["category"], info["domain"], jd_text=jd_text, resume_text=resume_text))
                 continue
 
-        # 3.5 Substring Containment Layer
-        # Catch cases where JD says "incident response" and resume says "incident response and remediation"
+        # ── Layer 3.5: Substring Containment ───────────────────────────
         if len(jd_norm) > 4 and (jd_norm in resume_text.lower() or original_jd.lower() in resume_text.lower()):
             breakdown["exact"] += 1
             matched.append(_build_match(jd_kw, jd_norm, "exact", 0.95, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
             continue
 
-        # 4. Acronym heuristic layer (Phase 2.2)
-        # Check if the jd_norm is an acronym for any multi-word term in the resume
+        # ── Layer 3.6: Stem / Root Matching ────────────────────────────
+        # Handles: "management" ↔ "manage", "developing" ↔ "development"
+        jd_stems = _get_stems(jd_norm)
+        stem_hit = False
+        if jd_stems:
+            for r_term, r_stems in resume_stems.items():
+                if jd_stems & r_stems:  # any overlapping stems
+                    breakdown["partial"] += 1
+                    matched.append(_build_match(jd_kw, jd_norm, "partial", 0.88, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
+                    stem_hit = True
+                    break
+        if stem_hit:
+            continue
+
+        # ── Layer 3.7: Compound Word Decomposition ──────────────────────
+        # Handles: "cybersecurity" → "cyber" + "security" both in resume
+        parts = _decompose_compound(jd_norm)
+        if parts and len(parts) >= 2:
+            parts_long = [p for p in parts if len(p) >= 4]
+            resume_lower = resume_text.lower()
+            if parts_long and all(p in resume_lower for p in parts_long):
+                breakdown["partial"] += 1
+                matched.append(_build_match(jd_kw, jd_norm, "partial", 0.85, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
+                continue
+
+        # ── Layer 3.8: Embedded Token Match ────────────────────────────
+        # Handles: JD says "python" → resume has "python3" or "python-based"
+        if len(jd_norm) >= 4 and " " not in jd_norm:
+            pattern = r'\b' + re.escape(jd_norm) + r'\w*'
+            if re.search(pattern, resume_text, re.IGNORECASE):
+                breakdown["partial"] += 1
+                matched.append(_build_match(jd_kw, jd_norm, "partial", 0.90, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
+                continue
+
+        # ── Layer 4: Acronym Heuristic ──────────────────────────────────
         acronym_matched = False
         if len(jd_norm) >= 3 and jd_norm.isalpha() and " " not in jd_norm:
-            # Look for phrases in resume that might form this acronym
             for r_term in resume_norm_set:
                 words = r_term.split()
                 if len(words) == len(jd_norm):
                     r_acronym = "".join([w[0] for w in words if w]).lower()
                     if r_acronym == jd_norm.lower():
-                        breakdown["alias"] += 1  # Count as alias
+                        breakdown["alias"] += 1
                         matched.append(_build_match(jd_kw, jd_norm, "alias", 0.9, r_term, jd_text=jd_text, resume_text=resume_text))
                         acronym_matched = True
                         break
-        
+
         if acronym_matched:
             continue
 
@@ -267,7 +368,6 @@ def _try_semantic_batch(
                 if score > best_score:
                     best_score = score
 
-            # Phase 2.4: Lowered threshold for better recall
             if best_score >= SEMANTIC_THRESHOLD:
                 jd_kw = jd_terms.get(jd_norm, {"term": jd_norm, "normalized": jd_norm, "frequency": 0.0})
                 matched.append(_build_match(jd_kw, jd_norm, "semantic", best_score, jd_kw.get("canonical", jd_norm), jd_text=jd_text, resume_text=resume_text))
@@ -283,12 +383,11 @@ def _try_semantic_batch(
 def _build_match(jd_kw: Dict, norm: str, layer: str, confidence: float, matched_form: str, category: Optional[str] = None, domain: Optional[str] = None, jd_text: str = "", resume_text: str = "") -> Dict:
     freq = jd_kw.get("frequency", 0.0)
     req_type = jd_kw.get("requirement_type", "mentioned")
-    
-    # Classify match_type based on layer
+
     match_type = "exact_match"
     if layer in ["alias", "kb_lookup"]:
         match_type = "normalized_match"
-    elif layer in ["fuzzy", "semantic"]:
+    elif layer in ["fuzzy", "semantic", "partial"]:
         match_type = "inferred_match"
 
     return {
@@ -310,9 +409,6 @@ def _build_match(jd_kw: Dict, norm: str, layer: str, confidence: float, matched_
 
 
 def _calc_importance(freq: float, req_type: str, kb_source: str = "primary") -> str:
-    # Only KB-verified skills (primary / alias) can be marked "critical".
-    # Statistical terms (not in KB) that happen to appear in a "required"
-    # JD section are NOT real hard requirements — cap them at "medium".
     is_kb_skill = kb_source in ("primary", "alias")
 
     if req_type == "required":
@@ -320,7 +416,6 @@ def _calc_importance(freq: float, req_type: str, kb_source: str = "primary") -> 
     elif req_type == "preferred":
         return "high" if (is_kb_skill and freq >= 0.5) else "medium"
 
-    # Frequency-based fallback for "mentioned" terms
     if freq >= 0.8:
         return "high"
     elif freq >= 0.4:

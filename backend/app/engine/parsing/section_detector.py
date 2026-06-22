@@ -140,13 +140,72 @@ def _spacy_fallback(detected: List[Dict], lines: List[str], resume_text: str) ->
         return detected
 
     section_keywords = {
-        "summary": ["summary", "profile", "objective", "about"],
-        "experience": ["experience", "employment", "work history", "career"],
-        "education": ["education", "academic", "degree"],
-        "skills": ["skills", "competencies", "technologies", "expertise"],
-        "projects": ["projects", "portfolio"],
-        "certifications": ["certifications", "certificates", "credentials"],
-        "contact_info": ["contact", "email", "phone", "linkedin"],
+        "summary": [
+            "summary", "profile", "objective", "about", "overview",
+            "professional summary", "career summary", "executive summary",
+            "personal statement", "professional profile", "career objective",
+            "about me", "professional overview",
+        ],
+        "experience": [
+            "experience", "employment", "work history", "career",
+            "professional experience", "work experience", "professional background",
+            "employment history", "job history", "career history",
+            "relevant experience", "industry experience",
+        ],
+        "education": [
+            "education", "academic", "degree", "qualifications",
+            "academic background", "educational background", "academic history",
+            "academic qualifications", "educational qualifications",
+        ],
+        "skills": [
+            "skills", "competencies", "technologies", "expertise",
+            "technical skills", "core skills", "key skills", "skill set",
+            "proficiencies", "technical expertise", "technical proficiencies",
+            "core competencies", "areas of expertise", "strengths",
+            "tools", "software", "platforms",
+        ],
+        "projects": [
+            "projects", "portfolio", "personal projects", "key projects",
+            "notable projects", "project experience", "project highlights",
+            "selected projects", "open source", "side projects",
+        ],
+        "certifications": [
+            "certifications", "certificates", "credentials",
+            "certification", "professional certifications",
+            "licenses", "professional development", "accreditations",
+            "training", "courses", "professional licenses",
+        ],
+        "contact_info": [
+            "contact", "email", "phone", "linkedin",
+            "personal information", "contact information",
+            "contact details", "get in touch",
+        ],
+        "achievements": [
+            "achievements", "awards", "honors", "accomplishments",
+            "recognition", "accolades", "awards and honors",
+            "honors and awards",
+        ],
+        "publications": [
+            "publications", "papers", "research", "articles",
+            "journal articles", "conference papers", "research papers",
+            "white papers",
+        ],
+        "volunteer": [
+            "volunteer", "volunteering", "community service",
+            "social activities", "community involvement",
+            "extracurricular", "community engagement",
+        ],
+        "languages": [
+            "languages", "language skills", "spoken languages",
+            "language proficiency", "foreign languages",
+        ],
+        "interests": [
+            "interests", "hobbies", "activities",
+            "personal interests", "hobbies and interests",
+        ],
+        "references": [
+            "references", "referees", "references available",
+        ],
     }
 
     detected_positions = {d["position"] for d in detected}

@@ -9,6 +9,7 @@ import SoftSkillsSection from "./components/analysis/SoftSkillsSection";
 import OtherSkillsSection from "./components/analysis/OtherSkillsSection";
 import RecruiterTipsSection from "./components/analysis/RecruiterTipsSection";
 import FormattingSection from "./components/analysis/FormattingSection";
+import CertificationsSection from "./components/analysis/CertificationsSection";
 import JobDescriptionTab from "./components/tools/JobDescriptionTab";
 import SkillsMatrixTab from "./components/tools/SkillsMatrixTab";
 import CoverLetterTab from "./components/results/CoverLetterTab";
@@ -62,7 +63,7 @@ export interface AnalysisResult {
   evidence_strength?: number;
   seniority_fit?: number;
   overall_fit?: number;
-  
+
   sub_scores: {
     keyword_match: { score: number; details: string };
     semantic_relevance: { score: number; details: string; cosine_similarity: number };
@@ -85,6 +86,15 @@ export interface AnalysisResult {
     total_jd_keywords?: number;
     breakdown?: any;
     density_warnings?: any[];
+  };
+  certifications?: {
+    matched: any[];
+    missing: any[];
+    bonus: any[];
+    matched_count: number;
+    missing_count: number;
+    bonus_count: number;
+    score: number;
   };
   career_intelligence: any;
   action_verbs: any;
@@ -166,8 +176,8 @@ export default function App() {
 
   const handleRunAI = useCallback(async () => {
     if (!currentResult) return;
-    const resumeText = currentResult.resume_preview;
-    const jdText = currentResult.jd_preview;
+    const resumeText = currentResult.resume_full || currentResult.resume_preview;
+    const jdText = currentResult.jd_full || currentResult.jd_preview;
     if (!resumeText || !jdText) {
       setAiError("Resume or job description text is missing from the scan result.");
       return;
@@ -213,6 +223,13 @@ export default function App() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // Check if certifications section has any data worth showing
+  const hasCertData = currentResult?.certifications && (
+    (currentResult.certifications.matched?.length ?? 0) > 0 ||
+    (currentResult.certifications.missing?.length ?? 0) > 0 ||
+    (currentResult.certifications.bonus?.length ?? 0) > 0
+  );
+
   return (
     <Layout
       activeView={activeView}
@@ -230,7 +247,7 @@ export default function App() {
 
       {activeView === "results" && currentResult && (
         <div className="flex flex-col lg:flex-row gap-6 items-start">
-          {/* Left Sidebar — Jobscan style */}
+          {/* Left Sidebar */}
           <aside className="w-full lg:w-64 lg:sticky lg:top-6 shrink-0 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
             <ResultsSidebar
               result={currentResult}
@@ -246,7 +263,6 @@ export default function App() {
 
           {/* Main Content */}
           <div className="flex-1 min-w-0">
-            {/* Tabs */}
             <ResultsTabs
               activeTab={resultsTab}
               onTabChange={setResultsTab}
@@ -258,7 +274,6 @@ export default function App() {
               }
             />
 
-            {/* Tab Content */}
             <div className="bg-card rounded-b-2xl border border-t-0 border-border shadow-sm">
               {resultsTab === "report" && (
                 <div className="p-6 space-y-10">
@@ -271,7 +286,7 @@ export default function App() {
                       <div>
                         <p className="text-sm font-bold text-foreground">ATS-Specific Tips</p>
                         <p className="text-xs text-muted-foreground">
-                          Analyzed in {currentResult.processing_time_seconds?.toFixed(1)}s with 5-layer AI pipeline
+                          Analyzed in {currentResult.processing_time_seconds?.toFixed(1)}s · 5-layer AI pipeline · GLM-powered intelligence
                         </p>
                       </div>
                     </div>
@@ -283,7 +298,6 @@ export default function App() {
                   {/* Searchability */}
                   <SearchabilitySection result={currentResult} />
 
-                  {/* Divider */}
                   <hr className="border-border" />
 
                   {/* Hard Skills */}
@@ -296,25 +310,30 @@ export default function App() {
                     result={currentResult}
                   />
 
-                  {/* Divider */}
                   <hr className="border-border" />
 
-                  <div className="mt-12">
-                    <SoftSkillsSection 
-                      keywords={currentResult.keywords} 
+                  {/* Certifications — only when there's cert data */}
+                  {(hasCertData || (currentResult.certifications && currentResult.certifications.score !== undefined)) && (
+                    <>
+                      <CertificationsSection certifications={currentResult.certifications} />
+                      <hr className="border-border" />
+                    </>
+                  )}
+
+                  <div>
+                    <SoftSkillsSection
+                      keywords={currentResult.keywords}
                       softSkillData={currentResult.soft_skills}
                     />
 
-                    {/* Divider */}
-                    <hr className="border-border my-12" />
+                    <hr className="border-border my-10" />
 
-                    <OtherSkillsSection 
-                      keywords={currentResult.keywords} 
+                    <OtherSkillsSection
+                      keywords={currentResult.keywords}
                       otherSkillData={currentResult.other_skills}
                     />
                   </div>
 
-                  {/* Divider */}
                   <hr className="border-border" />
 
                   {/* Recruiter Tips */}
@@ -325,13 +344,12 @@ export default function App() {
                     subScores={currentResult.sub_scores}
                   />
 
-                  {/* Divider */}
                   <hr className="border-border" />
 
                   {/* Formatting */}
                   <FormattingSection formatting={currentResult.formatting} />
 
-                  {/* AI Verdict (below formatting) */}
+                  {/* AI Verdict */}
                   {(aiEvaluation || aiLoading || aiError) && (
                     <>
                       <hr className="border-border" />
@@ -361,14 +379,14 @@ export default function App() {
               )}
 
               {resultsTab === "cover_letter" && (
-                <CoverLetterTab 
+                <CoverLetterTab
                   resumeText={currentResult.resume_full || currentResult.resume_preview || ""}
                   jdText={currentResult.jd_full || currentResult.jd_preview || currentJD}
                 />
               )}
 
               {resultsTab === "resume_preview" && (
-                <ResumePreviewTab 
+                <ResumePreviewTab
                   resumeHtml={currentResult.resume_html}
                   resumeText={currentResult.resume_full || currentResult.resume_preview || ""}
                   keywords={currentResult.keywords}
@@ -409,7 +427,10 @@ export default function App() {
                   Version {i + 1}
                 </p>
                 <p className="font-semibold text-foreground truncate">{scan.filename}</p>
-                <p className="text-4xl font-bold mt-2" style={{ color: scan.overall_score >= 75 ? "#10b981" : scan.overall_score >= 50 ? "#f59e0b" : "#ef4444" }}>
+                <p
+                  className="text-4xl font-bold mt-2"
+                  style={{ color: scan.overall_score >= 75 ? "#10b981" : scan.overall_score >= 50 ? "#f59e0b" : "#ef4444" }}
+                >
                   {scan.overall_score}
                 </p>
                 <p className="text-muted-foreground text-sm">{scan.letter_grade} grade</p>
