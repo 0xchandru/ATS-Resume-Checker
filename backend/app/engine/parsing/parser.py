@@ -47,44 +47,141 @@ def _join_hyphenated_linebreaks(text: str) -> str:
     )
 
 
+# Separator characters that commonly appear between links on the same line.
+# Ordered from most specific (multi-char) to least so we match greedily.
+_LINK_SEP_CHARS = ["—", "–", " | ", "|", " · ", "·", "•", "/", ","]
+
+
+def _clean_link_label(text: str) -> str:
+    """Strip separator characters and whitespace from both ends of a link label."""
+    s = text.strip()
+    changed = True
+    while changed:
+        changed = False
+        for ch in ["—", "–", "|", "·", "•", "/", ","]:
+            if s.startswith(ch) or s.endswith(ch):
+                s = s.strip(ch).strip()
+                changed = True
+    return s
+
+
+def _detect_separator_in_gap(page, rect_left, rect_right) -> str:
+    """
+    Read the text that sits *between* two adjacent link rectangles on the
+    same line and return whichever separator character is found there.
+    Falls back to '|' if nothing matches.
+    """
+    try:
+        import fitz
+        gap = fitz.Rect(
+            rect_left[2],                          # left rect x1
+            min(rect_left[1], rect_right[1]) - 2,  # top with small margin
+            rect_right[0],                          # right rect x0
+            max(rect_left[3], rect_right[3]) + 2,  # bottom with small margin
+        )
+        gap_text = page.get_text("text", clip=gap).strip()
+        for sep in _LINK_SEP_CHARS:
+            if sep in gap_text:
+                return sep.strip() or "|"
+    except Exception:
+        pass
+    return "|"
+
+
 def _extract_pdf_links(file_path: str) -> List[Dict]:
     """
     Extract all hyperlinks from a PDF using PyMuPDF annotations.
-    Returns a list of dicts: {text, url, page, rect}.
+
+    Each returned dict contains:
+      text        – clean label (separator chars stripped)
+      url         – destination URI
+      page        – 1-based page number
+      rect        – [x0, y0, x1, y1] of the clickable area
+      line_group  – key identifying which visual line this link sits on
+                    (format: "p{page}-y{rounded_y}")
+      separator   – separator character detected between this link and
+                    the next one on the same line ('' for the last link)
+      position    – 0-based index within its line group
     """
     links: List[Dict] = []
     try:
-        import fitz  # PyMuPDF
+        import fitz
         doc = fitz.open(file_path)
         for page_num, page in enumerate(doc):
             page_links = page.get_links()
             if not page_links:
                 continue
-            # Build a word-position index for this page
-            words = page.get_text("words")  # (x0,y0,x1,y1,word,block,line,word_idx)
+
+            words = page.get_text("words")  # (x0,y0,x1,y1,word,blk,ln,wi)
+
+            raw_links: List[Dict] = []
             for link in page_links:
-                if link.get("kind") != 2:  # 2 = LINK_URI
+                if link.get("kind") != 2:   # LINK_URI = 2
                     continue
                 uri = link.get("uri", "").strip()
                 if not uri or uri.startswith("#"):
                     continue
-                rect = link.get("from")  # fitz.Rect
+                rect = link.get("from")
                 if rect is None:
                     continue
-                # Collect words whose bounding boxes overlap with the link rect
+
+                # Collect words whose bounding boxes overlap the link rect
                 link_words = []
                 for w in words:
                     wx0, wy0, wx1, wy1 = w[0], w[1], w[2], w[3]
-                    word_str = w[4]
                     if wx0 < rect.x1 and wx1 > rect.x0 and wy0 < rect.y1 and wy1 > rect.y0:
-                        link_words.append(word_str)
-                link_text = " ".join(link_words).strip()
-                links.append({
-                    "text": link_text,
+                        link_words.append(w[4])
+
+                label = _clean_link_label(" ".join(link_words))
+                rect_list = [rect.x0, rect.y0, rect.x1, rect.y1]
+                y_center = (rect.y0 + rect.y1) / 2
+
+                raw_links.append({
+                    "text": label,
                     "url": uri,
                     "page": page_num + 1,
-                    "rect": [rect.x0, rect.y0, rect.x1, rect.y1],
+                    "rect": rect_list,
+                    "_y_center": y_center,
+                    "_page_obj": page,
                 })
+
+            # ── Group links that share the same visual line (within 4 px) ──
+            raw_links.sort(key=lambda l: (l["_y_center"], l["rect"][0]))
+
+            groups: List[List[Dict]] = []
+            for lnk in raw_links:
+                placed = False
+                for grp in groups:
+                    if abs(lnk["_y_center"] - grp[0]["_y_center"]) <= 4:
+                        grp.append(lnk)
+                        placed = True
+                        break
+                if not placed:
+                    groups.append([lnk])
+
+            for grp in groups:
+                grp.sort(key=lambda l: l["rect"][0])   # left → right
+                y_key = round(grp[0]["_y_center"])
+                group_key = f"p{page_num + 1}-y{y_key}"
+
+                for pos, lnk in enumerate(grp):
+                    # Detect separator in the gap between this and the next link
+                    sep = ""
+                    if pos < len(grp) - 1:
+                        sep = _detect_separator_in_gap(
+                            lnk["_page_obj"], lnk["rect"], grp[pos + 1]["rect"]
+                        )
+
+                    links.append({
+                        "text": lnk["text"],
+                        "url": lnk["url"],
+                        "page": lnk["page"],
+                        "rect": lnk["rect"],
+                        "line_group": group_key,
+                        "separator": sep,
+                        "position": pos,
+                    })
+
         doc.close()
     except Exception as e:
         logger.warning("PDF link extraction failed: %s", e)

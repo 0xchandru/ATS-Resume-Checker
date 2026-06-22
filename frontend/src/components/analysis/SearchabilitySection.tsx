@@ -1,6 +1,16 @@
 import { CheckCircle2, XCircle, Info, Zap, Link2, ExternalLink } from "lucide-react";
 import { AnalysisResult } from "../../App";
 
+interface LinkEntry {
+  text: string;
+  url: string;
+  page: number;
+  rect?: number[];
+  line_group?: string;
+  separator?: string;
+  position?: number;
+}
+
 interface Props {
   result: AnalysisResult;
 }
@@ -18,11 +28,10 @@ function CheckRow({ passed, description }: { passed: boolean; description: strin
   );
 }
 
-function CheckGroup({ title, tooltip, items, children }: {
+function CheckGroup({ title, tooltip, items }: {
   title: string;
   tooltip?: string;
   items: { passed: boolean; description: string }[];
-  children?: React.ReactNode;
 }) {
   const passCount = items.filter(i => i.passed).length;
   return (
@@ -47,37 +56,95 @@ function CheckGroup({ title, tooltip, items, children }: {
           <CheckRow key={i} {...item} />
         ))}
       </div>
-      {children}
     </div>
   );
 }
 
-function LinkBadge({ text, url }: { text: string; url: string }) {
-  const domain = (() => {
-    try { return new URL(url).hostname.replace("www.", ""); } catch { return url; }
-  })();
+function linkColor(url: string) {
+  if (/linkedin/i.test(url))   return { badge: "text-blue-400 border-blue-500/20 bg-blue-500/8",   dot: "bg-blue-400"   };
+  if (/github/i.test(url))     return { badge: "text-purple-400 border-purple-500/20 bg-purple-500/8", dot: "bg-purple-400" };
+  if (/tryhackme/i.test(url))  return { badge: "text-red-400 border-red-500/20 bg-red-500/8",       dot: "bg-red-400"    };
+  if (/twitter|x\.com/i.test(url)) return { badge: "text-sky-400 border-sky-500/20 bg-sky-500/8",  dot: "bg-sky-400"    };
+  if (/kaggle/i.test(url))     return { badge: "text-cyan-400 border-cyan-500/20 bg-cyan-500/8",    dot: "bg-cyan-400"   };
+  if (/leetcode/i.test(url))   return { badge: "text-amber-400 border-amber-500/20 bg-amber-500/8", dot: "bg-amber-400"  };
+  return                               { badge: "text-indigo-400 border-indigo-500/20 bg-indigo-500/8", dot: "bg-indigo-400" };
+}
 
-  const color = (() => {
-    if (/linkedin/i.test(url)) return "text-blue-400 border-blue-500/20 bg-blue-500/8";
-    if (/github/i.test(url)) return "text-purple-400 border-purple-500/20 bg-purple-500/8";
-    if (/tryhackme/i.test(url)) return "text-red-400 border-red-500/20 bg-red-500/8";
-    return "text-indigo-400 border-indigo-500/20 bg-indigo-500/8";
+function LinkBadge({ link }: { link: LinkEntry }) {
+  const domain = (() => {
+    try { return new URL(link.url).hostname.replace("www.", ""); } catch { return link.url; }
   })();
+  const { badge, dot } = linkColor(link.url);
+  const label = link.text || domain;
 
   return (
     <a
-      href={url}
+      href={link.url}
       target="_blank"
       rel="noopener noreferrer"
-      title={url}
-      data-testid={`link-badge-${text.toLowerCase().replace(/\s+/g, "-")}`}
-      className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg border ${color} hover:opacity-80 transition-opacity`}
+      title={link.url}
+      data-testid={`link-badge-${label.toLowerCase().replace(/\s+/g, "-")}`}
+      className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg border ${badge} hover:opacity-80 transition-opacity`}
     >
-      <Link2 className="h-3 w-3 shrink-0" />
-      <span>{text || domain}</span>
+      <span className={`h-1.5 w-1.5 rounded-full ${dot} shrink-0`} />
+      <span>{label}</span>
       <ExternalLink className="h-2.5 w-2.5 shrink-0 opacity-60" />
     </a>
   );
+}
+
+function SeparatorChip({ sep }: { sep: string }) {
+  return (
+    <span className="inline-flex items-center justify-center text-[11px] font-mono text-muted-foreground/50 px-1.5 select-none">
+      {sep}
+    </span>
+  );
+}
+
+function LinkLineGroup({ links }: { links: LinkEntry[] }) {
+  const sorted = [...links].sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
+  const sep = sorted.find(l => l.separator)?.separator || "|";
+
+  return (
+    <div className="flex flex-wrap items-center gap-y-1.5">
+      {sorted.map((lnk, i) => (
+        <span key={i} className="inline-flex items-center">
+          <LinkBadge link={lnk} />
+          {i < sorted.length - 1 && lnk.separator && (
+            <SeparatorChip sep={lnk.separator} />
+          )}
+          {i < sorted.length - 1 && !lnk.separator && (
+            <SeparatorChip sep={sep} />
+          )}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function buildLineGroups(links: LinkEntry[]): Map<string, LinkEntry[]> {
+  const groups = new Map<string, LinkEntry[]>();
+  const ungroupedKey = "__ungrouped__";
+
+  for (const lnk of links) {
+    const key = lnk.line_group || ungroupedKey;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(lnk);
+  }
+  return groups;
+}
+
+function patternLabel(sep: string): string {
+  const map: Record<string, string> = {
+    "—": "em-dash separated",
+    "–": "en-dash separated",
+    "|": "pipe separated",
+    "·": "bullet separated",
+    "•": "bullet separated",
+    "/": "slash separated",
+    ",": "comma separated",
+  };
+  return map[sep.trim()] ?? "separated";
 }
 
 export default function SearchabilitySection({ result }: Props) {
@@ -95,10 +162,11 @@ export default function SearchabilitySection({ result }: Props) {
   const matchRate = keywords?.match_rate ? Math.round(keywords.match_rate * 100) : 0;
   const hasJobTitleMatch = matchRate >= 30;
 
-  // Deduplicate extracted links by URL
   const uniqueLinks = extracted_links
     ? [...new Map(extracted_links.map(l => [l.url, l])).values()]
     : [];
+
+  const lineGroups = buildLineGroups(uniqueLinks);
 
   const allChecks = [hasEmail, hasPhone, hasAddress, hasEducation, hasExperience, hasSummary, hasSkills, hasJobTitleMatch];
   const passedTotal = allChecks.filter(Boolean).length;
@@ -125,27 +193,71 @@ export default function SearchabilitySection({ result }: Props) {
         </p>
       </div>
 
-      {/* Extracted hyperlinks panel */}
+      {/* ── Extracted hyperlinks panel ─────────────────────────────────── */}
       {uniqueLinks.length > 0 && (
-        <div className="mb-5 p-4 bg-indigo-500/5 border border-indigo-500/15 rounded-xl">
-          <div className="flex items-center gap-2 mb-3">
-            <Link2 className="h-4 w-4 text-indigo-400" />
+        <div className="mb-5 border border-indigo-500/15 rounded-xl overflow-hidden">
+          {/* Header */}
+          <div className="flex items-center gap-2 px-4 py-3 bg-indigo-500/5 border-b border-indigo-500/10">
+            <Link2 className="h-4 w-4 text-indigo-400 shrink-0" />
             <h4 className="text-sm font-bold text-foreground">Hyperlinks Extracted from Resume</h4>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-              {uniqueLinks.length} found
+            <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+              {uniqueLinks.length} link{uniqueLinks.length !== 1 ? "s" : ""}
             </span>
           </div>
-          <p className="text-xs text-muted-foreground mb-3">
-            These clickable links were detected inside your PDF and are included in the ATS analysis.
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {uniqueLinks.map((lnk, i) => (
-              <LinkBadge key={i} text={lnk.text} url={lnk.url} />
-            ))}
+
+          {/* One row per line-group */}
+          <div className="divide-y divide-white/[0.04]">
+            {[...lineGroups.entries()].map(([groupKey, groupLinks], gi) => {
+              const sortedGroup = [...groupLinks].sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
+              const detectedSep = sortedGroup.find(l => l.separator)?.separator?.trim() || "";
+              const isMulti = sortedGroup.length > 1;
+
+              return (
+                <div key={groupKey} className="px-4 py-3">
+                  {/* Pattern badge for multi-link lines */}
+                  {isMulti && (
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-[10px] uppercase tracking-wider font-bold text-muted-foreground/50">
+                        Line {gi + 1}
+                      </span>
+                      {detectedSep && (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/[0.04] border border-white/[0.06] text-muted-foreground">
+                          splitter:&nbsp;<span className="text-foreground/70">&quot;{detectedSep}&quot;</span>
+                        </span>
+                      )}
+                      <span className="text-[10px] text-muted-foreground/40">
+                        {isMulti ? patternLabel(detectedSep) : "single link"}
+                        {" "}·{" "}{sortedGroup.length} link{sortedGroup.length !== 1 ? "s" : ""}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Visual replica of the link line */}
+                  <LinkLineGroup links={sortedGroup} />
+
+                  {/* URL list under each group */}
+                  <div className="mt-2 space-y-0.5">
+                    {sortedGroup.map((lnk, li) => (
+                      <div key={li} className="flex items-center gap-2">
+                        <span className="text-[10px] text-muted-foreground/40 w-20 shrink-0 truncate">{lnk.text || "—"}</span>
+                        <span className="text-[10px] font-mono text-muted-foreground/60 truncate max-w-xs">{lnk.url}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="px-4 py-2.5 bg-white/[0.02] border-t border-white/[0.04]">
+            <p className="text-[11px] text-muted-foreground/50">
+              These URLs are included in the keyword analysis. Profiles and portfolios may contain additional context for ATS scoring.
+            </p>
           </div>
         </div>
       )}
 
+      {/* ── Standard checks ────────────────────────────────────────────── */}
       <div className="space-y-0">
         <CheckGroup
           title="Contact Information"

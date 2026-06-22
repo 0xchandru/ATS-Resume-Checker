@@ -112,7 +112,15 @@ export interface AnalysisResult {
   soft_skills?: any;
   other_skills?: any;
   evaluation?: AIEvaluation;
-  extracted_links?: Array<{ text: string; url: string; page: number }>;
+  extracted_links?: Array<{
+    text: string;
+    url: string;
+    page: number;
+    rect?: number[];
+    line_group?: string;
+    separator?: string;
+    position?: number;
+  }>;
 }
 
 export default function App() {
