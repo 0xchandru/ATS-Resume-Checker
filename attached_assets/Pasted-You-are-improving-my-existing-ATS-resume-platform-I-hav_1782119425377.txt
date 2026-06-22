@@ -1,0 +1,57 @@
+You are improving my existing ATS resume platform.
+
+I have a serious consistency issue: the report and ATS score are still different when I upload a resume versus when I manually input the same parsed resume content. Fix the root cause completely. The same resume content must always produce the same report and score, regardless of whether it comes from file upload, manual paste, or Smart Editor edits.
+
+Main requirements:
+
+1) One canonical resume pipeline
+- Build a single normalized resume representation used everywhere in the app.
+- Upload, manual input, Smart Editor edits, and rescans must all pass through the same parsing, normalization, matching, and scoring pipeline.
+- Remove any hidden differences caused by formatting, whitespace, bullet styles, line breaks, HTML, markdown, or section ordering.
+- Make the final evaluation deterministic and consistent.
+
+2) Fix report mismatch bug
+- Investigate why uploaded resumes and manually entered parsed resumes produce different reports.
+- Find the exact difference in input handling, normalization, tokenization, section detection, or scoring.
+- Fix the root cause, not just the visible symptom.
+- The same content should never generate different results just because the input source changed.
+
+3) Upgrade Smart Resume Editor
+- Replace the limited editing experience with a large rich text editor that contains the entire resume content in one place.
+- The editor must support full resume editing, not line-by-line fragmented widgets.
+- Users should be able to edit headings, bullets, spacing, paragraphs, and section content cleanly.
+- Preserve ATS-friendly structure while allowing flexible editing.
+- Make the editor feel like a premium resume workstation.
+
+4) Instant live re-evaluation
+- Whenever the user changes anything in the Smart Resume Editor, instantly re-run the ATS evaluation.
+- The score, matched keywords, missing keywords, section analysis, and report should update immediately on the platform.
+- Do not require a separate manual “analyze” step after every edit.
+- Keep the updates fast, responsive, and stable.
+
+5) Better AI features in Smart Resume Editor
+- Add stronger AI-powered features directly into the Smart Resume Editor.
+- Include AI Optimize for improving content.
+- Include AI rewrite suggestions for weak bullets, summary, skills, and experience.
+- Include AI improvements for ATS alignment, keyword targeting, and readability.
+- Make the AI features feel integrated into the editor, not separate or bolted on.
+
+6) ATS report quality
+- Ensure the report updates instantly when the content changes.
+- The score, section breakdown, keyword matching, skills matching, certificate matching, and suggestions must all reflect the latest edited content.
+- Make the report visually clean, reliable, and consistent.
+
+7) Technical expectations
+- Refactor the architecture if needed so upload, manual input, and editor changes all feed the same backend logic.
+- Use shared normalization and scoring functions.
+- Avoid duplicate parsing logic.
+- Avoid code paths that can diverge and create mismatched results.
+- Keep the implementation modular and production-quality.
+
+Deliverables:
+- Fixed score/report mismatch between uploaded and manually entered resumes
+- One canonical resume evaluation pipeline
+- Large rich text Smart Resume Editor for full resume editing
+- Instant live ATS re-evaluation after every edit
+- Better AI Optimize and AI assistance inside the editor
+- Cleaner, more premium UX
