@@ -1,0 +1,74 @@
+You are improving my existing ATS Resume Checker platform.
+
+I want you to fix the Smart Resume Editor, Resume Preview, and parsing/rendering pipeline so the resume looks clean, consistent, and highly ATS-friendly.
+
+Main requirements:
+
+1) A4 resume canvas in Smart Resume Editor
+- Add an A4 sheet-size resume widget in the Smart Resume Editor.
+- The widget must render the exact resume content in a realistic A4 page layout.
+- It should look like a proper printable resume, not a raw text box.
+- Keep the page width, margins, spacing, and typography aligned to A4 proportions.
+- The editor should feel like a premium resume editor.
+
+2) Fix uneven paragraph rendering
+- The resume content is currently rendering unevenly.
+- The Summary section is breaking into awkward lines instead of staying as one clean paragraph.
+- Extra blank lines are appearing between normal lines and this is damaging the flow.
+- Fix paragraph normalization so the summary, experience bullets, and section text render correctly.
+- Preserve intended paragraph structure, but remove accidental extra line gaps.
+- The content should render naturally and evenly, not with broken spacing or unstable line wrapping.
+
+3) Fix parsing and preview formatting
+- My resume parsing and preview are still wrong.
+- I want the parser behavior to be closer to Skillsyncer-style resume parsing quality.
+- Use smarter resume parsing that correctly separates headings, subheadings, bullets, links, and sections.
+- Detect and preserve real sections such as Summary, Skills, Education, Certifications, Projects, and Experience.
+- Do not split the same logical paragraph into many broken fragments.
+- Do not insert extra blank lines between lines that belong together.
+
+4) Fix HTML/code-like rendering issue
+- In Resume Preview and Smart Resume Editor, resume content is currently showing like HTML code or raw markup.
+- Fix this completely.
+- The UI must render clean human-readable resume content, not HTML tags, escaped markup, or code-like output.
+- If the content comes from rich text or HTML, sanitize and render it properly as formatted text.
+- Make sure the preview and editor show normal resume formatting only.
+
+5) Better Smart Resume Editor behavior
+- Improve the editor so it handles the whole resume cleanly.
+- The editor should preserve structure, spacing, and readability.
+- It should not create uneven paragraphs or separate every line into a broken block.
+- The editable content must stay visually consistent with the preview.
+
+6) ATS-friendly output
+- The final rendered resume must remain ATS-friendly.
+- Avoid decorative formatting that breaks parsing.
+- Keep the layout clean, readable, and compatible with ATS systems.
+- Ensure export and preview both reflect the same clean structure.
+
+7) Matching the resume content shown below
+- Make sure the parser and renderer handle real resume content like this properly:
+  - name line
+  - contact links line
+  - professional summary paragraph
+  - technical skills grouped by category
+  - education section
+  - certifications section
+  - project entries
+- The summary must appear as one clean paragraph.
+- Skills categories should not be broken into weird line fragments.
+- Project descriptions should wrap naturally and consistently.
+
+8) Technical expectations
+- Refactor the parsing and rendering logic if needed.
+- Use a single normalized content pipeline for upload, preview, smart editor, and export.
+- Prevent content duplication, extra spacing, line fragmentation, and HTML leakage.
+- Make the output stable whether the resume is uploaded, pasted, edited, or re-rendered.
+
+Deliverables:
+- A4 sheet-size resume widget in Smart Resume Editor
+- Clean and even paragraph rendering
+- Fixed extra line spacing between normal lines
+- Skillsyncer-like improved parsing quality
+- Fixed HTML/raw markup rendering in Preview and Editor
+- Better ATS-friendly resume rendering and editing experience
