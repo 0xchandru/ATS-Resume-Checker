@@ -1,0 +1,255 @@
+{
+  "version": "1.0",
+  "description": "Comprehensive cybersecurity tools taxonomy organized by category. Used for role-aware matching and gap analysis.",
+  "categories": {
+    "siem_platforms": {
+      "display": "SIEM Platforms",
+      "tools": [
+        {"name": "Splunk", "aliases": ["Splunk ES", "Splunk Enterprise Security", "Splunk SIEM"]},
+        {"name": "Microsoft Sentinel", "aliases": ["Azure Sentinel", "MS Sentinel"]},
+        {"name": "IBM QRadar", "aliases": ["QRadar", "IBM SIEM"]},
+        {"name": "Elastic SIEM", "aliases": ["Elastic Security", "ELK Stack", "ElasticSearch"]},
+        {"name": "LogRhythm", "aliases": ["LogRhythm NextGen SIEM"]},
+        {"name": "Exabeam", "aliases": ["Exabeam Fusion"]},
+        {"name": "ArcSight", "aliases": ["HP ArcSight", "Micro Focus ArcSight"]},
+        {"name": "Secureworks", "aliases": ["Secureworks Taegis"]},
+        {"name": "AlienVault", "aliases": ["AT&T USM", "AlienVault OSSIM", "USM Anywhere"]},
+        {"name": "Graylog", "aliases": []},
+        {"name": "Chronicle", "aliases": ["Google Chronicle", "Google SIEM"]},
+        {"name": "SolarWinds SIEM", "aliases": ["SolarWinds Security Event Manager"]},
+        {"name": "ManageEngine Log360", "aliases": ["ManageEngine SIEM"]}
+      ]
+    },
+    "edr_xdr": {
+      "display": "EDR / XDR Platforms",
+      "tools": [
+        {"name": "CrowdStrike Falcon", "aliases": ["CrowdStrike", "Falcon EDR"]},
+        {"name": "SentinelOne", "aliases": ["SentinelOne Singularity"]},
+        {"name": "Microsoft Defender", "aliases": ["Defender for Endpoint", "MDE", "Windows Defender"]},
+        {"name": "Carbon Black", "aliases": ["VMware Carbon Black", "CB Response"]},
+        {"name": "Cybereason", "aliases": []},
+        {"name": "Cortex XDR", "aliases": ["Palo Alto Cortex XDR", "Traps"]},
+        {"name": "Cylance", "aliases": ["BlackBerry Cylance"]},
+        {"name": "Sophos Intercept X", "aliases": ["Sophos EDR"]},
+        {"name": "Trend Micro Apex One", "aliases": ["Trend Micro XDR"]},
+        {"name": "ESET PROTECT", "aliases": ["ESET EDR"]},
+        {"name": "Elastic Endpoint", "aliases": ["Elastic EDR"]}
+      ]
+    },
+    "soar_platforms": {
+      "display": "SOAR Platforms",
+      "tools": [
+        {"name": "Splunk SOAR", "aliases": ["Phantom", "Splunk Phantom"]},
+        {"name": "Palo Alto XSOAR", "aliases": ["Cortex XSOAR", "Demisto"]},
+        {"name": "IBM Resilient", "aliases": ["IBM SOAR"]},
+        {"name": "Swimlane", "aliases": []},
+        {"name": "Tines", "aliases": []},
+        {"name": "Siemplify", "aliases": ["Google SOAR"]},
+        {"name": "D3 Security", "aliases": ["D3 SOAR"]},
+        {"name": "Devo", "aliases": []},
+        {"name": "LogicHub", "aliases": ["DEVO SOAR"]}
+      ]
+    },
+    "threat_intelligence": {
+      "display": "Threat Intelligence Platforms",
+      "tools": [
+        {"name": "MISP", "aliases": ["Malware Information Sharing Platform"]},
+        {"name": "OpenCTI", "aliases": []},
+        {"name": "ThreatConnect", "aliases": []},
+        {"name": "Anomali ThreatStream", "aliases": ["Anomali"]},
+        {"name": "Recorded Future", "aliases": []},
+        {"name": "Mandiant Advantage", "aliases": ["FireEye Threat Intelligence"]},
+        {"name": "VirusTotal", "aliases": []},
+        {"name": "Shodan", "aliases": []},
+        {"name": "Censys", "aliases": []},
+        {"name": "Maltego", "aliases": []},
+        {"name": "SpiderFoot", "aliases": []},
+        {"name": "Any.run", "aliases": []},
+        {"name": "Hybrid Analysis", "aliases": ["Falcon Sandbox"]},
+        {"name": "Cuckoo Sandbox", "aliases": []},
+        {"name": "Joe Sandbox", "aliases": []}
+      ]
+    },
+    "vulnerability_management": {
+      "display": "Vulnerability Management",
+      "tools": [
+        {"name": "Nessus", "aliases": ["Tenable Nessus"]},
+        {"name": "Qualys VMDR", "aliases": ["Qualys", "Qualys VM"]},
+        {"name": "Rapid7 InsightVM", "aliases": ["Rapid7", "Nexpose"]},
+        {"name": "Tenable.io", "aliases": ["Tenable.sc", "Tenable Security Center"]},
+        {"name": "OpenVAS", "aliases": ["Greenbone"]},
+        {"name": "Wiz", "aliases": []},
+        {"name": "Orca Security", "aliases": []},
+        {"name": "Lacework", "aliases": []},
+        {"name": "Prisma Cloud", "aliases": ["Palo Alto Prisma Cloud"]},
+        {"name": "Aqua Security", "aliases": []}
+      ]
+    },
+    "network_security": {
+      "display": "Network Security & Monitoring",
+      "tools": [
+        {"name": "Wireshark", "aliases": []},
+        {"name": "tcpdump", "aliases": []},
+        {"name": "Zeek", "aliases": ["Bro IDS"]},
+        {"name": "Suricata", "aliases": []},
+        {"name": "Snort", "aliases": []},
+        {"name": "Nmap", "aliases": []},
+        {"name": "Palo Alto Firewall", "aliases": ["Palo Alto NGFW", "PAN-OS"]},
+        {"name": "Cisco ASA", "aliases": ["Cisco Firewall"]},
+        {"name": "Fortinet FortiGate", "aliases": ["FortiGate", "Fortinet"]},
+        {"name": "Check Point", "aliases": ["Check Point NGFW"]},
+        {"name": "Darktrace", "aliases": []},
+        {"name": "Cisco Stealthwatch", "aliases": ["Cisco Secure Network Analytics"]},
+        {"name": "ExtraHop", "aliases": []}
+      ]
+    },
+    "offensive_security": {
+      "display": "Offensive Security / Pen Testing",
+      "tools": [
+        {"name": "Metasploit", "aliases": ["Metasploit Framework", "MSF"]},
+        {"name": "Burp Suite", "aliases": ["Burp Suite Pro", "Burp Suite Professional"]},
+        {"name": "Kali Linux", "aliases": ["Kali"]},
+        {"name": "Cobalt Strike", "aliases": []},
+        {"name": "BloodHound", "aliases": []},
+        {"name": "Mimikatz", "aliases": []},
+        {"name": "SQLmap", "aliases": []},
+        {"name": "Hashcat", "aliases": []},
+        {"name": "John the Ripper", "aliases": ["JtR"]},
+        {"name": "Nikto", "aliases": []},
+        {"name": "Gobuster", "aliases": []},
+        {"name": "Dirbuster", "aliases": []},
+        {"name": "Hydra", "aliases": []},
+        {"name": "Impacket", "aliases": []},
+        {"name": "CrackMapExec", "aliases": ["CME"]},
+        {"name": "OWASP ZAP", "aliases": ["ZAP", "Zaproxy"]},
+        {"name": "Aircrack-ng", "aliases": []},
+        {"name": "Responder", "aliases": []},
+        {"name": "Empire", "aliases": ["PowerShell Empire"]}
+      ]
+    },
+    "forensics_ir": {
+      "display": "Digital Forensics & Incident Response",
+      "tools": [
+        {"name": "Autopsy", "aliases": []},
+        {"name": "Volatility", "aliases": ["Volatility Framework"]},
+        {"name": "FTK", "aliases": ["Forensic Toolkit"]},
+        {"name": "EnCase", "aliases": []},
+        {"name": "X-Ways Forensics", "aliases": ["X-Ways"]},
+        {"name": "Cellebrite", "aliases": []},
+        {"name": "Sleuth Kit", "aliases": ["TSK"]},
+        {"name": "Rekall", "aliases": []},
+        {"name": "AXIOM", "aliases": ["Magnet AXIOM"]},
+        {"name": "Ghidra", "aliases": []},
+        {"name": "IDA Pro", "aliases": ["IDA"]},
+        {"name": "Binary Ninja", "aliases": []},
+        {"name": "Radare2", "aliases": ["r2"]},
+        {"name": "FLOSS", "aliases": []},
+        {"name": "PE Studio", "aliases": []}
+      ]
+    },
+    "cloud_security": {
+      "display": "Cloud Security",
+      "tools": [
+        {"name": "AWS Security Hub", "aliases": []},
+        {"name": "AWS GuardDuty", "aliases": ["GuardDuty"]},
+        {"name": "AWS Macie", "aliases": ["Macie"]},
+        {"name": "AWS CloudTrail", "aliases": ["CloudTrail"]},
+        {"name": "Azure Defender", "aliases": ["Microsoft Defender for Cloud"]},
+        {"name": "GCP Security Command Center", "aliases": ["SCC"]},
+        {"name": "Terraform", "aliases": []},
+        {"name": "HashiCorp Vault", "aliases": ["Vault"]},
+        {"name": "Kubernetes", "aliases": ["K8s"]},
+        {"name": "Docker", "aliases": []},
+        {"name": "SonarQube", "aliases": []},
+        {"name": "Checkmarx", "aliases": []},
+        {"name": "Veracode", "aliases": []},
+        {"name": "Snyk", "aliases": []}
+      ]
+    },
+    "identity_access": {
+      "display": "Identity & Access Management",
+      "tools": [
+        {"name": "Active Directory", "aliases": ["AD", "Microsoft AD"]},
+        {"name": "Azure Active Directory", "aliases": ["Azure AD", "Entra ID"]},
+        {"name": "Okta", "aliases": []},
+        {"name": "CyberArk", "aliases": ["CyberArk PAM"]},
+        {"name": "BeyondTrust", "aliases": []},
+        {"name": "SailPoint", "aliases": []},
+        {"name": "Ping Identity", "aliases": []},
+        {"name": "LDAP", "aliases": []},
+        {"name": "RADIUS", "aliases": []},
+        {"name": "SAML", "aliases": []},
+        {"name": "OAuth", "aliases": ["OAuth2"]},
+        {"name": "OpenID Connect", "aliases": ["OIDC"]}
+      ]
+    },
+    "case_ticketing": {
+      "display": "Case Management & Ticketing",
+      "tools": [
+        {"name": "TheHive", "aliases": ["The Hive"]},
+        {"name": "ServiceNow", "aliases": ["SNOW"]},
+        {"name": "Jira", "aliases": ["Jira Service Management"]},
+        {"name": "PagerDuty", "aliases": []},
+        {"name": "Cortex", "aliases": []},
+        {"name": "Freshservice", "aliases": []},
+        {"name": "Zendesk", "aliases": []}
+      ]
+    },
+    "scripting_languages": {
+      "display": "Scripting & Query Languages for Security",
+      "tools": [
+        {"name": "Python", "aliases": []},
+        {"name": "PowerShell", "aliases": ["PS"]},
+        {"name": "Bash", "aliases": ["Shell scripting", "Shell script"]},
+        {"name": "SPL", "aliases": ["Splunk Processing Language"]},
+        {"name": "KQL", "aliases": ["Kusto Query Language"]},
+        {"name": "SQL", "aliases": []},
+        {"name": "YARA", "aliases": ["YARA rules"]},
+        {"name": "Sigma", "aliases": ["Sigma rules"]},
+        {"name": "Lua", "aliases": []},
+        {"name": "Ruby", "aliases": []}
+      ]
+    },
+    "cyber_frameworks": {
+      "display": "Cybersecurity Frameworks & Standards",
+      "tools": [
+        {"name": "MITRE ATT&CK", "aliases": ["ATT&CK", "MITRE"]},
+        {"name": "NIST Cybersecurity Framework", "aliases": ["NIST CSF", "NIST 800-53"]},
+        {"name": "ISO 27001", "aliases": ["ISO/IEC 27001"]},
+        {"name": "SOC 2", "aliases": ["SOC2"]},
+        {"name": "PCI DSS", "aliases": ["PCI"]},
+        {"name": "HIPAA", "aliases": []},
+        {"name": "GDPR", "aliases": []},
+        {"name": "CIS Controls", "aliases": ["CIS Benchmarks"]},
+        {"name": "Cyber Kill Chain", "aliases": ["Kill Chain"]},
+        {"name": "Diamond Model", "aliases": []},
+        {"name": "OWASP Top 10", "aliases": ["OWASP"]},
+        {"name": "STIX/TAXII", "aliases": ["STIX", "TAXII"]}
+      ]
+    },
+    "lab_platforms": {
+      "display": "Cyber Lab & Training Platforms",
+      "tools": [
+        {"name": "TryHackMe", "aliases": ["THM"]},
+        {"name": "Hack The Box", "aliases": ["HTB"]},
+        {"name": "VulnHub", "aliases": []},
+        {"name": "CyberDefenders", "aliases": []},
+        {"name": "LetsDefend", "aliases": []},
+        {"name": "BlueTeamLabs", "aliases": ["BTL", "Blue Team Labs Online"]},
+        {"name": "SANS Cyber Ranges", "aliases": []},
+        {"name": "Immersive Labs", "aliases": []},
+        {"name": "RangeForce", "aliases": []}
+      ]
+    }
+  },
+  "role_tool_mapping": {
+    "soc_analyst": ["siem_platforms", "edr_xdr", "soar_platforms", "case_ticketing", "scripting_languages"],
+    "pen_tester": ["offensive_security", "network_security", "scripting_languages"],
+    "grc_analyst": ["vulnerability_management", "cyber_frameworks"],
+    "threat_intel": ["threat_intelligence", "scripting_languages", "cyber_frameworks"],
+    "cloud_security": ["cloud_security", "identity_access", "scripting_languages"],
+    "forensics": ["forensics_ir", "scripting_languages"],
+    "siem_engineer": ["siem_platforms", "scripting_languages", "soar_platforms"],
+    "general_security": ["network_security", "identity_access", "cyber_frameworks"]
+  }
+}

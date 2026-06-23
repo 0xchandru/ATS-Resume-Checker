@@ -1,0 +1,112 @@
+You are a senior full-stack engineer, ML/NLP engineer, and product architect.
+
+Your task is to analyze the entire ATS-Resume-Checker project in this repository and upgrade it into a production-grade, world-class ATS Resume Checker platform that is better than Skillsyncer.com in depth, accuracy, usability, and code quality.
+
+Primary goal:
+Build the best ATS Resume Checker for cybersecurity and IT roles first, then extend it so it also works as a strong general ATS Resume Checker for all roles.
+
+Repository context:
+- I already opened opencode inside the project root.
+- The resume dataset and knowledge-base files are inside:
+  ATS-Resume-Parser/backend/data/kb
+- You must inspect the full project: backend, frontend, datasets, utilities, parsers, scoring logic, APIs, UI, configs, tests, and folder structure.
+
+Your responsibilities:
+1. Audit the entire codebase.
+2. Analyze all existing datasets in backend/data/kb.
+3. Identify missing datasets, weak datasets, duplicate datasets, bad naming, broken schemas, and unused files.
+4. Fix resume parsing so it correctly extracts text, sections, keywords, formatting, experience, skills, and role alignment from PDF/DOCX resumes.
+5. Redesign the scoring engine so it is accurate, explainable, role-aware, and not biased by stopwords or junk keywords.
+6. Upgrade the backend architecture, APIs, validation, and data pipeline.
+7. Redesign the frontend UI, pages, layout, workflow, and report experience to a much higher level.
+8. Restructure the entire project folder cleanly.
+9. Remove unwanted, dead, duplicate, temporary, experimental, and broken files/folders only after verifying they are unused.
+10. Make the platform strong for:
+   - Cybersecurity roles
+   - SOC Analyst L1/L2
+   - SOC Analyst Trainee
+   - SOC Analyst Junior
+   - SOC Analyst Fresher
+   - SOC Analyst Intern
+   - Security Analyst Fresher
+   - Security Analyst Intern
+   - Cybersecurity Intern
+   - Junior Security Analyst
+   - Security Analyst
+   - Blue Team
+   - GRC
+   - SIEM
+   - Threat Intelligence
+   - Penetration Testing
+   - General IT roles
+   - And all other standard ATS use cases
+11. Improve dataset coverage for:
+   - cybersecurity job descriptions
+   - IT job descriptions
+   - general engineering / software / support / operations roles
+   - skills taxonomy
+   - action verbs
+   - section detection
+   - resume bullet quality
+   - certifications
+   - tools and technologies
+   - title normalization
+   - synonym mapping
+   - semantic matching
+   - keyword matching
+   - entity extraction
+12. If any important dataset category is missing, explicitly tell me what is missing and add the best possible replacement dataset structure or source format.
+13. If you cannot fetch external datasets directly, still tell me exactly what dataset categories I should add and how they should be structured.
+14. Do not invent fake capabilities. Do not claim something works unless you actually verified it in code.
+15. Do not ask me unnecessary questions. Make the best architectural decisions yourself.
+
+Critical quality requirements:
+- Resume parsing must be accurate and robust.
+- Keyword extraction must filter stopwords, filler words, and irrelevant terms.
+- Matching must support exact, fuzzy, semantic, and role-specific matching.
+- The system must separate cybersecurity-specific logic from general ATS logic cleanly.
+- The UI must look premium, modern, fast, and recruiter-friendly.
+- Reports must be easy to understand, with clear reasons for scores and clear missing-skill explanations.
+- The platform must feel like a polished SaaS product, not a student demo.
+- The code must be clean, maintainable, modular, and scalable.
+- Folder structure must be logically reorganized.
+- Remove unnecessary clutter and keep only what is useful.
+- Preserve or improve existing useful features.
+- Add tests where logic is important.
+- Keep APIs stable where possible, but refactor aggressively if needed to fix the system properly.
+- If you want you can use codes in Resume-Matcher.
+
+
+What I want you to do:
+A. First, inspect and summarize the current architecture, datasets, and major defects.
+B. Then produce a concrete improvement plan.
+C. Then implement the changes directly in the codebase.
+D. Then tell me exactly:
+   - what you changed
+   - which files you added/removed/modified
+   - which datasets are missing
+   - what parsing/scoring bugs were fixed
+   - what UI/UX changes were made
+   - what still remains incomplete
+E. If you find a better folder structure, apply it.
+F. If dataset organization is messy, normalize it.
+G. If you find broken logic, replace it with better logic.
+H. If you find duplicated code, consolidate it.
+
+Expected outcome:
+A complete ATS Resume Checker platform with:
+- accurate PDF/DOCX parsing
+- strong section detection
+- cybersecurity role intelligence
+- general ATS intelligence
+- better scoring logic
+- keyword quality control
+- semantic matching
+- polished UI
+- clean folder structure
+- maintainable backend
+- professional output reports
+- better dataset organization
+
+Be systematic, aggressive, and thorough.
+Start by auditing the repository and datasets, then proceed to refactor and improve the platform.
