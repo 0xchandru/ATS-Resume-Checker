@@ -1,4 +1,4 @@
-import { Zap, Target, FileText, Sparkles, TrendingUp, CheckCircle2, ArrowRight, BarChart3, Brain, Shield, Clock, ChevronRight } from "lucide-react";
+import { Zap, Target, FileText, Sparkles, TrendingUp, CheckCircle2, ArrowRight, BarChart3, Brain, Shield, ChevronRight } from "lucide-react";
 
 interface Props {
   onLaunch: () => void;
@@ -16,6 +16,12 @@ const FEATURES = [
     color: "blue",
     title: "AI Role Fit Verdict",
     desc: "Our AI evaluates your actual fit for the role — separating real skills from buzzwords. Honest, actionable, no fluff.",
+  },
+  {
+    icon: Shield,
+    color: "cyan",
+    title: "Cybersecurity Intelligence",
+    desc: "Detects SOC Analyst tiers (L1/L2/L3/Trainee), GRC, Pen Tester, Cloud Security, and 8+ more cyber roles — with tier-specific cert and tool guidance.",
   },
   {
     icon: Sparkles,
@@ -37,7 +43,7 @@ const FEATURES = [
   },
   {
     icon: BarChart3,
-    color: "cyan",
+    color: "indigo",
     title: "Score History & Compare",
     desc: "Track your score improvement across multiple resume versions. Compare two resumes side-by-side to see what changed.",
   },
@@ -51,18 +57,19 @@ const STEPS = [
 
 const STATS = [
   { value: "10+", label: "Analysis layers" },
-  { value: "14k+", label: "Skills in knowledge base" },
+  { value: "99k+", label: "Skills in knowledge base" },
   { value: "< 5s", label: "Analysis time" },
-  { value: "100%", label: "Free to use" },
+  { value: "8", label: "AI providers supported" },
 ];
 
 const colorMap: Record<string, string> = {
   violet: "from-violet-600/20 to-violet-600/5 border-violet-500/20 text-violet-400",
   blue:   "from-blue-600/20 to-blue-600/5 border-blue-500/20 text-blue-400",
+  cyan:   "from-cyan-600/20 to-cyan-600/5 border-cyan-500/20 text-cyan-400",
   emerald:"from-emerald-600/20 to-emerald-600/5 border-emerald-500/20 text-emerald-400",
   amber:  "from-amber-600/20 to-amber-600/5 border-amber-500/20 text-amber-400",
   pink:   "from-pink-600/20 to-pink-600/5 border-pink-500/20 text-pink-400",
-  cyan:   "from-cyan-600/20 to-cyan-600/5 border-cyan-500/20 text-cyan-400",
+  indigo: "from-indigo-600/20 to-indigo-600/5 border-indigo-500/20 text-indigo-400",
 };
 
 export default function LandingPage({ onLaunch }: Props) {
@@ -71,7 +78,6 @@ export default function LandingPage({ onLaunch }: Props) {
 
       {/* Hero */}
       <section className="relative flex flex-col items-center justify-center min-h-screen px-4 text-center">
-        {/* Background glows */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-violet-600/10 rounded-full blur-[120px]" />
           <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-indigo-600/8 rounded-full blur-[100px]" />
@@ -79,13 +85,11 @@ export default function LandingPage({ onLaunch }: Props) {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto">
-          {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/25 bg-violet-500/10 text-violet-400 text-xs font-bold uppercase tracking-widest mb-8">
             <Zap className="h-3 w-3" />
-            AI-Powered · 10+ Analysis Layers · Free
+            AI-Powered · 10+ Analysis Layers · Cyber Role Intelligence · Free
           </div>
 
-          {/* Headline */}
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-foreground leading-[1.05] tracking-tight mb-6">
             Beat the{" "}
             <span className="bg-gradient-to-r from-violet-400 via-indigo-400 to-violet-500 bg-clip-text text-transparent">
@@ -97,11 +101,10 @@ export default function LandingPage({ onLaunch }: Props) {
 
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
             The most advanced ATS resume checker — deep skills analysis, AI role-fit verdict,
-            live score editor, and automatic keyword gap detection. Free, instant, and more
-            accurate than any other tool.
+            cybersecurity role intelligence (SOC L1/L2/L3, GRC, Pen Test, Cloud Sec), live score
+            editor, and keyword gap detection. Free, instant, no signup.
           </p>
 
-          {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <button
               onClick={onLaunch}
@@ -131,15 +134,43 @@ export default function LandingPage({ onLaunch }: Props) {
           </div>
         </div>
 
-        {/* Scroll hint */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground/40">
           <span className="text-xs font-medium uppercase tracking-widest">Scroll to explore</span>
           <div className="w-px h-8 bg-gradient-to-b from-muted-foreground/30 to-transparent" />
         </div>
       </section>
 
+      {/* Cybersecurity Focus Banner */}
+      <section className="py-10 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative rounded-2xl border border-cyan-500/20 bg-cyan-500/5 px-6 py-5 flex flex-col sm:flex-row items-center gap-4 overflow-hidden">
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute right-0 top-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[60px]" />
+            </div>
+            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-cyan-500/15 border border-cyan-500/25 shrink-0 text-2xl">
+              🛡️
+            </div>
+            <div className="relative z-10 text-center sm:text-left">
+              <p className="text-sm font-bold text-cyan-300 mb-1">Cybersecurity Role Intelligence</p>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Built specifically for SOC Analyst (L1 / L2 / L3 / Trainee / Fresher), Pen Tester,
+                GRC Analyst, Threat Intel, Cloud Security, DFIR, SIEM Engineer, and more.
+                Cert-aware scoring, tier-specific leniency, and tool gap analysis.
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-center gap-1.5 shrink-0">
+              {["SOC L1", "SOC L2", "SOC L3", "Trainee", "GRC", "Pen Test", "Cloud Sec", "DFIR"].map(tag => (
+                <span key={tag} className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Grid */}
-      <section className="py-24 px-4">
+      <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <span className="text-xs font-bold text-violet-400 uppercase tracking-widest">Features</span>
@@ -210,7 +241,6 @@ export default function LandingPage({ onLaunch }: Props) {
           </div>
 
           <div className="rounded-2xl border border-white/[0.06] overflow-hidden">
-            {/* Header */}
             <div className="grid grid-cols-3 bg-white/[0.03] border-b border-white/[0.06] px-6 py-4">
               <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Feature</div>
               <div className="text-center text-xs font-bold text-violet-400 uppercase tracking-wider">ATSOptimize</div>
@@ -221,11 +251,13 @@ export default function LandingPage({ onLaunch }: Props) {
               ["Semantic / AI matching", true, false],
               ["Evidence quality scoring", true, false],
               ["Seniority gap analysis", true, false],
+              ["Cyber role tier detection (SOC L1/L2/L3)", true, false],
               ["Live Smart Editor + rescore", true, false],
               ["Role fit verdict", true, false],
               ["Cover letter generation", true, false],
               ["Score history tracking", true, false],
-              ["14,000+ skill knowledge base", true, false],
+              ["99,000+ skill knowledge base", true, false],
+              ["8 AI provider options", true, false],
             ].map(([label, ours, theirs], i) => (
               <div
                 key={i}
@@ -283,7 +315,7 @@ export default function LandingPage({ onLaunch }: Props) {
           </div>
           <span className="font-bold text-sm text-foreground">ATS<span className="text-violet-400">Optimize</span></span>
         </div>
-        <p className="text-xs text-muted-foreground">AI-powered resume intelligence · Beat the ATS filter</p>
+        <p className="text-xs text-muted-foreground">AI-powered resume intelligence · Cybersecurity role intelligence · Beat the ATS filter</p>
       </footer>
     </div>
   );

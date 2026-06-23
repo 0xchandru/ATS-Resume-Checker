@@ -1,24 +1,52 @@
 {
-  "version": "1.0",
-  "description": "Cybersecurity job description keyword patterns and templates by role. Used for gap analysis and scoring calibration.",
+  "version": "2.1.0",
+  "description": "Cybersecurity JD patterns with SOC analyst tier awareness (L1/L2/L3/Trainee/Fresher)",
   "roles": {
     "soc_analyst_l1": {
       "display": "SOC Analyst L1 (Junior/Fresher/Intern)",
       "seniority": "entry",
       "critical_skills": [
-        "SIEM", "log analysis", "alert triage", "incident response", "threat detection",
-        "IDS/IPS", "firewall", "network monitoring", "TCP/IP", "vulnerability assessment"
+        "SIEM",
+        "log analysis",
+        "alert triage",
+        "incident response",
+        "threat detection",
+        "IDS/IPS",
+        "firewall",
+        "network monitoring",
+        "TCP/IP",
+        "vulnerability assessment"
       ],
       "important_skills": [
-        "Splunk", "QRadar", "Microsoft Sentinel", "CrowdStrike", "Wireshark",
-        "ServiceNow", "Jira", "MITRE ATT&CK", "kill chain", "Python", "PowerShell"
+        "Splunk",
+        "QRadar",
+        "Microsoft Sentinel",
+        "CrowdStrike",
+        "Wireshark",
+        "ServiceNow",
+        "Jira",
+        "MITRE ATT&CK",
+        "kill chain",
+        "Python",
+        "PowerShell"
       ],
       "nice_to_have_skills": [
-        "SOAR", "threat hunting", "malware analysis", "penetration testing basics",
-        "CTF experience", "TryHackMe", "Hack The Box", "BlueTeamLabs"
+        "SOAR",
+        "threat hunting",
+        "malware analysis",
+        "penetration testing basics",
+        "CTF experience",
+        "TryHackMe",
+        "Hack The Box",
+        "BlueTeamLabs"
       ],
       "typical_certs": [
-        "CompTIA Security+", "CEH", "BTL1", "CySA+", "GCIH", "Google Cybersecurity Certificate"
+        "CompTIA Security+",
+        "CEH",
+        "BTL1",
+        "CySA+",
+        "GCIH",
+        "Google Cybersecurity Certificate"
       ],
       "typical_responsibilities": [
         "Monitor security alerts and events in SIEM",
@@ -29,28 +57,55 @@
         "Analyze logs from network, endpoint, and cloud sources"
       ],
       "common_jd_phrases": [
-        "monitor security events", "first line of defence", "alert triage",
-        "follow runbooks", "incident tickets", "shift-based", "24/7 operations",
-        "false positive reduction", "threat intelligence feeds"
+        "monitor security events",
+        "first line of defence",
+        "alert triage",
+        "follow runbooks",
+        "incident tickets",
+        "shift-based",
+        "24/7 operations",
+        "false positive reduction",
+        "threat intelligence feeds"
       ]
     },
     "soc_analyst_l2": {
       "display": "SOC Analyst L2 (Mid-Level)",
       "seniority": "mid",
       "critical_skills": [
-        "SIEM", "threat hunting", "incident response", "malware analysis",
-        "digital forensics", "SOAR", "threat intelligence", "EDR"
+        "SIEM",
+        "threat hunting",
+        "incident response",
+        "malware analysis",
+        "digital forensics",
+        "SOAR",
+        "threat intelligence",
+        "EDR"
       ],
       "important_skills": [
-        "Splunk", "QRadar", "CrowdStrike", "SentinelOne", "Cortex XDR",
-        "MITRE ATT&CK", "Python", "PowerShell", "network forensics"
+        "Splunk",
+        "QRadar",
+        "CrowdStrike",
+        "SentinelOne",
+        "Cortex XDR",
+        "MITRE ATT&CK",
+        "Python",
+        "PowerShell",
+        "network forensics"
       ],
       "nice_to_have_skills": [
-        "reverse engineering", "custom YARA rules", "Sigma rules",
-        "penetration testing", "red team collaboration"
+        "reverse engineering",
+        "custom YARA rules",
+        "Sigma rules",
+        "penetration testing",
+        "red team collaboration"
       ],
       "typical_certs": [
-        "GCIH", "GCIA", "CySA+", "ECIH", "Splunk Core Certified", "CEH"
+        "GCIH",
+        "GCIA",
+        "CySA+",
+        "ECIH",
+        "Splunk Core Certified",
+        "CEH"
       ],
       "typical_responsibilities": [
         "Investigate and contain advanced security incidents",
@@ -65,18 +120,39 @@
       "display": "GRC Analyst",
       "seniority": "mid",
       "critical_skills": [
-        "ISO 27001", "NIST CSF", "risk assessment", "audit", "compliance",
-        "policy", "SOC 2", "PCI DSS", "GDPR", "risk register"
+        "ISO 27001",
+        "NIST CSF",
+        "risk assessment",
+        "audit",
+        "compliance",
+        "policy",
+        "SOC 2",
+        "PCI DSS",
+        "GDPR",
+        "risk register"
       ],
       "important_skills": [
-        "third-party risk", "vendor risk management", "BCP", "BCM",
-        "security awareness", "data classification", "GRC tools"
+        "third-party risk",
+        "vendor risk management",
+        "BCP",
+        "BCM",
+        "security awareness",
+        "data classification",
+        "GRC tools"
       ],
       "nice_to_have_skills": [
-        "HIPAA", "FedRAMP", "DPIA", "security architecture review"
+        "HIPAA",
+        "FedRAMP",
+        "DPIA",
+        "security architecture review"
       ],
       "typical_certs": [
-        "CISM", "CRISC", "CISA", "ISO 27001 Lead Auditor", "CISSP", "CGEIT"
+        "CISM",
+        "CRISC",
+        "CISA",
+        "ISO 27001 Lead Auditor",
+        "CISSP",
+        "CGEIT"
       ],
       "typical_responsibilities": [
         "Maintain and improve the information security management system",
@@ -91,19 +167,40 @@
       "display": "Penetration Tester / Ethical Hacker",
       "seniority": "mid",
       "critical_skills": [
-        "penetration testing", "web application testing", "network testing",
-        "Metasploit", "Burp Suite", "Kali Linux", "vulnerability assessment"
+        "penetration testing",
+        "web application testing",
+        "network testing",
+        "Metasploit",
+        "Burp Suite",
+        "Kali Linux",
+        "vulnerability assessment"
       ],
       "important_skills": [
-        "Python", "Bash", "PowerShell", "OWASP Top 10", "exploit development",
-        "privilege escalation", "Active Directory", "social engineering"
+        "Python",
+        "Bash",
+        "PowerShell",
+        "OWASP Top 10",
+        "exploit development",
+        "privilege escalation",
+        "Active Directory",
+        "social engineering"
       ],
       "nice_to_have_skills": [
-        "red team operations", "Cobalt Strike", "custom exploit development",
-        "mobile testing", "API testing", "cloud penetration testing"
+        "red team operations",
+        "Cobalt Strike",
+        "custom exploit development",
+        "mobile testing",
+        "API testing",
+        "cloud penetration testing"
       ],
       "typical_certs": [
-        "OSCP", "CEH", "CPENT", "GPEN", "PenTest+", "PNPT", "eJPT"
+        "OSCP",
+        "CEH",
+        "CPENT",
+        "GPEN",
+        "PenTest+",
+        "PNPT",
+        "eJPT"
       ],
       "typical_responsibilities": [
         "Conduct black-box and white-box penetration tests",
@@ -118,18 +215,35 @@
       "display": "Threat Intelligence Analyst",
       "seniority": "mid",
       "critical_skills": [
-        "threat intelligence", "OSINT", "IOC analysis", "TTP analysis",
-        "MITRE ATT&CK", "threat actor tracking", "MISP"
+        "threat intelligence",
+        "OSINT",
+        "IOC analysis",
+        "TTP analysis",
+        "MITRE ATT&CK",
+        "threat actor tracking",
+        "MISP"
       ],
       "important_skills": [
-        "Python", "STIX/TAXII", "malware analysis", "YARA rules",
-        "Recorded Future", "Anomali", "OpenCTI", "Maltego"
+        "Python",
+        "STIX/TAXII",
+        "malware analysis",
+        "YARA rules",
+        "Recorded Future",
+        "Anomali",
+        "OpenCTI",
+        "Maltego"
       ],
       "nice_to_have_skills": [
-        "dark web monitoring", "reverse engineering", "APT research"
+        "dark web monitoring",
+        "reverse engineering",
+        "APT research"
       ],
       "typical_certs": [
-        "GCTI", "CTIA", "GREM", "GCFE", "SANS FOR578"
+        "GCTI",
+        "CTIA",
+        "GREM",
+        "GCFE",
+        "SANS FOR578"
       ],
       "typical_responsibilities": [
         "Produce strategic and tactical threat intelligence reports",
@@ -143,18 +257,39 @@
       "display": "Cloud Security Engineer",
       "seniority": "senior",
       "critical_skills": [
-        "AWS", "Azure", "GCP", "IAM", "cloud security posture management",
-        "Terraform", "Kubernetes", "DevSecOps", "CSPM"
+        "AWS",
+        "Azure",
+        "GCP",
+        "IAM",
+        "cloud security posture management",
+        "Terraform",
+        "Kubernetes",
+        "DevSecOps",
+        "CSPM"
       ],
       "important_skills": [
-        "SAST", "DAST", "container security", "secret management",
-        "zero trust", "SonarQube", "Snyk", "GuardDuty", "Security Hub"
+        "SAST",
+        "DAST",
+        "container security",
+        "secret management",
+        "zero trust",
+        "SonarQube",
+        "Snyk",
+        "GuardDuty",
+        "Security Hub"
       ],
       "nice_to_have_skills": [
-        "Wiz", "Prisma Cloud", "Orca Security", "service mesh security"
+        "Wiz",
+        "Prisma Cloud",
+        "Orca Security",
+        "service mesh security"
       ],
       "typical_certs": [
-        "AWS Security Specialty", "Azure Security Engineer", "CCSP", "CCSK", "CISSP"
+        "AWS Security Specialty",
+        "Azure Security Engineer",
+        "CCSP",
+        "CCSK",
+        "CISSP"
       ],
       "typical_responsibilities": [
         "Design and implement cloud security architecture",
@@ -163,6 +298,170 @@
         "Monitor cloud environments for misconfigurations",
         "Perform cloud security assessments"
       ]
+    },
+    "soc_analyst_l3": {
+      "display": "SOC Analyst L3 / Senior SOC",
+      "seniority": "senior",
+      "soc_tier": "l3",
+      "critical_skills": [
+        "threat hunting",
+        "detection engineering",
+        "SIEM",
+        "SOAR",
+        "incident response",
+        "malware analysis",
+        "log analysis",
+        "network forensics",
+        "MITRE ATT&CK",
+        "IOC analysis"
+      ],
+      "important_skills": [
+        "Splunk ES",
+        "Sigma rules",
+        "YARA rules",
+        "KQL",
+        "SPL",
+        "Zeek",
+        "Suricata",
+        "Elastic Stack",
+        "Velociraptor",
+        "Python scripting",
+        "threat intelligence",
+        "OpenCTI",
+        "MISP"
+      ],
+      "nice_to_have_skills": [
+        "red team exposure",
+        "reverse engineering basics",
+        "purple team",
+        "detection rule authoring",
+        "CTI production",
+        "SOC metrics",
+        "mentoring L1/L2",
+        "security architecture review"
+      ],
+      "typical_certs": [
+        "GIAC GCIA",
+        "GIAC GCIH",
+        "GIAC GCDA",
+        "CISSP",
+        "CEH Master",
+        "SANS FOR508",
+        "CompTIA CySA+"
+      ],
+      "tools_ecosystem": [
+        "Splunk Enterprise Security",
+        "IBM QRadar",
+        "Microsoft Sentinel",
+        "CrowdStrike Falcon",
+        "Zeek",
+        "Suricata",
+        "Sigma",
+        "YARA",
+        "TheHive",
+        "Cortex",
+        "MISP",
+        "Velociraptor"
+      ],
+      "experience_range": "4-8 years",
+      "scoring_note": "Senior role \u2014 full scoring applies, no leniency"
+    },
+    "soc_trainee": {
+      "display": "SOC Trainee / Fresher / Intern",
+      "seniority": "entry",
+      "soc_tier": "trainee",
+      "critical_skills": [
+        "networking fundamentals",
+        "TCP/IP",
+        "OSI model",
+        "basic security concepts",
+        "CIA triad",
+        "Windows OS",
+        "Linux OS"
+      ],
+      "important_skills": [
+        "SIEM basics",
+        "log analysis basics",
+        "Wireshark basics",
+        "Python basics",
+        "PowerShell basics",
+        "Nmap",
+        "Kali Linux basics",
+        "TryHackMe",
+        "Hack The Box",
+        "CTF experience"
+      ],
+      "nice_to_have_skills": [
+        "BlueTeamLabs Online",
+        "LetsDefend",
+        "CyberDefenders",
+        "homelab experience",
+        "basic scripting",
+        "any cloud basics"
+      ],
+      "typical_certs": [
+        "CompTIA Security+",
+        "Google Cybersecurity Certificate",
+        "ISC2 CC (Certified in Cybersecurity)",
+        "BTL1",
+        "CompTIA Network+",
+        "CompTIA IT Fundamentals (ITF+)"
+      ],
+      "tools_ecosystem": [
+        "Splunk (basic)",
+        "Wireshark",
+        "Nmap",
+        "Linux terminal",
+        "Windows Event Viewer",
+        "basic Metasploit"
+      ],
+      "experience_range": "0-1 year (internship / training)",
+      "scoring_note": "Highest leniency \u2014 platform adjusts score ceiling by +30% for trainee tier"
+    },
+    "soc_analyst_fresher": {
+      "display": "SOC Analyst (Fresher / 0-1 Year)",
+      "seniority": "entry",
+      "soc_tier": "trainee",
+      "critical_skills": [
+        "networking fundamentals",
+        "TCP/IP protocols",
+        "basic log analysis",
+        "alert monitoring",
+        "SIEM basics",
+        "Windows/Linux OS"
+      ],
+      "important_skills": [
+        "CompTIA Security+",
+        "Splunk basics",
+        "Wireshark",
+        "basic incident handling",
+        "phishing analysis",
+        "OSINT basics",
+        "Python or PowerShell basics"
+      ],
+      "nice_to_have_skills": [
+        "TryHackMe profile",
+        "CTF wins",
+        "homelab",
+        "any internship project",
+        "coursework certs"
+      ],
+      "typical_certs": [
+        "CompTIA Security+",
+        "BTL1",
+        "Google Cybersecurity Certificate",
+        "ISC2 Certified in Cybersecurity (CC)",
+        "CompTIA Network+"
+      ],
+      "tools_ecosystem": [
+        "Wireshark",
+        "Nmap",
+        "Splunk (free tier)",
+        "Kali Linux",
+        "Windows Defender"
+      ],
+      "experience_range": "0 years (fresher)",
+      "scoring_note": "Fresher role \u2014 score ceiling adjusted by +30% leniency"
     }
   }
 }

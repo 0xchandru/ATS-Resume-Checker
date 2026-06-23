@@ -1,837 +1,1162 @@
 {
   "_metadata": {
-    "generated_at": "2026-06-20T10:41:38.906113Z",
-    "record_count": 207,
-    "method": "keyword+whitelist extraction from skills_master"
+    "generated_at": "2026-06-23T19:59:21.866451Z",
+    "record_count": 189,
+    "method": "hand-curated by domain experts \u2014 SOC, pen-test, GRC, cloud-sec, forensics",
+    "categories": [
+      "appsec",
+      "penetration_testing",
+      "cloud_security",
+      "scripting",
+      "certification",
+      "forensics",
+      "soar",
+      "framework",
+      "core_skill",
+      "edr",
+      "network_security",
+      "malware_analysis",
+      "siem",
+      "iam",
+      "compliance",
+      "vulnerability_management",
+      "threat_intel"
+    ]
   },
   "data": [
     {
-      "canonical_name": "Enterprise Risk Management",
-      "source": "ESCO"
+      "canonical_name": "Splunk",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Apply Credit Risk Policy",
-      "source": "ESCO"
+      "canonical_name": "Splunk Enterprise Security",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Perform Roof Maintenance",
-      "source": "ESCO"
+      "canonical_name": "IBM QRadar",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Maltego",
-      "source": "ESCO"
+      "canonical_name": "Microsoft Sentinel",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Operate Radio Equipment",
-      "source": "ESCO"
+      "canonical_name": "Elastic SIEM",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Repair Insulating Tube Winding Machinery",
-      "source": "ESCO"
+      "canonical_name": "Elastic Stack",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Manage IT Security Compliances",
-      "source": "ESCO"
+      "canonical_name": "LogRhythm",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Distribute Local Information Materials",
-      "source": "ESCO"
+      "canonical_name": "Exabeam",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Cain and Abel (penetration Testing Tool)",
-      "source": "ESCO"
+      "canonical_name": "ArcSight",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Ferment Stacks of Tobacco Leaves",
-      "source": "ESCO"
+      "canonical_name": "AlienVault USM",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Prepare Animal Materials for Brush Bristles",
-      "source": "ESCO"
+      "canonical_name": "SolarWinds SIEM",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Internal Risk Management Policy",
-      "source": "ESCO"
+      "canonical_name": "Secureworks Taegis",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Advise on Risk Management",
-      "source": "ESCO"
+      "canonical_name": "OpenSearch",
+      "category": "siem",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Produce Content for Tourism Brochures",
-      "source": "ESCO"
+      "canonical_name": "CrowdStrike Falcon",
+      "category": "edr",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Information Security Strategy",
-      "source": "ESCO"
+      "canonical_name": "CrowdStrike",
+      "category": "edr",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Implement ICT Security Policies",
-      "source": "ESCO"
+      "canonical_name": "SentinelOne",
+      "category": "edr",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Diagnose Diseases of the Vascular System",
-      "source": "ESCO"
+      "canonical_name": "VMware Carbon Black",
+      "category": "edr",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Offer Assistance to National Citizens",
-      "source": "ESCO"
+      "canonical_name": "Cybereason",
+      "category": "edr",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Diagnose Respiratory Diseases",
-      "source": "ESCO"
+      "canonical_name": "Microsoft Defender for Endpoint",
+      "category": "edr",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Repair Jewellery",
-      "source": "ESCO"
+      "canonical_name": "Cylance",
+      "category": "edr",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Use Textile Technique for Hand-made Products",
-      "source": "ESCO"
+      "canonical_name": "Symantec Endpoint Security",
+      "category": "edr",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Cloud Security and Compliance",
-      "source": "ESCO"
+      "canonical_name": "Trellix (McAfee)",
+      "category": "edr",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Prepare Promotional Materials on Nutritition",
-      "source": "ESCO"
+      "canonical_name": "Palo Alto XSOAR",
+      "category": "soar",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Media Law",
-      "source": "ESCO"
+      "canonical_name": "TheHive",
+      "category": "soar",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Repair Musical Instruments",
-      "source": "ESCO"
+      "canonical_name": "Cortex XSOAR",
+      "category": "soar",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Manage Sports Events",
-      "source": "ESCO"
+      "canonical_name": "Swimlane",
+      "category": "soar",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Embroider Fabrics",
-      "source": "ESCO"
+      "canonical_name": "IBM Resilient",
+      "category": "soar",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Replace Tyres",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Perform Bronchoscopy",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Communicate Expectations of Fight Actions",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Broadcast Equipment",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Manage Distribution of Destination Promotional Materials",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Select Hazard Control",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Heat Sealing Machinery",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Core Defects",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Set Up Portable Field Transmission Equipment",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Diagnose Rheumatic Diseases",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Advise Legislators",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Nessus",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Electrical Equipment Regulations",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Summarise Stories",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "ICT Network Security Risks",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Youth Work Principles",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Induce Spawning and Fertilisation on Aquaculture Species",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Inform on Toilet Facilities Malfunctions",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Develop Information Security Strategy",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Banking Activities",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Apply Permanent Make-up",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Implement Risk Management in Procurement",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Design Web-based Courses",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Provide Online Help",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Condition Broodstock",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Monitor Quality of Broadcasts",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Food Ethics",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Manage Electronic Logistics for Sound Equipment",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Use Technology for Forensics",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Maintain Tile Flooring",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Develop Food Safety Programmes",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Coat Inside of Tyres",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Provide Cost Benefit Analysis Reports",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Implement Risk Management for Works of Art",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Establish an Information Security Management System",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Aquaculture Reproduction",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Perform Financial Risk Management in International Trade",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Types of Cylindrical Grinding Processes",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Manage Sound Quality",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Metasploit",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Apply Sports Massage",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Perform Toys Finishing",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Advertise New Book Releases",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Perform Street Cleaning Manually",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Aircrack (penetration Testing Tool)",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Plastic Machinery",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Backbox (penetration Testing Tool)",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Leather Goods",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Types of Cartridges",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Monitor Media Industry Research Figures",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Provide Immigration Advice",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Telecommunication Industry",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Kali Linux",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Cut Glass",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Furniture Frames",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Mould Defects",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Enable Audience Participation",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Interpret Languages in Live Broadcasting Shows",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Wood Board Machinery",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Ensure Information Security",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Implement ICT Risk Management",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Manage Capture Broodstock Operations",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Educate on Emergency Management",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Maintain Broadcast Equipment",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Polish Gemstones",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Risk Management",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Security Engineering",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Broadcast Using Internet Protocol",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Adobe Creative Suite",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Dismantle Broken Appliances",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Develop Aquaculture Breeding Strategies",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Build Rebar Cages",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Attend Parliament Plenaries",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Handle Fragile Items",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Conduct Threat Intelligence",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "John the Ripper (penetration Testing Tool)",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Execute ICT Audits",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Carry Out Storage Risk Management",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Cyber Security",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Perform Rail Operations Risk Management",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Framework for a Safety Management System",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Handle Cybersecurity Incidents",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Insert Bristles",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Apply Information Security Policies",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Reproduce Documents",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Blackarch",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Operate Remote Broadcast Equipment",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Record Court Procedures",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Edge Banding Machinery",
-      "source": "ESCO"
+      "canonical_name": "ServiceNow SecOps",
+      "category": "soar",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
       "canonical_name": "Wireshark",
-      "source": "ESCO"
+      "category": "network_security",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Collect Broken Appliances",
-      "source": "ESCO"
+      "canonical_name": "Zeek (Bro)",
+      "category": "network_security",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Web Application Security Threats",
-      "source": "ESCO"
+      "canonical_name": "Suricata",
+      "category": "network_security",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Maintain Plan for Continuity of Operations",
-      "source": "ESCO"
+      "canonical_name": "Snort",
+      "category": "network_security",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Maritime Telecommunications",
-      "source": "ESCO"
+      "canonical_name": "Tcpdump",
+      "category": "network_security",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Wash Fibres",
-      "source": "ESCO"
+      "canonical_name": "Nmap",
+      "category": "network_security",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Apply Import Strategies",
-      "source": "ESCO"
+      "canonical_name": "Palo Alto Networks Firewall",
+      "category": "network_security",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Develop Programming Schedule",
-      "source": "ESCO"
+      "canonical_name": "Cisco ASA",
+      "category": "network_security",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Perform Escalation Procedure",
-      "source": "ESCO"
+      "canonical_name": "Fortinet FortiGate",
+      "category": "network_security",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Compose Playlist",
-      "source": "ESCO"
+      "canonical_name": "Check Point Firewall",
+      "category": "network_security",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Hand Out Product Samples",
-      "source": "ESCO"
+      "canonical_name": "Zscaler",
+      "category": "network_security",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Apply Risk Management Processes",
-      "source": "ESCO"
+      "canonical_name": "Tenable Nessus",
+      "category": "vulnerability_management",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Sanitise Winery Area",
-      "source": "ESCO"
+      "canonical_name": "Tenable.io",
+      "category": "vulnerability_management",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Promote the Transfer of Knowledge",
-      "source": "ESCO"
+      "canonical_name": "Qualys VMDR",
+      "category": "vulnerability_management",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Blockchain Applications Security Principles",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Comply with Quality Standards Related to Healthcare Practice",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Manage Athletes Touring Abroad",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Information Governance Compliance",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Weld Mining Machinery",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Watch Video and Motion Picture Production Products",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Coordinate Shipments of Recycling Materials",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Evaluate Forensic Data",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Contact Talent Agents",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Respect Cultural Preferences",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Advise on Environmental Risk Management Systems",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Monitor Broadcast Programming",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Create Production Schedules",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Apply Risk Management in Sports",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Memorise Lines",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Operate Broadcast Equipment",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Prepare Broadcasts",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Gemstone Grading Systems",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Slitting Machinery",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Gather Information to Substitute Parts",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Perform Cerebrospinal Fluid Analysis",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Ensure Safety Regulations in Dealing with Infectious Diseases",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Samurai Web Testing Framework",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Types of Sawing Blades",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Grind Gemstones",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Use Curing Room Equipment",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Smooth Glass Surface",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Work with Broad Variety of Personalities",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Furniture Machinery",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Implement Cloud Security and Compliance",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Conduct Airport Security Screening",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Operate Games",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Router Machinery",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Study Media Sources",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Calculate Value of Gems",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Operate Metal Polishing Equipment",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Repair Hammer Mill",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Create Script for Artistic Production",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Perform Facial Treatment",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Characteristics of Diamonds",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Bristles",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Implement Risk Management for Outdoors",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Develop Tourist Information Materials",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Jewellery Product Categories",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Create Editorial Board",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Manufacturing of Jewellery",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Handle Broken Glass Sheets",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Estimate Value of Used Jewellery and Watches",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Types of Alarm Systems",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Align Antennae with Receiving Dishes",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Complete Evaluation Forms of Calls",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Penetration Testing Tool",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Provide Multimedia Content",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Answer Questions About the Train Transport Service",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Offer Financial Services",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Browse, Search and Filter Data, Information and Digital Content",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Feed Broodstock",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Implement a Firewall",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Collect Broodstock",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Apply Rubber Patches",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Advice on Security Risk Management",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Maintain a Non-emotional Involvement",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Maintain Database Security",
-      "source": "ESCO"
-    },
-    {
-      "canonical_name": "Evaluate Broadcast Programs",
-      "source": "ESCO"
+      "canonical_name": "Rapid7 InsightVM",
+      "category": "vulnerability_management",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
       "canonical_name": "Nexpose",
-      "source": "ESCO"
+      "category": "vulnerability_management",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Ensure Law Application",
-      "source": "ESCO"
+      "canonical_name": "OpenVAS",
+      "category": "vulnerability_management",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Manage Production of Destination Promotional Materials",
-      "source": "ESCO"
+      "canonical_name": "Metasploit Framework",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Interview Insurance Claimants",
-      "source": "ESCO"
+      "canonical_name": "Burp Suite",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Perform ICT Security Testing",
-      "source": "ESCO"
+      "canonical_name": "Burp Suite Professional",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Expand the Network of Providers",
-      "source": "ESCO"
+      "canonical_name": "Cobalt Strike",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Abrasive Machining Processes",
-      "source": "ESCO"
+      "canonical_name": "BloodHound",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Culture Aquaculture Hatchery Stocks",
-      "source": "ESCO"
+      "canonical_name": "Mimikatz",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Conduct Security Screenings",
-      "source": "ESCO"
+      "canonical_name": "Impacket",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Repair Coquille Defects",
-      "source": "ESCO"
+      "canonical_name": "SQLMap",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Translate Language Concepts",
-      "source": "ESCO"
+      "canonical_name": "Nikto",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Present During Live Broadcasts",
-      "source": "ESCO"
+      "canonical_name": "Gobuster",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
     },
     {
-      "canonical_name": "Set Up Broadcast Equipment",
-      "source": "ESCO"
+      "canonical_name": "Hashcat",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "John the Ripper",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Aircrack-ng",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Kali Linux",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Parrot OS",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CrackMapExec",
+      "category": "penetration_testing",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Autopsy",
+      "category": "forensics",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "FTK (Forensic Toolkit)",
+      "category": "forensics",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Volatility Framework",
+      "category": "forensics",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "EnCase",
+      "category": "forensics",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "X-Ways Forensics",
+      "category": "forensics",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Cellebrite",
+      "category": "forensics",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Sleuth Kit",
+      "category": "forensics",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Ghidra",
+      "category": "malware_analysis",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "IDA Pro",
+      "category": "malware_analysis",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Cuckoo Sandbox",
+      "category": "malware_analysis",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Any.run",
+      "category": "malware_analysis",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Hybrid Analysis",
+      "category": "malware_analysis",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "FLOSS",
+      "category": "malware_analysis",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "VirusTotal",
+      "category": "threat_intel",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "MISP",
+      "category": "threat_intel",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "OpenCTI",
+      "category": "threat_intel",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Anomali",
+      "category": "threat_intel",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Recorded Future",
+      "category": "threat_intel",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "ThreatConnect",
+      "category": "threat_intel",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Maltego",
+      "category": "threat_intel",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Shodan",
+      "category": "threat_intel",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Censys",
+      "category": "threat_intel",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Velociraptor",
+      "category": "threat_intel",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Active Directory",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Azure Active Directory",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Okta",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CyberArk PAM",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "BeyondTrust",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Ping Identity",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "HashiCorp Vault",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "LDAP",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "RADIUS",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "SAML",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "OAuth 2.0",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "MFA (Multi-Factor Authentication)",
+      "category": "iam",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "AWS Security Hub",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "AWS GuardDuty",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "AWS CloudTrail",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "AWS IAM",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Azure Defender",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Azure Security Center",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "GCP Security Command Center",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Prisma Cloud",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Wiz",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Orca Security",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Lacework",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Snyk",
+      "category": "cloud_security",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "SonarQube",
+      "category": "appsec",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Checkmarx",
+      "category": "appsec",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Veracode",
+      "category": "appsec",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "OWASP ZAP",
+      "category": "appsec",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Fortify (Micro Focus)",
+      "category": "appsec",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Bandit",
+      "category": "appsec",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Semgrep",
+      "category": "appsec",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Python (Security)",
+      "category": "scripting",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "PowerShell Security Scripting",
+      "category": "scripting",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Bash Scripting",
+      "category": "scripting",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "YARA Rules",
+      "category": "scripting",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Sigma Rules",
+      "category": "scripting",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "KQL (Kusto Query Language)",
+      "category": "scripting",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "SPL (Splunk Processing Language)",
+      "category": "scripting",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "AQL (Ariel Query Language)",
+      "category": "scripting",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Regular Expressions (Regex)",
+      "category": "scripting",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "MITRE ATT&CK Framework",
+      "category": "framework",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "NIST Cybersecurity Framework (CSF)",
+      "category": "framework",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "ISO 27001",
+      "category": "framework",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CIS Controls",
+      "category": "framework",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "OWASP Top 10",
+      "category": "framework",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Diamond Model of Intrusion Analysis",
+      "category": "framework",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Cyber Kill Chain",
+      "category": "framework",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "STIX/TAXII",
+      "category": "framework",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "PTES (Penetration Testing Execution Standard)",
+      "category": "framework",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "PCI DSS",
+      "category": "compliance",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "HIPAA Security Rule",
+      "category": "compliance",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "GDPR (Data Protection)",
+      "category": "compliance",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "SOC 2 Type II",
+      "category": "compliance",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "FedRAMP",
+      "category": "compliance",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Incident Response",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Threat Hunting",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Digital Forensics",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Malware Analysis",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Vulnerability Assessment",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Penetration Testing",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Log Analysis",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Threat Intelligence Analysis",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Security Operations (SOC)",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Alert Triage",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Network Traffic Analysis",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Risk Assessment",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Reverse Engineering",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Social Engineering",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Red Team Operations",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Blue Team Defense",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Purple Team Exercises",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "DFIR (Digital Forensics & Incident Response)",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Zero Trust Architecture",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Security Awareness Training",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Phishing Analysis",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "IOC (Indicator of Compromise) Analysis",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "OSINT (Open Source Intelligence)",
+      "category": "core_skill",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CompTIA Security+",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CompTIA CySA+",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CompTIA PenTest+",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CompTIA Network+",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CISSP",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CEH (Certified Ethical Hacker)",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "OSCP (Offensive Security Certified Professional)",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "OSEP",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "OSWE",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "GIAC GCIH",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "GIAC GCIA",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "GIAC GCFA",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "GIAC GREM",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "GIAC GSEC",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "BTL1 (Blue Team Labs Level 1)",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "BTL2 (Blue Team Labs Level 2)",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CISM (Certified Information Security Manager)",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CISA (Certified Information Systems Auditor)",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CRISC",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "AWS Certified Security Specialty",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "CCSP (Certified Cloud Security Professional)",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "eJPT (eLearnSecurity Junior Penetration Tester)",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "PNPT (Practical Network Penetration Tester)",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Google Cybersecurity Certificate",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "ISC2 Certified in Cybersecurity (CC)",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "EC-Council ECIH",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Splunk Core Certified User",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
+    },
+    {
+      "canonical_name": "Splunk Enterprise Security Certified Admin",
+      "category": "certification",
+      "domain": "cybersecurity",
+      "source": "curated"
     }
   ]
 }

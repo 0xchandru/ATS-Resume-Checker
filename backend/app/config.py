@@ -28,7 +28,7 @@ DB_PATH = os.environ.get("DB_PATH", os.path.join(_HERE, "data", "ats_platform.db
 UPLOADS_PATH = os.path.join(_HERE, "uploads")
 
 FUZZY_THRESHOLD = 82
-SEMANTIC_THRESHOLD = 0.68  # Lowered from 0.72 for better recall
+SEMANTIC_THRESHOLD = 0.68
 MAX_FILE_SIZE_MB = 10
 SUPPORTED_EXTENSIONS = [".pdf", ".docx", ".txt"]
 MAX_HISTORY = 10
@@ -41,12 +41,9 @@ OPTIONAL_SECTIONS = ["certifications", "publications", "awards", "volunteer", "l
 KEYWORD_DENSITY_THRESHOLD = 15
 
 # ── Scoring weights ─────────────────────────────────────────────────────────
-# These weights reflect what real ATS systems prioritize:
-# - keyword_match is the primary signal (what the ATS actually does)
-# - format_compliance is critical because unparseable resumes = 0 at Workday/Taleo
-# - semantic_relevance is downweighted because en_core_web_sm can't do deep matching
-# - section_completeness is binary and provides less signal
-# - impact_quantification differentiates good candidates
+# keyword_match is the primary ATS signal; format_compliance is critical
+# because unparseable resumes score 0 in Workday/Taleo; semantic_relevance
+# is downweighted because en_core_web_sm cannot do deep matching.
 SCORING_WEIGHTS = {
     "keyword_match": 0.40,
     "semantic_relevance": 0.15,
@@ -79,3 +76,18 @@ IMPORTANCE_THRESHOLDS = {
 WEAK_VERB_STRENGTH = 1
 STRONG_VERB_RATIO_THRESHOLD = 0.6
 QUANTIFICATION_THRESHOLD = 50
+
+# ── SOC Analyst Tier Scoring ─────────────────────────────────────────────────
+# Controls how much the overall score is softened for each seniority tier.
+# A leniency of 0.20 means the raw score is nudged 20% toward a higher ceiling
+# so that fresher candidates are not penalised for not having 3+ years of tools.
+SOC_TIER_LENIENCY = {
+    "trainee": 0.30,  # 0–6 months experience — very lenient
+    "l1":      0.20,  # Tier 1 monitoring role
+    "l2":      0.10,  # Intermediate investigation role
+    "l3":      0.00,  # Senior / threat-hunting — no leniency
+}
+
+# Minimum keyword match score for fresh/trainee candidates before leniency
+# adjustment. Prevents a 10% raw score from inflating unrealistically.
+SOC_TRAINEE_MIN_KW_SCORE = 20.0

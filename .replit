@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "python-3.12", "web", "bash"]
+modules = ["nodejs-20", "python-3.12", "web", "bash", "python3"]
 [agent]
 expertMode = true
 stack = "FULLSTACK_JS"
@@ -55,6 +55,10 @@ externalPort = 3001
 [[ports]]
 localPort = 5000
 externalPort = 80
+
+[[ports]]
+localPort = 25874
+externalPort = 3000
 
 [deployment]
 deploymentTarget = "autoscale"

@@ -2,8 +2,8 @@
 Cybersecurity Role Intelligence Module
 
 Detects whether a job description is cybersecurity-related, identifies the
-specific cyber sub-role (SOC Analyst, Pen Tester, GRC, etc.), and returns
-role-specific signals used to boost cert/tool matching weights in scoring.
+specific cyber sub-role (SOC Analyst, Pen Tester, GRC, etc.), and for SOC
+roles additionally detects the seniority tier (L1 / L2 / L3 / Trainee).
 
 Supported role types:
   soc_analyst      — SOC L1/L2/L3, Security Operations, Incident Response
@@ -16,17 +16,22 @@ Supported role types:
   blue_team        — Defensive Security, Detection Engineering
   siem_engineer    — SIEM Engineer, Detection Engineer, Security Analyst
   general_security — General Cybersecurity / InfoSec (catch-all)
+
+SOC Analyst tiers (when role_type == "soc_analyst"):
+  trainee  — SOC Trainee / Fresher / Intern / Graduate  (0–6 months)
+  l1       — SOC Analyst L1 / Tier 1  (monitoring, basic triage)
+  l2       — SOC Analyst L2 / Tier 2  (investigation, IR escalation)
+  l3       — SOC Analyst L3 / Senior  (threat hunting, detection eng)
 """
 
 import re
 import logging
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Role Signal Definitions
-# Each role has: title_patterns, tool_signals, cert_signals, keyword_signals
 # ─────────────────────────────────────────────────────────────────────────────
 
 _ROLE_SIGNALS: Dict[str, Dict] = {
@@ -36,8 +41,10 @@ _ROLE_SIGNALS: Dict[str, Dict] = {
         "title_patterns": [
             r"\bsoc\s*analyst\b", r"\bsecurity\s*operations\b", r"\bsoc\s*l[123]\b",
             r"\bincident\s*resp(onder|onse)\b", r"\bsecurity\s*analyst\b",
-            r"\bsoc\s*trainee\b", r"\bsoc\s*(intern|fresher|junior)\b",
+            r"\bsoc\s*trainee\b", r"\bsoc\s*(intern|fresher|junior|graduate)\b",
             r"\bjunior\s*security\s*analyst\b", r"\bsecurity\s*intern\b",
+            r"\bsoc\s*engineer\b", r"\btier\s*[123]\s*analyst\b",
+            r"\blevel\s*[123]\s*soc\b",
         ],
         "tool_signals": [
             "splunk", "qradar", "sentinel", "elastic siem", "elastic stack",
@@ -49,7 +56,7 @@ _ROLE_SIGNALS: Dict[str, Dict] = {
         "cert_signals": [
             "security+", "sec+", "ceh", "ecih", "btl1", "btl2",
             "cysa+", "csa+", "gcih", "gcia", "gsec", "gmon",
-            "comptia security+", "blue team labs",
+            "comptia security+", "blue team labs", "google cybersecurity",
         ],
         "keyword_signals": [
             "triage", "alert", "siem", "soar", "playbook", "runbook",
@@ -246,9 +253,105 @@ _ROLE_SIGNALS: Dict[str, Dict] = {
     },
 }
 
-# Seniority signals for cyber roles (fresher/intern/junior friendly)
+# ─────────────────────────────────────────────────────────────────────────────
+# SOC Analyst Tier System
+# Applies only when role_type == "soc_analyst"
+# ─────────────────────────────────────────────────────────────────────────────
+
+_SOC_TIERS: Dict[str, Dict] = {
+    "trainee": {
+        "display": "SOC Trainee / Fresher / Intern",
+        "description": "Entry-level training role — basic monitoring, log review, hands-on learning",
+        "patterns": [
+            r"\bsoc\s*(trainee|intern|fresher|apprentice|graduate)\b",
+            r"\b(trainee|fresher|intern|apprentice)\s*soc\b",
+            r"\bentry.?level\s*(soc|security)\b",
+            r"\bgraduate\s*(soc|security)\b",
+            r"\b(0|zero).?experience\b",
+            r"\bfresh\s*(graduate|out)\b",
+            r"\bno\s*experience\s*required\b",
+        ],
+        "key_certs": [
+            "CompTIA Security+", "Google Cybersecurity Certificate",
+            "BTL1 (Blue Team Labs Level 1)", "CompTIA Network+",
+            "CompTIA IT Fundamentals (ITF+)", "Certified in Cybersecurity (CC) — ISC2",
+        ],
+        "key_tools": ["Splunk (basic)", "Wireshark", "Nmap", "Linux CLI", "Windows Event Viewer"],
+        "key_skills": [
+            "networking fundamentals", "TCP/IP protocols", "OS fundamentals",
+            "basic log analysis", "security concepts", "CIA triad",
+        ],
+        "leniency": 0.30,
+    },
+    "l1": {
+        "display": "SOC Analyst L1 / Tier 1",
+        "description": "First-line monitoring, alert triage, ticket creation, initial incident handling",
+        "patterns": [
+            r"\bsoc\s*l1\b", r"\bsoc\s*level\s*1\b", r"\btier\s*1\s*(soc|analyst|security)\b",
+            r"\blevel\s*1\s*soc\b", r"\bl1\s*(analyst|engineer|soc)\b",
+            r"\bjunior\s*soc\b", r"\bjunior\s*security\s*analyst\b",
+        ],
+        "key_certs": [
+            "CompTIA Security+", "BTL1 (Blue Team Labs Level 1)",
+            "CompTIA CySA+ (CS0-003)", "EC-Council ECIH",
+            "IBM QRadar SIEM Foundation",
+        ],
+        "key_tools": ["Splunk", "IBM QRadar", "Microsoft Sentinel", "ServiceNow", "JIRA", "CrowdStrike"],
+        "key_skills": [
+            "alert triage", "SIEM monitoring", "IOC identification",
+            "ticket handling", "playbook execution", "basic IR",
+        ],
+        "leniency": 0.20,
+    },
+    "l2": {
+        "display": "SOC Analyst L2 / Tier 2",
+        "description": "Deep investigation, IR escalation, basic threat hunting, L1 mentoring",
+        "patterns": [
+            r"\bsoc\s*l2\b", r"\bsoc\s*level\s*2\b", r"\btier\s*2\s*(soc|analyst|security)\b",
+            r"\blevel\s*2\s*soc\b", r"\bl2\s*(analyst|engineer|soc)\b",
+            r"\bmid.?level\s*soc\b", r"\bintermediate\s*soc\b",
+        ],
+        "key_certs": [
+            "CompTIA CySA+ (CS0-003)", "EC-Council CEH", "GIAC GCIH",
+            "EC-Council ECIH", "BTL2 (Blue Team Labs Level 2)",
+        ],
+        "key_tools": [
+            "Splunk ES", "CrowdStrike Falcon", "Wireshark",
+            "MISP", "TheHive", "Zeek",
+        ],
+        "key_skills": [
+            "incident response", "threat hunting basics", "malware triage",
+            "MITRE ATT&CK mapping", "forensic analysis", "network forensics",
+        ],
+        "leniency": 0.10,
+    },
+    "l3": {
+        "display": "SOC Analyst L3 / Senior SOC",
+        "description": "Advanced threat hunting, detection rule authoring, SOC improvements, L1/L2 mentoring",
+        "patterns": [
+            r"\bsoc\s*l3\b", r"\bsoc\s*level\s*3\b", r"\btier\s*3\s*(soc|analyst|security)\b",
+            r"\blevel\s*3\s*soc\b", r"\bl3\s*(analyst|engineer|soc)\b",
+            r"\bsenior\s*soc\b", r"\blead\s*soc\b", r"\bsoc\s*lead\b",
+        ],
+        "key_certs": [
+            "GIAC GCIA", "GIAC GCIH", "GIAC GCDA", "CISSP",
+            "EC-Council CEH Master", "SANS FOR508",
+        ],
+        "key_tools": [
+            "Sigma", "YARA", "Elastic Stack", "Zeek", "Suricata",
+            "Velociraptor", "OpenCTI",
+        ],
+        "key_skills": [
+            "threat hunting", "detection rule authoring", "sigma rules",
+            "MITRE ATT&CK framework", "SOC leadership", "purple team",
+        ],
+        "leniency": 0.0,
+    },
+}
+
+# Generic seniority patterns (used when no tier-specific pattern matches)
 _JUNIOR_SIGNALS = [
-    r"\b(fresher|trainee|intern|junior|entry.?level|l1|level\s*1|beginner)\b"
+    r"\b(fresher|trainee|intern|junior|entry.?level|l1|level\s*1|beginner|graduate|apprentice)\b"
 ]
 _SENIOR_SIGNALS = [
     r"\b(senior|lead|principal|staff|l2|l3|level\s*[23]|experienced|mid.?level)\b"
@@ -264,34 +367,38 @@ _GENERAL_CYBER_TOOLS = {
     "palo alto", "checkpoint", "fortinet", "cisco asa",
     "active directory", "azure ad", "ldap", "radius",
     "python", "powershell", "bash", "linux", "regex",
+    "zeek", "suricata", "snort", "volatility", "autopsy",
+    "maltego", "shodan", "virustotal", "sigma", "yara",
+    "thehive", "cortex", "jira", "servicenow",
 }
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Public API
+# ─────────────────────────────────────────────────────────────────────────────
 
 def detect_cyber_role(jd_text: str, resume_text: str = "") -> Dict:
     """
     Detect if a job description is cybersecurity-related and identify
-    the specific sub-role.
+    the specific sub-role and (for SOC roles) the seniority tier.
 
     Returns:
         {
           "is_cyber": bool,
-          "confidence": float,           # 0.0 – 1.0
-          "role_type": str,              # e.g. "soc_analyst"
-          "role_display": str,           # e.g. "SOC Analyst"
+          "confidence": float,
+          "role_type": str,
+          "role_display": str,
           "role_description": str,
-          "detected_signals": {
-            "title_match": bool,
-            "tool_signals": List[str],
-            "cert_signals": List[str],
-            "keyword_signals": List[str],
-          },
+          "detected_signals": { ... },
           "is_junior_role": bool,
           "resume_cyber_signals": List[str],
-          "scoring_modifiers": {         # Passed to scorer
-            "cert_bonus_multiplier": float,
-            "tool_match_boost": float,
-            "keyword_weight_boost": float,
-          }
+          "soc_tier": str | None,             # "trainee"|"l1"|"l2"|"l3"|None
+          "soc_tier_display": str | None,
+          "soc_tier_description": str | None,
+          "soc_tier_key_certs": List[str],
+          "soc_tier_key_tools": List[str],
+          "soc_tier_key_skills": List[str],
+          "scoring_modifiers": { ... },
         }
     """
     jd_lower = jd_text.lower()
@@ -308,24 +415,30 @@ def detect_cyber_role(jd_text: str, resume_text: str = "") -> Dict:
             best_role = role_type
             best_signals = detected
 
-    is_cyber = best_score >= 0.08  # At least some signal required
+    is_cyber = best_score >= 0.08
 
-    # Detect seniority within the cyber role
+    # Generic seniority detection
     is_junior = any(
         re.search(p, jd_lower, re.IGNORECASE)
         for p in _JUNIOR_SIGNALS
     )
 
-    # Extract cyber signals from the resume itself
+    # SOC-specific tier detection
+    soc_tier: Optional[str] = None
+    soc_tier_info: Dict = {}
+    if is_cyber and best_role == "soc_analyst":
+        soc_tier, soc_tier_info = _detect_soc_tier(jd_lower)
+
+    # Resume cyber signals
     resume_cyber_signals = _extract_resume_cyber_signals(resume_lower)
 
-    # Compute scoring modifiers based on detected role
+    # Scoring modifiers
     scoring_modifiers = _compute_scoring_modifiers(
-        is_cyber, best_score, best_role, is_junior
+        is_cyber, best_score, best_role, is_junior, soc_tier
     )
 
     role_info = _ROLE_SIGNALS.get(best_role, {})
-    confidence = min(1.0, best_score * 2)  # Normalise to 0-1
+    confidence = min(1.0, best_score * 2)
 
     return {
         "is_cyber": is_cyber,
@@ -336,8 +449,40 @@ def detect_cyber_role(jd_text: str, resume_text: str = "") -> Dict:
         "detected_signals": best_signals if is_cyber else {},
         "is_junior_role": is_junior,
         "resume_cyber_signals": resume_cyber_signals,
+        "soc_tier": soc_tier,
+        "soc_tier_display": soc_tier_info.get("display") if soc_tier else None,
+        "soc_tier_description": soc_tier_info.get("description") if soc_tier else None,
+        "soc_tier_key_certs": soc_tier_info.get("key_certs", []) if soc_tier else [],
+        "soc_tier_key_tools": soc_tier_info.get("key_tools", []) if soc_tier else [],
+        "soc_tier_key_skills": soc_tier_info.get("key_skills", []) if soc_tier else [],
         "scoring_modifiers": scoring_modifiers,
     }
+
+
+def _detect_soc_tier(jd_lower: str) -> Tuple[Optional[str], Dict]:
+    """
+    Detect SOC analyst seniority tier from JD text.
+    Returns (tier_key, tier_info_dict).
+    Checks tiers in specificity order: l3 → l2 → l1 → trainee.
+    Falls back to None if no tier-specific pattern matches.
+    """
+    for tier_key in ("l3", "l2", "l1", "trainee"):
+        tier_info = _SOC_TIERS[tier_key]
+        for pattern in tier_info["patterns"]:
+            if re.search(pattern, jd_lower, re.IGNORECASE):
+                return tier_key, tier_info
+
+    # Infer tier from generic seniority if no explicit tier matched
+    if re.search(r"\b(senior|lead|principal|l3|level\s*3)\b", jd_lower, re.IGNORECASE):
+        return "l3", _SOC_TIERS["l3"]
+    if re.search(r"\b(mid.?level|intermediate|l2|level\s*2|2\+?\s*year)\b", jd_lower, re.IGNORECASE):
+        return "l2", _SOC_TIERS["l2"]
+    if re.search(r"\b(junior|entry.?level|fresher|trainee|intern|graduate|l1|level\s*1)\b", jd_lower, re.IGNORECASE):
+        return "trainee", _SOC_TIERS["trainee"]
+    if re.search(r"\b(1\+?\s*year|one\s*year|0.?1\s*year)\b", jd_lower, re.IGNORECASE):
+        return "l1", _SOC_TIERS["l1"]
+
+    return None, {}
 
 
 def _score_role_signals(jd_lower: str, signals: Dict) -> Tuple[float, Dict]:
@@ -350,34 +495,27 @@ def _score_role_signals(jd_lower: str, signals: Dict) -> Tuple[float, Dict]:
         "keyword_signals": [],
     }
 
-    # Title match (highest weight)
     for pattern in signals.get("title_patterns", []):
         if re.search(pattern, jd_lower, re.IGNORECASE):
             score += 0.35
             detected["title_match"] = True
             break
 
-    # Tool signals
     for tool in signals.get("tool_signals", []):
         if tool.lower() in jd_lower:
             detected["tool_signals"].append(tool)
-
     tool_score = min(0.25, len(detected["tool_signals"]) * 0.04)
     score += tool_score
 
-    # Cert signals
     for cert in signals.get("cert_signals", []):
         if cert.lower() in jd_lower:
             detected["cert_signals"].append(cert)
-
     cert_score = min(0.20, len(detected["cert_signals"]) * 0.06)
     score += cert_score
 
-    # Keyword signals
     for kw in signals.get("keyword_signals", []):
         if kw.lower() in jd_lower:
             detected["keyword_signals"].append(kw)
-
     kw_score = min(0.20, len(detected["keyword_signals"]) * 0.02)
     score += kw_score
 
@@ -385,24 +523,24 @@ def _score_role_signals(jd_lower: str, signals: Dict) -> Tuple[float, Dict]:
 
 
 def _extract_resume_cyber_signals(resume_lower: str) -> List[str]:
-    """Find cybersecurity tools and terms mentioned in the resume."""
+    """Find cybersecurity tools/terms mentioned in the resume."""
     found = []
     for tool in _GENERAL_CYBER_TOOLS:
         if tool in resume_lower:
             found.append(tool)
-    return found[:15]  # Cap at 15 for conciseness
+    return found[:15]
 
 
 def _compute_scoring_modifiers(
-    is_cyber: bool, confidence: float, role_type: str, is_junior: bool
+    is_cyber: bool,
+    confidence: float,
+    role_type: str,
+    is_junior: bool,
+    soc_tier: Optional[str] = None,
 ) -> Dict:
     """
     Return scoring weight modifiers for detected cyber roles.
-
-    These modifiers are passed to the scorer so that:
-    - Certification matches count more for cyber roles
-    - Tool keyword matches get a boost
-    - Junior cyber roles get slightly more lenient scoring
+    SOC tier leniency overrides generic junior leniency for soc_analyst roles.
     """
     if not is_cyber:
         return {
@@ -412,17 +550,17 @@ def _compute_scoring_modifiers(
             "seniority_leniency": 0.0,
         }
 
-    # Boost cert matching for all cyber roles (certs matter a lot in cyber)
-    cert_mult = 1.5 + (confidence * 0.5)  # 1.5x to 2.0x
-
-    # Tool boost (cyber roles are very tool-specific)
+    cert_mult = 1.5 + (confidence * 0.5)
     tool_boost = 0.05 if confidence > 0.5 else 0.03
-
-    # Keyword boost
     kw_boost = 0.03
 
-    # Junior/fresher roles: slightly more lenient seniority scoring
-    seniority_leniency = 0.15 if is_junior else 0.0
+    # Tier-specific leniency for SOC roles
+    if role_type == "soc_analyst" and soc_tier and soc_tier in _SOC_TIERS:
+        seniority_leniency = _SOC_TIERS[soc_tier]["leniency"]
+    elif is_junior:
+        seniority_leniency = 0.15
+    else:
+        seniority_leniency = 0.0
 
     return {
         "cert_bonus_multiplier": round(cert_mult, 2),
@@ -435,7 +573,7 @@ def _compute_scoring_modifiers(
 def get_role_specific_missing_certs(role_type: str, resume_text: str) -> List[Dict]:
     """
     Return recommended certifications for a given cyber role that
-    are NOT present in the resume. Used for targeted feedback.
+    are NOT present in the resume.
     """
     signals = _ROLE_SIGNALS.get(role_type, {})
     certs = signals.get("cert_signals", [])
@@ -450,13 +588,38 @@ def get_role_specific_missing_certs(role_type: str, resume_text: str) -> List[Di
                 "priority": "high" if len(recommendations) < 3 else "medium",
             })
 
-    return recommendations[:5]  # Top 5 missing certs
+    return recommendations[:5]
+
+
+def get_tier_specific_missing_certs(soc_tier: str, resume_text: str) -> List[Dict]:
+    """
+    Return recommended certifications for a specific SOC tier that
+    are NOT present in the resume. Provides more targeted advice than
+    the generic role-level cert recommendations.
+    """
+    tier_info = _SOC_TIERS.get(soc_tier, {})
+    certs = tier_info.get("key_certs", [])
+    resume_lower = resume_text.lower()
+
+    recommendations = []
+    for cert in certs:
+        cert_lower = cert.lower()
+        # Strip parenthetical notes for matching
+        clean = re.sub(r"\s*\(.*?\)", "", cert_lower).strip()
+        if clean not in resume_lower and cert_lower not in resume_lower:
+            recommendations.append({
+                "cert": cert,
+                "soc_tier": soc_tier,
+                "priority": "high" if len(recommendations) < 2 else "medium",
+            })
+
+    return recommendations[:4]
 
 
 def get_role_specific_missing_tools(role_type: str, resume_text: str) -> List[Dict]:
     """
     Return recommended tools for a given cyber role that are NOT
-    present in the resume. Used for targeted feedback.
+    present in the resume.
     """
     signals = _ROLE_SIGNALS.get(role_type, {})
     tools = signals.get("tool_signals", [])
@@ -471,4 +634,19 @@ def get_role_specific_missing_tools(role_type: str, resume_text: str) -> List[Di
                 "priority": "high" if len(missing) < 3 else "medium",
             })
 
-    return missing[:6]  # Top 6 missing tools
+    return missing[:6]
+
+
+def get_all_soc_tiers() -> Dict[str, Dict]:
+    """Return the full SOC tier definitions (for use by external modules)."""
+    return {
+        k: {
+            "display": v["display"],
+            "description": v["description"],
+            "key_certs": v["key_certs"],
+            "key_tools": v["key_tools"],
+            "key_skills": v["key_skills"],
+            "leniency": v["leniency"],
+        }
+        for k, v in _SOC_TIERS.items()
+    }
