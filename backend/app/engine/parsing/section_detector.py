@@ -213,32 +213,54 @@ def _spacy_fallback(detected: List[Dict], lines: List[str], resume_text: str) ->
     text_lower = resume_text.lower()
     for section in missing_from_config:
         kws = section_keywords.get(section, [section])
+
+        best_match: dict | None = None  # (position, line, keyword_len) of best candidate
+
         for kw in kws:
-            if kw in text_lower:
-                for i, line in enumerate(lines):
-                    if kw in line.lower() and len(line.strip()) < 80:
-                        if i in detected_positions:
-                            # Prioritize "experience" over other labels if they share a heading
-                            if section == "experience":
-                                for d in detected:
-                                    if d["position"] == i and d["name"] != "experience":
-                                        d["name"] = "experience"
-                                        d["method"] = "spacy_heuristic_override"
-                                break
-                            continue
-                            
-                        detected.append({
-                            "name": section,
-                            "position": i,
-                            "word_count": 0,
-                            "confidence": 0.7,
-                            "method": "spacy_heuristic",
-                            "header_line": line.strip(),
-                            "text": "",
-                        })
-                        detected_positions.add(i)
-                        break
-                break
+            # Skip this keyword if it doesn't appear anywhere in the resume
+            if kw not in text_lower:
+                continue
+
+            for i, line in enumerate(lines):
+                stripped = line.strip()
+                # Header lines are short and the keyword dominates the line
+                if kw not in stripped.lower():
+                    continue
+                if len(stripped) >= 80:
+                    continue
+
+                if i in detected_positions:
+                    # Only allow overriding with "experience" when there is a
+                    # genuine heading collision
+                    if section == "experience":
+                        for d in detected:
+                            if d["position"] == i and d["name"] != "experience":
+                                d["name"] = "experience"
+                                d["method"] = "spacy_heuristic_override"
+                    # Either way, stop scanning for this keyword
+                    continue
+
+                # Prefer the candidate whose keyword is the *longest* match
+                # (more specific keywords like "professional experience" win
+                # over generic ones like "experience"), and among equal length
+                # prefer the earliest position so we don't grab mid-body
+                # occurrences of the word.
+                if best_match is None or kw > best_match["keyword"]:
+                    best_match = {"position": i, "line": stripped, "keyword": kw}
+                elif kw == best_match["keyword"] and i < best_match["position"]:
+                    best_match = {"position": i, "line": stripped, "keyword": kw}
+
+        if best_match is not None and best_match["position"] not in detected_positions:
+            detected.append({
+                "name": section,
+                "position": best_match["position"],
+                "word_count": 0,
+                "confidence": 0.7,
+                "method": "spacy_heuristic",
+                "header_line": best_match["line"],
+                "text": "",
+            })
+            detected_positions.add(best_match["position"])
 
     return detected
 
@@ -249,7 +271,17 @@ def _assign_text_to_sections(detected: List[Dict], lines: List[str]):
         start = section["position"] + 1
         end = sorted_sections[idx + 1]["position"] if idx + 1 < len(sorted_sections) else len(lines)
         section_lines = lines[start:end]
-        text_content = "\n".join(l for l in section_lines if l.strip())
+        # Deduplicate lines while preserving order — exact duplicate lines
+        # (e.g. repeated header rows in multi-column PDFs) inflate word counts
+        # and confuse downstream scorers.
+        seen_lines: set = set()
+        deduped: list = []
+        for ln in section_lines:
+            stripped = ln.strip()
+            if stripped and stripped not in seen_lines:
+                seen_lines.add(stripped)
+                deduped.append(stripped)
+        text_content = "\n".join(deduped)
         section["text"] = text_content
         section["word_count"] = len(text_content.split())
 
@@ -294,11 +326,20 @@ def _score_ordering(detected: List[Dict], resume_text: str) -> tuple:
 
 
 def _estimate_experience_years(text: str) -> int:
-    year_matches = re.findall(r"\b(19|20)\d{2}\b", text)
+    """
+    Estimate total years of experience from year spans in the text.
+
+    Fixes:
+    - Capture the full 4-digit year (previous regex captured only the 2-digit
+      prefix "19"/"20" via the capturing group, so int() was always 19 or 20
+      and max-min was 0 or 1 — meaningless).
+    - Clamp the result to a plausible career span (0–50 years).
+    """
+    year_matches = re.findall(r"\b((?:19|20)\d{2})\b", text)
     if len(year_matches) >= 2:
         years = [int(y) for y in year_matches]
         span = max(years) - min(years)
-        return span
+        return min(span, 50)
     return 0
 
 

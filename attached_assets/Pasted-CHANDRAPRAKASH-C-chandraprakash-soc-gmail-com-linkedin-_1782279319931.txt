@@ -1,0 +1,129 @@
+CHANDRAPRAKASH C
+
+chandraprakash.soc@gmail.com|linkedin.com/in/chandraprakash-soc|chandraprakash.me
+
+chandraprakash.soc@gmail.com|github.com/0xchandrulinkedin.com/in/chandraprakash-soc|chandraprakash.me
+
+chandraprakash.soc@gmail.com|github.com/0xchandrulinkedin.com/in/chandraprakash-soc|chandraprakash.me
+
+SUMMARY
+
+Recent B.Sc. Computer Science graduate with hands-on SOC experience built through a self-designed multi-VM home
+
+lab. Ranked in the top 1% globally on TryHackMe (3M+ users). Certified by TryHackMe (SOC L1), IBM, and Google
+
+in cybersecurity operations. Proficient in alert triage, SIEM monitoring, endpoint and network log analysis, and MITRE
+
+ATT&CK-aligned threat detection using Splunk, Wazuh, Zeek, and Wireshark.
+
+PROJECTS & LAB EXPERIENCE
+
+SOC Monitoring Lab – L1 Analyst Simulation
+
+github.com/0xchandru/SOC-Home-Lab
+
+Splunk • Wazuh • Sysmon • Zeek • Wireshark • Shuffle SOAR • Jira • Linux Mint • Ubuntu Server • Windows VM
+
+
+
+
+
+Built a multi-VM SOC lab that centralized Windows and Linux telemetry into Splunk and Wazuh for continuous log ingestion, alert correlation, and security monitoring.
+
+
+
+Completed 20+ SOC investigations covering C2 activity, brute-force attempts, persistence techniques, and malicious PowerShell execution.
+
+
+
+Created MITRE ATT&CK-aligned detection rules and automated IOC enrichment with Shuffle SOAR, VirusTotal, and AbuseIPDB; tracked escalations and case evidence in Jira.
+
+
+
+Simulated attacker TTPs including credential dumping (T1003), scheduled task persistence (T1053), PowerShell obfuscation (T1027), and C2 beaconing (T1071), with each case documented as a structured incident report.
+
+SecOps Console – Custom SOC Case Management Platform
+
+github.com/0xchandru/secops
+
+React • Node.js • PostgreSQL • Redis
+
+
+
+
+
+Developed a full-stack SOC case management platform with role-based access control, alert correlation, triage workflows, incident tracking, and escalation handling.
+
+
+
+Implemented audit logging for analyst accountability and chain-of-custody, and built REST APIs for real-time event ingestion and structured alert storage.
+
+ThreatLens – Threat Intelligence Aggregator
+
+github.com/0xchandru/threatlens
+
+Python • VirusTotal API • AbuseIPDB • AlienVault OTX • MalwareBazaar
+
+
+
+
+
+Developed a multi-source IOC enrichment tool querying VirusTotal, AbuseIPDB, AlienVault OTX, and
+
+MalwareBazaar to automate reputation lookups for IPs, domains, and file hashes – reducing manual triage
+
+effort and enriching incident context.
+
+
+
+
+
+Integrated response caching to minimize redundant API calls; generates structured JSON summaries compatible with SOAR playbook ingestion and analyst review workflows.
+
+TECHNICAL SKILLS
+
+SOC Operations: Alert triage, incident investigation, log analysis, false positive reduction, case escalation, ticketing,
+
+incident documentation
+
+SIEM & Log Analysis:
+
+Splunk (SPL, dashboards, alerts), Wazuh, Sysmon, Windows Event Logs, Linux auth logs,
+
+Velociraptor
+
+Network Security: TCP/IP, DNS, HTTP/S, TLS/SSL, Wireshark, Zeek, Nmap, EDR concepts
+
+Threat Intelligence:
+
+MITRE ATT&CK mapping, IOC enrichment, VirusTotal, AbuseIPDB, Shodan, MalwareBazaar,
+
+AlienVault OTX
+
+Tools & Scripting: Python, Bash, Git, Shuffle SOAR, Jira, FastAPI
+
+CERTIFICATIONS
+
+
+
+
+
+SOC Level 1 – TryHackMe (Top 1% globally, 3M+ users) Jun 2026
+
+
+
+IBM Cybersecurity Analyst Professional Certificate – Coursera / IBM Jun 2026
+
+
+
+Google Cybersecurity Professional Certificate – Coursera / Google Apr 2025
+
+EDUCATION
+
+B.Sc. Computer Science
+
+CGPA: 8.01 / 10.0
+
+G.T.N Arts College, Dindigul, Tamil Nadu | Madurai Kamaraj University
+
+2023 – 2026

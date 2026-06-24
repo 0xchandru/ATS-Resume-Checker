@@ -192,16 +192,34 @@ def _detect_columns(metadata: Dict) -> bool:
 
 
 def _detect_latex(metadata: Dict) -> bool:
-    """Detects LaTeX artifacts like ligatures or specific rendering quirks."""
-    text = metadata.get("text", "")
+    """Detects LaTeX artifacts like ligatures or specific rendering quirks.
+
+    Previously this always returned False because it read metadata.get("text")
+    but the metadata dict never has a "text" key — the raw text lives under
+    "raw_text" at the top level, or in per-page "pages" entries.  We now
+    search in all available text fields.
+    """
+    # Gather all text we can from the metadata structure
+    text_candidates = []
+    if metadata.get("raw_text"):
+        text_candidates.append(metadata["raw_text"])
+    # Per-page text stored by the parser
+    for page in metadata.get("pages", []):
+        if isinstance(page, dict) and page.get("text"):
+            text_candidates.append(page["text"])
+    # Fallback: legacy "text" key (may be absent — was the original bug)
+    if metadata.get("text"):
+        text_candidates.append(metadata["text"])
+
+    text = " ".join(text_candidates)
     if not text:
         return False
-        
+
     latex_artifacts = [
-        "ﬁ", "ﬂ", "ﬀ", "ﬃ", "ﬄ",  # LaTeX ligatures
-        r"\textbf", r"\textit", r"\item", # Unparsed commands
+        "ﬁ", "ﬂ", "ﬀ", "ﬃ", "ﬄ",   # LaTeX ligatures
+        r"\textbf", r"\textit", r"\item",  # Unparsed LaTeX commands
     ]
-    
+
     matches = sum(1 for artifact in latex_artifacts if artifact in text)
     return matches > 2
 

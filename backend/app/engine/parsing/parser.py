@@ -502,7 +502,10 @@ def _chars_to_spaced_text(chars: List[Dict]) -> str:
         return ""
 
     # Sort by line then by x-position
-    LINE_TOL = 3.0  # px — chars within this vertical band share a line
+    LINE_TOL = 4.5  # px — chars within this vertical band share a line
+    # 3.0 was too tight for large-font section headers: characters in the same
+    # visual line sometimes differ by up to 4 px in their 'top' coordinate when
+    # the font is 14–18 pt, causing one line to be split into two ghost lines.
 
     # Group into lines by approximate y (top) value
     sorted_chars = sorted(chars, key=lambda c: (c.get("top", 0), c.get("x0", 0)))
@@ -803,12 +806,21 @@ def _parse_docx(file_path: str) -> dict:
 
     # Generate rich HTML
     rich_text_parts = []
+    _in_list = False
     for para in doc.paragraphs:
         if para.text.strip():
             style_name = para.style.name if para.style else ""
+            is_bullet = style_name in ('List Bullet', 'List Bullet 2', 'List Bullet 3',
+                                       'List Paragraph') or style_name.startswith('List')
             if "Heading 1" in style_name:
+                if _in_list:
+                    rich_text_parts.append("</ul>")
+                    _in_list = False
                 rich_text_parts.append(f"<h2>{para.text}</h2>")
             elif "Heading" in style_name:
+                if _in_list:
+                    rich_text_parts.append("</ul>")
+                    _in_list = False
                 rich_text_parts.append(f"<h3>{para.text}</h3>")
             else:
                 html_para = []
@@ -819,10 +831,24 @@ def _parse_docx(file_path: str) -> dict:
                     if run.italic:
                         run_text = f"<em>{run_text}</em>"
                     html_para.append(run_text)
-                if para.style.name == 'List Bullet':
-                    rich_text_parts.append(f"<ul><li>{''.join(html_para)}</li></ul>")
+                if is_bullet:
+                    # Open <ul> only once; consecutive bullets share the same list
+                    if not _in_list:
+                        rich_text_parts.append("<ul>")
+                        _in_list = True
+                    rich_text_parts.append(f"<li>{''.join(html_para)}</li>")
                 else:
+                    if _in_list:
+                        rich_text_parts.append("</ul>")
+                        _in_list = False
                     rich_text_parts.append(f"<p>{''.join(html_para)}</p>")
+        else:
+            # Empty paragraph — close any open list
+            if _in_list:
+                rich_text_parts.append("</ul>")
+                _in_list = False
+    if _in_list:
+        rich_text_parts.append("</ul>")
 
     for table in doc.tables:
         rich_text_parts.append("<table border='1'>")
