@@ -61,7 +61,196 @@ _TEXT_INLINE_FIXUPS: List[tuple] = [
     (re.compile(
         r'\b(GitHub|LinkedIn|Portfolio|TryHackMe|HackTheBox|LeetCode)(?=[A-Z][a-z])'
     ), r'\1 '),
+    # Known social/professional domains stuck directly to a preceding word char
+    # (the separator character was not captured during PDF extraction):
+    #   0xchandrulinkedin.com  →  0xchandru linkedin.com
+    #   chandraprakash.mePortfolio → handled by first rule
+    # Uses lookbehind so we only insert space when NOT already preceded by a separator.
+    (re.compile(
+        r'(?<=[A-Za-z0-9])'
+        r'(linkedin\.com|github\.com|github\.io|twitter\.com|x\.com|'
+        r'medium\.com|youtube\.com|stackoverflow\.com|hashnode\.com|'
+        r'dev\.to|tryhackme\.com|hackthebox\.com|leetcode\.com)',
+        re.IGNORECASE,
+    ), r' \1'),
 ]
+
+# ── Section header detection (shared across normalization functions) ──────────
+# Matches ALL-CAPS headings like "TECHNICAL SKILLS" or "PROJECTS & LAB EXPERIENCE"
+_SECTION_HEADER_RE = re.compile(r'^[A-Z][A-Z0-9 &/|\-]{2,}$')
+_BULLET_RE = re.compile(r'^[\u2022\u2013\u2014\-\*]\s|^\d+\.\s')
+_SENTENCE_END_RE = re.compile(r'[.!?][\'")\]]*\s*$')
+
+# Contact-info line detector: matches ONLY lines that contain an email address
+# OR a profile-level URL (not repo-level URLs or tech-stack bullets).
+# Profile URL = domain/1-segment (e.g. linkedin.com/in/handle, github.com/user)
+# Repo URL   = domain/user/repo  — deliberately NOT matched.
+_EMAIL_RE = re.compile(r'[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9\-\.]+\.[a-z]{2,}')
+_PROFILE_URL_RE = re.compile(
+    r'linkedin\.com/(?:in/)[^/\s|·•]+'       # LinkedIn profile path
+    r'|github\.com/[^/\s|·•]+(?:\s|[|·•]|$)' # GitHub handle (≤1 path segment)
+    r'|twitter\.com/[^/\s|·•]+'
+    r'|x\.com/[^/\s|·•]+',
+    re.IGNORECASE,
+)
+
+
+def _deduplicate_contact_header(lines: List[str]) -> List[str]:
+    """
+    PDFs with a multi-row contact header produce 2-3 near-identical lines at
+    the top.  Merge all contact-info lines found BEFORE the first section
+    header into one canonical line.
+
+    A "contact-info line" must have an email address OR a profile-level URL
+    (github.com/handle, linkedin.com/in/handle).  This deliberately excludes:
+      • repo URLs (github.com/user/reponame — 2 path segments)
+      • tool-stack lines (Splunk • Wazuh • … — no URL or email)
+
+    Example (3 → 1 line):
+        chandraprakash.soc@gmail.com|linkedin.com/in/…|chandraprakash.me
+        chandraprakash.soc@gmail.com|github.com/0xchandru linkedin.com/in/…|…
+        chandraprakash.soc@gmail.com|github.com/0xchandru linkedin.com/in/…|…
+    →
+        chandraprakash.soc@gmail.com | linkedin.com/in/chandraprakash-soc | chandraprakash.me | github.com/0xchandru
+    """
+    # Stop scanning at the first ALL-CAPS section header (after line 2)
+    header_end = min(30, len(lines))
+    for i, ln in enumerate(lines[2:30], start=2):
+        if _SECTION_HEADER_RE.match(ln.strip()) and len(ln.strip()) > 4:
+            header_end = i
+            break
+
+    contact_indices = [
+        i for i, ln in enumerate(lines[:header_end])
+        if ln.strip() and (
+            _EMAIL_RE.search(ln.strip())
+            or _PROFILE_URL_RE.search(ln.strip())
+        )
+    ]
+    if len(contact_indices) <= 1:
+        return lines
+
+    merged_tokens: List[str] = []
+    seen_norm: set = set()
+    for idx in contact_indices:
+        line = lines[idx].strip()
+        # Split on common separators: |, ·, •, or 2+ whitespace
+        parts = re.split(r'[|·•]|\s{2,}', line)
+        for part in parts:
+            part = part.strip().strip('|·•, ')
+            if not part:
+                continue
+            norm = re.sub(r'[\s/]+', '', part).lower()
+            if norm and norm not in seen_norm:
+                seen_norm.add(norm)
+                merged_tokens.append(part)
+
+    result = list(lines)
+    result[contact_indices[0]] = ' | '.join(merged_tokens)
+    for idx in contact_indices[1:]:
+        result[idx] = None   # sentinel — filtered out after processing
+    return result
+
+
+def _merge_wrapped_paragraphs(lines: List[str]) -> List[str]:
+    """
+    PDF character extraction yields one *visual* line per text entry.  When a
+    paragraph wraps across visual lines each chunk is a separate entry
+    separated by blank lines.  This reconstructs the original paragraphs.
+
+    Algorithm: multi-pass until no more merges are possible.  In each pass,
+    whenever a line fragment (no sentence terminator) is separated from its
+    continuation by exactly ONE blank line, the two are joined.  Cascade
+    merges (A→B→C) are handled automatically because the merged A+B line is
+    re-evaluated in the next pass.
+
+    Merge triggers:
+      • Previous line ends with comma   (list continuation)
+      • Previous line ends with colon   (skill label + values)
+      • Next line starts with lowercase  (mid-sentence word wrap)
+      • Previous line has no terminal punctuation AND both lines are short
+        (generic word-wrap heuristic — handles "…and MITRE\\n\\nATT&CK-…")
+
+    Safe-guards (never merge across):
+      • ALL-CAPS section headers
+      • Bullet-point lines
+      • Gaps of more than one blank line (intentional visual break)
+    """
+    _HDR = _SECTION_HEADER_RE
+    _BUL = _BULLET_RE
+    _END = _SENTENCE_END_RE
+
+    # Filter out None sentinels from contact deduplication
+    lines = [ln for ln in lines if ln is not None]
+
+    changed = True
+    while changed:
+        changed = False
+        new_lines: List[str] = []
+        i = 0
+        while i < len(lines):
+            stripped = lines[i].strip()
+
+            # Blank lines and un-mergeable lines pass through unchanged
+            if not stripped or _HDR.match(stripped) or _BUL.match(stripped):
+                new_lines.append(lines[i])
+                i += 1
+                continue
+
+            # Find next non-empty line and count blanks in between
+            j = i + 1
+            blanks = 0
+            while j < len(lines) and not lines[j].strip():
+                blanks += 1
+                j += 1
+
+            # Too far away or no successor → don't merge
+            if j >= len(lines) or blanks > 1:
+                new_lines.append(lines[i])
+                i += 1
+                continue
+
+            next_stripped = lines[j].strip()
+
+            # Never merge into a header or bullet
+            if _HDR.match(next_stripped) or _BUL.match(next_stripped):
+                new_lines.append(lines[i])
+                i += 1
+                continue
+
+            ends_sentence = bool(_END.search(stripped))
+            ends_comma    = stripped.endswith(',')
+            ends_colon    = stripped.endswith(':')
+            next_lc       = bool(re.match(r'^[a-z]', next_stripped))
+            looks_wrapped = (
+                not ends_sentence
+                and re.search(r'[A-Za-z0-9,]$', stripped)
+                and len(stripped) < 100
+                and len(next_stripped) < 100
+            )
+
+            should_merge = (
+                ends_comma
+                or ends_colon
+                or (not ends_sentence and next_lc)
+                or looks_wrapped
+            )
+
+            if should_merge:
+                merged = stripped + ' ' + next_stripped
+                new_lines.append(merged)
+                # Preserve the blank lines (they collapse later)
+                new_lines.extend([''] * blanks)
+                # Skip lines[i] (consumed into merged) and lines[j] (merged source)
+                i = j + 1
+                changed = True
+            else:
+                new_lines.append(lines[i])
+                i += 1
+
+        lines = new_lines
+
+    return lines
 
 
 def _clean_extracted_text(text: str) -> str:
@@ -73,8 +262,35 @@ def _clean_extracted_text(text: str) -> str:
         text = pat.sub(repl, text)
     # Remove lines that are only "Verify" repeated (cert badge lines)
     text = re.sub(r'^(Verify\s*)+$', '', text, flags=re.IGNORECASE | re.MULTILINE)
-    # Collapse 3+ blank lines
+    # Collapse 3+ blank lines → 1
     text = re.sub(r'\n{3,}', '\n\n', text)
+    return text.strip()
+
+
+def _normalize_raw_text(text: str) -> str:
+    """
+    Full normalization pipeline applied to all parsed raw text AFTER the
+    basic inline fixups.  Fixes document-level structural problems that
+    _clean_extracted_text cannot address with simple regex passes.
+
+    Pipeline:
+      1. Basic inline fixups (URL concatenation, artifact chars)
+      2. Contact-header deduplication
+      3. Paragraph fragment reconstruction
+      4. Excess blank-line collapsing (max 1 blank line between any two lines)
+    """
+    # Step 1: basic inline cleanup
+    text = _clean_extracted_text(text)
+
+    # Step 2–3 work on a line list
+    lines = text.split('\n')
+    lines = _deduplicate_contact_header(lines)
+    lines = _merge_wrapped_paragraphs(lines)
+
+    # Step 4: collapse consecutive blank lines to at most one
+    text = '\n'.join(lines)
+    text = re.sub(r'\n{3,}', '\n\n', text)
+
     return text.strip()
 
 
@@ -617,9 +833,9 @@ def _parse_pdf_pdfplumber(file_path: str, links: List[Dict] = None) -> dict:
 
     raw_text = "\n".join(all_text_parts).strip()
 
-    # ── Join hyphenated line-breaks then clean inline artifacts ─────────────
+    # ── Join hyphenated line-breaks, then run full normalization pipeline ────
     raw_text = _join_hyphenated_linebreaks(raw_text)
-    raw_text = _clean_extracted_text(raw_text)
+    raw_text = _normalize_raw_text(raw_text)
 
     # ── Append extracted link URLs to raw_text ───────────────────────────────
     # This ensures the ATS engine can see the actual URLs (portfolio, github, etc.)
@@ -699,7 +915,7 @@ def _parse_pdf_pymupdf(file_path: str, links: List[Dict] = None) -> dict:
 
     raw_text = "\n".join(all_text_parts).strip()
     raw_text = _join_hyphenated_linebreaks(raw_text)
-    raw_text = _clean_extracted_text(raw_text)
+    raw_text = _normalize_raw_text(raw_text)
 
     if links:
         seen_urls: set = set()
