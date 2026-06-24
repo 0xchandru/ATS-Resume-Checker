@@ -4,5 +4,6 @@ export const modules: ModuleMap = {
   "./components/mockups/ats-layout/ATSLayout.tsx": () => import("../components/mockups/ats-layout/ATSLayout.tsx"),
   "./components/mockups/ats-platform/Dashboard.tsx": () => import("../components/mockups/ats-platform/Dashboard.tsx"),
   "./components/mockups/ats-platform/Landing.tsx": () => import("../components/mockups/ats-platform/Landing.tsx"),
-  "./components/mockups/ats-platform/Report.tsx": () => import("../components/mockups/ats-platform/Report.tsx")
+  "./components/mockups/ats-platform/Report.tsx": () => import("../components/mockups/ats-platform/Report.tsx"),
+  "./components/mockups/ats-premium/Dashboard.tsx": () => import("../components/mockups/ats-premium/Dashboard.tsx")
 };

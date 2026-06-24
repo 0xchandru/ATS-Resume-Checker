@@ -41,6 +41,29 @@ _VERB_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Strong-impact verbs that signal outcome-driven bullets.
+# A bullet with one of these verbs AND a quantified metric gets a higher
+# weight than one that merely contains an incidental number (e.g. "team of 5").
+_HIGH_IMPACT_VERBS = re.compile(
+    r"^[\s]*[-•·▪▸►*➤→\s]*(?:"
+    r"Reduced|Decreased|Cut|Eliminated|Saved|Prevented|Blocked|"
+    r"Increased|Grew|Boosted|Improved|Raised|Accelerated|Doubled|Tripled|"
+    r"Achieved|Generated|Delivered|Deployed|Launched|Automated|Streamlined|"
+    r"Detected|Resolved|Responded|Investigated|Mitigated|Hardened|"
+    r"Led|Managed|Spearheaded|Designed|Architected|Optimized|Migrated|"
+    r"Established|Built|Scaled|Onboarded|Trained"
+    r")\b",
+    re.IGNORECASE,
+)
+
+# Patterns that indicate truly incidental numbers (NOT impact metrics).
+_INCIDENTAL_NUMBER_RE = re.compile(
+    r"\b(?:team of|group of|class of|cohort of|batch of|set of|list of|"
+    r"total of|staff of|member of|member)\s+\d+\b"
+    r"|\b\d+\s*(?:people|person|member|student|attendee)s?\b",
+    re.IGNORECASE,
+)
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # Enhanced scoring with seniority caps, evidence quality, and concept matching
@@ -57,11 +80,12 @@ def calculate_score_v2(
     evidence_quality: Optional[Dict] = None,
     cert_match: Optional[Dict] = None,
     edu_match: Optional[Dict] = None,
+    role_profile: Optional[str] = None,
 ) -> Dict:
     """
-    Enhanced 7-dimension scoring model.
+    Enhanced 7-dimension scoring model with optional role-adaptive weights.
 
-    Dimensions (weights):
+    Dimensions (default weights):
         1. Hard Skills Match     (0.25) — Concept-level matching
         2. Domain Alignment      (0.15) — Semantic relevance to JD domain
         3. Evidence Quality      (0.15) — How well skills are substantiated
@@ -75,7 +99,26 @@ def calculate_score_v2(
         - Gap == 2 levels → Score capped at 55
         - Gap == 1 level  → Score capped at 75
         - Match           → No cap
+
+    role_profile: optional key into ROLE_WEIGHT_PROFILES ('cybersecurity',
+        'software', or 'default'). Overrides the default weights when set.
     """
+    from backend.app.config import ROLE_WEIGHT_PROFILES
+
+    # Select weights — role-adaptive profile wins over static defaults
+    if role_profile and role_profile in ROLE_WEIGHT_PROFILES:
+        w = ROLE_WEIGHT_PROFILES[role_profile]
+    else:
+        w = ROLE_WEIGHT_PROFILES.get("default", {})
+
+    w_kw  = w.get("keyword_match",       0.25)
+    w_sem = w.get("domain_alignment",    0.15)
+    w_ev  = w.get("evidence_quality",    0.15)
+    w_sen = w.get("seniority_fit",       0.15)
+    w_fmt = w.get("format_compliance",   0.15)
+    w_sec = w.get("section_completeness",0.08)
+    w_imp = w.get("impact_quantification",0.07)
+
     kw_score = _keyword_score(match_result)
     sem_score = _semantic_score(resume_text, jd_text)
     sec_score = _section_score(sections)
@@ -89,15 +132,15 @@ def calculate_score_v2(
     # Parseability multiplier
     parseability_multiplier = _parseability_multiplier(formatting)
 
-    # 7-dimension weighted sum
+    # 7-dimension weighted sum with role-adaptive weights
     weighted = (
-        kw_score              * 0.25  # Hard skills match
-        + sem_score["score"]  * 0.15  # Domain alignment
-        + evidence_score_val  * 0.15  # Evidence quality
-        + seniority_score_val * 0.15  # Seniority fit
-        + fmt_score["score"]  * 0.15  # ATS parseability
-        + sec_score["score"]  * 0.08  # Section completeness
-        + impact_score["score"] * 0.07  # Impact quantification
+        kw_score                * w_kw
+        + sem_score["score"]    * w_sem
+        + evidence_score_val    * w_ev
+        + seniority_score_val   * w_sen
+        + fmt_score["score"]    * w_fmt
+        + sec_score["score"]    * w_sec
+        + impact_score["score"] * w_imp
     )
 
     # Apply parseability multiplier
@@ -135,7 +178,8 @@ def calculate_score_v2(
         "parseability_multiplier": round(parseability_multiplier, 2),
         "score_cap": score_cap,
         "score_cap_reason": seniority_gap.get("plain_statement", "") if seniority_gap and score_cap < 100 else "",
-        
+        "role_profile": role_profile or "default",
+
         # New 7 dimensions explicitly required by UI
         "parsing_quality": round(sec_score["score"]),
         "formatting_quality": round(fmt_score["score"]),
@@ -144,56 +188,57 @@ def calculate_score_v2(
         "evidence_strength": round(evidence_score_val),
         "seniority_fit": round(seniority_score_val),
         "overall_fit": overall,
-        
+
         "sub_scores": {
             "keyword_match": {
                 "score": round(kw_score, 1),
-                "weight": 0.25,
-                "weighted_contribution": round(kw_score * 0.25, 2),
+                "weight": w_kw,
+                "weighted_contribution": round(kw_score * w_kw, 2),
                 "details": f"{match_result['matched_count']} of {match_result['total_jd_keywords']} JD keywords matched",
                 "match_breakdown": match_result.get("breakdown", {}),
             },
             "semantic_relevance": {
                 "score": round(sem_score["score"], 1),
-                "weight": 0.15,
-                "weighted_contribution": round(sem_score["score"] * 0.15, 2),
+                "weight": w_sem,
+                "weighted_contribution": round(sem_score["score"] * w_sem, 2),
                 "cosine_similarity": round(sem_score["cosine"], 3),
                 "details": sem_score["details"],
             },
             "evidence_quality": {
                 "score": round(evidence_score_val, 1),
-                "weight": 0.15,
-                "weighted_contribution": round(evidence_score_val * 0.15, 2),
+                "weight": w_ev,
+                "weighted_contribution": round(evidence_score_val * w_ev, 2),
                 "grade": evidence_quality.get("overall_grade", "Unknown") if evidence_quality else "N/A",
                 "details": _evidence_details(evidence_quality),
             },
             "seniority_fit": {
                 "score": round(seniority_score_val, 1),
-                "weight": 0.15,
-                "weighted_contribution": round(seniority_score_val * 0.15, 2),
+                "weight": w_sen,
+                "weighted_contribution": round(seniority_score_val * w_sen, 2),
                 "details": seniority_gap.get("plain_statement", "Seniority not analyzed") if seniority_gap else "N/A",
                 "gap_severity": seniority_gap.get("gap_severity", "unknown") if seniority_gap else "unknown",
             },
             "format_compliance": {
                 "score": round(fmt_score["score"], 1),
-                "weight": 0.15,
-                "weighted_contribution": round(fmt_score["score"] * 0.15, 2),
+                "weight": w_fmt,
+                "weighted_contribution": round(fmt_score["score"] * w_fmt, 2),
                 "details": fmt_score["details"],
                 "parseability_multiplier": round(parseability_multiplier, 2),
             },
             "section_completeness": {
                 "score": round(sec_score["score"], 1),
-                "weight": 0.08,
-                "weighted_contribution": round(sec_score["score"] * 0.08, 2),
+                "weight": w_sec,
+                "weighted_contribution": round(sec_score["score"] * w_sec, 2),
                 "detected_count": sec_score["detected_count"],
                 "expected_count": sec_score["expected_count"],
                 "details": sec_score["details"],
             },
             "impact_quantification": {
                 "score": round(impact_score["score"], 1),
-                "weight": 0.07,
-                "weighted_contribution": round(impact_score["score"] * 0.07, 2),
+                "weight": w_imp,
+                "weighted_contribution": round(impact_score["score"] * w_imp, 2),
                 "quantified_bullets": impact_score["quantified_bullets"],
+                "high_impact_bullets": impact_score.get("high_impact_bullets", 0),
                 "total_experience_bullets": impact_score["total_bullets"],
                 "details": impact_score["details"],
             },
@@ -548,6 +593,16 @@ def _parseability_multiplier(formatting: Dict) -> float:
 
 
 def _impact_score(sections: Dict, resume_text: str) -> Dict:
+    """
+    Score impact quantification quality.
+
+    High-impact bullets (strong outcome verb + quantified metric, and NOT
+    merely an incidental number like "team of 5") are worth 2x a plain
+    quantified bullet that happens to contain a number for context.
+
+    Scoring scale:
+        score = (high_impact_bullets * 2 + plain_quantified) / (total_bullets * 2) * 100
+    """
     experience_text = ""
     for section in sections.get("detected", []):
         if section["name"] == "experience":
@@ -573,16 +628,39 @@ def _impact_score(sections: Dict, resume_text: str) -> Dict:
                 bullets.append(stripped)
         bullets = list(dict.fromkeys(bullets))
 
-    quantified = [b for b in bullets if _QUANT_RE.search(b)]
+    high_impact = []
+    plain_quantified = []
+
+    for b in bullets:
+        has_quant = bool(_QUANT_RE.search(b))
+        if not has_quant:
+            continue
+        # Exclude purely incidental numbers like "team of 5 engineers"
+        only_incidental = _INCIDENTAL_NUMBER_RE.search(b) and not re.search(r"\d+\s*[%$x]|\$[\d,]+", b)
+        if only_incidental:
+            continue
+        if _HIGH_IMPACT_VERBS.match(b):
+            high_impact.append(b)
+        else:
+            plain_quantified.append(b)
 
     total = max(len(bullets), 1)
-    q_count = len(quantified)
-    score = (q_count / total) * 100
+    hi_count = len(high_impact)
+    pl_count = len(plain_quantified)
+    q_count = hi_count + pl_count  # legacy compat
 
-    details = f"{q_count} of {len(bullets)} bullets contain quantified impact"
+    # Weighted score: high-impact bullets worth 2x
+    numerator = hi_count * 2 + pl_count
+    denominator = total * 2
+    score = min(100.0, (numerator / denominator) * 100)
+
+    details = (
+        f"{hi_count} high-impact + {pl_count} quantified of {len(bullets)} bullets"
+    )
     return {
         "score": score,
         "quantified_bullets": q_count,
+        "high_impact_bullets": hi_count,
         "total_bullets": len(bullets),
         "details": details,
         "bullets": bullets,

@@ -258,9 +258,22 @@ async def analyze_resume(scan_id: str, request: Optional[AnalyzeRequest] = None,
         loop.run_in_executor(_THREAD_POOL, _make_safe_edu(resume_text, jd_text)),
     )
 
+    # Derive role profile for adaptive weights from career domain / cyber signal
+    _career_domain = (career.get("onet_matched_occupation") or {}).get("domain", "")
+    _role_profile = "default"
+    if career.get("cybersecurity_vertical") or (
+        isinstance(_career_domain, str) and "secur" in _career_domain.lower()
+    ):
+        _role_profile = "cybersecurity"
+    elif isinstance(_career_domain, str) and any(
+        k in _career_domain.lower() for k in ("software", "computer", "engineer", "developer")
+    ):
+        _role_profile = "software"
+
     scoring = scorer.calculate_score_v2(
         match_result, sections, formatting, career, resume_text, jd_text,
-        seniority_gap, evidence_quality, cert_match, edu_match
+        seniority_gap, evidence_quality, cert_match, edu_match,
+        role_profile=_role_profile,
     )
 
     role_fit = generate_role_fit_verdict(

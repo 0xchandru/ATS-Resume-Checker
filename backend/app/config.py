@@ -52,6 +52,42 @@ SCORING_WEIGHTS = {
     "impact_quantification": 0.10,
 }
 
+# ── Role-adaptive weight profiles for calculate_score_v2 ────────────────────
+# These override the hardcoded v2 weights when a known role domain is detected.
+# cybersecurity: certifications matter more, seniority (tier) is well-defined,
+#   evidence quality (not just keywords) is critical for SOC/GRC roles.
+# software: keywords and semantic relevance dominate; impact matters less for
+#   mid-level ICs vs senior/staff roles.
+ROLE_WEIGHT_PROFILES: dict = {
+    "cybersecurity": {
+        "keyword_match": 0.28,      # Tools/tech still important
+        "domain_alignment": 0.12,   # Slightly less than default
+        "evidence_quality": 0.20,   # Higher — unsupported claims are red flags
+        "seniority_fit": 0.18,      # SOC tiers are very well-defined
+        "format_compliance": 0.12,
+        "section_completeness": 0.06,
+        "impact_quantification": 0.04,  # Less critical for entry SOC roles
+    },
+    "software": {
+        "keyword_match": 0.25,
+        "domain_alignment": 0.18,
+        "evidence_quality": 0.15,
+        "seniority_fit": 0.12,
+        "format_compliance": 0.15,
+        "section_completeness": 0.07,
+        "impact_quantification": 0.08,
+    },
+    "default": {
+        "keyword_match": 0.25,
+        "domain_alignment": 0.15,
+        "evidence_quality": 0.15,
+        "seniority_fit": 0.15,
+        "format_compliance": 0.15,
+        "section_completeness": 0.08,
+        "impact_quantification": 0.07,
+    },
+}
+
 GRADE_THRESHOLDS = [
     (90, "A+"), (82, "A"), (74, "B+"), (65, "B"),
     (55, "C+"), (44, "C"), (33, "D"), (0, "F"),
